@@ -243,6 +243,98 @@
       color: var(--gold);
     }
 
+    .catalog-tools {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 26px;
+    }
+
+    .catalog-search-wrap,
+    .catalog-model-wrap {
+      position: relative;
+      flex: 1 1 280px;
+      min-width: 240px;
+    }
+
+    .catalog-search-input,
+    .catalog-model-select {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 16px;
+      border: 1px solid rgba(200, 134, 10, 0.22);
+      background: rgba(37, 26, 10, 0.72);
+      color: var(--cream);
+      font-family: var(--font-ui);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.25s ease, background 0.25s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .catalog-search-input {
+      padding-left: 46px;
+    }
+
+    .catalog-search-input:focus,
+    .catalog-model-select:focus {
+      border-color: var(--gold);
+      background: rgba(37, 26, 10, 0.92);
+    }
+
+    .catalog-model-select option {
+      background: var(--bg-card);
+    }
+
+    .catalog-search-icon,
+    .catalog-model-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      opacity: 0.8;
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .catalog-model-select {
+      padding-left: 44px;
+      padding-right: 42px;
+    }
+
+    .catalog-model-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      pointer-events: none;
+      font-size: 12px;
+    }
+
+    .catalog-reset-btn {
+      min-height: 48px;
+      padding: 12px 18px;
+      border: 1px solid rgba(200, 134, 10, 0.24);
+      background: transparent;
+      color: var(--gold);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .catalog-reset-btn:hover {
+      background: rgba(200, 134, 10, 0.1);
+      border-color: var(--gold);
+    }
+
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -390,6 +482,22 @@
       color: var(--cream-dim);
       font-size: 13px;
       line-height: 1.55;
+    }
+
+    .gallery-card-models {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .gallery-card-model-pill {
+      padding: 4px 10px;
+      border: 1px solid rgba(200, 134, 10, 0.18);
+      background: rgba(200, 134, 10, 0.08);
+      color: var(--gold-pale);
+      font-size: 11px;
+      line-height: 1.2;
     }
 
     .gallery-empty {
@@ -568,6 +676,10 @@
         padding: 18px;
       }
 
+      .catalog-tools {
+        margin-bottom: 22px;
+      }
+
       .gallery-grid {
         grid-template-columns: 1fr;
       }
@@ -642,6 +754,21 @@
           </div>
         </div>
 
+        <div class="catalog-tools">
+          <div class="catalog-search-wrap">
+            <span class="catalog-search-icon">🔍</span>
+            <input type="search" id="catalogSearchInput" class="catalog-search-input"
+              placeholder="ডিজাইন, মডেল বা কীওয়ার্ড লিখুন">
+          </div>
+          <div class="catalog-model-wrap">
+            <span class="catalog-model-icon">🚘</span>
+            <select id="catalogModelSelect" class="catalog-model-select">
+              <option value="">সব মডেল</option>
+            </select>
+          </div>
+          <button type="button" id="catalogResetBtn" class="catalog-reset-btn">ফিল্টার রিসেট</button>
+        </div>
+
         <div class="gallery-grid" id="galleryPageGrid"></div>
       </section>
     </main>
@@ -670,27 +797,29 @@
     const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
 
     const DEFAULT_GALLERY = [
-      { id: 'G1', title: 'প্রাইভেট কার ডিজাইন 01', cat: 'car', img: 'assets/images/cars/1.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G2', title: 'প্রাইভেট কার ডিজাইন 02', cat: 'car', img: 'assets/images/cars/2.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G3', title: 'প্রাইভেট কার ডিজাইন 03', cat: 'car', img: 'assets/images/cars/3.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G4', title: 'প্রাইভেট কার ডিজাইন 04', cat: 'car', img: 'assets/images/cars/4.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G5', title: 'প্রাইভেট কার ডিজাইন 05', cat: 'car', img: 'assets/images/cars/5.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G6', title: 'প্রাইভেট কার ডিজাইন 06', cat: 'car', img: 'assets/images/cars/6.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G7', title: 'প্রাইভেট কার ডিজাইন 07', cat: 'car', img: 'assets/images/cars/7.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G8', title: 'প্রাইভেট কার ডিজাইন 08', cat: 'car', img: 'assets/images/cars/8.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G9', title: 'প্রাইভেট কার ডিজাইন 09', cat: 'car', img: 'assets/images/cars/9.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G10', title: 'প্রাইভেট কার ডিজাইন 10', cat: 'car', img: 'assets/images/cars/10.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G11', title: 'মোটরসাইকেল ডিজাইন 01', cat: 'bike', img: 'assets/images/bikes/11.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G12', title: 'মোটরসাইকেল ডিজাইন 02', cat: 'bike', img: 'assets/images/bikes/12.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G13', title: 'মোটরসাইকেল ডিজাইন 03', cat: 'bike', img: 'assets/images/bikes/13.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G14', title: 'মোটরসাইকেল ডিজাইন 04', cat: 'bike', img: 'assets/images/bikes/14.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G15', title: 'রিপেয়ার ডিজাইন 01', cat: 'repair', img: 'assets/images/others/15.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
-      { id: 'G16', title: 'রিপেয়ার ডিজাইন 02', cat: 'repair', img: 'assets/images/others/16.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
-      { id: 'G17', title: 'রিপেয়ার ডিজাইন 03', cat: 'repair', img: 'assets/images/others/17.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
+      { id: 'G1', title: 'প্রাইভেট কার ডিজাইন 01', cat: 'car', img: 'assets/images/cars/1.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla Axio/Fielder'] },
+      { id: 'G2', title: 'প্রাইভেট কার ডিজাইন 02', cat: 'car', img: 'assets/images/cars/2.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Aqua Hybrid'] },
+      { id: 'G3', title: 'প্রাইভেট কার ডিজাইন 03', cat: 'car', img: 'assets/images/cars/3.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Allion'] },
+      { id: 'G4', title: 'প্রাইভেট কার ডিজাইন 04', cat: 'car', img: 'assets/images/cars/4.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla Axio/Fielder'] },
+      { id: 'G5', title: 'প্রাইভেট কার ডিজাইন 05', cat: 'car', img: 'assets/images/cars/5.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Premio'] },
+      { id: 'G6', title: 'প্রাইভেট কার ডিজাইন 06', cat: 'car', img: 'assets/images/cars/6.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla Axio/Fielder'] },
+      { id: 'G7', title: 'প্রাইভেট কার ডিজাইন 07', cat: 'car', img: 'assets/images/cars/7.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Noah'] },
+      { id: 'G8', title: 'প্রাইভেট কার ডিজাইন 08', cat: 'car', img: 'assets/images/cars/8.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Aqua Hybrid'] },
+      { id: 'G9', title: 'প্রাইভেট কার ডিজাইন 09', cat: 'car', img: 'assets/images/cars/9.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla'] },
+      { id: 'G10', title: 'প্রাইভেট কার ডিজাইন 10', cat: 'car', img: 'assets/images/cars/10.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Allion'] },
+      { id: 'G11', title: 'মোটরসাইকেল ডিজাইন 01', cat: 'bike', img: 'assets/images/bikes/11.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Yamaha R15'] },
+      { id: 'G12', title: 'মোটরসাইকেল ডিজাইন 02', cat: 'bike', img: 'assets/images/bikes/12.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Bajaj Pulsar'] },
+      { id: 'G13', title: 'মোটরসাইকেল ডিজাইন 03', cat: 'bike', img: 'assets/images/bikes/13.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Honda Hornet'] },
+      { id: 'G14', title: 'মোটরসাইকেল ডিজাইন 04', cat: 'bike', img: 'assets/images/bikes/14.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Suzuki Gixxer'] },
+      { id: 'G15', title: 'রিপেয়ার ডিজাইন 01', cat: 'repair', img: 'assets/images/others/15.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ', models: ['সিট রিপেয়ার'] },
+      { id: 'G16', title: 'রিপেয়ার ডিজাইন 02', cat: 'repair', img: 'assets/images/others/16.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ', models: ['ড্যাশবোর্ড রিফিনিশ'] },
+      { id: 'G17', title: 'রিপেয়ার ডিজাইন 03', cat: 'repair', img: 'assets/images/others/17.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ', models: ['হোম ফিটিং'] },
     ];
 
     let allGallery = [];
     let currentFilter = 'all';
+    let currentModel = '';
+    let currentSearch = '';
     let lightboxItems = [];
     let lightboxIdx = 0;
 
@@ -698,32 +827,104 @@
       return ['all', 'car', 'bike', 'repair'].includes(value) ? value : 'all';
     }
 
+    function normalizeModels(item) {
+      const fromArray = Array.isArray(item.models) ? item.models : [];
+      const fromStrings = [item.model, item.vehicleModel]
+        .filter(value => typeof value === 'string' && value.trim())
+        .flatMap(value => value.split(/[,;|]+/));
+
+      return [...new Set([...fromArray, ...fromStrings]
+        .map(value => String(value).trim())
+        .filter(Boolean))];
+    }
+
+    function normalizeGalleryItem(item, index) {
+      const safeCat = ['car', 'bike', 'repair'].includes(item.cat) ? item.cat : 'car';
+      return {
+        ...item,
+        id: item.id || `G${index + 1}`,
+        title: item.title || item.name || `${CAT_LABELS[safeCat]} ডিজাইন ${String(index + 1).padStart(2, '0')}`,
+        desc: item.desc || item.description || 'ডিটেইল দেখতে ক্লিক করুন',
+        cat: safeCat,
+        img: typeof item.img === 'string' ? item.img : '',
+        models: normalizeModels(item),
+      };
+    }
+
+    function getCategoryScopedGallery() {
+      return currentFilter === 'all' ? allGallery : allGallery.filter(item => item.cat === currentFilter);
+    }
+
+    function getAvailableModels(items) {
+      return [...new Set(items.flatMap(item => Array.isArray(item.models) ? item.models : []))]
+        .sort((a, b) => a.localeCompare(b, 'bn'));
+    }
+
+    function populateModelOptions(items) {
+      const select = document.getElementById('catalogModelSelect');
+      const models = getAvailableModels(items);
+
+      if (currentModel && !models.includes(currentModel)) {
+        currentModel = '';
+      }
+
+      select.innerHTML = ['<option value="">সব মডেল</option>', ...models.map(model =>
+        `<option value="${model.replace(/"/g, '&quot;')}">${model}</option>`)].join('');
+      select.value = currentModel;
+    }
+
+    function getSearchText(item) {
+      return [
+        item.title,
+        item.desc,
+        CAT_LABELS[item.cat] || item.cat,
+        ...(Array.isArray(item.models) ? item.models : []),
+      ].join(' ').toLowerCase();
+    }
+
+    function syncQueryParams() {
+      const params = new URLSearchParams();
+      if (currentFilter !== 'all') params.set('cat', currentFilter);
+      if (currentModel) params.set('model', currentModel);
+      if (currentSearch) params.set('q', currentSearch);
+      const query = params.toString();
+      history.replaceState(null, '', query ? `gallery-all.html?${query}` : 'gallery-all.html');
+    }
+
     function loadGallery() {
       const stored = localStorage.getItem('ac_gallery');
       try {
         const parsed = stored ? JSON.parse(stored) : DEFAULT_GALLERY;
-        const hasStoredImages = Array.isArray(parsed) && parsed.some(item => item && typeof item.img === 'string' && item.img.trim());
-        allGallery = hasStoredImages ? parsed : DEFAULT_GALLERY;
+        const storedItems = Array.isArray(parsed) ? parsed.map(normalizeGalleryItem) : [];
+        const hasStoredImages = storedItems.some(item => item.img.trim());
+        allGallery = hasStoredImages ? storedItems : DEFAULT_GALLERY.map(normalizeGalleryItem);
       } catch {
-        allGallery = DEFAULT_GALLERY;
+        allGallery = DEFAULT_GALLERY.map(normalizeGalleryItem);
       }
       renderGalleryPage();
     }
 
     function getFilteredGallery() {
-      return currentFilter === 'all' ? allGallery : allGallery.filter(item => item.cat === currentFilter);
+      const q = currentSearch.trim().toLowerCase();
+      return getCategoryScopedGallery().filter(item => {
+        const matchModel = !currentModel || (Array.isArray(item.models) && item.models.includes(currentModel));
+        const matchSearch = !q || getSearchText(item).includes(q);
+        return matchModel && matchSearch;
+      });
     }
 
     function setFilter(nextFilter) {
       currentFilter = normalizeFilter(nextFilter);
-      history.replaceState(null, '', `gallery-all.html?cat=${encodeURIComponent(currentFilter)}`);
       renderGalleryPage();
     }
 
     function renderGalleryPage() {
       const grid = document.getElementById('galleryPageGrid');
+      const categoryScoped = getCategoryScopedGallery();
+      populateModelOptions(categoryScoped);
       const filtered = getFilteredGallery();
       lightboxItems = filtered;
+      syncQueryParams();
 
       document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.filter === currentFilter);
@@ -746,6 +947,9 @@
     function galleryCard(item, idx) {
       const catLabel = CAT_LABELS[item.cat] || item.cat;
       const catIcon = CAT_ICONS[item.cat] || '📷';
+      const modelPills = Array.isArray(item.models) && item.models.length
+        ? `<div class="gallery-card-models">${item.models.map(model => `<span class="gallery-card-model-pill">${model}</span>`).join('')}</div>`
+        : '';
       const imageHtml = item.img
         ? `<img class="gallery-card-img" src="${item.img}" alt="${item.title}" loading="lazy" decoding="async" onload="this.parentElement.querySelector('.gallery-card-placeholder').style.display='none'" onerror="this.parentElement.querySelector('.gallery-card-placeholder').style.display='flex';this.style.display='none'">`
         : '';
@@ -759,6 +963,7 @@
         <div class="gallery-card-overlay">
           <div class="gallery-card-cat">${catLabel}</div>
           <h3 class="gallery-card-title">${item.title}</h3>
+          ${modelPills}
           <p class="gallery-card-desc">${item.desc || 'ডিটেইল দেখতে ক্লিক করুন'}</p>
         </div>
       </article>`;
@@ -806,6 +1011,23 @@
       btn.addEventListener('click', () => setFilter(btn.dataset.filter));
     });
 
+    document.getElementById('catalogModelSelect').addEventListener('change', (event) => {
+      currentModel = event.target.value;
+      renderGalleryPage();
+    });
+
+    document.getElementById('catalogSearchInput').addEventListener('input', (event) => {
+      currentSearch = event.target.value.trim();
+      renderGalleryPage();
+    });
+
+    document.getElementById('catalogResetBtn').addEventListener('click', () => {
+      currentModel = '';
+      currentSearch = '';
+      document.getElementById('catalogSearchInput').value = '';
+      renderGalleryPage();
+    });
+
     document.addEventListener('keydown', (event) => {
       if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
       if (event.key === 'ArrowRight') lightboxNav(+1);
@@ -813,7 +1035,11 @@
       if (event.key === 'Escape') closeLightbox();
     });
 
-    currentFilter = normalizeFilter(new URLSearchParams(window.location.search).get('cat') || 'all');
+    const initialParams = new URLSearchParams(window.location.search);
+    currentFilter = normalizeFilter(initialParams.get('cat') || 'all');
+    currentModel = initialParams.get('model') || '';
+    currentSearch = initialParams.get('q') || '';
+    document.getElementById('catalogSearchInput').value = currentSearch;
     loadGallery();
   </script>
 </body>
