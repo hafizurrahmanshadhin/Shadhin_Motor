@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shadhin Motor | প্রিমিয়াম সিট কভার বিশেষজ্ঞ</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Josefin+Sans:wght@300;400;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Josefin+Sans:wght@300;400;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <style>
     :root {
@@ -23,6 +23,9 @@
       --leather: #6b3b1f;
       --white: #ffffff;
       --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+      --font-ui: 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', 'Segoe UI', 'Vrinda', sans-serif;
+      --font-brand: 'Playfair Display', Georgia, serif;
+      --font-accent: 'Josefin Sans', 'Noto Sans Bengali', sans-serif;
     }
 
     *,
@@ -40,7 +43,12 @@
     body {
       background: var(--bg-deep);
       color: var(--cream);
-      font-family: 'Hind Siliguri', 'Josefin Sans', sans-serif;
+      font-family: var(--font-ui);
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
@@ -98,7 +106,7 @@
     }
 
     .nav-logo-main {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-brand);
       font-size: 21px;
       font-weight: 900;
       color: var(--gold-light);
@@ -130,13 +138,14 @@
     .nav-links a {
       color: var(--cream-dim);
       text-decoration: none;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 12px;
+      font-family: var(--font-ui);
+      font-size: 13px;
       font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      text-transform: none;
       transition: color 0.3s;
       position: relative;
+      line-height: 1.35;
     }
 
     .nav-links a::after {
@@ -249,11 +258,11 @@
       padding: 8px 20px;
       margin-bottom: 32px;
       border-radius: 2px;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 11px;
+      font-family: var(--font-ui);
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-transform: none;
       color: var(--gold);
       animation: fadeSlideUp 0.8s ease both;
     }
@@ -266,10 +275,10 @@
     }
 
     .hero-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: clamp(42px, 7vw, 82px);
-      font-weight: 900;
-      line-height: 1.05;
+      font-weight: 800;
+      line-height: 1.12;
       color: var(--cream);
       margin-bottom: 12px;
       animation: fadeSlideUp 0.8s 0.2s ease both;
@@ -309,11 +318,11 @@
       background: var(--gold);
       color: var(--bg-deep);
       padding: 16px 36px;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 13px;
+      font-family: var(--font-ui);
+      font-size: 14px;
       font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-transform: none;
       text-decoration: none;
       border: none;
       cursor: pointer;
@@ -348,11 +357,11 @@
       border: 1px solid rgba(200, 134, 10, 0.5);
       color: var(--gold);
       padding: 16px 36px;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 13px;
+      font-family: var(--font-ui);
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-transform: none;
       text-decoration: none;
       background: transparent;
       cursor: pointer;
@@ -432,11 +441,11 @@
     }
 
     .section-label {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 11px;
+      font-family: var(--font-ui);
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 4px;
-      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      text-transform: none;
       color: var(--gold);
       display: flex;
       align-items: center;
@@ -452,7 +461,7 @@
     }
 
     .section-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: clamp(32px, 4vw, 52px);
       font-weight: 700;
       color: var(--cream);
@@ -522,11 +531,12 @@
     }
 
     .service-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: 22px;
       font-weight: 700;
       color: var(--cream);
       margin-bottom: 12px;
+      line-height: 1.4;
     }
 
     .service-desc {
@@ -570,11 +580,11 @@
 
     .sample-filter-btn {
       padding: 9px 22px;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 11px;
+      font-family: var(--font-ui);
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-transform: none;
       cursor: pointer;
       background: transparent;
       border: 1px solid rgba(200, 134, 10, 0.25);
@@ -598,7 +608,7 @@
       border: 1px solid rgba(200, 134, 10, 0.2);
       color: var(--cream);
       padding: 10px 16px 10px 40px;
-      font-family: 'Hind Siliguri', sans-serif;
+      font-family: var(--font-ui);
       font-size: 14px;
       outline: none;
       transition: border-color 0.3s;
@@ -820,12 +830,12 @@
     }
 
     .sample-card-material-tag {
-      font-size: 9px;
+      font-family: var(--font-ui);
+      font-size: 10px;
       padding: 2px 8px;
       font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      font-family: 'Josefin Sans', sans-serif;
+      letter-spacing: 0.4px;
+      text-transform: none;
     }
 
     .tag-rexine {
@@ -841,11 +851,11 @@
     }
 
     .sample-card-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 15px;
+      font-family: var(--font-ui);
+      font-size: 16px;
       font-weight: 700;
       color: var(--cream);
-      line-height: 1.3;
+      line-height: 1.45;
     }
 
     .sample-card-color-row {
@@ -864,7 +874,7 @@
     }
 
     .sample-card-color-name {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--cream-dim);
     }
 
@@ -878,11 +888,11 @@
       background: rgba(200, 134, 10, 0.1);
       border: 1px solid rgba(200, 134, 10, 0.2);
       color: var(--gold);
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 10px;
+      font-family: var(--font-ui);
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      text-transform: none;
       cursor: pointer;
       padding: 10px 14px;
       transition: all 0.3s;
@@ -1001,17 +1011,17 @@
     }
 
     .sample-modal-id {
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: var(--font-ui);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 3px;
+      letter-spacing: 0.8px;
       color: var(--gold);
-      text-transform: uppercase;
+      text-transform: none;
       margin-bottom: 8px;
     }
 
     .sample-modal-name {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: 26px;
       font-weight: 700;
       color: var(--cream);
@@ -1031,13 +1041,13 @@
     }
 
     .sample-modal-meta-label {
-      font-size: 9px;
+      font-family: var(--font-ui);
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      text-transform: none;
       color: var(--cream-dim);
       margin-bottom: 4px;
-      font-family: 'Josefin Sans', sans-serif;
     }
 
     .sample-modal-meta-value {
@@ -1073,11 +1083,11 @@
 
     .filter-btn {
       padding: 9px 22px;
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 11px;
+      font-family: var(--font-ui);
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-transform: none;
       cursor: pointer;
       background: transparent;
       border: 1px solid rgba(200, 134, 10, 0.25);
@@ -1253,7 +1263,7 @@
     }
 
     .step-title {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: 18px;
       color: var(--cream);
       margin-bottom: 10px;
@@ -1281,7 +1291,7 @@
     }
 
     .vehicles-info h2 {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: clamp(28px, 3.5vw, 44px);
       font-weight: 700;
       color: var(--cream);
@@ -1343,7 +1353,7 @@
     }
 
     .v-card h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: 18px;
       color: var(--cream);
       margin-bottom: 6px;
@@ -1367,7 +1377,7 @@
     }
 
     .contact-info h3 {
-      font-family: 'Playfair Display', serif;
+      font-family: var(--font-ui);
       font-size: 26px;
       color: var(--cream);
       margin-bottom: 24px;
@@ -1393,11 +1403,12 @@
     }
 
     .contact-item-text h4 {
-      font-size: 13px;
+      font-family: var(--font-ui);
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       color: var(--gold);
-      text-transform: uppercase;
+      text-transform: none;
       margin-bottom: 4px;
     }
 
@@ -1426,11 +1437,11 @@
     }
 
     .form-group label {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 11px;
+      font-family: var(--font-ui);
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      text-transform: none;
       color: var(--gold);
     }
 
@@ -1441,7 +1452,7 @@
       border: 1px solid rgba(200, 134, 10, 0.2);
       color: var(--cream);
       padding: 14px 16px;
-      font-family: 'Hind Siliguri', sans-serif;
+      font-family: var(--font-ui);
       font-size: 15px;
       outline: none;
       transition: border-color 0.3s, background 0.3s;
@@ -1513,11 +1524,11 @@
     }
 
     .footer-col h4 {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 11px;
+      font-family: var(--font-ui);
+      font-size: 12px;
       font-weight: 600;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      text-transform: none;
       color: var(--gold);
       margin-bottom: 20px;
     }
@@ -2162,13 +2173,13 @@
                 </div>
                 <div>
                   <div
-                    style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-family:'Josefin Sans',sans-serif">
+                    style="font-size:12px;font-weight:700;letter-spacing:0.5px;text-transform:none;color:var(--gold);font-family:var(--font-ui)">
                     নির্বাচিত স্যাম্পল</div>
                   <div id="formSampleLabel" style="font-size:14px;color:var(--cream);margin-top:2px;"></div>
                 </div>
               </div>
               <button onclick="clearSelectedSample()"
-                style="background:transparent;border:1px solid rgba(200,134,10,0.25);color:var(--cream-dim);padding:6px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:'Josefin Sans',sans-serif;cursor:pointer;transition:all 0.2s;"
+                style="background:transparent;border:1px solid rgba(200,134,10,0.25);color:var(--cream-dim);padding:6px 14px;font-size:12px;letter-spacing:0.4px;text-transform:none;font-family:var(--font-ui);cursor:pointer;transition:all 0.2s;"
                 onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'"
                 onmouseout="this.style.borderColor='rgba(200,134,10,0.25)';this.style.color='var(--cream-dim)'">✕
                 পরিবর্তন করুন</button>
