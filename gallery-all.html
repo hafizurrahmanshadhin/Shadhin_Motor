@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="bn-BD">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadhin Motor | সব গ্যালারি</title>
+  <meta name="description" content="Shadhin Motor-এর সব কার, মোটরসাইকেল ও রিপেয়ার গ্যালারি একসাথে দেখুন।">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Josefin+Sans:wght@300;400;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0e0a04;
+      --bg-dark: #1c1107;
+      --bg-card: #251a0a;
+      --bg-card2: #2e2010;
+      --gold: #c8860a;
+      --gold-light: #e8a832;
+      --gold-pale: #f5d78e;
+      --cream: #f5ead8;
+      --cream-dim: #c9b99a;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+      --font-ui: 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', 'Segoe UI', 'Vrinda', sans-serif;
+      --font-brand: 'Playfair Display', Georgia, serif;
+      --font-accent: 'Josefin Sans', 'Noto Sans Bengali', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(232, 168, 50, 0.08), transparent 28%),
+        radial-gradient(circle at left center, rgba(139, 58, 15, 0.1), transparent 30%),
+        linear-gradient(180deg, #0e0a04 0%, #140d05 48%, #0d0803 100%);
+      color: var(--cream);
+      font-family: var(--font-ui);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 0.35;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1240px, calc(100% - 48px));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 26px 0 20px;
+      border-bottom: 1px solid rgba(200, 134, 10, 0.14);
+    }
+
+    .nav-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-logo-main {
+      font-family: var(--font-brand);
+      font-size: 21px;
+      font-weight: 900;
+      color: var(--gold-light);
+      line-height: 1.15;
+    }
+
+    .nav-logo-main em {
+      color: var(--cream);
+      font-style: normal;
+    }
+
+    .nav-logo-sub {
+      font-size: 9px;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-top: 1px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border: 1px solid rgba(200, 134, 10, 0.25);
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .back-link:hover {
+      background: rgba(200, 134, 10, 0.1);
+      border-color: var(--gold);
+    }
+
+    .hero {
+      padding: 58px 0 28px;
+    }
+
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .hero-label::before {
+      content: '';
+      width: 42px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-size: clamp(36px, 5.5vw, 66px);
+      line-height: 1.08;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span {
+      color: var(--gold-light);
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      color: var(--cream-dim);
+      line-height: 1.85;
+      font-size: 16px;
+    }
+
+    .catalog-panel {
+      margin: 18px 0 64px;
+      padding: 24px;
+      border: 1px solid rgba(200, 134, 10, 0.12);
+      background: linear-gradient(180deg, rgba(29, 18, 8, 0.94), rgba(14, 10, 4, 0.98));
+      box-shadow: var(--shadow);
+    }
+
+    .catalog-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .catalog-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 10px 20px;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(200, 134, 10, 0.24);
+      background: transparent;
+      color: var(--cream-dim);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+    }
+
+    .catalog-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .catalog-count,
+    .catalog-state {
+      font-family: var(--font-accent);
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      color: var(--cream-dim);
+    }
+
+    .catalog-count strong,
+    .catalog-state strong {
+      color: var(--gold);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+    }
+
+    .gallery-card {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--bg-card);
+      border: 1px solid rgba(200, 134, 10, 0.1);
+      box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
+      cursor: pointer;
+      transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.32);
+      border-color: rgba(200, 134, 10, 0.3);
+    }
+
+    .gallery-card::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 3px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+      z-index: 4;
+    }
+
+    .gallery-card[data-cat="car"]::after {
+      background: var(--gold);
+    }
+
+    .gallery-card[data-cat="bike"]::after {
+      background: #5ba4db;
+    }
+
+    .gallery-card[data-cat="repair"]::after {
+      background: #e05c4a;
+    }
+
+    .gallery-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .gallery-card-img,
+    .gallery-card-placeholder {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .gallery-card-img {
+      object-fit: cover;
+      transition: transform 0.55s ease;
+    }
+
+    .gallery-card:hover .gallery-card-img {
+      transform: scale(1.06);
+    }
+
+    .gallery-card-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .gallery-card-placeholder-icon {
+      font-size: 42px;
+      opacity: 0.55;
+    }
+
+    .gallery-card-placeholder-label {
+      font-size: 12px;
+      font-family: var(--font-accent);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .gallery-card[data-cat="car"] .gallery-card-placeholder {
+      background: linear-gradient(145deg, #2f1e0c, #5d3914);
+    }
+
+    .gallery-card[data-cat="bike"] .gallery-card-placeholder {
+      background: linear-gradient(145deg, #0b1921, #14364b);
+    }
+
+    .gallery-card[data-cat="repair"] .gallery-card-placeholder {
+      background: linear-gradient(145deg, #221014, #4a171d);
+    }
+
+    .gallery-card-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px;
+      background: linear-gradient(to top, rgba(8, 4, 2, 0.94) 0%, rgba(8, 4, 2, 0.2) 55%, transparent 100%);
+    }
+
+    .gallery-card-cat {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .gallery-card[data-cat="car"] .gallery-card-cat {
+      color: var(--gold);
+    }
+
+    .gallery-card[data-cat="bike"] .gallery-card-cat {
+      color: #7ec8f0;
+    }
+
+    .gallery-card[data-cat="repair"] .gallery-card-cat {
+      color: #e07070;
+    }
+
+    .gallery-card-title {
+      font-size: 20px;
+      line-height: 1.28;
+      font-weight: 700;
+      color: var(--cream);
+    }
+
+    .gallery-card-desc {
+      margin-top: 8px;
+      color: var(--cream-dim);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .gallery-empty {
+      padding: 70px 24px;
+      text-align: center;
+      color: var(--cream-dim);
+      border: 1px solid rgba(200, 134, 10, 0.12);
+      background: rgba(24, 16, 7, 0.8);
+    }
+
+    .gallery-empty-icon {
+      display: block;
+      font-size: 52px;
+      margin-bottom: 12px;
+    }
+
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox-overlay.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 920px;
+      width: 100%;
+      position: relative;
+    }
+
+    .lightbox-img-wrap {
+      width: 100%;
+      min-height: 360px;
+      max-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid rgba(200, 134, 10, 0.18);
+      border-bottom: none;
+      overflow: hidden;
+    }
+
+    .lightbox-img-wrap img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-placeholder-full {
+      width: 100%;
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 68px;
+    }
+
+    .lightbox-info-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 18px 22px;
+      background: var(--bg-dark);
+      border: 1px solid rgba(200, 134, 10, 0.18);
+    }
+
+    .lightbox-info-cat {
+      font-family: var(--font-accent);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .lightbox-info-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.35;
+    }
+
+    .lightbox-info-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .lightbox-counter {
+      font-family: var(--font-accent);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--cream-dim);
+    }
+
+    .lightbox-close-btn,
+    .lightbox-nav-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--cream);
+      transition: all 0.2s ease;
+    }
+
+    .lightbox-close-btn {
+      width: 38px;
+      height: 38px;
+      background: rgba(200, 134, 10, 0.1);
+      border: 1px solid rgba(200, 134, 10, 0.25);
+    }
+
+    .lightbox-close-btn:hover {
+      background: rgba(231, 76, 60, 0.84);
+      border-color: transparent;
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: calc(50% - 28px);
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(14, 10, 4, 0.75);
+      border: 1px solid rgba(200, 134, 10, 0.3);
+      font-size: 20px;
+      z-index: 2;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+    }
+
+    .lightbox-prev {
+      left: -22px;
+    }
+
+    .lightbox-next {
+      right: -22px;
+    }
+
+    @media (max-width: 900px) {
+      .page-shell {
+        width: min(100% - 28px, 1240px);
+      }
+
+      .topbar,
+      .catalog-toolbar,
+      .lightbox-info-bar {
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding-top: 42px;
+      }
+
+      .catalog-panel {
+        padding: 18px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-card {
+        height: 300px;
+      }
+
+      .lightbox-prev {
+        left: 6px;
+      }
+
+      .lightbox-next {
+        right: 6px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a href="index.html#gallery" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46">
+            <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832" stroke-width="1.6" />
+            <polygon points="18,8 21.5,11.5 18,15 14.5,11.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+            <polygon points="28,8 31.5,11.5 28,15 24.5,11.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+            <polygon points="18,16 21.5,19.5 18,23 14.5,19.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+            <polygon points="28,16 31.5,19.5 28,23 24.5,19.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+            <circle cx="23" cy="11.5" r="1" fill="#e8a832" opacity="0.5" />
+            <circle cx="23" cy="19.5" r="1" fill="#e8a832" opacity="0.5" />
+            <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+            <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+            <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(200,134,10,0.1)" stroke="#e8a832" stroke-width="1.6" />
+            <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#e8a832" stroke-width="0.9" stroke-dasharray="3,2.5" opacity="0.6" />
+            <line x1="9" y1="30" x2="5" y2="32" stroke="#c8860a" stroke-width="1.4" />
+            <line x1="37" y1="30" x2="41" y2="32" stroke="#c8860a" stroke-width="1.4" />
+            <rect x="13" y="2" width="20" height="2" rx="1" fill="#e8a832" opacity="0.6" />
+          </svg>
+        </div>
+        <div class="nav-logo-text">
+          <span class="nav-logo-main">Shadhin <em>Motor</em></span>
+          <span class="nav-logo-sub">Seat Cover Specialist</span>
+        </div>
+      </a>
+      <a href="index.html#gallery" class="back-link">← হোমপেজে ফিরুন</a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-label">ফুল ক্যাটালগ</div>
+        <h1 class="hero-title">সব <span>গ্যালারি</span> একসাথে</h1>
+        <p class="hero-copy">
+          এখানে প্রাইভেট কার, মোটরসাইকেল ও রিপেয়ার কাজের বিভিন্ন সিট কভার ডিজাইন একসাথে category-wise দেখা যাবে।
+          নিজের গাড়ির জন্য পছন্দের ডিজাইন, রং ও ফিনিশ সহজে মিলিয়ে নিন, তারপর উপযুক্ত design বেছে অর্ডার বা
+          যোগাযোগ করুন।
+        </p>
+      </section>
+
+      <section class="catalog-panel">
+        <div class="catalog-toolbar">
+          <div class="catalog-filters">
+            <button class="filter-btn" data-filter="all">সব</button>
+            <button class="filter-btn" data-filter="car">🚗 প্রাইভেট কার</button>
+            <button class="filter-btn" data-filter="bike">🏍️ মোটরসাইকেল</button>
+            <button class="filter-btn" data-filter="repair">🔧 রিপেয়ার</button>
+          </div>
+          <div class="catalog-meta">
+            <div class="catalog-state">চলতি ক্যাটাগরি: <strong id="catalogCurrentLabel">সব</strong></div>
+            <div class="catalog-count">মোট <strong id="catalogCount">0</strong> টি ডিজাইন</div>
+          </div>
+        </div>
+
+        <div class="gallery-grid" id="galleryPageGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+    <div class="lightbox-inner">
+      <button class="lightbox-nav-btn lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+      <button class="lightbox-nav-btn lightbox-next" onclick="lightboxNav(+1)">›</button>
+      <div class="lightbox-img-wrap" id="lightboxImgWrap"></div>
+      <div class="lightbox-info-bar">
+        <div>
+          <div class="lightbox-info-cat" id="lightboxCat"></div>
+          <div class="lightbox-info-title" id="lightboxTitle"></div>
+        </div>
+        <div class="lightbox-info-actions">
+          <span class="lightbox-counter" id="lightboxCounter"></span>
+          <div class="lightbox-close-btn" onclick="closeLightbox()">✕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার', all: 'সব' };
+    const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
+
+    const DEFAULT_GALLERY = [
+      { id: 'G1', title: 'প্রাইভেট কার ডিজাইন 01', cat: 'car', img: 'assets/images/cars/1.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G2', title: 'প্রাইভেট কার ডিজাইন 02', cat: 'car', img: 'assets/images/cars/2.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G3', title: 'প্রাইভেট কার ডিজাইন 03', cat: 'car', img: 'assets/images/cars/3.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G4', title: 'প্রাইভেট কার ডিজাইন 04', cat: 'car', img: 'assets/images/cars/4.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G5', title: 'প্রাইভেট কার ডিজাইন 05', cat: 'car', img: 'assets/images/cars/5.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G6', title: 'প্রাইভেট কার ডিজাইন 06', cat: 'car', img: 'assets/images/cars/6.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G7', title: 'প্রাইভেট কার ডিজাইন 07', cat: 'car', img: 'assets/images/cars/7.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G8', title: 'প্রাইভেট কার ডিজাইন 08', cat: 'car', img: 'assets/images/cars/8.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G9', title: 'প্রাইভেট কার ডিজাইন 09', cat: 'car', img: 'assets/images/cars/9.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G10', title: 'প্রাইভেট কার ডিজাইন 10', cat: 'car', img: 'assets/images/cars/10.jpeg', desc: 'কার সিট কভার ডিজাইন' },
+      { id: 'G11', title: 'মোটরসাইকেল ডিজাইন 01', cat: 'bike', img: 'assets/images/bikes/11.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
+      { id: 'G12', title: 'মোটরসাইকেল ডিজাইন 02', cat: 'bike', img: 'assets/images/bikes/12.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
+      { id: 'G13', title: 'মোটরসাইকেল ডিজাইন 03', cat: 'bike', img: 'assets/images/bikes/13.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
+      { id: 'G14', title: 'মোটরসাইকেল ডিজাইন 04', cat: 'bike', img: 'assets/images/bikes/14.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
+      { id: 'G15', title: 'রিপেয়ার ডিজাইন 01', cat: 'repair', img: 'assets/images/others/15.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
+      { id: 'G16', title: 'রিপেয়ার ডিজাইন 02', cat: 'repair', img: 'assets/images/others/16.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
+      { id: 'G17', title: 'রিপেয়ার ডিজাইন 03', cat: 'repair', img: 'assets/images/others/17.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
+    ];
+
+    let allGallery = [];
+    let currentFilter = 'all';
+    let lightboxItems = [];
+    let lightboxIdx = 0;
+
+    function normalizeFilter(value) {
+      return ['all', 'car', 'bike', 'repair'].includes(value) ? value : 'all';
+    }
+
+    function loadGallery() {
+      const stored = localStorage.getItem('ac_gallery');
+      try {
+        const parsed = stored ? JSON.parse(stored) : DEFAULT_GALLERY;
+        const hasStoredImages = Array.isArray(parsed) && parsed.some(item => item && typeof item.img === 'string' && item.img.trim());
+        allGallery = hasStoredImages ? parsed : DEFAULT_GALLERY;
+      } catch {
+        allGallery = DEFAULT_GALLERY;
+      }
+      renderGalleryPage();
+    }
+
+    function getFilteredGallery() {
+      return currentFilter === 'all' ? allGallery : allGallery.filter(item => item.cat === currentFilter);
+    }
+
+    function setFilter(nextFilter) {
+      currentFilter = normalizeFilter(nextFilter);
+      history.replaceState(null, '', `gallery-all.html?cat=${encodeURIComponent(currentFilter)}`);
+      renderGalleryPage();
+    }
+
+    function renderGalleryPage() {
+      const grid = document.getElementById('galleryPageGrid');
+      const filtered = getFilteredGallery();
+      lightboxItems = filtered;
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+      });
+
+      document.getElementById('catalogCurrentLabel').textContent = CAT_LABELS[currentFilter] || 'সব';
+      document.getElementById('catalogCount').textContent = filtered.length;
+
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="gallery-empty">
+          <span class="gallery-empty-icon">📷</span>
+          <p>এই ক্যাটাগরিতে এখনো কোনো ডিজাইন যোগ করা হয়নি।</p>
+        </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((item, idx) => galleryCard(item, idx)).join('');
+    }
+
+    function galleryCard(item, idx) {
+      const catLabel = CAT_LABELS[item.cat] || item.cat;
+      const catIcon = CAT_ICONS[item.cat] || '📷';
+      const imageHtml = item.img
+        ? `<img class="gallery-card-img" src="${item.img}" alt="${item.title}" loading="lazy" decoding="async" onload="this.parentElement.querySelector('.gallery-card-placeholder').style.display='none'" onerror="this.parentElement.querySelector('.gallery-card-placeholder').style.display='flex';this.style.display='none'">`
+        : '';
+
+      return `<article class="gallery-card" data-cat="${item.cat}" onclick="openLightbox(${idx})">
+        ${imageHtml}
+        <div class="gallery-card-placeholder">
+          <span class="gallery-card-placeholder-icon">${catIcon}</span>
+          <span class="gallery-card-placeholder-label">${catLabel}</span>
+        </div>
+        <div class="gallery-card-overlay">
+          <div class="gallery-card-cat">${catLabel}</div>
+          <h3 class="gallery-card-title">${item.title}</h3>
+          <p class="gallery-card-desc">${item.desc || 'ডিটেইল দেখতে ক্লিক করুন'}</p>
+        </div>
+      </article>`;
+    }
+
+    function openLightbox(idx) {
+      lightboxIdx = idx;
+      renderLightbox();
+      document.getElementById('lightboxOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(event) {
+      if (event && event.target !== document.getElementById('lightboxOverlay') && !event.currentTarget.classList.contains('lightbox-close-btn')) return;
+      document.getElementById('lightboxOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function lightboxNav(dir) {
+      if (!lightboxItems.length) return;
+      lightboxIdx = (lightboxIdx + dir + lightboxItems.length) % lightboxItems.length;
+      renderLightbox();
+    }
+
+    function renderLightbox() {
+      const item = lightboxItems[lightboxIdx];
+      if (!item) return;
+
+      document.getElementById('lightboxCat').textContent = CAT_LABELS[item.cat] || item.cat;
+      document.getElementById('lightboxTitle').textContent = item.title;
+      document.getElementById('lightboxCounter').textContent = `${lightboxIdx + 1} / ${lightboxItems.length}`;
+
+      const wrap = document.getElementById('lightboxImgWrap');
+      if (item.img) {
+        wrap.innerHTML = `<img src="${item.img}" alt="${item.title}" onerror="this.outerHTML='<div class=\\'lightbox-placeholder-full\\'><span>${CAT_ICONS[item.cat] || '📷'}</span><small style=\\'font-size:14px;color:var(--cream-dim)\\'>${item.title}</small></div>'">`;
+      } else {
+        wrap.innerHTML = `<div class="lightbox-placeholder-full">
+          <span>${CAT_ICONS[item.cat] || '📷'}</span>
+          <small style="font-size:14px;color:var(--cream-dim)">${item.title}</small>
+        </div>`;
+      }
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
+      if (event.key === 'ArrowRight') lightboxNav(+1);
+      if (event.key === 'ArrowLeft') lightboxNav(-1);
+      if (event.key === 'Escape') closeLightbox();
+    });
+
+    currentFilter = normalizeFilter(new URLSearchParams(window.location.search).get('cat') || 'all');
+    loadGallery();
+  </script>
+</body>
+
+</html>

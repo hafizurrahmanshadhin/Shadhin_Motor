@@ -1237,6 +1237,14 @@
       margin-bottom: 28px;
     }
 
+    .gallery-toolbar-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
     .gallery-filter {
       display: flex;
       gap: 8px;
@@ -1273,6 +1281,14 @@
 
     .gallery-count-info strong {
       color: var(--gold);
+    }
+
+    .gallery-view-all {
+      padding: 10px 18px;
+      font-size: 12px;
+      line-height: 1;
+      text-decoration: none;
+      white-space: nowrap;
     }
 
     .gallery-marquee-shell {
@@ -2449,6 +2465,11 @@
         width: 44px;
       }
 
+      .gallery-toolbar-meta {
+        width: 100%;
+        justify-content: space-between;
+      }
+
       .gallery-marquee-viewport {
         padding: 20px 8px 24px;
       }
@@ -2679,8 +2700,11 @@
         <button class="filter-btn" onclick="filterGallery('bike', this)">🏍️ মোটরসাইকেল</button>
         <button class="filter-btn" onclick="filterGallery('repair', this)">🔧 রিপেয়ার</button>
       </div>
-      <div class="gallery-count-info">
-        মোট <strong id="galleryTotalCount">0</strong> টি ডিজাইন · hover / drag করুন
+      <div class="gallery-toolbar-meta">
+        <div class="gallery-count-info">
+          মোট <strong id="galleryTotalCount">0</strong> টি ডিজাইন · hover / drag করুন
+        </div>
+        <a href="gallery-all.html?cat=all" id="galleryViewAllBtn" class="btn-secondary gallery-view-all">সব দেখুন</a>
       </div>
     </div>
 
@@ -3306,6 +3330,13 @@
 
     function updateGalleryCount(total) {
       document.getElementById('galleryTotalCount').textContent = total;
+      updateGalleryViewAllLink();
+    }
+
+    function updateGalleryViewAllLink() {
+      const viewAllBtn = document.getElementById('galleryViewAllBtn');
+      if (!viewAllBtn) return;
+      viewAllBtn.href = `gallery-all.html?cat=${encodeURIComponent(galleryFilter)}`;
     }
 
     function destroyGalleryMotion() {
