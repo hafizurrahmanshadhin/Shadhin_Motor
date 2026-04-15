@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shadhin Motor | প্রিমিয়াম সিট কভার বিশেষজ্ঞ</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Josefin+Sans:wght@300;400;600;700&family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #0e0a04;
+      --bg-dark: #1c1107;
+      --bg-card: #251a0a;
+      --bg-card2: #2e2010;
+      --gold: #c8860a;
+      --gold-light: #e8a832;
+      --gold-pale: #f5d78e;
+      --cream: #f5ead8;
+      --cream-dim: #c9b99a;
+      --rust: #8b3a0f;
+      --leather: #6b3b1f;
+      --white: #ffffff;
+      --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--cream);
+      font-family: 'Hind Siliguri', 'Josefin Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 60px;
+      background: linear-gradient(to bottom, rgba(14, 10, 4, 0.95), transparent);
+      transition: background 0.3s;
+    }
+
+    nav.scrolled {
+      background: rgba(14, 10, 4, 0.97);
+      border-bottom: 1px solid rgba(200, 134, 10, 0.2);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      flex-shrink: 0;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-logo-main {
+      font-family: 'Playfair Display', serif;
+      font-size: 21px;
+      font-weight: 900;
+      color: var(--gold-light);
+      letter-spacing: 0.5px;
+      line-height: 1.15;
+    }
+
+    .nav-logo-main em {
+      font-style: normal;
+      color: var(--cream);
+    }
+
+    .nav-logo-sub {
+      font-size: 9px;
+      font-weight: 400;
+      color: var(--cream-dim);
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-light);
+    }
+
+    .nav-links a.active {
+      color: var(--gold-light);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-links a.active::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--bg-deep) !important;
+      padding: 10px 24px;
+      font-weight: 700 !important;
+      transition: background 0.3s, transform 0.2s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--gold-light) !important;
+      transform: translateY(-1px);
+    }
+
+    .nav-cta.active {
+      background: var(--gold-light) !important;
+      box-shadow: 0 8px 24px rgba(200, 134, 10, 0.28);
+    }
+
+    .nav-cta::after {
+      display: none !important;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .hamburger span {
+      width: 26px;
+      height: 2px;
+      background: var(--gold);
+      transition: 0.3s;
+      display: block;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 60px 80px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(200, 134, 10, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 70% at 10% 80%, rgba(139, 58, 15, 0.12) 0%, transparent 50%),
+        linear-gradient(135deg, #0e0a04 0%, #1c1107 50%, #120c04 100%);
+    }
+
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: repeating-linear-gradient(45deg, var(--gold) 0, var(--gold) 1px, transparent 0, transparent 50%);
+      background-size: 30px 30px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(200, 134, 10, 0.4);
+      padding: 8px 20px;
+      margin-bottom: 32px;
+      border-radius: 2px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      animation: fadeSlideUp 0.8s ease both;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 7vw, 82px);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 12px;
+      animation: fadeSlideUp 0.8s 0.2s ease both;
+    }
+
+    .hero-title .accent {
+      color: var(--gold-light);
+      display: block;
+    }
+
+    .hero-title .bn {
+      font-size: 0.6em;
+      color: var(--cream-dim);
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--cream-dim);
+      max-width: 500px;
+      margin-bottom: 48px;
+      animation: fadeSlideUp 0.8s 0.35s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeSlideUp 0.8s 0.5s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold);
+      color: var(--bg-deep);
+      padding: 16px 36px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.15) 100%);
+      transform: translateX(-100%);
+      transition: transform 0.4s;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(200, 134, 10, 0.4);
+    }
+
+    .btn-primary:hover::before {
+      transform: translateX(0);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(200, 134, 10, 0.5);
+      color: var(--gold);
+      padding: 16px 36px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(200, 134, 10, 0.1);
+      border-color: var(--gold);
+      transform: translateY(-2px);
+    }
+
+    .hero-right {
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      animation: fadeSlideLeft 1s 0.6s ease both;
+    }
+
+    .stat-card {
+      background: rgba(37, 26, 10, 0.8);
+      border: 1px solid rgba(200, 134, 10, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 20px 28px;
+      border-left: 3px solid var(--gold);
+      min-width: 180px;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--cream-dim);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      animation: bounce 2s infinite;
+    }
+
+    .scroll-indicator::after {
+      content: '';
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      padding: 100px 60px;
+    }
+
+    .section-header {
+      margin-bottom: 70px;
+    }
+
+    .section-label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+    }
+
+    .section-title span {
+      color: var(--gold-light);
+    }
+
+    /* ── SERVICES ── */
+    #services {
+      background: var(--bg-dark);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      padding: 48px 36px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transition: transform 0.4s, background 0.3s;
+      border-top: 3px solid transparent;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(200, 134, 10, 0.05) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-4px);
+      background: var(--bg-card2);
+      border-top-color: var(--gold);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-icon {
+      font-size: 40px;
+      margin-bottom: 24px;
+      display: block;
+    }
+
+    .service-num {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 900;
+      color: rgba(200, 134, 10, 0.07);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .service-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+
+    .service-desc {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--cream-dim);
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: rgba(200, 134, 10, 0.12);
+      color: var(--gold);
+      border: 1px solid rgba(200, 134, 10, 0.25);
+    }
+
+    /* ── SAMPLES SECTION ── */
+    #samples {
+      background: var(--bg-dark);
+    }
+
+    .samples-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .samples-filter-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sample-filter-btn {
+      padding: 9px 22px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid rgba(200, 134, 10, 0.25);
+      color: var(--cream-dim);
+      transition: all 0.3s;
+    }
+
+    .sample-filter-btn:hover,
+    .sample-filter-btn.active {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+    }
+
+    .sample-search-wrap {
+      position: relative;
+    }
+
+    .sample-search {
+      background: rgba(37, 26, 10, 0.6);
+      border: 1px solid rgba(200, 134, 10, 0.2);
+      color: var(--cream);
+      padding: 10px 16px 10px 40px;
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 220px;
+    }
+
+    .sample-search:focus {
+      border-color: var(--gold);
+    }
+
+    .sample-search::placeholder {
+      color: var(--cream-dim);
+      opacity: 0.5;
+    }
+
+    .sample-search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* Selected sample banner */
+    .selected-sample-bar {
+      display: none;
+      background: linear-gradient(135deg, rgba(200, 134, 10, 0.15), rgba(200, 134, 10, 0.08));
+      border: 1px solid rgba(200, 134, 10, 0.4);
+      border-left: 4px solid var(--gold);
+      padding: 16px 22px;
+      margin-bottom: 28px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-radius: 2px;
+    }
+
+    .selected-sample-bar.visible {
+      display: flex;
+    }
+
+    .selected-sample-bar-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .selected-sample-bar-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      border: 2px solid rgba(200, 134, 10, 0.4);
+      flex-shrink: 0;
+    }
+
+    .selected-sample-bar-text {
+      font-size: 14px;
+      color: var(--cream);
+      line-height: 1.5;
+    }
+
+    .selected-sample-bar-text strong {
+      color: var(--gold);
+      font-size: 15px;
+    }
+
+    .selected-sample-bar-text span {
+      font-size: 12px;
+      color: var(--cream-dim);
+      display: block;
+    }
+
+    .selected-sample-bar-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Sample cards grid */
+    .samples-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .sample-card {
+      background: var(--bg-card);
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sample-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      border-color: rgba(200, 134, 10, 0.3);
+    }
+
+    .sample-card.selected {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px var(--gold), 0 12px 36px rgba(200, 134, 10, 0.2);
+    }
+
+    .sample-card.out-of-stock {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .sample-card.out-of-stock:hover {
+      transform: none;
+    }
+
+    .sample-card-swatch {
+      height: 110px;
+      width: 100%;
+      position: relative;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Quilting pattern overlay on swatch */
+    .sample-card-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg, rgba(0, 0, 0, 0.12) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(0, 0, 0, 0.12) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.12) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.12) 75%);
+      background-size: 18px 18px;
+      background-position: 0 0, 0 9px, 9px -9px, -9px 0px;
+      pointer-events: none;
+    }
+
+    .sample-card-swatch img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .sample-card-swatch img+.swatch-no-img {
+      display: none;
+    }
+
+    .swatch-no-img {
+      position: relative;
+      z-index: 2;
+      font-size: 28px;
+      opacity: 0.5;
+    }
+
+    .sample-card-selected-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 5;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--bg-deep);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .sample-card.selected .sample-card-selected-badge {
+      display: flex;
+    }
+
+    .sample-card-stock-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 5;
+      background: rgba(231, 76, 60, 0.9);
+      color: white;
+      font-size: 9px;
+      padding: 3px 8px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: 'Josefin Sans', sans-serif;
+    }
+
+    .sample-card-body {
+      padding: 14px 14px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sample-card-id {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sample-card-material-tag {
+      font-size: 9px;
+      padding: 2px 8px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-family: 'Josefin Sans', sans-serif;
+    }
+
+    .tag-rexine {
+      background: rgba(52, 152, 219, 0.15);
+      color: #7ec8f0;
+      border: 1px solid rgba(52, 152, 219, 0.25);
+    }
+
+    .tag-leather {
+      background: rgba(107, 59, 31, 0.3);
+      color: #d4956a;
+      border: 1px solid rgba(200, 134, 10, 0.3);
+    }
+
+    .sample-card-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+
+    .sample-card-color-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .sample-card-color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    .sample-card-color-name {
+      font-size: 12px;
+      color: var(--cream-dim);
+    }
+
+    .sample-card-order-btn {
+      margin-top: auto;
+      padding-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(200, 134, 10, 0.1);
+      border: 1px solid rgba(200, 134, 10, 0.2);
+      color: var(--gold);
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 10px 14px;
+      transition: all 0.3s;
+    }
+
+    .sample-card-order-btn:hover {
+      background: var(--gold);
+      color: var(--bg-deep);
+    }
+
+    .sample-card.selected .sample-card-order-btn {
+      background: var(--gold);
+      color: var(--bg-deep);
+    }
+
+    .sample-card.out-of-stock .sample-card-order-btn {
+      pointer-events: none;
+      opacity: 0.3;
+    }
+
+    /* Sample detail modal */
+    .sample-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(6px);
+      z-index: 500;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .sample-modal-overlay.open {
+      display: flex;
+    }
+
+    .sample-modal {
+      background: var(--bg-dark);
+      border: 1px solid rgba(200, 134, 10, 0.25);
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: smIn 0.3s ease both;
+      position: relative;
+    }
+
+    @keyframes smIn {
+      from {
+        opacity: 0;
+        transform: scale(0.93) translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .sample-modal-swatch {
+      height: 200px;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .sample-modal-swatch::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.1) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.1) 75%);
+      background-size: 22px 22px;
+      background-position: 0 0, 0 11px, 11px -11px, -11px 0px;
+    }
+
+    .sample-modal-swatch img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .sample-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 10;
+      width: 34px;
+      height: 34px;
+      background: rgba(14, 10, 4, 0.8);
+      border: 1px solid rgba(200, 134, 10, 0.3);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream);
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .sample-modal-close:hover {
+      background: rgba(231, 76, 60, 0.8);
+    }
+
+    .sample-modal-body {
+      padding: 28px;
+    }
+
+    .sample-modal-id {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .sample-modal-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .sample-modal-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .sample-modal-meta-item {
+      background: var(--bg-card);
+      padding: 12px 16px;
+    }
+
+    .sample-modal-meta-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cream-dim);
+      margin-bottom: 4px;
+      font-family: 'Josefin Sans', sans-serif;
+    }
+
+    .sample-modal-meta-value {
+      font-size: 15px;
+      color: var(--cream);
+      font-weight: 600;
+    }
+
+    .samples-empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--cream-dim);
+      grid-column: 1/-1;
+    }
+
+    .samples-empty-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    /* ── GALLERY ── */
+    #gallery {
+      background: var(--bg-deep);
+    }
+
+    .gallery-filter {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .filter-btn {
+      padding: 9px 22px;
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid rgba(200, 134, 10, 0.25);
+      color: var(--cream-dim);
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+    }
+
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--bg-card);
+    }
+
+    .gallery-item.wide {
+      grid-column: span 2;
+    }
+
+    .gallery-item.tall {
+      grid-row: span 2;
+    }
+
+    .gallery-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(14, 10, 4, 0.9) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.4s;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .gallery-overlay-content {
+      color: var(--cream);
+    }
+
+    .gallery-overlay h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+    }
+
+    .gallery-overlay p {
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 4px;
+    }
+
+    .gallery-item:hover .gallery-thumb {
+      transform: scale(1.08);
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      opacity: 1;
+    }
+
+    /* Placeholder gallery items */
+    .g-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 40px;
+    }
+
+    .g-p1 {
+      background: linear-gradient(135deg, #2a1a08, #3d2510);
+    }
+
+    .g-p2 {
+      background: linear-gradient(135deg, #1a2208, #2a3510);
+    }
+
+    .g-p3 {
+      background: linear-gradient(135deg, #08141a, #102030);
+    }
+
+    .g-p4 {
+      background: linear-gradient(135deg, #1a0808, #301010);
+    }
+
+    .g-p5 {
+      background: linear-gradient(135deg, #1a1508, #302510);
+    }
+
+    .g-p6 {
+      background: linear-gradient(135deg, #08181a, #102828);
+    }
+
+    /* ── HOW IT WORKS ── */
+    #process {
+      background: var(--bg-dark);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0;
+      position: relative;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+
+    .step {
+      padding: 50px 30px 40px;
+      text-align: center;
+      position: relative;
+      border-right: 1px solid rgba(200, 134, 10, 0.1);
+      transition: background 0.3s;
+    }
+
+    .step:last-child {
+      border-right: none;
+    }
+
+    .step:hover {
+      background: rgba(200, 134, 10, 0.03);
+    }
+
+    .step-num {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--bg-deep);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 0 auto 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--cream-dim);
+      line-height: 1.6;
+    }
+
+    .step-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    /* ── PRICING / INFO ── */
+    #vehicles {
+      background: var(--bg-deep);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .vehicles-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+
+    .vehicles-info p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--cream-dim);
+      margin-bottom: 32px;
+    }
+
+    .vehicle-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .vehicle-list li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border-left: 3px solid var(--gold);
+      font-size: 15px;
+      color: var(--cream-dim);
+    }
+
+    .vehicle-list li span {
+      font-size: 22px;
+    }
+
+    .vehicles-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+    }
+
+    .v-card {
+      background: var(--bg-card);
+      padding: 36px 24px;
+      text-align: center;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .v-card:hover {
+      border-bottom-color: var(--gold);
+      background: var(--bg-card2);
+    }
+
+    .v-card-icon {
+      font-size: 44px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .v-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+
+    .v-card p {
+      font-size: 13px;
+      color: var(--cream-dim);
+      line-height: 1.5;
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg-dark);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+    }
+
+    .contact-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      color: var(--cream);
+      margin-bottom: 24px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .contact-item-icon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      background: rgba(200, 134, 10, 0.1);
+      border: 1px solid rgba(200, 134, 10, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .contact-item-text h4 {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .contact-item-text p {
+      font-size: 15px;
+      color: var(--cream-dim);
+      line-height: 1.6;
+    }
+
+    .order-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(37, 26, 10, 0.6);
+      border: 1px solid rgba(200, 134, 10, 0.2);
+      color: var(--cream);
+      padding: 14px 16px;
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s;
+      border-radius: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: rgba(37, 26, 10, 0.9);
+    }
+
+    .form-group select option {
+      background: var(--bg-card);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-submit {
+      margin-top: 8px;
+    }
+
+    .form-note {
+      font-size: 13px;
+      color: var(--cream-dim);
+      margin-top: 12px;
+      border-left: 2px solid var(--gold);
+      padding-left: 14px;
+      line-height: 1.7;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080603;
+      border-top: 1px solid rgba(200, 134, 10, 0.1);
+      padding: 60px 60px 30px;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 50px;
+    }
+
+    .footer-brand .nav-logo-main {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .footer-brand .nav-logo-sub {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .footer-brand p {
+      font-size: 14px;
+      color: var(--cream-dim);
+      line-height: 1.7;
+      max-width: 280px;
+      margin-top: 4px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Josefin Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul a {
+      color: var(--cream-dim);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer-col ul a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(200, 134, 10, 0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--cream-dim);
+    }
+
+    .footer-bottom a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 9999;
+      background: var(--bg-card2);
+      border: 1px solid var(--gold);
+      border-left: 4px solid var(--gold);
+      padding: 16px 24px;
+      max-width: 340px;
+      font-size: 15px;
+      color: var(--cream);
+      box-shadow: var(--shadow);
+      transform: translateX(110%);
+      transition: transform 0.4s ease;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast-title {
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeSlideLeft {
+      from {
+        opacity: 0;
+        transform: translate(40px, -50%);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(8px);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      nav {
+        padding: 16px 24px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        inset: 0;
+        top: 60px;
+        background: rgba(14, 10, 4, 0.98);
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        z-index: 99;
+      }
+
+      .nav-links.open a {
+        font-size: 20px;
+      }
+
+      section {
+        padding: 70px 24px;
+      }
+
+      #hero {
+        padding: 120px 24px 70px;
+      }
+
+      .hero-right {
+        display: none;
+      }
+
+      .hero-title {
+        font-size: 42px;
+      }
+
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .gallery-item.wide,
+      .gallery-item.tall {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+
+      #vehicles {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <!-- Shadhin Motor seat cover logo -->
+        <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46">
+          <!-- Seat back body -->
+          <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
+            stroke-width="1.6" />
+          <!-- Diamond quilting pattern — row 1 -->
+          <polygon points="18,8  21.5,11.5  18,15  14.5,11.5" fill="none" stroke="#e8a832" stroke-width="1"
+            opacity="0.7" />
+          <polygon points="28,8  31.5,11.5  28,15  24.5,11.5" fill="none" stroke="#e8a832" stroke-width="1"
+            opacity="0.7" />
+          <!-- Diamond quilting pattern — row 2 -->
+          <polygon points="18,16 21.5,19.5 18,23  14.5,19.5" fill="none" stroke="#e8a832" stroke-width="1"
+            opacity="0.7" />
+          <polygon points="28,16 31.5,19.5 28,23  24.5,19.5" fill="none" stroke="#e8a832" stroke-width="1"
+            opacity="0.7" />
+          <!-- Centre stitch dots between diamonds -->
+          <circle cx="23" cy="11.5" r="1" fill="#e8a832" opacity="0.5" />
+          <circle cx="23" cy="19.5" r="1" fill="#e8a832" opacity="0.5" />
+          <!-- Armrest pegs -->
+          <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+          <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+          <!-- Seat cushion -->
+          <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
+            stroke-width="1.6" />
+          <!-- Horizontal stitching on cushion -->
+          <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#e8a832" stroke-width="0.9" stroke-dasharray="3,2.5"
+            opacity="0.6" />
+          <!-- Connector lines back-to-cushion -->
+          <line x1="9" y1="30" x2="5" y2="32" stroke="#c8860a" stroke-width="1.4" />
+          <line x1="37" y1="30" x2="41" y2="32" stroke="#c8860a" stroke-width="1.4" />
+          <!-- Gold accent bar at top of seat back -->
+          <rect x="13" y="2" width="20" height="2" rx="1" fill="#e8a832" opacity="0.6" />
+        </svg>
+      </div>
+      <div class="nav-logo-text">
+        <span class="nav-logo-main">Shadhin <em>Motor</em></span>
+        <span class="nav-logo-sub">Seat Cover Specialist</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">সার্ভিস</a></li>
+      <li><a href="#gallery">গ্যালারি</a></li>
+      <li><a href="#samples">স্যাম্পল</a></li>
+      <li><a href="#process">কাজের ধারা</a></li>
+      <li><a href="#vehicles">গাড়ির ধরন</a></li>
+      <li><a href="#contact" class="nav-cta">অর্ডার করুন</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Shadhin Motor — সিট কভার বিশেষজ্ঞ</div>
+      <h1 class="hero-title">
+        আপনার গাড়ির
+        <span class="accent">সিট কভার</span>
+        <span class="bn">নতুনভাবে সাজান</span>
+      </h1>
+      <p class="hero-subtitle">
+        রেক্সিন ও চামড়ার উচ্চমানের সিট কভার — প্রাইভেট কার ও মোটরসাইকেল। কাস্টম ডিজাইন, নতুন তৈরি ও রিপেয়ার সার্ভিস।
+      </p>
+      <div class="hero-actions">
+        <a href="#samples" class="btn-primary">🪡 স্যাম্পল দেখুন</a>
+        <a href="#contact" class="btn-secondary">📞 যোগাযোগ করুন</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="stat-num">১০০০+</div>
+        <div class="stat-label">সম্পন্ন কাজ</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">৩০+</div>
+        <div class="stat-label">বছরের অভিজ্ঞতা</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">১০০%</div>
+        <div class="stat-label">কাস্টম ডিজাইন</div>
+      </div>
+    </div>
+    <div class="scroll-indicator">নিচে স্ক্রল করুন</div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-header reveal">
+      <div class="section-label">আমাদের সার্ভিস</div>
+      <h2 class="section-title">যা যা <span>করে থাকি</span></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-num">01</span>
+        <span class="service-icon">🚗</span>
+        <h3 class="service-title">নতুন সিট কভার তৈরি</h3>
+        <p class="service-desc">প্রাইভেট কারের জন্য রেক্সিন বা চামড়া দিয়ে কাস্টম সিট কভার তৈরি। আপনার পছন্দমতো রং,
+          ডিজাইন ও মেটেরিয়াল।</p>
+        <span class="service-tag">প্রাইভেট কার</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.1s">
+        <span class="service-num">02</span>
+        <span class="service-icon">🔧</span>
+        <h3 class="service-title">সিট কভার রিপেয়ার</h3>
+        <p class="service-desc">পুরনো বা ছেঁড়া সিট কভার মেরামত করে নতুনের মতো করে দেওয়া। দ্রুত ও টেকসই সার্ভিস।</p>
+        <span class="service-tag">রিপেয়ার</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.2s">
+        <span class="service-num">03</span>
+        <span class="service-icon">🎨</span>
+        <h3 class="service-title">কাস্টম ডিজাইন</h3>
+        <p class="service-desc">স্যাম্পল বই থেকে পছন্দ করুন অথবা নিজের মনের মতো ডিজাইন বলুন — আমরা হুবহু বানিয়ে দেব।
+        </p>
+        <span class="service-tag">ডিজাইন</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.3s">
+        <span class="service-num">04</span>
+        <span class="service-icon">🏍️</span>
+        <h3 class="service-title">মোটরসাইকেল সিট</h3>
+        <p class="service-desc">সব ধরনের মোটরসাইকেলের সিট কভার — নতুন তৈরি ও রিপেয়ার, উচ্চমানের রেক্সিন দিয়ে।</p>
+        <span class="service-tag">মোটরসাইকেল</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.4s">
+        <span class="service-num">05</span>
+        <span class="service-icon">🏠</span>
+        <h3 class="service-title">হোম ফিটিং সার্ভিস</h3>
+        <p class="service-desc">কাজ শেষে আপনার গাড়িতে গিয়ে সিট কভার লাগিয়ে আসি — ঘরে বসে সম্পূর্ণ সার্ভিস পান।</p>
+        <span class="service-tag">ফিটিং</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.5s">
+        <span class="service-num">06</span>
+        <span class="service-icon">✅</span>
+        <h3 class="service-title">কোয়ালিটি গ্যারান্টি</h3>
+        <p class="service-desc">সেরা মানের রেক্সিন ও চামড়া ব্যবহার করা হয়। প্রতিটি সেলাই দীর্ঘস্থায়ী ও মজবুত।</p>
+        <span class="service-tag">গ্যারান্টি</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-header reveal">
+      <div class="section-label">আমাদের কাজ</div>
+      <h2 class="section-title">স্যাম্পল <span>গ্যালারি</span></h2>
+    </div>
+    <div class="gallery-filter reveal">
+      <button class="filter-btn active" onclick="filterGallery('all', this)">সব</button>
+      <button class="filter-btn" onclick="filterGallery('car', this)">প্রাইভেট কার</button>
+      <button class="filter-btn" onclick="filterGallery('bike', this)">মোটরসাইকেল</button>
+      <button class="filter-btn" onclick="filterGallery('repair', this)">রিপেয়ার</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item wide" data-cat="car">
+        <div class="gallery-thumb g-placeholder g-p1">🚗<br><small style="font-size:14px;color:#c8860a">কার সিট
+            কভার</small></div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-content">
+            <h4>টয়োটা করোলা — কালো রেক্সিন</h4>
+            <p>প্রাইভেট কার · কাস্টম ডিজাইন</p>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="bike">
+        <div class="gallery-thumb g-placeholder g-p2">🏍️<br><small
+            style="font-size:14px;color:#a8c860">মোটরসাইকেল</small></div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-content">
+            <h4>ইয়ামাহা — লাল রেক্সিন</h4>
+            <p>মোটরসাইকেল · নতুন তৈরি</p>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-item tall" data-cat="car">
+        <div class="gallery-thumb g-placeholder g-p3" style="height:100%">🪑<br><small
+            style="font-size:14px;color:#60a8c8">চামড়া কভার</small></div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-content">
+            <h4>হোন্ডা সিটি — লেদার ফিনিশ</h4>
+            <p>প্রাইভেট কার · প্রিমিয়াম লেদার</p>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="repair">
+        <div class="gallery-thumb g-placeholder g-p4">🔧<br><small style="font-size:14px;color:#c86060">রিপেয়ার</small>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-content">
+            <h4>সিট কভার রিপেয়ার</h4>
+            <p>রিপেয়ার · পুনরুদ্ধার</p>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="car">
+        <div class="gallery-thumb g-placeholder g-p5">🚙<br><small style="font-size:14px;color:#c8b060">SUV কভার</small>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-content">
+            <h4>হোন্ডা CR-V — বেইজ রেক্সিন</h4>
+            <p>প্রাইভেট কার · SUV</p>
+          </div>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="bike">
+        <div class="gallery-thumb g-placeholder g-p6">🏍️<br><small style="font-size:14px;color:#60c8c8">বাজাজ</small>
+        </div>
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-content">
+            <h4>বাজাজ পালসার — নীল কভার</h4>
+            <p>মোটরসাইকেল · কাস্টম</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLES: REXINE & LEATHER -->
+  <section id="samples">
+    <div class="section-header reveal">
+      <div class="section-label">মেটেরিয়াল বাছাই করুন</div>
+      <h2 class="section-title">রেক্সিন ও লেদার <span>স্যাম্পল</span></h2>
+      <p style="margin-top:14px; font-size:15px; color:var(--cream-dim); max-width:560px; line-height:1.7;">
+        পছন্দের স্যাম্পলটি বেছে নিন এবং <strong style="color:var(--gold)">Sample ID</strong> উল্লেখ করে অর্ডার দিন —
+        আমরা সেই রেক্সিন বা লেদারের সঠিক মূল্য জানিয়ে দেব।
+      </p>
+    </div>
+
+    <!-- Selected sample bar -->
+    <div class="selected-sample-bar" id="selectedSampleBar">
+      <div class="selected-sample-bar-info">
+        <div class="selected-sample-bar-swatch" id="selectedBarSwatch"></div>
+        <div class="selected-sample-bar-text">
+          <strong id="selectedBarName">—</strong>
+          <span id="selectedBarMeta">—</span>
+        </div>
+      </div>
+      <div class="selected-sample-bar-actions">
+        <a href="#contact" class="btn-primary" style="padding:12px 28px; font-size:12px;" onclick="scrollToOrder()">
+          📋 এই স্যাম্পলে অর্ডার দিন
+        </a>
+        <button onclick="clearSelectedSample()" class="btn-secondary" style="padding:12px 20px; font-size:12px;">✕
+          বাতিল</button>
+      </div>
+    </div>
+
+    <!-- Toolbar: filter + search -->
+    <div class="samples-toolbar reveal">
+      <div class="samples-filter-group">
+        <button class="sample-filter-btn active" onclick="filterSamples('all', this)">সব</button>
+        <button class="sample-filter-btn" onclick="filterSamples('rexine', this)">🪡 রেক্সিন</button>
+        <button class="sample-filter-btn" onclick="filterSamples('leather', this)">🧥 লেদার</button>
+      </div>
+      <div class="sample-search-wrap">
+        <span class="sample-search-icon">🔍</span>
+        <input type="text" class="sample-search" id="sampleSearchInput" placeholder="ID দিয়ে খুঁজুন, যেমন RX-001"
+          oninput="searchSamples(this.value)">
+      </div>
+    </div>
+
+    <!-- Sample cards grid -->
+    <div class="samples-grid" id="samplesGrid">
+      <!-- Rendered by JS -->
+      <div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--cream-dim);">
+        <span style="font-size:32px; display:block; margin-bottom:10px;">⏳</span>
+        স্যাম্পল লোড হচ্ছে...
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE DETAIL MODAL -->
+  <div class="sample-modal-overlay" id="sampleModal">
+    <div class="sample-modal">
+      <div class="sample-modal-swatch" id="sampleModalSwatch">
+        <img src="" id="sampleModalImg" alt="" onerror="this.style.display='none'">
+        <span id="sampleModalSwatchFallback" style="font-size:52px; position:relative; z-index:2;">🪑</span>
+      </div>
+      <div class="sample-modal-close" onclick="closeSampleModal()">✕</div>
+      <div class="sample-modal-body">
+        <div class="sample-modal-id" id="sampleModalId"></div>
+        <div class="sample-modal-name" id="sampleModalName"></div>
+        <div class="sample-modal-meta">
+          <div class="sample-modal-meta-item">
+            <div class="sample-modal-meta-label">মেটেরিয়াল</div>
+            <div class="sample-modal-meta-value" id="sampleModalMaterial"></div>
+          </div>
+          <div class="sample-modal-meta-item">
+            <div class="sample-modal-meta-label">রং</div>
+            <div class="sample-modal-meta-value" id="sampleModalColor">
+              <span id="sampleModalColorDot"
+                style="display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:6px;vertical-align:middle;border:1px solid rgba(255,255,255,0.2)"></span>
+              <span id="sampleModalColorName"></span>
+            </div>
+          </div>
+          <div class="sample-modal-meta-item">
+            <div class="sample-modal-meta-label">উপলব্ধতা</div>
+            <div class="sample-modal-meta-value" id="sampleModalStock"></div>
+          </div>
+          <div class="sample-modal-meta-item">
+            <div class="sample-modal-meta-label">Sample ID</div>
+            <div class="sample-modal-meta-value" id="sampleModalIdVal"
+              style="color:var(--gold);letter-spacing:2px;font-family:'Josefin Sans',sans-serif"></div>
+          </div>
+        </div>
+        <div id="sampleModalNote"
+          style="font-size:13px; color:var(--cream-dim); line-height:1.7; margin-bottom:20px; padding:12px 16px; background:rgba(37,26,10,0.6); border-left:3px solid rgba(200,134,10,0.3); display:none;">
+        </div>
+        <button id="sampleModalOrderBtn" class="btn-primary" style="width:100%; justify-content:center; padding:16px;"
+          onclick="selectFromModal()">
+          ✅ এই স্যাম্পল নির্বাচন করুন
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="process">
+    <div class="section-header reveal">
+      <div class="section-label">কাজের পদ্ধতি</div>
+      <h2 class="section-title">কিভাবে <span>অর্ডার করবেন</span></h2>
+    </div>
+    <div class="process-steps">
+      <div class="step reveal">
+        <div class="step-num">১</div>
+        <span class="step-icon">🪡</span>
+        <h3 class="step-title">স্যাম্পল বাছাই</h3>
+        <p class="step-desc">ওয়েবসাইটে রেক্সিন ও লেদারের স্যাম্পল দেখুন। পছন্দের <strong
+            style="color:var(--gold)">Sample ID</strong> নোট করুন — এটা দিয়েই সঠিক মূল্য জানা যাবে।</p>
+      </div>
+      <div class="step reveal" style="transition-delay:0.1s">
+        <div class="step-num">২</div>
+        <span class="step-icon">📝</span>
+        <h3 class="step-title">অর্ডার দিন</h3>
+        <p class="step-desc">গাড়ির মডেল, পছন্দের ডিজাইন জানিয়ে অর্ডার দিন। অ্যাডভান্স পেমেন্টে কাজ শুরু হবে।</p>
+      </div>
+      <div class="step reveal" style="transition-delay:0.2s">
+        <div class="step-num">৩</div>
+        <span class="step-icon">✂️</span>
+        <h3 class="step-title">তৈরি হচ্ছে</h3>
+        <p class="step-desc">দক্ষ কারিগর দল আপনার পছন্দ অনুযায়ী রেক্সিন কেটে সেলাই করে সিট কভার তৈরি করবে।</p>
+      </div>
+      <div class="step reveal" style="transition-delay:0.3s">
+        <div class="step-num">৪</div>
+        <span class="step-icon">🚗</span>
+        <h3 class="step-title">ফিটিং ও ডেলিভারি</h3>
+        <p class="step-desc">কাজ শেষে আপনার গাড়িতে গিয়ে সিট কভার ফিট করে দেওয়া হবে। বাকি পেমেন্ট সম্পন্ন করুন।</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VEHICLES -->
+  <section id="vehicles">
+    <div>
+      <div class="section-label reveal">আমরা কী কী করি</div>
+      <div class="vehicles-info">
+        <h2 class="reveal">যেকোনো গাড়ির <span style="color:var(--gold-light)">সিট কভার</span></h2>
+        <p class="reveal">প্রাইভেট কার থেকে মোটরসাইকেল — সব ধরনের গাড়ির সিট কভারে আমরা বিশেষজ্ঞ। উচ্চমানের রেক্সিন ও
+          চামড়া ব্যবহার করে দীর্ঘস্থায়ী কাজ করা হয়।</p>
+        <ul class="vehicle-list reveal">
+          <li><span>🚗</span> সেডান — করোলা, সিটি, অ্যালিয়ন</li>
+          <li><span>🚙</span> SUV — CR-V, RAV4, Tucson, Fortuner</li>
+          <li><span>🚐</span> মাইক্রোবাস — হায়েস, নোয়া</li>
+          <li><span>🏍️</span> মোটরসাইকেল — বাজাজ, ইয়ামাহা, হোন্ডা</li>
+        </ul>
+      </div>
+    </div>
+    <div class="vehicles-visual reveal">
+      <div class="v-card">
+        <span class="v-card-icon">🪡</span>
+        <h3>রেক্সিন</h3>
+        <p>টেকসই ও সাশ্রয়ী, সহজে পরিষ্কার করা যায়</p>
+      </div>
+      <div class="v-card">
+        <span class="v-card-icon">🧥</span>
+        <h3>চামড়া</h3>
+        <p>প্রিমিয়াম লুক ও অনুভূতি, দীর্ঘস্থায়ী</p>
+      </div>
+      <div class="v-card">
+        <span class="v-card-icon">✂️</span>
+        <h3>কাস্টম কাটিং</h3>
+        <p>গাড়ির মাপ অনুযায়ী পারফেক্ট ফিটিং</p>
+      </div>
+      <div class="v-card">
+        <span class="v-card-icon">🧵</span>
+        <h3>মজবুত সেলাই</h3>
+        <p>দক্ষ কারিগরের হাতে শক্ত ও সুন্দর সেলাই</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header reveal">
+      <div class="section-label">যোগাযোগ</div>
+      <h2 class="section-title">অর্ডার দিন বা <span>কথা বলুন</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3>আমাদের সাথে যোগাযোগ করুন</h3>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <h4>ঠিকানা</h4>
+            <p>আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে) মোঃপুর, ঢাকা-১২০৭</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-text">
+            <h4>ফোন নম্বর</h4>
+            <p>০১৯১১-৩৮৭২৫৪<br>সকাল ৯টা — রাত ৯টা</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">⏰</div>
+          <div class="contact-item-text">
+            <h4>খোলার সময়</h4>
+            <p>শনি — বৃহস্পতি: সকাল ৯টা — রাত ৯টা<br>শুক্রবার: সকাল ১০টা — বিকাল ৫টা</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">💬</div>
+          <div class="contact-item-text">
+            <h4>অ্যাডভান্স পেমেন্ট</h4>
+            <p>অর্ডারের সময় অ্যাডভান্স দিয়ে কাজ শুরু হয়। ডেলিভারিতে বাকি পেমেন্ট দিতে হয়।</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:0.15s">
+        <div class="order-form" id="orderForm">
+          <!-- Selected sample strip -->
+          <div id="formSampleStrip"
+            style="display:none; background:rgba(200,134,10,0.08); border:1px solid rgba(200,134,10,0.35); border-left:4px solid var(--gold); padding:14px 16px; margin-bottom:16px; display:none;">
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+              <div style="display:flex; align-items:center; gap:12px;">
+                <div id="formSwatchDot"
+                  style="width:32px;height:32px;border-radius:4px;border:1px solid rgba(200,134,10,0.3);flex-shrink:0;">
+                </div>
+                <div>
+                  <div
+                    style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);font-family:'Josefin Sans',sans-serif">
+                    নির্বাচিত স্যাম্পল</div>
+                  <div id="formSampleLabel" style="font-size:14px;color:var(--cream);margin-top:2px;"></div>
+                </div>
+              </div>
+              <button onclick="clearSelectedSample()"
+                style="background:transparent;border:1px solid rgba(200,134,10,0.25);color:var(--cream-dim);padding:6px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;font-family:'Josefin Sans',sans-serif;cursor:pointer;transition:all 0.2s;"
+                onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'"
+                onmouseout="this.style.borderColor='rgba(200,134,10,0.25)';this.style.color='var(--cream-dim)'">✕
+                পরিবর্তন করুন</button>
+            </div>
+          </div>
+          <input type="hidden" id="selectedSampleId">
+          <div class="form-row">
+            <div class="form-group">
+              <label>আপনার নাম *</label>
+              <input type="text" id="custName" placeholder="পূর্ণ নাম লিখুন">
+            </div>
+            <div class="form-group">
+              <label>ফোন নম্বর *</label>
+              <input type="tel" id="custPhone" placeholder="01XXX-XXXXXX">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>গাড়ির ধরন *</label>
+              <select id="vehicleType">
+                <option value="">বেছে নিন</option>
+                <option>প্রাইভেট কার</option>
+                <option>SUV / Jeep</option>
+                <option>মাইক্রোবাস</option>
+                <option>মোটরসাইকেল</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>গাড়ির মডেল</label>
+              <input type="text" id="carModel" placeholder="যেমন: Toyota Corolla">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>সার্ভিসের ধরন *</label>
+            <select id="serviceType">
+              <option value="">বেছে নিন</option>
+              <option>নতুন সিট কভার তৈরি</option>
+              <option>সিট কভার রিপেয়ার</option>
+              <option>কাস্টম ডিজাইন</option>
+              <option>ফিটিং সার্ভিস</option>
+            </select>
+          </div>
+          <div class="form-group" id="materialGroup">
+            <label>মেটেরিয়াল পছন্দ</label>
+            <select id="material">
+              <option value="">বেছে নিন</option>
+              <option>রেক্সিন (Rexine)</option>
+              <option>চামড়া (Leather)</option>
+              <option>পরামর্শ চাই</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>বিস্তারিত / বিশেষ অনুরোধ</label>
+            <textarea id="orderDetails" placeholder="ডিজাইনের বিবরণ, রং পছন্দ বা অন্য কোনো তথ্য জানান..."></textarea>
+          </div>
+          <button class="btn-primary form-submit" onclick="submitOrder()">
+            📋 অর্ডার জমা দিন
+          </button>
+          <p class="form-note">
+            ফর্ম জমা দেওয়ার পর আমরা আপনার সাথে যোগাযোগ করব। স্যাম্পল ID উল্লেখ করলে সঠিক মূল্য তাৎক্ষণিক জানানো যাবে।
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="margin-bottom: 16px; display: inline-flex;">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46">
+              <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
+                stroke-width="1.6" />
+              <polygon points="18,8  21.5,11.5  18,15  14.5,11.5" fill="none" stroke="#e8a832" stroke-width="1"
+                opacity="0.7" />
+              <polygon points="28,8  31.5,11.5  28,15  24.5,11.5" fill="none" stroke="#e8a832" stroke-width="1"
+                opacity="0.7" />
+              <polygon points="18,16 21.5,19.5 18,23  14.5,19.5" fill="none" stroke="#e8a832" stroke-width="1"
+                opacity="0.7" />
+              <polygon points="28,16 31.5,19.5 28,23  24.5,19.5" fill="none" stroke="#e8a832" stroke-width="1"
+                opacity="0.7" />
+              <circle cx="23" cy="11.5" r="1" fill="#e8a832" opacity="0.5" />
+              <circle cx="23" cy="19.5" r="1" fill="#e8a832" opacity="0.5" />
+              <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+              <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+              <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
+                stroke-width="1.6" />
+              <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#e8a832" stroke-width="0.9" stroke-dasharray="3,2.5"
+                opacity="0.6" />
+              <line x1="9" y1="30" x2="5" y2="32" stroke="#c8860a" stroke-width="1.4" />
+              <line x1="37" y1="30" x2="41" y2="32" stroke="#c8860a" stroke-width="1.4" />
+              <rect x="13" y="2" width="20" height="2" rx="1" fill="#e8a832" opacity="0.6" />
+            </svg>
+          </div>
+          <div class="nav-logo-text">
+            <span class="nav-logo-main">Shadhin <em>Motor</em></span>
+            <span class="nav-logo-sub">Seat Cover Specialist</span>
+          </div>
+        </a>
+        <p>প্রাইভেট কার ও মোটরসাইকেলের সিট কভারে আমরা বিশেষজ্ঞ। উচ্চমানের রেক্সিন ও চামড়া ব্যবহার করে কাস্টম ডিজাইনে
+          তৈরি করা হয়।</p>
+      </div>
+      <div class="footer-col">
+        <h4>সার্ভিস</h4>
+        <ul>
+          <li><a href="#services">নতুন সিট কভার</a></li>
+          <li><a href="#services">সিট কভার রিপেয়ার</a></li>
+          <li><a href="#services">কাস্টম ডিজাইন</a></li>
+          <li><a href="#services">মোটরসাইকেল সিট</a></li>
+          <li><a href="#services">হোম ফিটিং</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>যোগাযোগ</h4>
+        <ul>
+          <li><a href="#contact">অর্ডার দিন</a></li>
+          <li><a href="#samples">স্যাম্পল দেখুন</a></li>
+          <li><a href="#gallery">গ্যালারি দেখুন</a></li>
+          <li><a href="admin.html" target="_blank" style="color:rgba(200,134,10,0.5);font-size:12px">Shadhin Motor
+              Admin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© ২০২৫ Shadhin Motor. সর্বস্বত্ব সংরক্ষিত।</span>
+      <span>Designed for <a href="#">Shadhin Motor</a></span>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <div class="toast-title" id="toastTitle"></div>
+    <div id="toastMsg"></div>
+  </div>
+
+  <script>
+    // ─── NAVBAR ─────────────────────────────────────────────────────────────────
+    const navbar = document.getElementById('navbar');
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+    const trackedSections = Array.from(document.querySelectorAll('section[id]'))
+      .filter(section => navLinks.some(link => link.getAttribute('href') === `#${section.id}`));
+
+    function setActiveNavLink(targetId = '') {
+      navLinks.forEach(link => {
+        const isActive = link.getAttribute('href') === targetId;
+        link.classList.toggle('active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    }
+
+    function updateActiveNavLink() {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+
+      const scrollMark = window.scrollY + navbar.offsetHeight + 120;
+      let activeId = '';
+
+      trackedSections.forEach(section => {
+        if (scrollMark >= section.offsetTop) activeId = `#${section.id}`;
+      });
+
+      setActiveNavLink(activeId);
+    }
+
+    window.addEventListener('scroll', updateActiveNavLink);
+    window.addEventListener('load', updateActiveNavLink);
+    window.addEventListener('hashchange', updateActiveNavLink);
+    updateActiveNavLink();
+
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+        const targetId = a.getAttribute('href');
+        if (targetId && targetId.startsWith('#')) setActiveNavLink(targetId);
+      });
+    });
+
+    // ─── SCROLL REVEAL ──────────────────────────────────────────────────────────
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // ─── GALLERY FILTER ──────────────────────────────────────────────────────────
+    function filterGallery(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.gallery-item').forEach(item => {
+        item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
+      });
+    }
+
+    // ─── TOAST ───────────────────────────────────────────────────────────────────
+    function showToast(title, msg, duration = 4000) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastMsg').textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), duration);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // SAMPLE SYSTEM
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    // Default demo samples — loaded if admin has not added any yet
+    const DEFAULT_SAMPLES = [
+      // ── REXINE ──
+      { id: 'RX-001', name: 'ডায়মন্ড কোয়িল্ট', material: 'rexine', color: 'কালো', hex: '#1a1a1a', available: true, note: 'সবচেয়ে জনপ্রিয় ডিজাইন। টেকসই ও পরিষ্কার করা সহজ।', img: '' },
+      { id: 'RX-002', name: 'স্ট্রাইপ প্যাটার্ন', material: 'rexine', color: 'বাদামি-কালো', hex: '#3d2010', available: true, note: 'ক্লাসিক স্ট্রাইপ ডিজাইন, দীর্ঘস্থায়ী।', img: '' },
+      { id: 'RX-003', name: 'প্লেইন ম্যাট', material: 'rexine', color: 'নেভি ব্লু', hex: '#1a2a4a', available: true, note: 'সিম্পল ও এলিগেন্ট। অফিসের গাড়ির জন্য উপযুক্ত।', img: '' },
+      { id: 'RX-004', name: 'হানিকম্ব টেক্সচার', material: 'rexine', color: 'ধূসর', hex: '#4a4a4a', available: true, note: 'হেক্সাগোনাল প্যাটার্ন, স্পোর্টি লুক।', img: '' },
+      { id: 'RX-005', name: 'ক্লাসিক পাঞ্চ', material: 'rexine', color: 'লাল-কালো', hex: '#6b0f0f', available: true, note: 'পাঞ্চড ডিজাইন, বায়ু চলাচল ভালো।', img: '' },
+      { id: 'RX-006', name: 'বাক্স কোয়িল্ট', material: 'rexine', color: 'বেইজ', hex: '#c4a882', available: true, note: 'লাক্সারি বক্স কোয়িল্ট, গাড়ির ভেতর প্রিমিয়াম ফিল।', img: '' },
+      { id: 'RX-007', name: 'ডবল স্টিচ লাইন', material: 'rexine', color: 'সাদা-ধূসর', hex: '#d0d0d0', available: true, note: 'দুই রঙের সেলাই, মডার্ন লুক।', img: '' },
+      { id: 'RX-008', name: 'স্পোর্ট মেশ', material: 'rexine', color: 'কমলা-কালো', hex: '#c45010', available: false, note: 'স্টক শেষ। শীঘ্রই আসছে।', img: '' },
+      // ── LEATHER ──
+      { id: 'LT-001', name: 'স্মুথ ফুল লেদার', material: 'leather', color: 'কালো', hex: '#0d0d0d', available: true, note: 'খাঁটি নরম লেদার। প্রিমিয়াম গাড়ির জন্য পারফেক্ট।', img: '' },
+      { id: 'LT-002', name: 'টেক্সচার্ড লেদার', material: 'leather', color: 'গাঢ় বাদামি', hex: '#3b1f0a', available: true, note: 'টেক্সচার্ড ফিনিশ, দীর্ঘস্থায়ী ও স্ক্র্যাচ-রেজিস্ট্যান্ট।', img: '' },
+      { id: 'LT-003', name: 'পার্ফোরেটেড লেদার', material: 'leather', color: 'ধূসর', hex: '#5a5a5a', available: true, note: 'ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই।', img: '' },
+      { id: 'LT-004', name: 'নাপা সফট লেদার', material: 'leather', color: 'আইভরি ক্রিম', hex: '#e8dbc8', available: true, note: 'অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।', img: '' },
+    ];
+
+    // State
+    let allSamples = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let selectedSample = null;
+    let modalSample = null;
+
+    // Load samples from admin localStorage, fallback to defaults
+    function loadSamples() {
+      const stored = localStorage.getItem('ac_samples');
+      if (stored) {
+        try { allSamples = JSON.parse(stored); } catch { allSamples = DEFAULT_SAMPLES; }
+      } else {
+        allSamples = DEFAULT_SAMPLES;
+      }
+      renderSamples();
+    }
+
+    // Filter + search
+    function getFilteredSamples() {
+      return allSamples.filter(s => {
+        const matchFilter = currentFilter === 'all' || s.material === currentFilter;
+        const q = currentSearch.toLowerCase();
+        const matchSearch = !q ||
+          s.id.toLowerCase().includes(q) ||
+          s.name.toLowerCase().includes(q) ||
+          s.color.toLowerCase().includes(q);
+        return matchFilter && matchSearch;
+      });
+    }
+
+    function filterSamples(f, btn) {
+      currentFilter = f;
+      document.querySelectorAll('.sample-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSamples();
+    }
+
+    function searchSamples(q) {
+      currentSearch = q;
+      renderSamples();
+    }
+
+    // Render sample cards
+    function renderSamples() {
+      const grid = document.getElementById('samplesGrid');
+      const filtered = getFilteredSamples();
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="samples-empty">
+      <span class="samples-empty-icon">🔍</span>
+      <p>কোনো স্যাম্পল পাওয়া যায়নি।</p>
+    </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(s => {
+        const isSelected = selectedSample && selectedSample.id === s.id;
+        const matTag = s.material === 'rexine'
+          ? '<span class="sample-card-material-tag tag-rexine">রেক্সিন</span>'
+          : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
+
+        const swatchContent = s.img
+          ? `<img src="${s.img}" alt="${s.name}" onerror="this.style.display='none'">
+         <span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`
+          : `<span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`;
+
+        return `
+    <div class="sample-card ${isSelected ? 'selected' : ''} ${!s.available ? 'out-of-stock' : ''}"
+         onclick="${s.available ? `openSampleModal('${s.id}')` : 'return'}">
+      <div class="sample-card-swatch" style="background-color: ${s.hex};">
+        ${swatchContent}
+        <div class="sample-card-selected-badge">✓</div>
+        ${!s.available ? '<div class="sample-card-stock-badge">স্টক নেই</div>' : ''}
+      </div>
+      <div class="sample-card-body">
+        <div class="sample-card-id">
+          <span>${s.id}</span>
+          ${matTag}
+        </div>
+        <div class="sample-card-name">${s.name}</div>
+        <div class="sample-card-color-row">
+          <div class="sample-card-color-dot" style="background:${s.hex}"></div>
+          <span class="sample-card-color-name">${s.color}</span>
+        </div>
+        <button class="sample-card-order-btn" onclick="event.stopPropagation(); ${s.available ? `selectSample('${s.id}')` : 'return'}">
+          ${isSelected ? '✓ নির্বাচিত' : (s.available ? '+ অর্ডারে যোগ করুন' : 'স্টক নেই')}
+        </button>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    // Open sample detail modal
+    function openSampleModal(id) {
+      const s = allSamples.find(x => x.id === id);
+      if (!s) return;
+      modalSample = s;
+
+      document.getElementById('sampleModalId').textContent = 'Sample ID: ' + s.id;
+      document.getElementById('sampleModalIdVal').textContent = s.id;
+      document.getElementById('sampleModalName').textContent = s.name;
+      document.getElementById('sampleModalMaterial').textContent = s.material === 'rexine' ? 'রেক্সিন (Rexine)' : 'চামড়া (Leather)';
+      document.getElementById('sampleModalColorDot').style.background = s.hex;
+      document.getElementById('sampleModalColorName').textContent = s.color;
+      document.getElementById('sampleModalStock').innerHTML = s.available
+        ? '<span style="color:#2ecc71">✅ উপলব্ধ</span>'
+        : '<span style="color:#e74c3c">❌ স্টক নেই</span>';
+
+      const noteEl = document.getElementById('sampleModalNote');
+      if (s.note) { noteEl.textContent = s.note; noteEl.style.display = ''; }
+      else { noteEl.style.display = 'none'; }
+
+      // Swatch
+      const swatchEl = document.getElementById('sampleModalSwatch');
+      swatchEl.style.backgroundColor = s.hex;
+      const imgEl = document.getElementById('sampleModalImg');
+      imgEl.src = s.img || '';
+      imgEl.style.display = s.img ? '' : 'none';
+      document.getElementById('sampleModalSwatchFallback').textContent = s.material === 'rexine' ? '🪡' : '🧥';
+
+      // Order button
+      const btn = document.getElementById('sampleModalOrderBtn');
+      if (!s.available) {
+        btn.textContent = '❌ স্টক নেই';
+        btn.style.opacity = '0.4';
+        btn.style.pointerEvents = 'none';
+      } else {
+        const alreadySelected = selectedSample && selectedSample.id === s.id;
+        btn.innerHTML = alreadySelected ? '✓ ইতোমধ্যে নির্বাচিত — অর্ডারে যান' : '✅ এই স্যাম্পল নির্বাচন করুন';
+        btn.style.opacity = '';
+        btn.style.pointerEvents = '';
+      }
+
+      document.getElementById('sampleModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSampleModal() {
+      document.getElementById('sampleModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('sampleModal').addEventListener('click', function (e) {
+      if (e.target === this) closeSampleModal();
+    });
+
+    function selectFromModal() {
+      if (!modalSample) return;
+      selectSample(modalSample.id);
+      closeSampleModal();
+      // Smooth scroll to order form
+      setTimeout(() => {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      }, 200);
+    }
+
+    // Select a sample — sets global state + updates UI
+    function selectSample(id) {
+      const s = allSamples.find(x => x.id === id);
+      if (!s || !s.available) return;
+      selectedSample = s;
+
+      // Update the floating top bar
+      const bar = document.getElementById('selectedSampleBar');
+      document.getElementById('selectedBarSwatch').style.background = s.hex;
+      document.getElementById('selectedBarName').textContent = `${s.id} — ${s.name}`;
+      document.getElementById('selectedBarMeta').textContent =
+        `${s.material === 'rexine' ? 'রেক্সিন' : 'লেদার'} · ${s.color}`;
+      bar.classList.add('visible');
+
+      // Update order form
+      document.getElementById('selectedSampleId').value = s.id;
+      const strip = document.getElementById('formSampleStrip');
+      document.getElementById('formSwatchDot').style.background = s.hex;
+      document.getElementById('formSampleLabel').textContent =
+        `${s.id} — ${s.name} (${s.material === 'rexine' ? 'রেক্সিন' : 'লেদার'}, ${s.color})`;
+      strip.style.display = 'flex';
+
+      // Auto-set material dropdown
+      const matSel = document.getElementById('material');
+      matSel.value = s.material === 'rexine' ? 'রেক্সিন (Rexine)' : 'চামড়া (Leather)';
+
+      // Re-render cards to show selection
+      renderSamples();
+
+      showToast('✅ স্যাম্পল নির্বাচিত!', `${s.id} — ${s.name} নির্বাচন হয়েছে। এখন অর্ডার ফর্ম পূরণ করুন।`, 4000);
+    }
+
+    function clearSelectedSample() {
+      selectedSample = null;
+      document.getElementById('selectedSampleBar').classList.remove('visible');
+      document.getElementById('selectedSampleId').value = '';
+      document.getElementById('formSampleStrip').style.display = 'none';
+      renderSamples();
+    }
+
+    function scrollToOrder() {
+      setTimeout(() => {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+
+    // ─── SUBMIT ORDER ─────────────────────────────────────────────────────────────
+    function submitOrder() {
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const vehicle = document.getElementById('vehicleType').value;
+      const service = document.getElementById('serviceType').value;
+
+      if (!name || !phone || !vehicle || !service) {
+        showToast('⚠️ অপূর্ণ তথ্য', 'নাম, ফোন, গাড়ির ধরন ও সার্ভিস অবশ্যই পূরণ করুন।');
+        return;
+      }
+
+      const sampleId = document.getElementById('selectedSampleId').value;
+
+      const order = {
+        id: 'ORD-' + Date.now(),
+        name, phone,
+        vehicle,
+        carModel: document.getElementById('carModel').value,
+        service,
+        material: document.getElementById('material').value,
+        sampleId: sampleId || null,
+        sampleName: sampleId ? (allSamples.find(s => s.id === sampleId)?.name || '') : '',
+        details: document.getElementById('orderDetails').value,
+        status: 'pending',
+        date: new Date().toLocaleDateString('bn-BD'),
+        dateISO: new Date().toISOString()
+      };
+
+      const orders = JSON.parse(localStorage.getItem('ac_orders') || '[]');
+      orders.unshift(order);
+      localStorage.setItem('ac_orders', JSON.stringify(orders));
+
+      // Clear form
+      ['custName', 'custPhone', 'carModel', 'orderDetails'].forEach(id => document.getElementById(id).value = '');
+      ['vehicleType', 'serviceType', 'material'].forEach(id => document.getElementById(id).selectedIndex = 0);
+      clearSelectedSample();
+
+      const sampleMsg = sampleId ? ` স্যাম্পল: ${sampleId}` : '';
+      showToast('✅ অর্ডার সফল!', `অর্ডার নম্বর: ${order.id}।${sampleMsg} আমরা শীঘ্রই যোগাযোগ করব।`, 6000);
+    }
+
+    // ─── INIT ─────────────────────────────────────────────────────────────────────
+    loadSamples();
+  </script>
+</body>
+
+</html>
