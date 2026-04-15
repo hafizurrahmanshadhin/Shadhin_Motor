@@ -366,6 +366,10 @@
     }
 
     document.addEventListener('keydown', e => {
+      if (document.getElementById('sampleConfirmModal').classList.contains('open') && e.key === 'Escape') {
+        closeSampleConfirmModal();
+        return;
+      }
       if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
       if (e.key === 'ArrowRight') lightboxNav(+1);
       if (e.key === 'ArrowLeft') lightboxNav(-1);
@@ -720,8 +724,35 @@
       }, 100);
     }
 
+    function openSampleConfirmModal() {
+      document.getElementById('sampleConfirmModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSampleConfirmModal() {
+      document.getElementById('sampleConfirmModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function goChooseSample() {
+      closeSampleConfirmModal();
+      setTimeout(() => {
+        document.getElementById('samples').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 120);
+      showToast('🪡 একটি স্যাম্পল বেছে নিন', 'Sample ID নির্বাচন করলে আমরা ডিজাইন, রং ও মূল্যের বিষয়ে আরও দ্রুত সাহায্য করতে পারব।', 5000);
+    }
+
+    function confirmSubmitWithoutSample() {
+      closeSampleConfirmModal();
+      submitOrder(true);
+    }
+
+    document.getElementById('sampleConfirmModal').addEventListener('click', function (event) {
+      if (event.target === this) closeSampleConfirmModal();
+    });
+
     // ─── SUBMIT ORDER ─────────────────────────────────────────────────────────────
-    function submitOrder() {
+    function submitOrder(skipSampleConfirmation = false) {
       const name = document.getElementById('custName').value.trim();
       const phone = document.getElementById('custPhone').value.trim();
       const vehicle = document.getElementById('vehicleType').value;
@@ -733,6 +764,11 @@
       }
 
       const sampleId = document.getElementById('selectedSampleId').value;
+
+      if (!sampleId && !skipSampleConfirmation) {
+        openSampleConfirmModal();
+        return;
+      }
 
       const order = {
         id: 'ORD-' + Date.now(),
