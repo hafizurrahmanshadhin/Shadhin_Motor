@@ -1521,7 +1521,36 @@
 
     /* ── LOCAL SEO / FAQ ── */
     #local-seo {
-      background: var(--bg-dark);
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(232, 168, 50, 0.14) 0%, transparent 34%),
+        radial-gradient(circle at 88% 14%, rgba(139, 58, 15, 0.18) 0%, transparent 28%),
+        linear-gradient(180deg, #171005 0%, #120c04 100%);
+    }
+
+    #local-seo::before,
+    #local-seo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    #local-seo::before {
+      background:
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.018) 0 2px, transparent 2px 24px),
+        linear-gradient(135deg, rgba(232, 168, 50, 0.04), transparent 52%);
+      opacity: 0.9;
+    }
+
+    #local-seo::after {
+      inset: auto -120px -160px auto;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(232, 168, 50, 0.14) 0%, transparent 70%);
+      filter: blur(16px);
     }
 
     .local-seo-grid {
@@ -1529,31 +1558,50 @@
       grid-template-columns: 1.1fr 0.9fr;
       gap: 26px;
       align-items: start;
-    }
-
-    .local-seo-copy,
-    .faq-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(200, 134, 10, 0.12);
-      box-shadow: var(--shadow);
+      position: relative;
+      z-index: 1;
     }
 
     .local-seo-copy {
-      padding: 34px 32px;
+      position: relative;
+      overflow: hidden;
+      padding: 36px 34px;
+      background: linear-gradient(145deg, rgba(49, 34, 14, 0.94), rgba(24, 16, 7, 0.96));
+      border: 1px solid rgba(200, 134, 10, 0.14);
+      border-left: 4px solid var(--gold);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .local-seo-copy::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(232, 168, 50, 0.12), transparent 36%),
+        linear-gradient(130deg, rgba(255, 255, 255, 0.02), transparent 44%);
+      pointer-events: none;
+    }
+
+    .local-seo-copy>* {
+      position: relative;
+      z-index: 1;
     }
 
     .local-seo-copy h3,
-    .faq-card h3 {
+    .faq-question-text {
       font-family: var(--font-ui);
       font-size: 22px;
       font-weight: 700;
       color: var(--cream);
-      margin-bottom: 14px;
       line-height: 1.4;
     }
 
+    .local-seo-copy h3 {
+      margin-bottom: 14px;
+    }
+
     .local-seo-copy p,
-    .faq-card p {
+    .faq-answer {
       font-size: 15px;
       color: var(--cream-dim);
       line-height: 1.8;
@@ -1571,21 +1619,132 @@
     }
 
     .service-area-tag {
-      padding: 8px 14px;
+      padding: 10px 16px;
       font-size: 13px;
       color: var(--gold);
-      background: rgba(200, 134, 10, 0.1);
+      background: linear-gradient(135deg, rgba(200, 134, 10, 0.12), rgba(200, 134, 10, 0.04));
       border: 1px solid rgba(200, 134, 10, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
     }
 
     .faq-list {
       display: grid;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .faq-card {
-      padding: 24px 22px;
-      border-left: 3px solid var(--gold);
+    .faq-item {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(150deg, rgba(43, 29, 11, 0.96), rgba(22, 15, 7, 0.95));
+      border: 1px solid rgba(200, 134, 10, 0.14);
+      border-left: 3px solid rgba(200, 134, 10, 0.55);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .faq-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(232, 168, 50, 0.08), transparent 34%),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.015) 0 2px, transparent 2px 20px);
+      opacity: 0.95;
+      pointer-events: none;
+    }
+
+    .faq-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(232, 168, 50, 0.28);
+      box-shadow: 0 22px 52px rgba(0, 0, 0, 0.34);
+    }
+
+    .faq-item[open] {
+      border-color: rgba(232, 168, 50, 0.34);
+      border-left-color: var(--gold-light);
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.38);
+    }
+
+    .faq-question {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 24px 78px 24px 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      top: 50%;
+      right: 22px;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(200, 134, 10, 0.08);
+      border: 1px solid rgba(200, 134, 10, 0.24);
+      color: var(--gold-light);
+      font-size: 24px;
+      line-height: 1;
+      transition: all 0.25s ease;
+    }
+
+    .faq-item[open] .faq-question::after {
+      content: '−';
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--bg-deep);
+    }
+
+    .faq-index {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(200, 134, 10, 0.2), rgba(200, 134, 10, 0.06));
+      border: 1px solid rgba(200, 134, 10, 0.24);
+      color: var(--gold-light);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .faq-question-text {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .faq-answer {
+      position: relative;
+      z-index: 1;
+      padding: 0 24px 24px 78px;
+      animation: faqReveal 0.3s ease both;
+    }
+
+    @keyframes faqReveal {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ── CONTACT ── */
@@ -1931,6 +2090,14 @@
         grid-template-columns: 1fr;
       }
 
+      .faq-question {
+        padding: 20px 68px 20px 20px;
+      }
+
+      .faq-answer {
+        padding: 0 20px 20px 20px;
+      }
+
       .contact-grid {
         grid-template-columns: 1fr;
       }
@@ -2004,6 +2171,7 @@
       <li><a href="#samples">স্যাম্পল</a></li>
       <li><a href="#process">কাজের ধারা</a></li>
       <li><a href="#vehicles">গাড়ির ধরন</a></li>
+      <li><a href="#local-seo">ঢাকা সার্ভিস</a></li>
       <li><a href="#contact" class="nav-cta">অর্ডার করুন</a></li>
     </ul>
     <div class="hamburger" id="hamburger" onclick="toggleNav()">
@@ -2359,7 +2527,7 @@
       <div class="section-label">ঢাকা ও ঢাকা বিভাগ</div>
       <h2 class="section-title">ঢাকায় সিট কভার <span>সার্ভিস</span></h2>
       <p class="section-lead">
-        Shadhin Motor মূলত ঢাকা ও পুরো ঢাকা বিভাগে প্রাইভেট কার, SUV, মাইক্রোবাস এবং মোটরসাইকেলের রেক্সিন ও চামড়ার
+        স্বাধীন মটর মূলত ঢাকা ও পুরো ঢাকা বিভাগে প্রাইভেট কার, SUV, মাইক্রোবাস এবং মোটরসাইকেলের রেক্সিন ও চামড়ার
         সিট কভার তৈরি, রিপেয়ার, কাস্টম ডিজাইন এবং ফিটিং সার্ভিস দিয়ে থাকে। লোকাল সার্চে যেন সহজে খুঁজে পাওয়া যায়,
         সে জন্য এই পেজে আমাদের সার্ভিস, এলাকা এবং অর্ডার পদ্ধতির তথ্য স্পষ্টভাবে রাখা হয়েছে।
       </p>
@@ -2370,7 +2538,7 @@
         <p>
           আমরা ঢাকা শহর, সাভার, গাজীপুর, নারায়ণগঞ্জসহ পুরো ঢাকা বিভাগে সিট কভার সার্ভিস দিতে প্রস্তুত। আপনি যদি
           প্রাইভেট কার, SUV, মাইক্রোবাস বা মোটরসাইকেলের জন্য টেকসই রেক্সিন বা প্রিমিয়াম চামড়ার কভার খুঁজে থাকেন,
-          Shadhin Motor আপনার জন্য কাস্টম সমাধান তৈরি করতে পারে।
+          স্বাধীন মটর আপনার জন্য কাস্টম সমাধান তৈরি করতে পারে।
         </p>
         <p>
           অর্ডারের আগে স্যাম্পল দেখে Sample ID বেছে নেওয়া যায়, তারপর গাড়ির ধরন ও ডিজাইন অনুযায়ী সঠিক মূল্য এবং
@@ -2386,19 +2554,34 @@
         </div>
       </div>
       <div class="faq-list reveal" style="transition-delay:0.1s">
-        <div class="faq-card">
-          <h3>কোন কোন গাড়ির সিট কভার বানানো হয়?</h3>
-          <p>প্রাইভেট কার, SUV, মাইক্রোবাস এবং মোটরসাইকেলের জন্য কাস্টম সিট কভার তৈরি ও রিপেয়ার করা হয়।</p>
-        </div>
-        <div class="faq-card">
-          <h3>রেক্সিন নাকি চামড়া, কোনটা ভালো?</h3>
-          <p>বাজেট, ব্যবহার এবং পছন্দ অনুযায়ী দুটোই ভালো। রেক্সিন সাশ্রয়ী ও সহজে পরিষ্কার করা যায়, আর চামড়া দেয়
-            প্রিমিয়াম লুক ও ফিল।</p>
-        </div>
-        <div class="faq-card">
-          <h3>কিভাবে অর্ডার দেবেন?</h3>
-          <p>ওয়েবসাইট থেকে স্যাম্পল বেছে, Sample ID নোট করে অর্ডার ফর্ম জমা দিন অথবা ফোনে যোগাযোগ করুন।</p>
-        </div>
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span class="faq-index">01</span>
+            <span class="faq-question-text">কোন কোন গাড়ির সিট কভার বানানো হয়?</span>
+          </summary>
+          <div class="faq-answer">
+            প্রাইভেট কার, SUV, মাইক্রোবাস এবং মোটরসাইকেলের জন্য কাস্টম সিট কভার তৈরি ও রিপেয়ার করা হয়।
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span class="faq-index">02</span>
+            <span class="faq-question-text">রেক্সিন নাকি চামড়া, কোনটা ভালো?</span>
+          </summary>
+          <div class="faq-answer">
+            বাজেট, ব্যবহার এবং পছন্দ অনুযায়ী দুটোই ভালো। রেক্সিন সাশ্রয়ী ও সহজে পরিষ্কার করা যায়, আর চামড়া দেয়
+            প্রিমিয়াম লুক ও ফিল।
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">
+            <span class="faq-index">03</span>
+            <span class="faq-question-text">কিভাবে অর্ডার দেবেন?</span>
+          </summary>
+          <div class="faq-answer">
+            ওয়েবসাইট থেকে স্যাম্পল বেছে, Sample ID নোট করে অর্ডার ফর্ম জমা দিন অথবা ফোনে যোগাযোগ করুন।
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -2641,6 +2824,15 @@
         document.getElementById('navLinks').classList.remove('open');
         const targetId = a.getAttribute('href');
         if (targetId && targetId.startsWith('#')) setActiveNavLink(targetId);
+      });
+    });
+
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.addEventListener('toggle', () => {
+        if (!item.open) return;
+        document.querySelectorAll('.faq-item').forEach(other => {
+          if (other !== item) other.open = false;
+        });
       });
     });
 
