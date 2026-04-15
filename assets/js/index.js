@@ -416,6 +416,9 @@
       { id: 'LT-004', name: 'নাপা সফট লেদার', material: 'leather', color: 'আইভরি ক্রিম', hex: '#e8dbc8', available: true, note: 'অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।', img: '' },
     ];
 
+    const SAMPLE_MATERIAL_LABELS = { all: 'সব', rexine: 'রেক্সিন', leather: 'লেদার' };
+    const HOME_SAMPLE_LIMITS = { rexine: 5, leather: 5 };
+
     // State
     let allSamples = [];
     let currentFilter = 'all';
@@ -423,28 +426,131 @@
     let selectedSample = null;
     let modalSample = null;
 
+    function normalizeSampleMaterial(value) {
+      const raw = String(value || '').trim().toLowerCase();
+      if (raw.includes('leather') || raw.includes('চামড়') || raw.includes('চামড়া') || raw.includes('লেদার')) return 'leather';
+      return 'rexine';
+    }
+
+    function normalizeSampleItem(sample, index) {
+      const material = normalizeSampleMaterial(sample.material);
+      const fallbackPrefix = material === 'rexine' ? 'RX' : 'LT';
+      return {
+        ...sample,
+        id: String(sample.id || `${fallbackPrefix}-${String(index + 1).padStart(3, '0')}`),
+        name: sample.name || `${material === 'rexine' ? 'রেক্সিন' : 'লেদার'} স্যাম্পল`,
+        material,
+        color: sample.color || 'রং উল্লেখ নেই',
+        hex: sample.hex || (material === 'rexine' ? '#3d2010' : '#3b1f0a'),
+        available: sample.available !== false,
+        img: typeof sample.img === 'string' ? sample.img.trim() : '',
+        note: typeof sample.note === 'string' ? sample.note.trim() : '',
+      };
+    }
+
+    function isHomeFeaturedSample(sample) {
+      return ['featured', 'showOnHome', 'home', 'isFeatured', 'popular', 'bestSeller', 'topSeller', 'homeFeatured']
+        .some(key => {
+          const value = sample[key];
+          return value === true || value === 1 || value === '1' || value === 'true' || value === 'yes';
+        });
+    }
+
+    function getSampleHomeSortOrder(sample) {
+      const sortableValue = [sample.homeOrder, sample.featuredOrder, sample.sortOrder, sample.order]
+        .map(value => Number(value))
+        .find(value => Number.isFinite(value));
+      return Number.isFinite(sortableValue) ? sortableValue : Number.MAX_SAFE_INTEGER;
+    }
+
+    function getHomeMaterialSamples(material) {
+      const scoped = allSamples
+        .filter(sample => sample.material === material)
+        .sort((a, b) => {
+          const featuredDiff = Number(isHomeFeaturedSample(a)) === Number(isHomeFeaturedSample(b))
+            ? 0
+            : (isHomeFeaturedSample(a) ? -1 : 1);
+          if (featuredDiff) return featuredDiff;
+
+          const availableDiff = Number(a.available === false) - Number(b.available === false);
+          if (availableDiff) return availableDiff;
+
+          const orderDiff = getSampleHomeSortOrder(a) - getSampleHomeSortOrder(b);
+          if (orderDiff) return orderDiff;
+
+          return a.id.localeCompare(b.id, 'en');
+        });
+
+      return scoped.slice(0, HOME_SAMPLE_LIMITS[material] || 5);
+    }
+
+    function injectSelectedHomeSample(items) {
+      if (!selectedSample) return items;
+      if (currentFilter !== 'all' && selectedSample.material !== currentFilter) return items;
+      if (items.some(item => item.id === selectedSample.id)) return items;
+      if (!items.length) return [selectedSample];
+      return [selectedSample, ...items.slice(0, items.length - 1)];
+    }
+
+    function updateSamplesOverview(totalShown) {
+      const countEl = document.getElementById('samplesCountInfo');
+      const viewAllBtn = document.getElementById('samplesViewAllBtn');
+      if (countEl) {
+        countEl.textContent = currentFilter === 'all'
+          ? `হোমপেজে বাছাই করা ${totalShown}টি স্যাম্পল`
+          : `${SAMPLE_MATERIAL_LABELS[currentFilter]} থেকে ${totalShown}টি বাছাই করা স্যাম্পল`;
+      }
+      if (viewAllBtn) {
+        viewAllBtn.href = `samples-all.html?material=${encodeURIComponent(currentFilter)}`;
+      }
+    }
+
+    function clearPendingSampleParams() {
+      const url = new URL(window.location.href);
+      if (!url.searchParams.has('sample')) return;
+      url.searchParams.delete('sample');
+      const nextQuery = url.searchParams.toString();
+      history.replaceState(null, '', `${url.pathname}${nextQuery ? `?${nextQuery}` : ''}${url.hash}`);
+    }
+
+    function applyPendingSampleSelection() {
+      const params = new URLSearchParams(window.location.search);
+      const pendingId = params.get('sample') || localStorage.getItem('ac_selected_sample_id') || '';
+      if (!pendingId) return;
+
+      localStorage.removeItem('ac_selected_sample_id');
+      clearPendingSampleParams();
+
+      const pendingSample = allSamples.find(sample => sample.id === pendingId);
+      if (!pendingSample || !pendingSample.available) return;
+      selectSample(pendingSample.id);
+    }
+
     // Load samples from admin localStorage, fallback to defaults
     function loadSamples() {
       const stored = localStorage.getItem('ac_samples');
       if (stored) {
-        try { allSamples = JSON.parse(stored); } catch { allSamples = DEFAULT_SAMPLES; }
+        try {
+          const parsed = JSON.parse(stored);
+          const items = Array.isArray(parsed) ? parsed.map(normalizeSampleItem) : [];
+          allSamples = items.length ? items : DEFAULT_SAMPLES.map(normalizeSampleItem);
+        } catch {
+          allSamples = DEFAULT_SAMPLES.map(normalizeSampleItem);
+        }
       } else {
-        allSamples = DEFAULT_SAMPLES;
+        allSamples = DEFAULT_SAMPLES.map(normalizeSampleItem);
       }
       renderSamples();
+      applyPendingSampleSelection();
     }
 
-    // Filter + search
+    // Filter + home selection
     function getFilteredSamples() {
-      return allSamples.filter(s => {
-        const matchFilter = currentFilter === 'all' || s.material === currentFilter;
-        const q = currentSearch.toLowerCase();
-        const matchSearch = !q ||
-          s.id.toLowerCase().includes(q) ||
-          s.name.toLowerCase().includes(q) ||
-          s.color.toLowerCase().includes(q);
-        return matchFilter && matchSearch;
-      });
+      const baseSamples = currentFilter === 'all'
+        ? [...getHomeMaterialSamples('rexine'), ...getHomeMaterialSamples('leather')]
+        : getHomeMaterialSamples(currentFilter);
+
+      return injectSelectedHomeSample(baseSamples);
     }
 
     function filterSamples(f, btn) {
@@ -454,15 +560,11 @@
       renderSamples();
     }
 
-    function searchSamples(q) {
-      currentSearch = q;
-      renderSamples();
-    }
-
     // Render sample cards
     function renderSamples() {
       const grid = document.getElementById('samplesGrid');
       const filtered = getFilteredSamples();
+      updateSamplesOverview(filtered.length);
 
       if (filtered.length === 0) {
         grid.innerHTML = `<div class="samples-empty">
@@ -479,7 +581,7 @@
           : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
 
         const swatchContent = s.img
-          ? `<img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async" onerror="this.style.display='none'">
+          ? `<img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async" onerror="this.remove()">
          <span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`
           : `<span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`;
 

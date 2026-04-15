@@ -381,17 +381,19 @@
       </div>
     </div>
 
-    <!-- Toolbar: filter + search -->
+    <!-- Toolbar: filter + view all -->
     <div class="samples-toolbar reveal">
       <div class="samples-filter-group">
         <button class="sample-filter-btn active" onclick="filterSamples('all', this)">সব</button>
         <button class="sample-filter-btn" onclick="filterSamples('rexine', this)">🪡 রেক্সিন</button>
         <button class="sample-filter-btn" onclick="filterSamples('leather', this)">🧥 লেদার</button>
       </div>
-      <div class="sample-search-wrap">
-        <span class="sample-search-icon">🔍</span>
-        <input type="text" class="sample-search" id="sampleSearchInput" placeholder="ID দিয়ে খুঁজুন, যেমন RX-001"
-          oninput="searchSamples(this.value)">
+      <div class="samples-toolbar-actions">
+        <div class="samples-count-info" id="samplesCountInfo">হোমপেজে ১০টি বাছাই করা স্যাম্পল</div>
+        <a href="samples-all.html" id="samplesViewAllBtn" class="samples-view-all-btn">
+          সব স্যাম্পল দেখুন
+          <span>↗</span>
+        </a>
       </div>
     </div>
 
