@@ -1281,7 +1281,11 @@
       background: linear-gradient(135deg, rgba(200, 134, 10, 0.14), rgba(200, 134, 10, 0.03));
       border: 1px solid rgba(200, 134, 10, 0.14);
       border-radius: 14px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 20px 50px rgba(0, 0, 0, 0.18);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 24px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-marquee-shell.is-dragging {
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 26px 64px rgba(0, 0, 0, 0.28);
     }
 
     .gallery-marquee-shell::before,
@@ -1290,7 +1294,7 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 80px;
+      width: 92px;
       z-index: 4;
       pointer-events: none;
     }
@@ -1309,11 +1313,29 @@
 
     .gallery-marquee-viewport {
       overflow: hidden;
-      padding: 26px 10px 30px;
+      padding: 30px 12px 34px;
       border-radius: 12px;
       background:
         radial-gradient(circle at top left, rgba(200, 134, 10, 0.08), transparent 32%),
         linear-gradient(180deg, rgba(28, 17, 7, 0.94), rgba(15, 10, 4, 0.98));
+      cursor: grab;
+      touch-action: pan-y;
+      user-select: none;
+    }
+
+    .gallery-marquee-shell.is-dragging .gallery-marquee-viewport {
+      cursor: grabbing;
+    }
+
+    .gallery-marquee-shell.is-dragging .gallery-item {
+      transition: none;
+    }
+
+    .gallery-marquee-shell.is-dragging .gallery-item:hover {
+      transform: none;
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.24);
+      border-color: rgba(200, 134, 10, 0.1);
+      z-index: auto;
     }
 
     .gallery-marquee-track {
@@ -1323,14 +1345,7 @@
       gap: var(--gallery-gap);
       width: max-content;
       will-change: transform;
-    }
-
-    .gallery-marquee-track.is-animated {
-      animation: galleryMarquee var(--gallery-marquee-duration, 70s) linear infinite;
-    }
-
-    .gallery-marquee-shell:hover .gallery-marquee-track.is-animated {
-      animation-play-state: paused;
+      transform: translate3d(0, 0, 0);
     }
 
     .gallery-marquee-group {
@@ -1340,31 +1355,21 @@
       flex-shrink: 0;
     }
 
-    @keyframes galleryMarquee {
-      from {
-        transform: translateX(0);
-      }
-
-      to {
-        transform: translateX(calc(-1 * var(--gallery-marquee-distance, 0px)));
-      }
-    }
-
     .gallery-grid {
       display: block;
     }
 
     .gallery-item {
       position: relative;
-      flex: 0 0 clamp(228px, 19vw, 280px);
-      width: clamp(228px, 19vw, 280px);
-      height: 214px;
+      flex: 0 0 clamp(280px, 22vw, 340px);
+      width: clamp(280px, 22vw, 340px);
+      height: 248px;
       overflow: hidden;
       cursor: pointer;
-      border-radius: 16px;
+      border-radius: 20px;
       background: var(--bg-card);
       border: 1px solid rgba(200, 134, 10, 0.1);
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.24);
       transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
       transform-origin: center center;
     }
@@ -2441,17 +2446,17 @@
 
       .gallery-marquee-shell::before,
       .gallery-marquee-shell::after {
-        width: 38px;
+        width: 44px;
       }
 
       .gallery-marquee-viewport {
-        padding: 18px 6px 22px;
+        padding: 20px 8px 24px;
       }
 
       .gallery-item {
-        flex-basis: 212px;
-        width: 212px;
-        height: 182px;
+        flex-basis: 236px;
+        width: 236px;
+        height: 198px;
         border-radius: 14px;
       }
 
@@ -2501,8 +2506,8 @@
 
     @media (min-width: 901px) and (max-width: 1200px) {
       .gallery-item {
-        flex-basis: 240px;
-        width: 240px;
+        flex-basis: 286px;
+        width: 286px;
       }
     }
   </style>
@@ -2675,7 +2680,7 @@
         <button class="filter-btn" onclick="filterGallery('repair', this)">🔧 রিপেয়ার</button>
       </div>
       <div class="gallery-count-info">
-        মোট <strong id="galleryTotalCount">0</strong> টি ডিজাইন · hover করলে থামবে
+        মোট <strong id="galleryTotalCount">0</strong> টি ডিজাইন · hover / drag করুন
       </div>
     </div>
 
@@ -3229,6 +3234,19 @@
     let lightboxItems = [];
     let lightboxIdx = 0;
     let galleryResizeFrame = 0;
+    let galleryMotionRaf = 0;
+    let galleryMotionLastTs = 0;
+    let galleryMotionOffset = 0;
+    let galleryMotionCycle = 0;
+    let galleryHovered = false;
+    let galleryDragging = false;
+    let galleryDragMoved = false;
+    let galleryPointerDown = false;
+    let galleryPointerId = null;
+    let galleryDragStartX = 0;
+    let galleryDragStartOffset = 0;
+    let gallerySuppressClick = false;
+    const galleryMotionSpeed = 34;
 
     function loadGallery() {
       const stored = localStorage.getItem('ac_gallery');
@@ -3275,7 +3293,7 @@
 
       grid.innerHTML = `<div class="gallery-marquee-shell">
       <div class="gallery-marquee-viewport">
-        <div class="gallery-marquee-track${filtered.length > 1 ? ' is-animated' : ''}" id="galleryMarqueeTrack">
+        <div class="gallery-marquee-track" id="galleryMarqueeTrack">
           ${primaryGroup}
           ${duplicateGroup}
         </div>
@@ -3290,26 +3308,137 @@
       document.getElementById('galleryTotalCount').textContent = total;
     }
 
+    function destroyGalleryMotion() {
+      cancelAnimationFrame(galleryMotionRaf);
+      galleryMotionRaf = 0;
+      galleryMotionLastTs = 0;
+    }
+
     function syncGalleryMarquee() {
       const track = document.getElementById('galleryMarqueeTrack');
+      destroyGalleryMotion();
       if (!track) return;
 
       const groups = track.querySelectorAll('.gallery-marquee-group');
       if (groups.length < 2 || lightboxItems.length < 2) {
-        track.classList.remove('is-animated');
-        track.style.removeProperty('--gallery-marquee-distance');
-        track.style.removeProperty('--gallery-marquee-duration');
+        galleryMotionCycle = 0;
+        galleryMotionOffset = 0;
+        bindGalleryInteractions();
+        applyGalleryOffset();
         return;
       }
 
       const computed = getComputedStyle(track);
       const gap = parseFloat(computed.gap || computed.columnGap || 18) || 18;
       const groupWidth = groups[0].scrollWidth;
-      const distance = groupWidth + gap;
-      const duration = Math.min(240, Math.max(28, distance / 85));
+      galleryMotionCycle = groupWidth + gap;
+      galleryMotionOffset = normalizeGalleryOffset(galleryMotionOffset);
+      bindGalleryInteractions();
+      applyGalleryOffset();
+      startGalleryMotion();
+    }
 
-      track.style.setProperty('--gallery-marquee-distance', `${distance}px`);
-      track.style.setProperty('--gallery-marquee-duration', `${duration}s`);
+    function normalizeGalleryOffset(offset) {
+      if (!galleryMotionCycle) return 0;
+      let next = offset % galleryMotionCycle;
+      if (next < 0) next += galleryMotionCycle;
+      return next;
+    }
+
+    function applyGalleryOffset() {
+      const track = document.getElementById('galleryMarqueeTrack');
+      if (!track) return;
+      track.style.transform = `translate3d(${-galleryMotionOffset}px, 0, 0)`;
+    }
+
+    function startGalleryMotion() {
+      if (!galleryMotionCycle || galleryMotionRaf) return;
+
+      const step = (ts) => {
+        if (!galleryMotionLastTs) galleryMotionLastTs = ts;
+        const delta = (ts - galleryMotionLastTs) / 1000;
+        galleryMotionLastTs = ts;
+
+        if (!galleryHovered && !galleryDragging) {
+          galleryMotionOffset = normalizeGalleryOffset(galleryMotionOffset + (galleryMotionSpeed * delta));
+          applyGalleryOffset();
+        }
+
+        galleryMotionRaf = requestAnimationFrame(step);
+      };
+
+      galleryMotionRaf = requestAnimationFrame(step);
+    }
+
+    function bindGalleryInteractions() {
+      const shell = document.querySelector('.gallery-marquee-shell');
+      const viewport = document.querySelector('.gallery-marquee-viewport');
+      if (!shell || !viewport) return;
+
+      const endDrag = (event) => {
+        const hadDrag = galleryDragging && galleryDragMoved;
+
+        if (event && galleryDragging && viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+
+        galleryPointerDown = false;
+        galleryPointerId = null;
+
+        if (galleryDragging) {
+          galleryDragging = false;
+          shell.classList.remove('is-dragging');
+        }
+
+        if (hadDrag) {
+          gallerySuppressClick = true;
+          setTimeout(() => { gallerySuppressClick = false; }, 220);
+        }
+
+        galleryDragMoved = false;
+        if (!viewport.matches(':hover')) galleryHovered = false;
+      };
+
+      viewport.onpointerenter = () => {
+        galleryHovered = true;
+      };
+
+      viewport.onpointerleave = () => {
+        if (!galleryDragging) galleryHovered = false;
+      };
+
+      viewport.onpointerdown = (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        galleryPointerDown = true;
+        galleryPointerId = event.pointerId;
+        galleryDragging = false;
+        galleryDragMoved = false;
+        galleryHovered = true;
+        galleryDragStartX = event.clientX;
+        galleryDragStartOffset = galleryMotionOffset;
+      };
+
+      viewport.onpointermove = (event) => {
+        if (!galleryPointerDown || event.pointerId !== galleryPointerId) return;
+        const deltaX = event.clientX - galleryDragStartX;
+
+        if (!galleryDragging) {
+          if (Math.abs(deltaX) <= 6) return;
+          galleryDragging = true;
+          galleryDragMoved = true;
+          shell.classList.add('is-dragging');
+          viewport.setPointerCapture(event.pointerId);
+        }
+
+        event.preventDefault();
+        galleryMotionOffset = normalizeGalleryOffset(galleryDragStartOffset - deltaX);
+        applyGalleryOffset();
+      };
+
+      viewport.onpointerup = (event) => endDrag(event);
+      viewport.onpointercancel = (event) => endDrag(event);
+      viewport.onlostpointercapture = (event) => endDrag(event);
+      viewport.ondragstart = () => false;
     }
 
     function galleryCard(g, idx) {
@@ -3336,6 +3465,7 @@
     }
 
     function openLightbox(idx) {
+      if (gallerySuppressClick) return;
       lightboxIdx = idx;
       renderLightbox();
       document.getElementById('lightboxOverlay').classList.add('open');
