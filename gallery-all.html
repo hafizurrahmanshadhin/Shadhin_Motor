@@ -388,6 +388,20 @@
       transform: scaleX(1);
     }
 
+    .gallery-card-group-badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      padding: 6px 10px;
+      border: 1px solid rgba(200, 134, 10, 0.24);
+      background: rgba(14, 10, 4, 0.78);
+      color: var(--gold-pale);
+      font-size: 11px;
+      line-height: 1;
+      backdrop-filter: blur(8px);
+    }
+
     .gallery-card-img,
     .gallery-card-placeholder {
       position: absolute;
@@ -820,6 +834,8 @@
     let currentFilter = 'all';
     let currentModel = '';
     let currentSearch = '';
+    let displayedGalleryItems = [];
+    let galleryGroupCountMap = new Map();
     let lightboxItems = [];
     let lightboxIdx = 0;
 
@@ -849,6 +865,35 @@
         img: typeof item.img === 'string' ? item.img : '',
         models: normalizeModels(item),
       };
+    }
+
+    function getPrimaryModel(item) {
+      return Array.isArray(item.models) && item.models.length ? String(item.models[0]).trim() : '';
+    }
+
+    function getGroupLabel(item) {
+      const explicit = [item.groupLabel, item.galleryGroup, item.groupKey]
+        .find(value => typeof value === 'string' && value.trim());
+      return explicit ? explicit.trim() : (getPrimaryModel(item) || item.title);
+    }
+
+    function getGroupKey(item) {
+      return getGroupLabel(item).toLowerCase();
+    }
+
+    function buildGroupCountMap(items) {
+      const map = new Map();
+      items.forEach(item => {
+        const key = getGroupKey(item);
+        map.set(key, (map.get(key) || 0) + 1);
+      });
+      return map;
+    }
+
+    function getRelatedGroupItems(item) {
+      const key = getGroupKey(item);
+      const related = allGallery.filter(candidate => candidate.cat === item.cat && getGroupKey(candidate) === key);
+      return related.length ? related : [item];
     }
 
     function getCategoryScopedGallery() {
@@ -921,9 +966,10 @@
     function renderGalleryPage() {
       const grid = document.getElementById('galleryPageGrid');
       const categoryScoped = getCategoryScopedGallery();
+      galleryGroupCountMap = buildGroupCountMap(categoryScoped);
       populateModelOptions(categoryScoped);
       const filtered = getFilteredGallery();
-      lightboxItems = filtered;
+      displayedGalleryItems = filtered;
       syncQueryParams();
 
       document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -947,6 +993,8 @@
     function galleryCard(item, idx) {
       const catLabel = CAT_LABELS[item.cat] || item.cat;
       const catIcon = CAT_ICONS[item.cat] || '📷';
+      const groupCount = galleryGroupCountMap.get(getGroupKey(item)) || 1;
+      const groupBadge = groupCount > 1 ? `<div class="gallery-card-group-badge">${groupCount} ছবি</div>` : '';
       const modelPills = Array.isArray(item.models) && item.models.length
         ? `<div class="gallery-card-models">${item.models.map(model => `<span class="gallery-card-model-pill">${model}</span>`).join('')}</div>`
         : '';
@@ -956,6 +1004,7 @@
 
       return `<article class="gallery-card" data-cat="${item.cat}" onclick="openLightbox(${idx})">
         ${imageHtml}
+        ${groupBadge}
         <div class="gallery-card-placeholder">
           <span class="gallery-card-placeholder-icon">${catIcon}</span>
           <span class="gallery-card-placeholder-label">${catLabel}</span>
@@ -970,7 +1019,10 @@
     }
 
     function openLightbox(idx) {
-      lightboxIdx = idx;
+      const sourceItem = displayedGalleryItems[idx];
+      if (!sourceItem) return;
+      lightboxItems = getRelatedGroupItems(sourceItem);
+      lightboxIdx = Math.max(0, lightboxItems.findIndex(item => item.id === sourceItem.id));
       renderLightbox();
       document.getElementById('lightboxOverlay').classList.add('open');
       document.body.style.overflow = 'hidden';
@@ -992,7 +1044,7 @@
       const item = lightboxItems[lightboxIdx];
       if (!item) return;
 
-      document.getElementById('lightboxCat').textContent = CAT_LABELS[item.cat] || item.cat;
+      document.getElementById('lightboxCat').textContent = [CAT_LABELS[item.cat] || item.cat, getGroupLabel(item)].filter(Boolean).join(' · ');
       document.getElementById('lightboxTitle').textContent = item.title;
       document.getElementById('lightboxCounter').textContent = `${lightboxIdx + 1} / ${lightboxItems.length}`;
 
