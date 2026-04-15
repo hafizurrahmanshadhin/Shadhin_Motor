@@ -1228,11 +1228,19 @@
       background: var(--bg-deep);
     }
 
+    .gallery-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
     .gallery-filter {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 40px;
     }
 
     .filter-btn {
@@ -1256,107 +1264,466 @@
       border-color: var(--gold);
     }
 
+    .gallery-count-info {
+      font-family: var(--font-accent);
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      color: var(--cream-dim);
+    }
+
+    .gallery-count-info strong {
+      color: var(--gold);
+    }
+
+    .gallery-marquee-shell {
+      position: relative;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(200, 134, 10, 0.14), rgba(200, 134, 10, 0.03));
+      border: 1px solid rgba(200, 134, 10, 0.14);
+      border-radius: 14px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 20px 50px rgba(0, 0, 0, 0.18);
+    }
+
+    .gallery-marquee-shell::before,
+    .gallery-marquee-shell::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 80px;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .gallery-marquee-shell::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(14, 10, 4, 0.98), transparent);
+      border-radius: 14px 0 0 14px;
+    }
+
+    .gallery-marquee-shell::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(14, 10, 4, 0.98), transparent);
+      border-radius: 0 14px 14px 0;
+    }
+
+    .gallery-marquee-viewport {
+      overflow: hidden;
+      padding: 26px 10px 30px;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at top left, rgba(200, 134, 10, 0.08), transparent 32%),
+        linear-gradient(180deg, rgba(28, 17, 7, 0.94), rgba(15, 10, 4, 0.98));
+    }
+
+    .gallery-marquee-track {
+      --gallery-gap: 18px;
+      display: flex;
+      align-items: stretch;
+      gap: var(--gallery-gap);
+      width: max-content;
+      will-change: transform;
+    }
+
+    .gallery-marquee-track.is-animated {
+      animation: galleryMarquee var(--gallery-marquee-duration, 70s) linear infinite;
+    }
+
+    .gallery-marquee-shell:hover .gallery-marquee-track.is-animated {
+      animation-play-state: paused;
+    }
+
+    .gallery-marquee-group {
+      display: flex;
+      align-items: stretch;
+      gap: var(--gallery-gap);
+      flex-shrink: 0;
+    }
+
+    @keyframes galleryMarquee {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(calc(-1 * var(--gallery-marquee-distance, 0px)));
+      }
+    }
+
     .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
+      display: block;
     }
 
     .gallery-item {
       position: relative;
-      aspect-ratio: 4/3;
+      flex: 0 0 clamp(228px, 19vw, 280px);
+      width: clamp(228px, 19vw, 280px);
+      height: 214px;
       overflow: hidden;
       cursor: pointer;
+      border-radius: 16px;
       background: var(--bg-card);
+      border: 1px solid rgba(200, 134, 10, 0.1);
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      transform-origin: center center;
     }
 
-    .gallery-item.wide {
-      grid-column: span 2;
+    .gallery-item:hover {
+      transform: translateY(-8px) scale(1.08);
+      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.38);
+      border-color: rgba(200, 134, 10, 0.34);
+      z-index: 6;
     }
 
-    .gallery-item.tall {
-      grid-row: span 2;
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 4;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.35s ease;
     }
 
-    .gallery-thumb {
+    .gallery-item[data-cat="car"]::after {
+      background: var(--gold);
+    }
+
+    .gallery-item[data-cat="bike"]::after {
+      background: #5ba4db;
+    }
+
+    .gallery-item[data-cat="repair"]::after {
+      background: #e05c4a;
+    }
+
+    .gallery-item:hover::after {
+      transform: scaleX(1);
+    }
+
+    .gallery-item-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s ease;
+      position: absolute;
+      inset: 0;
+      transition: transform 0.55s ease;
+    }
+
+    .gallery-item:hover .gallery-item-img {
+      transform: scale(1.08);
+    }
+
+    .gallery-item-placeholder {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 48px;
+      gap: 10px;
+      transition: transform 0.55s ease;
+    }
+
+    .gallery-item:hover .gallery-item-placeholder {
+      transform: scale(1.05);
+    }
+
+    .gallery-item-placeholder-icon {
+      font-size: 38px;
+      opacity: 0.58;
+    }
+
+    .gallery-item-placeholder-label {
+      font-size: 11px;
+      font-family: var(--font-accent);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      opacity: 0.68;
+    }
+
+    .gallery-item[data-cat="car"] .gallery-item-placeholder {
+      background: linear-gradient(145deg, #2f1e0c, #5d3914);
+    }
+
+    .gallery-item[data-cat="bike"] .gallery-item-placeholder {
+      background: linear-gradient(145deg, #0b1921, #14364b);
+    }
+
+    .gallery-item[data-cat="repair"] .gallery-item-placeholder {
+      background: linear-gradient(145deg, #221014, #4a171d);
+    }
+
+    .gallery-item[data-cat="car"] .gallery-item-placeholder-label {
+      color: var(--gold-pale);
+    }
+
+    .gallery-item[data-cat="bike"] .gallery-item-placeholder-label {
+      color: #91d4f7;
+    }
+
+    .gallery-item[data-cat="repair"] .gallery-item-placeholder-label {
+      color: #ef9191;
     }
 
     .gallery-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(14, 10, 4, 0.9) 0%, transparent 50%);
+      z-index: 3;
+      background: linear-gradient(to top, rgba(8, 4, 2, 0.96) 0%, rgba(8, 4, 2, 0.25) 58%, transparent 100%);
       opacity: 0;
-      transition: opacity 0.4s;
+      transition: opacity 0.32s ease;
       display: flex;
-      align-items: flex-end;
-      padding: 20px;
-    }
-
-    .gallery-overlay-content {
-      color: var(--cream);
-    }
-
-    .gallery-overlay h4 {
-      font-family: 'Playfair Display', serif;
-      font-size: 16px;
-    }
-
-    .gallery-overlay p {
-      font-size: 12px;
-      color: var(--gold);
-      margin-top: 4px;
-    }
-
-    .gallery-item:hover .gallery-thumb {
-      transform: scale(1.08);
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px 16px;
     }
 
     .gallery-item:hover .gallery-overlay {
       opacity: 1;
     }
 
-    /* Placeholder gallery items */
-    .g-placeholder {
-      width: 100%;
-      height: 100%;
+    .gallery-overlay-cat {
+      font-family: var(--font-accent);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .gallery-item[data-cat="car"] .gallery-overlay-cat {
+      color: var(--gold);
+    }
+
+    .gallery-item[data-cat="bike"] .gallery-overlay-cat {
+      color: #7ec8f0;
+    }
+
+    .gallery-item[data-cat="repair"] .gallery-overlay-cat {
+      color: #e07070;
+    }
+
+    .gallery-overlay-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.35;
+    }
+
+    .gallery-overlay-desc {
+      font-size: 12px;
+      color: var(--cream-dim);
+      margin-top: 6px;
+      line-height: 1.45;
+    }
+
+    .gallery-overlay-zoom {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 5;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(200, 134, 10, 0.85);
+      color: var(--bg-deep);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 13px;
+      opacity: 0;
+      transform: scale(0.7);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .gallery-item:hover .gallery-overlay-zoom {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .gallery-empty {
+      text-align: center;
+      padding: 72px 24px;
+      color: var(--cream-dim);
+      background: linear-gradient(180deg, rgba(28, 17, 7, 0.94), rgba(15, 10, 4, 0.98));
+      border: 1px solid rgba(200, 134, 10, 0.12);
+      border-radius: 14px;
+    }
+
+    .gallery-empty-icon {
+      font-size: 48px;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(10px);
+      z-index: 700;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox-overlay.open {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 860px;
+      width: 100%;
+      position: relative;
+      animation: lbIn 0.3s ease both;
+    }
+
+    @keyframes lbIn {
+      from {
+        opacity: 0;
+        transform: scale(0.93) translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .lightbox-img-wrap {
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid rgba(200, 134, 10, 0.2);
+      border-bottom: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-card);
+      min-height: 300px;
+      max-height: 65vh;
+    }
+
+    .lightbox-img-wrap img {
+      max-width: 100%;
+      max-height: 65vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lightbox-placeholder-full {
+      width: 100%;
+      height: 380px;
+      display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 64px;
+    }
+
+    .lightbox-info-bar {
+      background: var(--bg-dark);
+      border: 1px solid rgba(200, 134, 10, 0.18);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      font-size: 40px;
+      flex-wrap: wrap;
     }
 
-    .g-p1 {
-      background: linear-gradient(135deg, #2a1a08, #3d2510);
+    .lightbox-info-cat {
+      font-family: var(--font-accent);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
     }
 
-    .g-p2 {
-      background: linear-gradient(135deg, #1a2208, #2a3510);
+    .lightbox-info-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.3;
     }
 
-    .g-p3 {
-      background: linear-gradient(135deg, #08141a, #102030);
+    .lightbox-info-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-shrink: 0;
     }
 
-    .g-p4 {
-      background: linear-gradient(135deg, #1a0808, #301010);
+    .lightbox-counter {
+      font-family: var(--font-accent);
+      font-size: 11px;
+      letter-spacing: 1px;
+      color: var(--cream-dim);
     }
 
-    .g-p5 {
-      background: linear-gradient(135deg, #1a1508, #302510);
+    .lightbox-close-btn {
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      flex-shrink: 0;
+      background: rgba(200, 134, 10, 0.1);
+      border: 1px solid rgba(200, 134, 10, 0.25);
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream);
+      font-size: 16px;
+      transition: all 0.2s;
     }
 
-    .g-p6 {
-      background: linear-gradient(135deg, #08181a, #102828);
+    .lightbox-close-btn:hover {
+      background: rgba(231, 76, 60, 0.8);
+      border-color: transparent;
+    }
+
+    .lightbox-nav-btn {
+      position: absolute;
+      top: calc(50% - 28px);
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: rgba(14, 10, 4, 0.75);
+      border: 1px solid rgba(200, 134, 10, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--cream);
+      font-size: 18px;
+      transition: all 0.2s;
+      z-index: 5;
+    }
+
+    .lightbox-nav-btn:hover {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+    }
+
+    .lightbox-prev {
+      left: -20px;
+    }
+
+    .lightbox-next {
+      right: -20px;
     }
 
     /* ── HOW IT WORKS ── */
@@ -2072,14 +2439,28 @@
         font-size: 42px;
       }
 
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .gallery-marquee-shell::before,
+      .gallery-marquee-shell::after {
+        width: 38px;
       }
 
-      .gallery-item.wide,
-      .gallery-item.tall {
-        grid-column: span 1;
-        grid-row: span 1;
+      .gallery-marquee-viewport {
+        padding: 18px 6px 22px;
+      }
+
+      .gallery-item {
+        flex-basis: 212px;
+        width: 212px;
+        height: 182px;
+        border-radius: 14px;
+      }
+
+      .lightbox-prev {
+        left: 4px;
+      }
+
+      .lightbox-next {
+        right: 4px;
       }
 
       #vehicles {
@@ -2115,6 +2496,13 @@
 
       .form-row {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 901px) and (max-width: 1200px) {
+      .gallery-item {
+        flex-basis: 240px;
+        width: 240px;
       }
     }
   </style>
@@ -2276,77 +2664,46 @@
   <section id="gallery">
     <div class="section-header reveal">
       <div class="section-label">আমাদের কাজ</div>
-      <h2 class="section-title">স্যাম্পল <span>গ্যালারি</span></h2>
+      <h2 class="section-title">কাজের <span>গ্যালারি</span></h2>
     </div>
-    <div class="gallery-filter reveal">
-      <button class="filter-btn active" onclick="filterGallery('all', this)">সব</button>
-      <button class="filter-btn" onclick="filterGallery('car', this)">প্রাইভেট কার</button>
-      <button class="filter-btn" onclick="filterGallery('bike', this)">মোটরসাইকেল</button>
-      <button class="filter-btn" onclick="filterGallery('repair', this)">রিপেয়ার</button>
+
+    <div class="gallery-toolbar reveal">
+      <div class="gallery-filter">
+        <button class="filter-btn active" onclick="filterGallery('all', this)">সব</button>
+        <button class="filter-btn" onclick="filterGallery('car', this)">🚗 প্রাইভেট কার</button>
+        <button class="filter-btn" onclick="filterGallery('bike', this)">🏍️ মোটরসাইকেল</button>
+        <button class="filter-btn" onclick="filterGallery('repair', this)">🔧 রিপেয়ার</button>
+      </div>
+      <div class="gallery-count-info">
+        মোট <strong id="galleryTotalCount">0</strong> টি ডিজাইন · hover করলে থামবে
+      </div>
     </div>
+
     <div class="gallery-grid" id="galleryGrid">
-      <div class="gallery-item wide" data-cat="car">
-        <div class="gallery-thumb g-placeholder g-p1">🚗<br><small style="font-size:14px;color:#c8860a">কার সিট
-            কভার</small></div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>টয়োটা করোলা — কালো রেক্সিন</h4>
-            <p>প্রাইভেট কার · কাস্টম ডিজাইন</p>
-          </div>
-        </div>
-      </div>
-      <div class="gallery-item" data-cat="bike">
-        <div class="gallery-thumb g-placeholder g-p2">🏍️<br><small
-            style="font-size:14px;color:#a8c860">মোটরসাইকেল</small></div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>ইয়ামাহা — লাল রেক্সিন</h4>
-            <p>মোটরসাইকেল · নতুন তৈরি</p>
-          </div>
-        </div>
-      </div>
-      <div class="gallery-item tall" data-cat="car">
-        <div class="gallery-thumb g-placeholder g-p3" style="height:100%">🪑<br><small
-            style="font-size:14px;color:#60a8c8">চামড়া কভার</small></div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>হোন্ডা সিটি — লেদার ফিনিশ</h4>
-            <p>প্রাইভেট কার · প্রিমিয়াম লেদার</p>
-          </div>
-        </div>
-      </div>
-      <div class="gallery-item" data-cat="repair">
-        <div class="gallery-thumb g-placeholder g-p4">🔧<br><small style="font-size:14px;color:#c86060">রিপেয়ার</small>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>সিট কভার রিপেয়ার</h4>
-            <p>রিপেয়ার · পুনরুদ্ধার</p>
-          </div>
-        </div>
-      </div>
-      <div class="gallery-item" data-cat="car">
-        <div class="gallery-thumb g-placeholder g-p5">🚙<br><small style="font-size:14px;color:#c8b060">SUV কভার</small>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>হোন্ডা CR-V — বেইজ রেক্সিন</h4>
-            <p>প্রাইভেট কার · SUV</p>
-          </div>
-        </div>
-      </div>
-      <div class="gallery-item" data-cat="bike">
-        <div class="gallery-thumb g-placeholder g-p6">🏍️<br><small style="font-size:14px;color:#60c8c8">বাজাজ</small>
-        </div>
-        <div class="gallery-overlay">
-          <div class="gallery-overlay-content">
-            <h4>বাজাজ পালসার — নীল কভার</h4>
-            <p>মোটরসাইকেল · কাস্টম</p>
-          </div>
-        </div>
-      </div>
+      <!-- Dynamically rendered by JS -->
     </div>
   </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+    <div class="lightbox-inner">
+      <button class="lightbox-nav-btn lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+      <button class="lightbox-nav-btn lightbox-next" onclick="lightboxNav(+1)">›</button>
+      <div class="lightbox-img-wrap" id="lightboxImgWrap">
+        <!-- filled by JS -->
+      </div>
+      <div class="lightbox-info-bar">
+        <div class="lightbox-info-text">
+          <div class="lightbox-info-cat" id="lightboxCat"></div>
+          <div class="lightbox-info-title" id="lightboxTitle"></div>
+        </div>
+        <div class="lightbox-info-actions">
+          <span class="lightbox-counter" id="lightboxCounter"></span>
+          <div class="lightbox-close-btn" onclick="closeLightbox()">✕</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- SAMPLES: REXINE & LEATHER -->
   <section id="samples">
@@ -2842,13 +3199,200 @@
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-    // ─── GALLERY FILTER ──────────────────────────────────────────────────────────
+    // ─── GALLERY SYSTEM ──────────────────────────────────────────────────────────
+    const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার' };
+    const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
+
+    const DEFAULT_GALLERY = [
+      { id: 'G1', title: 'টয়োটা করোলা — কালো রেক্সিন', cat: 'car', img: '', desc: 'কাস্টম ডিজাইন' },
+      { id: 'G2', title: 'হোন্ডা সিটি — লেদার ফিনিশ', cat: 'car', img: '', desc: 'প্রিমিয়াম লেদার' },
+      { id: 'G3', title: 'হোন্ডা CR-V — বেইজ রেক্সিন', cat: 'car', img: '', desc: 'SUV সিট কভার' },
+      { id: 'G4', title: 'Toyota Allion — ধূসর রেক্সিন', cat: 'car', img: '', desc: 'সম্পূর্ণ নতুন' },
+      { id: 'G5', title: 'প্রিমিও — কফি স্টিচ কভার', cat: 'car', img: '', desc: 'ডুয়াল টোন ফিনিশ' },
+      { id: 'G6', title: 'Axio — বক্স কোয়িল্ট সিট', cat: 'car', img: '', desc: 'এক্সিকিউটিভ লুক' },
+      { id: 'G7', title: 'Noah — ফ্যামিলি ভ্যান কভার', cat: 'car', img: '', desc: 'ফুল সেট ইনস্টল' },
+      { id: 'G8', title: 'ইয়ামাহা R15 — লাল রেক্সিন', cat: 'bike', img: '', desc: 'নতুন তৈরি' },
+      { id: 'G9', title: 'বাজাজ পালসার — নীল রেক্সিন', cat: 'bike', img: '', desc: 'কাস্টম ডিজাইন' },
+      { id: 'G10', title: 'হোন্ডা হর্নেট — ব্ল্যাক গ্রিপ', cat: 'bike', img: '', desc: 'স্পোর্টি প্যাটার্ন' },
+      { id: 'G11', title: 'Suzuki Gixxer — ম্যাট ফিনিশ', cat: 'bike', img: '', desc: 'রাইডার কমফোর্ট' },
+      { id: 'G12', title: 'Yamaha FZS — ডাবল স্টিচ', cat: 'bike', img: '', desc: 'ডেইলি ইউজ সেটআপ' },
+      { id: 'G13', title: 'Honda CB Shine — সফট টপ', cat: 'bike', img: '', desc: 'টেকসই ফিটিং' },
+      { id: 'G14', title: 'সিট কভার রিপেয়ার কাজ', cat: 'repair', img: '', desc: 'মেরামত ও পুনরুদ্ধার' },
+      { id: 'G15', title: 'মোটরসাইকেল সিট রিপেয়ার', cat: 'repair', img: '', desc: 'দ্রুত সার্ভিস' },
+      { id: 'G16', title: 'ফাটা রেক্সিন জোড়া দেওয়া', cat: 'repair', img: '', desc: 'নতুনের মতো ফিনিশ' },
+      { id: 'G17', title: 'পুরনো সেলাই রিফ্রেশ', cat: 'repair', img: '', desc: 'স্টিচ রিকভার' },
+      { id: 'G18', title: 'হোম ফিটিং ফাইনাল টাচ', cat: 'repair', img: '', desc: 'ডেলিভারি রেডি' },
+    ];
+
+    let allGallery = [];
+    let galleryFilter = 'all';
+    let lightboxItems = [];
+    let lightboxIdx = 0;
+    let galleryResizeFrame = 0;
+
+    function loadGallery() {
+      const stored = localStorage.getItem('ac_gallery');
+      try {
+        const parsed = stored ? JSON.parse(stored) : DEFAULT_GALLERY;
+        allGallery = Array.isArray(parsed) ? parsed : DEFAULT_GALLERY;
+      }
+      catch { allGallery = DEFAULT_GALLERY; }
+      renderGallery();
+    }
+
     function filterGallery(cat, btn) {
+      galleryFilter = cat;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.querySelectorAll('.gallery-item').forEach(item => {
-        item.style.display = (cat === 'all' || item.dataset.cat === cat) ? '' : 'none';
-      });
+      renderGallery();
+    }
+
+    function getFilteredGallery() {
+      return galleryFilter === 'all'
+        ? allGallery
+        : allGallery.filter(g => g.cat === galleryFilter);
+    }
+
+    function renderGallery() {
+      const filtered = getFilteredGallery();
+      lightboxItems = filtered;
+
+      const grid = document.getElementById('galleryGrid');
+
+      if (!filtered.length) {
+        grid.innerHTML = `<div class="gallery-empty">
+      <span class="gallery-empty-icon">📷</span>
+      <p>এই ক্যাটাগরিতে কোনো ছবি নেই।</p>
+    </div>`;
+        updateGalleryCount(0);
+        return;
+      }
+
+      const primaryGroup = `<div class="gallery-marquee-group">${filtered.map((g, i) => galleryCard(g, i)).join('')}</div>`;
+      const duplicateGroup = filtered.length > 1
+        ? `<div class="gallery-marquee-group" aria-hidden="true">${filtered.map((g, i) => galleryCard(g, i)).join('')}</div>`
+        : '';
+
+      grid.innerHTML = `<div class="gallery-marquee-shell">
+      <div class="gallery-marquee-viewport">
+        <div class="gallery-marquee-track${filtered.length > 1 ? ' is-animated' : ''}" id="galleryMarqueeTrack">
+          ${primaryGroup}
+          ${duplicateGroup}
+        </div>
+      </div>
+    </div>`;
+
+      updateGalleryCount(filtered.length);
+      syncGalleryMarquee();
+    }
+
+    function updateGalleryCount(total) {
+      document.getElementById('galleryTotalCount').textContent = total;
+    }
+
+    function syncGalleryMarquee() {
+      const track = document.getElementById('galleryMarqueeTrack');
+      if (!track) return;
+
+      const groups = track.querySelectorAll('.gallery-marquee-group');
+      if (groups.length < 2 || lightboxItems.length < 2) {
+        track.classList.remove('is-animated');
+        track.style.removeProperty('--gallery-marquee-distance');
+        track.style.removeProperty('--gallery-marquee-duration');
+        return;
+      }
+
+      const computed = getComputedStyle(track);
+      const gap = parseFloat(computed.gap || computed.columnGap || 18) || 18;
+      const groupWidth = groups[0].scrollWidth;
+      const distance = groupWidth + gap;
+      const duration = Math.min(240, Math.max(28, distance / 85));
+
+      track.style.setProperty('--gallery-marquee-distance', `${distance}px`);
+      track.style.setProperty('--gallery-marquee-duration', `${duration}s`);
+    }
+
+    function galleryCard(g, idx) {
+      const catLabel = CAT_LABELS[g.cat] || g.cat;
+      const catIcon = CAT_ICONS[g.cat] || '📷';
+      const inner = g.img
+        ? `<img class="gallery-item-img" src="${g.img}" alt="${g.title}" loading="lazy" decoding="async" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex';this.style.display='none'">`
+        : '';
+      const placeholder = `<div class="gallery-item-placeholder">
+      <span class="gallery-item-placeholder-icon">${catIcon}</span>
+      <span class="gallery-item-placeholder-label">${catLabel}</span>
+    </div>`;
+
+      return `<div class="gallery-item" data-cat="${g.cat}" data-idx="${idx}" onclick="openLightbox(${idx})">
+    ${inner}
+    ${placeholder}
+    <div class="gallery-overlay">
+      <div class="gallery-overlay-zoom">🔍</div>
+      <div class="gallery-overlay-cat">${catLabel}</div>
+      <div class="gallery-overlay-title">${g.title}</div>
+      <div class="gallery-overlay-desc">${g.desc || 'ডিটেইল দেখতে ক্লিক করুন'}</div>
+    </div>
+  </div>`;
+    }
+
+    function openLightbox(idx) {
+      lightboxIdx = idx;
+      renderLightbox();
+      document.getElementById('lightboxOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+      if (e && e.target !== document.getElementById('lightboxOverlay') && !e.currentTarget.classList.contains('lightbox-close-btn')) return;
+      document.getElementById('lightboxOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function lightboxNav(dir) {
+      if (!lightboxItems.length) return;
+      lightboxIdx = (lightboxIdx + dir + lightboxItems.length) % lightboxItems.length;
+      renderLightbox();
+    }
+
+    function renderLightbox() {
+      const g = lightboxItems[lightboxIdx];
+      if (!g) return;
+
+      const catLabel = CAT_LABELS[g.cat] || g.cat;
+      document.getElementById('lightboxCat').textContent = catLabel;
+      document.getElementById('lightboxTitle').textContent = g.title;
+      document.getElementById('lightboxCounter').textContent = `${lightboxIdx + 1} / ${lightboxItems.length}`;
+
+      const wrap = document.getElementById('lightboxImgWrap');
+      if (g.img) {
+        wrap.innerHTML = `<img src="${g.img}" alt="${g.title}" onerror="this.outerHTML='<div class=\\'lightbox-placeholder-full\\'><span>${CAT_ICONS[g.cat] || '📷'}</span><small style=\\'font-size:14px;color:var(--cream-dim)\\'>${g.title}</small></div>'">`;
+      } else {
+        const icon = CAT_ICONS[g.cat] || '📷';
+        wrap.innerHTML = `<div class="lightbox-placeholder-full">
+      <span>${icon}</span>
+      <small style="font-size:14px;color:var(--cream-dim)">${g.title}</small>
+    </div>`;
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
+      if (e.key === 'ArrowRight') lightboxNav(+1);
+      if (e.key === 'ArrowLeft') lightboxNav(-1);
+      if (e.key === 'Escape') {
+        document.getElementById('lightboxOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(galleryResizeFrame);
+      galleryResizeFrame = requestAnimationFrame(syncGalleryMarquee);
+    });
+
+    window.addEventListener('load', syncGalleryMarquee);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncGalleryMarquee);
     }
 
     // ─── TOAST ───────────────────────────────────────────────────────────────────
@@ -3128,6 +3672,7 @@
 
     // ─── INIT ─────────────────────────────────────────────────────────────────────
     loadSamples();
+    loadGallery();
   </script>
 </body>
 
