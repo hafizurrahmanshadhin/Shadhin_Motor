@@ -190,9 +190,10 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">মূল কনটেন্টে যান</a>
 
   <!-- NAVBAR -->
-  <nav id="navbar">
+  <nav id="navbar" aria-label="Primary navigation">
     <a href="#" class="nav-logo">
       <div class="nav-logo-icon">
         <!-- Shadhin Motor seat cover logo -->
@@ -234,7 +235,7 @@
         <span class="nav-logo-sub">Seat Cover Specialist</span>
       </div>
     </a>
-    <ul class="nav-links" id="navLinks">
+    <ul class="nav-links" id="navLinks" aria-label="প্রধান মেনু">
       <li><a href="#services">সার্ভিস</a></li>
       <li><a href="#gallery">গ্যালারি</a></li>
       <li><a href="#samples">স্যাম্পল</a></li>
@@ -244,9 +245,15 @@
       <li><a href="#reviews">রিভিউ</a></li>
       <li><a href="#contact" class="nav-cta">অর্ডার করুন</a></li>
     </ul>
-    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+    <button
+      type="button"
+      class="hamburger"
+      id="hamburger"
+      aria-controls="navLinks"
+      aria-expanded="false"
+      aria-label="মেনু খুলুন">
       <span></span><span></span><span></span>
-    </div>
+    </button>
   </nav>
 
   <main id="main-content">
@@ -358,10 +365,10 @@
 
     <div class="gallery-toolbar reveal">
       <div class="gallery-filter">
-        <button class="filter-btn active" onclick="filterGallery('all', this)">সব</button>
-        <button class="filter-btn" onclick="filterGallery('car', this)">🚗 প্রাইভেট কার</button>
-        <button class="filter-btn" onclick="filterGallery('bike', this)">🏍️ মোটরসাইকেল</button>
-        <button class="filter-btn" onclick="filterGallery('repair', this)">🔧 রিপেয়ার</button>
+        <button class="filter-btn active" type="button" data-gallery-filter="all">সব</button>
+        <button class="filter-btn" type="button" data-gallery-filter="car">🚗 প্রাইভেট কার</button>
+        <button class="filter-btn" type="button" data-gallery-filter="bike">🏍️ মোটরসাইকেল</button>
+        <button class="filter-btn" type="button" data-gallery-filter="repair">🔧 রিপেয়ার</button>
       </div>
       <div class="gallery-toolbar-meta">
         <div class="gallery-count-info">
@@ -377,10 +384,10 @@
   </section>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+  <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" aria-hidden="true">
     <div class="lightbox-inner">
-      <button class="lightbox-nav-btn lightbox-prev" onclick="lightboxNav(-1)">‹</button>
-      <button class="lightbox-nav-btn lightbox-next" onclick="lightboxNav(+1)">›</button>
+      <button type="button" class="lightbox-nav-btn lightbox-prev" id="lightboxPrevBtn" aria-label="পূর্বের ছবি">‹</button>
+      <button type="button" class="lightbox-nav-btn lightbox-next" id="lightboxNextBtn" aria-label="পরের ছবি">›</button>
       <div class="lightbox-img-wrap" id="lightboxImgWrap">
         <!-- filled by JS -->
       </div>
@@ -391,7 +398,7 @@
         </div>
         <div class="lightbox-info-actions">
           <span class="lightbox-counter" id="lightboxCounter"></span>
-          <div class="lightbox-close-btn" onclick="closeLightbox()">✕</div>
+          <button type="button" class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="বন্ধ করুন">✕</button>
         </div>
       </div>
     </div>
@@ -418,10 +425,10 @@
         </div>
       </div>
       <div class="selected-sample-bar-actions">
-        <a href="#contact" class="btn-primary selected-sample-order-btn" onclick="scrollToOrder()">
+        <a href="#contact" class="btn-primary selected-sample-order-btn" id="selectedSampleOrderBtn">
           📋 এই স্যাম্পলে অর্ডার দিন
         </a>
-        <button onclick="clearSelectedSample()" class="btn-secondary selected-sample-clear-btn">✕
+        <button type="button" id="selectedSampleClearBtn" class="btn-secondary selected-sample-clear-btn">✕
           বাতিল</button>
       </div>
     </div>
@@ -429,9 +436,9 @@
     <!-- Toolbar: filter + view all -->
     <div class="samples-toolbar reveal">
       <div class="samples-filter-group">
-        <button class="sample-filter-btn active" onclick="filterSamples('all', this)">সব</button>
-        <button class="sample-filter-btn" onclick="filterSamples('rexine', this)">🪡 রেক্সিন</button>
-        <button class="sample-filter-btn" onclick="filterSamples('leather', this)">🧥 লেদার</button>
+        <button class="sample-filter-btn active" type="button" data-sample-filter="all">সব</button>
+        <button class="sample-filter-btn" type="button" data-sample-filter="rexine">🪡 রেক্সিন</button>
+        <button class="sample-filter-btn" type="button" data-sample-filter="leather">🧥 লেদার</button>
       </div>
       <div class="samples-toolbar-actions">
         <div class="samples-count-info" id="samplesCountInfo">হোমপেজে ১০টি বাছাই করা স্যাম্পল</div>
@@ -453,13 +460,13 @@
   </section>
 
   <!-- SAMPLE DETAIL MODAL -->
-  <div class="sample-modal-overlay" id="sampleModal">
-    <div class="sample-modal">
+  <div class="sample-modal-overlay" id="sampleModal" aria-hidden="true">
+    <div class="sample-modal" role="dialog" aria-modal="true" aria-labelledby="sampleModalName">
       <div class="sample-modal-swatch" id="sampleModalSwatch">
-        <img src="" id="sampleModalImg" alt="" onerror="this.style.display='none'">
+        <img src="" id="sampleModalImg" alt="">
         <span id="sampleModalSwatchFallback" class="sample-modal-swatch-fallback">🪑</span>
       </div>
-      <div class="sample-modal-close" onclick="closeSampleModal()">✕</div>
+      <button type="button" class="sample-modal-close" id="sampleModalCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="sample-modal-body">
         <div class="sample-modal-id" id="sampleModalId"></div>
         <div class="sample-modal-name" id="sampleModalName"></div>
@@ -486,8 +493,7 @@
         </div>
         <div id="sampleModalNote" class="sample-modal-note">
         </div>
-        <button id="sampleModalOrderBtn" class="btn-primary sample-modal-order-btn"
-          onclick="selectFromModal()">
+        <button type="button" id="sampleModalOrderBtn" class="btn-primary sample-modal-order-btn">
           ✅ এই স্যাম্পল নির্বাচন করুন
         </button>
       </div>
@@ -868,7 +874,7 @@
         </div>
       </div>
       <div class="reveal reveal-delay-15">
-        <div class="order-form" id="orderForm">
+        <form class="order-form" id="orderForm" novalidate>
           <!-- Selected sample strip -->
           <div id="formSampleStrip" class="form-sample-strip">
             <div class="form-sample-strip-row">
@@ -881,25 +887,25 @@
                   <div id="formSampleLabel" class="form-sample-label"></div>
                 </div>
               </div>
-              <button onclick="clearSelectedSample()" class="form-sample-clear-btn">✕
+              <button type="button" id="formSampleClearBtn" class="form-sample-clear-btn">✕
                 পরিবর্তন করুন</button>
             </div>
           </div>
           <input type="hidden" id="selectedSampleId">
           <div class="form-row">
             <div class="form-group">
-              <label>আপনার নাম *</label>
-              <input type="text" id="custName" placeholder="পূর্ণ নাম লিখুন">
+              <label for="custName">আপনার নাম *</label>
+              <input type="text" id="custName" name="custName" placeholder="পূর্ণ নাম লিখুন" autocomplete="name" required>
             </div>
             <div class="form-group">
-              <label>ফোন নম্বর *</label>
-              <input type="tel" id="custPhone" placeholder="01XXX-XXXXXX">
+              <label for="custPhone">ফোন নম্বর *</label>
+              <input type="tel" id="custPhone" name="custPhone" placeholder="01XXX-XXXXXX" autocomplete="tel" inputmode="tel" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
-              <label>গাড়ির ধরন *</label>
-              <select id="vehicleType">
+              <label for="vehicleType">গাড়ির ধরন *</label>
+              <select id="vehicleType" name="vehicleType" required>
                 <option value="">বেছে নিন</option>
                 <option>প্রাইভেট কার</option>
                 <option>SUV / Jeep</option>
@@ -908,13 +914,13 @@
               </select>
             </div>
             <div class="form-group">
-              <label>গাড়ির মডেল</label>
-              <input type="text" id="carModel" placeholder="যেমন: Toyota Corolla">
+              <label for="carModel">গাড়ির মডেল</label>
+              <input type="text" id="carModel" name="carModel" placeholder="যেমন: Toyota Corolla" autocomplete="off">
             </div>
           </div>
           <div class="form-group">
-            <label>সার্ভিসের ধরন *</label>
-            <select id="serviceType">
+            <label for="serviceType">সার্ভিসের ধরন *</label>
+            <select id="serviceType" name="serviceType" required>
               <option value="">বেছে নিন</option>
               <option>নতুন সিট কভার তৈরি</option>
               <option>সিট কভার রিপেয়ার</option>
@@ -923,8 +929,8 @@
             </select>
           </div>
           <div class="form-group" id="materialGroup">
-            <label>মেটেরিয়াল পছন্দ</label>
-            <select id="material">
+            <label for="material">মেটেরিয়াল পছন্দ</label>
+            <select id="material" name="material">
               <option value="">বেছে নিন</option>
               <option>রেক্সিন (Rexine)</option>
               <option>চামড়া (Leather)</option>
@@ -932,23 +938,23 @@
             </select>
           </div>
           <div class="form-group">
-            <label>বিস্তারিত / বিশেষ অনুরোধ</label>
-            <textarea id="orderDetails" placeholder="ডিজাইনের বিবরণ, রং পছন্দ বা অন্য কোনো তথ্য জানান..."></textarea>
+            <label for="orderDetails">বিস্তারিত / বিশেষ অনুরোধ</label>
+            <textarea id="orderDetails" name="orderDetails" placeholder="ডিজাইনের বিবরণ, রং পছন্দ বা অন্য কোনো তথ্য জানান..."></textarea>
           </div>
-          <button class="btn-primary form-submit" onclick="submitOrder()">
+          <button type="submit" class="btn-primary form-submit" id="orderFormSubmitBtn">
             📋 অর্ডার জমা দিন
           </button>
           <p class="form-note">
             ফর্ম জমা দেওয়ার পর আমরা আপনার সাথে যোগাযোগ করব। স্যাম্পল ID উল্লেখ করলে সঠিক মূল্য তাৎক্ষণিক জানানো যাবে।
           </p>
-        </div>
+        </form>
       </div>
     </div>
   </section>
 
-  <div class="confirm-modal-overlay" id="sampleConfirmModal">
-    <div class="confirm-modal">
-      <button type="button" class="confirm-modal-close" onclick="closeSampleConfirmModal()" aria-label="বন্ধ করুন">✕</button>
+  <div class="confirm-modal-overlay" id="sampleConfirmModal" aria-hidden="true">
+    <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="sampleConfirmTitle">
+      <button type="button" class="confirm-modal-close" id="sampleConfirmCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="confirm-modal-badge" id="sampleConfirmBadge">স্যাম্পল এখনো বাছাই করা হয়নি</div>
       <h3 class="confirm-modal-title" id="sampleConfirmTitle">Sample ID ছাড়া অর্ডার জমা দিতে চান?</h3>
       <p class="confirm-modal-copy" id="sampleConfirmCopy">
@@ -966,10 +972,10 @@
         </div>
       </div>
       <div class="confirm-modal-actions">
-        <button type="button" class="btn-secondary confirm-modal-select-btn" id="sampleConfirmSecondaryBtn" onclick="handleOrderConfirmSecondaryAction()">
+        <button type="button" class="btn-secondary confirm-modal-select-btn" id="sampleConfirmSecondaryBtn">
           🪡 আগে স্যাম্পল বেছে নেব
         </button>
-        <button type="button" class="btn-primary confirm-modal-submit-btn" id="sampleConfirmPrimaryBtn" onclick="confirmSubmitOrder()">
+        <button type="button" class="btn-primary confirm-modal-submit-btn" id="sampleConfirmPrimaryBtn">
           ✅ স্যাম্পল ছাড়া অর্ডার জমা দিন
         </button>
       </div>
@@ -1213,7 +1219,7 @@
   </footer>
 
   <!-- TOAST -->
-  <div class="toast" id="toast">
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
     <div class="toast-title" id="toastTitle"></div>
     <div id="toastMsg"></div>
   </div>

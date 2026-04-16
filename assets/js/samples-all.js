@@ -19,6 +19,15 @@ let allSamples = [];
 let currentFilter = 'all';
 let currentSearch = '';
 let modalSample = null;
+let lastSampleTrigger = null;
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])'
+].join(', ');
 
 function normalizeSampleMaterial(value) {
   const raw = String(value || '').trim().toLowerCase();
@@ -110,7 +119,10 @@ function renderSamplesCatalog() {
   const grid = document.getElementById('samplesCatalogGrid');
 
   document.querySelectorAll('.sample-filter-btn[data-filter]').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+    const isActive = btn.dataset.filter === currentFilter;
+    btn.classList.toggle('active', isActive);
+    if (isActive) btn.setAttribute('aria-current', 'true');
+    else btn.removeAttribute('aria-current');
   });
 
   updateCatalogSummary(filtered.length);
@@ -126,9 +138,21 @@ function renderSamplesCatalog() {
 
   grid.innerHTML = filtered.map(sampleCard).join('');
 
+  grid.querySelectorAll('.sample-card-swatch img').forEach(imageEl => {
+    imageEl.addEventListener('error', () => {
+      imageEl.remove();
+    }, { once: true });
+  });
+
   grid.querySelectorAll('.sample-card[data-sample-id]').forEach(card => {
     if (card.classList.contains('out-of-stock')) return;
-    card.addEventListener('click', () => openSampleModal(card.dataset.sampleId));
+    card.addEventListener('click', () => openSampleModal(card.dataset.sampleId, card));
+    card.addEventListener('keydown', event => {
+      if (event.target.closest('[data-order-sample-id]')) return;
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openSampleModal(card.dataset.sampleId, card);
+    });
   });
 
   grid.querySelectorAll('[data-order-sample-id]').forEach(button => {
@@ -145,7 +169,7 @@ function sampleCard(sample) {
     : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
 
   const swatchContent = sample.img
-    ? `<img src="${sample.img}" alt="${sample.name}" loading="lazy" decoding="async" onerror="this.remove()">
+    ? `<img src="${sample.img}" alt="${sample.name}" loading="lazy" decoding="async">
        <span class="swatch-no-img">${sample.material === 'rexine' ? '🪡' : '🧥'}</span>`
     : `<span class="swatch-no-img">${sample.material === 'rexine' ? '🪡' : '🧥'}</span>`;
 
@@ -153,7 +177,11 @@ function sampleCard(sample) {
     ? '<div class="sample-card-featured-badge">জনপ্রিয় পছন্দ</div>'
     : '';
 
-  return `<article class="sample-card ${sample.available ? '' : 'out-of-stock'}" data-sample-id="${sample.id}">
+  const cardAttrs = sample.available
+    ? `data-sample-id="${sample.id}" tabindex="0" aria-label="${sample.id} ${sample.name}"`
+    : 'aria-disabled="true"';
+
+  return `<article class="sample-card ${sample.available ? '' : 'out-of-stock'}" ${cardAttrs}>
     <div class="sample-card-swatch" style="background-color: ${sample.hex};">
       ${swatchContent}
       ${featuredBadge}
@@ -170,17 +198,20 @@ function sampleCard(sample) {
         <span class="sample-card-color-name">${sample.color}</span>
       </div>
       ${sample.note ? `<p class="sample-card-note">${sample.note}</p>` : ''}
-      <button class="sample-card-order-btn" data-order-sample-id="${sample.id}">
+      <button type="button" class="sample-card-order-btn" data-order-sample-id="${sample.id}" ${sample.available ? '' : 'disabled'}>
         ${sample.available ? 'অর্ডার শুরু করুন' : 'স্টক নেই'}
       </button>
     </div>
   </article>`;
 }
 
-function openSampleModal(id) {
+function openSampleModal(id, triggerEl = null) {
   const sample = allSamples.find(item => item.id === id);
   if (!sample) return;
   modalSample = sample;
+  lastSampleTrigger = triggerEl instanceof HTMLElement
+    ? triggerEl
+    : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
 
   document.getElementById('sampleModalId').textContent = `Sample ID: ${sample.id}`;
   document.getElementById('sampleModalIdVal').textContent = sample.id;
@@ -204,6 +235,7 @@ function openSampleModal(id) {
   swatchEl.style.backgroundColor = sample.hex;
   const imgEl = document.getElementById('sampleModalImg');
   imgEl.src = sample.img || '';
+  imgEl.alt = `${sample.name} (${sample.id})`;
   imgEl.style.display = sample.img ? '' : 'none';
   imgEl.onerror = () => { imgEl.style.display = 'none'; };
   document.getElementById('sampleModalSwatchFallback').textContent = sample.material === 'rexine' ? '🪡' : '🧥';
@@ -219,13 +251,20 @@ function openSampleModal(id) {
     button.style.pointerEvents = '';
   }
 
-  document.getElementById('sampleModal').classList.add('open');
+  const modalOverlay = document.getElementById('sampleModal');
+  modalOverlay.classList.add('open');
+  modalOverlay.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
+  const firstFocusable = modalOverlay.querySelector(FOCUSABLE_SELECTOR);
+  if (firstFocusable) firstFocusable.focus();
 }
 
 function closeSampleModal() {
-  document.getElementById('sampleModal').classList.remove('open');
+  const modalOverlay = document.getElementById('sampleModal');
+  modalOverlay.classList.remove('open');
+  modalOverlay.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
+  if (lastSampleTrigger) lastSampleTrigger.focus();
 }
 
 function orderSample(sampleId) {

@@ -1,8 +1,24 @@
     // ─── NAVBAR ─────────────────────────────────────────────────────────────────
     const navbar = document.getElementById('navbar');
+    const navLinksContainer = document.getElementById('navLinks');
+    const hamburgerBtn = document.getElementById('hamburger');
     const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
     const trackedSections = Array.from(document.querySelectorAll('section[id]'))
       .filter(section => navLinks.some(link => link.getAttribute('href') === `#${section.id}`));
+    const FOCUSABLE_SELECTOR = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+
+    function updateNavToggleButtonState(isOpen) {
+      if (!hamburgerBtn) return;
+      hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
+      hamburgerBtn.setAttribute('aria-label', isOpen ? 'মেনু বন্ধ করুন' : 'মেনু খুলুন');
+    }
 
     function setActiveNavLink(targetId = '') {
       navLinks.forEach(link => {
@@ -31,16 +47,47 @@
     window.addEventListener('hashchange', updateActiveNavLink);
     updateActiveNavLink();
 
-    function toggleNav() {
-      document.getElementById('navLinks').classList.toggle('open');
+    function toggleNav(forceOpen) {
+      if (!navLinksContainer) return;
+
+      const nextState = typeof forceOpen === 'boolean'
+        ? forceOpen
+        : !navLinksContainer.classList.contains('open');
+
+      navLinksContainer.classList.toggle('open', nextState);
+      updateNavToggleButtonState(nextState);
     }
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener('click', () => toggleNav());
+    }
+
     document.querySelectorAll('.nav-links a').forEach(a => {
       a.addEventListener('click', () => {
-        document.getElementById('navLinks').classList.remove('open');
+        toggleNav(false);
         const targetId = a.getAttribute('href');
         if (targetId && targetId.startsWith('#')) setActiveNavLink(targetId);
       });
     });
+
+    document.addEventListener('click', event => {
+      if (!navLinksContainer || !hamburgerBtn || !navbar) return;
+      if (!navLinksContainer.classList.contains('open')) return;
+
+      const clickTarget = event.target;
+      if (clickTarget instanceof Node && navbar.contains(clickTarget)) return;
+      toggleNav(false);
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape') return;
+      if (!navLinksContainer || !navLinksContainer.classList.contains('open')) return;
+
+      toggleNav(false);
+      hamburgerBtn?.focus();
+    });
+
+    updateNavToggleButtonState(false);
 
     document.querySelectorAll('.faq-item').forEach(item => {
       item.addEventListener('toggle', () => {
@@ -243,6 +290,27 @@
 
     const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
     const REVIEW_VIDEO_EXT_RE = /\.(3gp|avi|m4v|mkv|mov|mp4|ogg|ogv|webm)$/i;
+    const modalFocusState = {
+      lightboxTrigger: null,
+      sampleTrigger: null,
+      sampleConfirmTrigger: null,
+      reviewSubmitTrigger: null
+    };
+
+    function getFirstFocusable(container) {
+      return container?.querySelector(FOCUSABLE_SELECTOR) || null;
+    }
+
+    function focusFirstIn(container) {
+      const firstFocusable = getFirstFocusable(container);
+      if (firstFocusable) firstFocusable.focus();
+    }
+
+    function restoreFocus(target) {
+      if (!(target instanceof HTMLElement)) return;
+      if (typeof target.focus !== 'function') return;
+      target.focus();
+    }
 
     function getReviewFileKind(file) {
       if (!file) return 'unknown';
@@ -1158,10 +1226,14 @@
     function openReviewModal() {
       const modal = document.getElementById('reviewSubmitModal');
       if (!modal) return;
+      modalFocusState.reviewSubmitTrigger = document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
       updateReviewFileMeta();
+      focusFirstIn(modal);
     }
 
     function closeReviewModal() {
@@ -1172,6 +1244,7 @@
       closeReviewSubmitConfirm();
       releaseReviewUploadPreviewUrls();
       syncBodyScrollLockState();
+      restoreFocus(modalFocusState.reviewSubmitTrigger);
     }
 
     function updateReviewFileMeta() {
@@ -1599,10 +1672,19 @@
       renderGallery();
     }
 
+    function setActiveGalleryFilterButton(filterValue) {
+      document.querySelectorAll('[data-gallery-filter]').forEach(button => {
+        const isActive = button.dataset.galleryFilter === filterValue;
+        button.classList.toggle('active', isActive);
+        if (isActive) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
     function filterGallery(cat, btn) {
       galleryFilter = cat;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      if (btn) setActiveGalleryFilterButton(btn.dataset.galleryFilter || cat);
+      else setActiveGalleryFilterButton(cat);
       renderGallery();
     }
 
@@ -1615,6 +1697,7 @@
     function renderGallery() {
       const filtered = getFilteredGallery();
       lightboxItems = filtered;
+      setActiveGalleryFilterButton(galleryFilter);
 
       const grid = document.getElementById('galleryGrid');
 
@@ -1643,6 +1726,8 @@
 
       updateGalleryCount(filtered.length);
       syncGalleryMarquee();
+      bindGalleryCardAccessibility(grid);
+      bindGalleryCardImages(grid);
     }
 
     function updateGalleryCount(total) {
@@ -1792,18 +1877,64 @@
       viewport.ondragstart = () => false;
     }
 
+    function bindGalleryCardAccessibility(root) {
+      if (!root) return;
+
+      root.querySelectorAll('.gallery-item[data-idx]').forEach(card => {
+        card.addEventListener('click', () => {
+          const idx = Number(card.dataset.idx || '-1');
+          if (!Number.isInteger(idx) || idx < 0) return;
+          openLightbox(idx, card);
+        });
+
+        card.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+
+          const idx = Number(card.dataset.idx || '-1');
+          if (!Number.isInteger(idx) || idx < 0) return;
+          openLightbox(idx, card);
+        });
+      });
+    }
+
+    function bindGalleryCardImages(root) {
+      if (!root) return;
+
+      root.querySelectorAll('.gallery-item-img').forEach(img => {
+        const item = img.closest('.gallery-item');
+        const placeholder = item?.querySelector('.gallery-item-placeholder');
+        if (!placeholder) return;
+
+        const hidePlaceholder = () => {
+          placeholder.style.display = 'none';
+          img.style.display = '';
+        };
+
+        const showPlaceholder = () => {
+          placeholder.style.display = 'flex';
+          img.style.display = 'none';
+        };
+
+        img.addEventListener('load', hidePlaceholder, { once: true });
+        img.addEventListener('error', showPlaceholder, { once: true });
+
+        if (img.complete && img.naturalWidth > 0) hidePlaceholder();
+      });
+    }
+
     function galleryCard(g, idx) {
       const catLabel = CAT_LABELS[g.cat] || g.cat;
       const catIcon = CAT_ICONS[g.cat] || '📷';
       const inner = g.img
-        ? `<img class="gallery-item-img" src="${g.img}" alt="${g.title}" loading="lazy" decoding="async" onload="this.parentElement.querySelector('.gallery-item-placeholder').style.display='none'" onerror="this.parentElement.querySelector('.gallery-item-placeholder').style.display='flex';this.style.display='none'">`
+        ? `<img class="gallery-item-img" src="${g.img}" alt="${g.title}" loading="lazy" decoding="async">`
         : '';
       const placeholder = `<div class="gallery-item-placeholder">
       <span class="gallery-item-placeholder-icon">${catIcon}</span>
       <span class="gallery-item-placeholder-label">${catLabel}</span>
     </div>`;
 
-      return `<div class="gallery-item" data-cat="${g.cat}" data-idx="${idx}" onclick="openLightbox(${idx})">
+      return `<div class="gallery-item" data-cat="${g.cat}" data-idx="${idx}" role="button" tabindex="0" aria-label="${catLabel}: ${g.title}">
     ${inner}
     ${placeholder}
     <div class="gallery-overlay">
@@ -1815,18 +1946,30 @@
   </div>`;
     }
 
-    function openLightbox(idx) {
+    function openLightbox(idx, triggerEl = null) {
       if (gallerySuppressClick) return;
+      modalFocusState.lightboxTrigger = triggerEl instanceof HTMLElement
+        ? triggerEl
+        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
       lightboxIdx = idx;
       renderLightbox();
-      document.getElementById('lightboxOverlay').classList.add('open');
+      const overlay = document.getElementById('lightboxOverlay');
+      if (!overlay) return;
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
+      document.getElementById('lightboxCloseBtn')?.focus();
     }
 
     function closeLightbox(e) {
-      if (e && e.target !== document.getElementById('lightboxOverlay') && !e.currentTarget.classList.contains('lightbox-close-btn')) return;
-      document.getElementById('lightboxOverlay').classList.remove('open');
+      const overlay = document.getElementById('lightboxOverlay');
+      if (!overlay) return;
+      if (e && e.target !== overlay) return;
+
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
+      restoreFocus(modalFocusState.lightboxTrigger);
     }
 
     function lightboxNav(dir) {
@@ -1846,7 +1989,16 @@
 
       const wrap = document.getElementById('lightboxImgWrap');
       if (g.img) {
-        wrap.innerHTML = `<img src="${g.img}" alt="${g.title}" onerror="this.outerHTML='<div class=\\'lightbox-placeholder-full\\'><span>${CAT_ICONS[g.cat] || '📷'}</span><small style=\\'font-size:14px;color:var(--cream-dim)\\'>${g.title}</small></div>'">`;
+        wrap.innerHTML = `<img src="${g.img}" alt="${g.title}">`;
+        const image = wrap.querySelector('img');
+        if (image) {
+          image.addEventListener('error', () => {
+            wrap.innerHTML = `<div class="lightbox-placeholder-full">
+      <span>${CAT_ICONS[g.cat] || '📷'}</span>
+      <small style="font-size:14px;color:var(--cream-dim)">${g.title}</small>
+    </div>`;
+          }, { once: true });
+        }
       } else {
         const icon = CAT_ICONS[g.cat] || '📷';
         wrap.innerHTML = `<div class="lightbox-placeholder-full">
@@ -1878,6 +2030,14 @@
         closeLightbox();
       }
     });
+
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    lightboxOverlay?.addEventListener('click', event => {
+      if (event.target === lightboxOverlay) closeLightbox(event);
+    });
+    document.getElementById('lightboxPrevBtn')?.addEventListener('click', () => lightboxNav(-1));
+    document.getElementById('lightboxNextBtn')?.addEventListener('click', () => lightboxNav(+1));
+    document.getElementById('lightboxCloseBtn')?.addEventListener('click', () => closeLightbox());
 
     window.addEventListener('resize', () => {
       cancelAnimationFrame(galleryResizeFrame);
@@ -1930,7 +2090,8 @@
     let selectedSample = null;
     let modalSample = null;
     const orderConfirmState = {
-      secondaryAction: 'choose-sample'
+      secondaryAction: 'choose-sample',
+      lastTrigger: null
     };
 
     function normalizeSampleMaterial(value) {
@@ -2060,10 +2221,19 @@
       return injectSelectedHomeSample(baseSamples);
     }
 
+    function setActiveSampleFilterButton(filterValue) {
+      document.querySelectorAll('[data-sample-filter]').forEach(button => {
+        const isActive = button.dataset.sampleFilter === filterValue;
+        button.classList.toggle('active', isActive);
+        if (isActive) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
+    }
+
     function filterSamples(f, btn) {
       currentFilter = f;
-      document.querySelectorAll('.sample-filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      if (btn) setActiveSampleFilterButton(btn.dataset.sampleFilter || f);
+      else setActiveSampleFilterButton(f);
       renderSamples();
     }
 
@@ -2072,6 +2242,7 @@
       const grid = document.getElementById('samplesGrid');
       const filtered = getFilteredSamples();
       updateSamplesOverview(filtered.length);
+      setActiveSampleFilterButton(currentFilter);
 
       if (filtered.length === 0) {
         grid.innerHTML = `<div class="samples-empty">
@@ -2088,13 +2259,17 @@
           : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
 
         const swatchContent = s.img
-          ? `<img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async" onerror="this.remove()">
+          ? `<img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async">
          <span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`
           : `<span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`;
 
+        const cardAttrs = s.available
+          ? `data-sample-id="${s.id}" tabindex="0" aria-label="${s.id} ${s.name}"`
+          : 'aria-disabled="true"';
+
         return `
     <div class="sample-card ${isSelected ? 'selected' : ''} ${!s.available ? 'out-of-stock' : ''}"
-         onclick="${s.available ? `openSampleModal('${s.id}')` : 'return'}">
+         ${cardAttrs}>
       <div class="sample-card-swatch" style="background-color: ${s.hex};">
         ${swatchContent}
         <div class="sample-card-selected-badge">✓</div>
@@ -2110,19 +2285,74 @@
           <div class="sample-card-color-dot" style="background:${s.hex}"></div>
           <span class="sample-card-color-name">${s.color}</span>
         </div>
-        <button class="sample-card-order-btn" onclick="event.stopPropagation(); ${s.available ? `selectSample('${s.id}')` : 'return'}">
+        <button type="button" class="sample-card-order-btn" data-select-sample-id="${s.id}" ${s.available ? '' : 'disabled'}>
           ${isSelected ? '✓ নির্বাচিত' : (s.available ? '+ অর্ডারে যোগ করুন' : 'স্টক নেই')}
         </button>
       </div>
     </div>`;
       }).join('');
+
+      bindSampleCardImages(grid);
+    }
+
+    function bindSampleCardImages(root) {
+      if (!root) return;
+
+      root.querySelectorAll('.sample-card-swatch img').forEach(img => {
+        const showFallback = () => {
+          img.remove();
+        };
+
+        img.addEventListener('error', showFallback, { once: true });
+      });
+    }
+
+    function initSamplesGridInteractions() {
+      const grid = document.getElementById('samplesGrid');
+      if (!grid || grid.dataset.accessibilityBound === 'true') return;
+
+      grid.addEventListener('click', event => {
+        const selectBtn = event.target.closest('[data-select-sample-id]');
+        if (selectBtn) {
+          event.stopPropagation();
+          const sampleId = selectBtn.dataset.selectSampleId;
+          if (sampleId) selectSample(sampleId);
+          return;
+        }
+
+        const card = event.target.closest('.sample-card[data-sample-id]');
+        if (!card || !grid.contains(card)) return;
+        const sampleId = card.dataset.sampleId;
+        if (!sampleId) return;
+
+        openSampleModal(sampleId, card);
+      });
+
+      grid.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        if (event.target.closest('[data-select-sample-id]')) return;
+
+        const card = event.target.closest('.sample-card[data-sample-id]');
+        if (!card || !grid.contains(card)) return;
+
+        event.preventDefault();
+        const sampleId = card.dataset.sampleId;
+        if (!sampleId) return;
+
+        openSampleModal(sampleId, card);
+      });
+
+      grid.dataset.accessibilityBound = 'true';
     }
 
     // Open sample detail modal
-    function openSampleModal(id) {
+    function openSampleModal(id, triggerEl = null) {
       const s = allSamples.find(x => x.id === id);
       if (!s) return;
       modalSample = s;
+      modalFocusState.sampleTrigger = triggerEl instanceof HTMLElement
+        ? triggerEl
+        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
 
       document.getElementById('sampleModalId').textContent = 'Sample ID: ' + s.id;
       document.getElementById('sampleModalIdVal').textContent = s.id;
@@ -2143,7 +2373,9 @@
       swatchEl.style.backgroundColor = s.hex;
       const imgEl = document.getElementById('sampleModalImg');
       imgEl.src = s.img || '';
+      imgEl.alt = `${s.name} (${s.id})`;
       imgEl.style.display = s.img ? '' : 'none';
+      imgEl.onerror = () => { imgEl.style.display = 'none'; };
       document.getElementById('sampleModalSwatchFallback').textContent = s.material === 'rexine' ? '🪡' : '🧥';
 
       // Order button
@@ -2159,17 +2391,26 @@
         btn.style.pointerEvents = '';
       }
 
-      document.getElementById('sampleModal').classList.add('open');
+      const modalOverlay = document.getElementById('sampleModal');
+      modalOverlay.classList.add('open');
+      modalOverlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
+      document.getElementById('sampleModalCloseBtn')?.focus();
     }
 
     function closeSampleModal() {
-      document.getElementById('sampleModal').classList.remove('open');
+      const modalOverlay = document.getElementById('sampleModal');
+      modalOverlay.classList.remove('open');
+      modalOverlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
+      restoreFocus(modalFocusState.sampleTrigger);
     }
+
     document.getElementById('sampleModal').addEventListener('click', function (e) {
       if (e.target === this) closeSampleModal();
     });
+    document.getElementById('sampleModalCloseBtn')?.addEventListener('click', closeSampleModal);
+    document.getElementById('sampleModalOrderBtn')?.addEventListener('click', selectFromModal);
 
     function selectFromModal() {
       if (!modalSample) return;
@@ -2248,6 +2489,10 @@
         ? (allSamples.find(item => item.id === sampleId) || selectedSample)
         : null;
 
+      orderConfirmState.lastTrigger = document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+
       if (sample) {
         orderConfirmState.secondaryAction = 'edit-order';
         badge.textContent = 'স্যাম্পল নির্বাচন করা হয়েছে';
@@ -2273,12 +2518,17 @@
       }
 
       modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
+      primaryBtn?.focus();
     }
 
     function closeSampleConfirmModal() {
-      document.getElementById('sampleConfirmModal').classList.remove('open');
+      const modal = document.getElementById('sampleConfirmModal');
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
+      restoreFocus(orderConfirmState.lastTrigger);
     }
 
     function goChooseSample() {
@@ -2309,6 +2559,34 @@
 
     document.getElementById('sampleConfirmModal').addEventListener('click', function (event) {
       if (event.target === this) closeSampleConfirmModal();
+    });
+
+    document.querySelectorAll('[data-gallery-filter]').forEach(button => {
+      button.addEventListener('click', () => {
+        filterGallery(button.dataset.galleryFilter || 'all', button);
+      });
+    });
+
+    document.querySelectorAll('[data-sample-filter]').forEach(button => {
+      button.addEventListener('click', () => {
+        filterSamples(button.dataset.sampleFilter || 'all', button);
+      });
+    });
+
+    document.getElementById('selectedSampleOrderBtn')?.addEventListener('click', event => {
+      event.preventDefault();
+      scrollToOrder();
+    });
+    document.getElementById('selectedSampleClearBtn')?.addEventListener('click', clearSelectedSample);
+    document.getElementById('formSampleClearBtn')?.addEventListener('click', clearSelectedSample);
+
+    document.getElementById('sampleConfirmCloseBtn')?.addEventListener('click', closeSampleConfirmModal);
+    document.getElementById('sampleConfirmSecondaryBtn')?.addEventListener('click', handleOrderConfirmSecondaryAction);
+    document.getElementById('sampleConfirmPrimaryBtn')?.addEventListener('click', confirmSubmitOrder);
+
+    document.getElementById('orderForm')?.addEventListener('submit', event => {
+      event.preventDefault();
+      submitOrder();
     });
 
     // ─── SUBMIT ORDER ─────────────────────────────────────────────────────────────
@@ -2374,6 +2652,7 @@
     window.addEventListener('orientationchange', syncBodyScrollLockState);
     syncBodyScrollLockState();
 
+    initSamplesGridInteractions();
     initReviewsModule();
     loadSamples();
     loadGallery();

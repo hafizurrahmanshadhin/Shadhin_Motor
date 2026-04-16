@@ -29,6 +29,15 @@
     let galleryGroupCountMap = new Map();
     let lightboxItems = [];
     let lightboxIdx = 0;
+    let lastLightboxTrigger = null;
+    const FOCUSABLE_SELECTOR = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
 
     function normalizeFilter(value) {
       return ['all', 'car', 'bike', 'repair'].includes(value) ? value : 'all';
@@ -164,7 +173,10 @@
       syncQueryParams();
 
       document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === currentFilter);
+        const isActive = btn.dataset.filter === currentFilter;
+        btn.classList.toggle('active', isActive);
+        if (isActive) btn.setAttribute('aria-current', 'true');
+        else btn.removeAttribute('aria-current');
       });
 
       document.getElementById('catalogCurrentLabel').textContent = CAT_LABELS[currentFilter] || 'সব';
@@ -179,6 +191,54 @@
       }
 
       grid.innerHTML = filtered.map((item, idx) => galleryCard(item, idx)).join('');
+      bindGalleryCardInteractions(grid);
+      bindGalleryCardImages(grid);
+    }
+
+    function bindGalleryCardInteractions(root) {
+      if (!root) return;
+
+      root.querySelectorAll('.gallery-card[data-gallery-index]').forEach(card => {
+        card.addEventListener('click', () => {
+          const idx = Number(card.dataset.galleryIndex || '-1');
+          if (!Number.isInteger(idx) || idx < 0) return;
+          openLightbox(idx, card);
+        });
+
+        card.addEventListener('keydown', event => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+
+          const idx = Number(card.dataset.galleryIndex || '-1');
+          if (!Number.isInteger(idx) || idx < 0) return;
+          openLightbox(idx, card);
+        });
+      });
+    }
+
+    function bindGalleryCardImages(root) {
+      if (!root) return;
+
+      root.querySelectorAll('.gallery-card-img').forEach(img => {
+        const card = img.closest('.gallery-card');
+        const placeholder = card?.querySelector('.gallery-card-placeholder');
+        if (!placeholder) return;
+
+        const hidePlaceholder = () => {
+          placeholder.style.display = 'none';
+          img.style.display = '';
+        };
+
+        const showPlaceholder = () => {
+          placeholder.style.display = 'flex';
+          img.style.display = 'none';
+        };
+
+        img.addEventListener('load', hidePlaceholder, { once: true });
+        img.addEventListener('error', showPlaceholder, { once: true });
+
+        if (img.complete && img.naturalWidth > 0) hidePlaceholder();
+      });
     }
 
     function galleryCard(item, idx) {
@@ -190,10 +250,10 @@
         ? `<div class="gallery-card-models">${item.models.map(model => `<span class="gallery-card-model-pill">${model}</span>`).join('')}</div>`
         : '';
       const imageHtml = item.img
-        ? `<img class="gallery-card-img" src="${item.img}" alt="${item.title}" loading="lazy" decoding="async" onload="this.parentElement.querySelector('.gallery-card-placeholder').style.display='none'" onerror="this.parentElement.querySelector('.gallery-card-placeholder').style.display='flex';this.style.display='none'">`
+        ? `<img class="gallery-card-img" src="${item.img}" alt="${item.title}" loading="lazy" decoding="async">`
         : '';
 
-      return `<article class="gallery-card" data-cat="${item.cat}" onclick="openLightbox(${idx})">
+      return `<article class="gallery-card" data-cat="${item.cat}" data-gallery-index="${idx}" role="button" tabindex="0" aria-label="${catLabel}: ${item.title}">
         ${imageHtml}
         ${groupBadge}
         <div class="gallery-card-placeholder">
@@ -209,20 +269,33 @@
       </article>`;
     }
 
-    function openLightbox(idx) {
+    function openLightbox(idx, triggerEl = null) {
       const sourceItem = displayedGalleryItems[idx];
       if (!sourceItem) return;
+      lastLightboxTrigger = triggerEl instanceof HTMLElement
+        ? triggerEl
+        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
       lightboxItems = getRelatedGroupItems(sourceItem);
       lightboxIdx = Math.max(0, lightboxItems.findIndex(item => item.id === sourceItem.id));
       renderLightbox();
-      document.getElementById('lightboxOverlay').classList.add('open');
+      const overlay = document.getElementById('lightboxOverlay');
+      if (!overlay) return;
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      const firstFocusable = overlay.querySelector(FOCUSABLE_SELECTOR);
+      if (firstFocusable) firstFocusable.focus();
     }
 
     function closeLightbox(event) {
-      if (event && event.target !== document.getElementById('lightboxOverlay') && !event.currentTarget.classList.contains('lightbox-close-btn')) return;
-      document.getElementById('lightboxOverlay').classList.remove('open');
+      const overlay = document.getElementById('lightboxOverlay');
+      if (!overlay) return;
+      if (event && event.target !== overlay) return;
+
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      if (lastLightboxTrigger) lastLightboxTrigger.focus();
     }
 
     function lightboxNav(dir) {
@@ -241,7 +314,16 @@
 
       const wrap = document.getElementById('lightboxImgWrap');
       if (item.img) {
-        wrap.innerHTML = `<img src="${item.img}" alt="${item.title}" onerror="this.outerHTML='<div class=\\'lightbox-placeholder-full\\'><span>${CAT_ICONS[item.cat] || '📷'}</span><small style=\\'font-size:14px;color:var(--cream-dim)\\'>${item.title}</small></div>'">`;
+        wrap.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
+        const image = wrap.querySelector('img');
+        if (image) {
+          image.addEventListener('error', () => {
+            wrap.innerHTML = `<div class="lightbox-placeholder-full">
+          <span>${CAT_ICONS[item.cat] || '📷'}</span>
+          <small style="font-size:14px;color:var(--cream-dim)">${item.title}</small>
+        </div>`;
+          }, { once: true });
+        }
       } else {
         wrap.innerHTML = `<div class="lightbox-placeholder-full">
           <span>${CAT_ICONS[item.cat] || '📷'}</span>
@@ -271,6 +353,14 @@
       renderGalleryPage();
     });
 
+    const lightboxOverlay = document.getElementById('lightboxOverlay');
+    lightboxOverlay?.addEventListener('click', event => {
+      if (event.target === lightboxOverlay) closeLightbox(event);
+    });
+    document.getElementById('lightboxPrevBtn')?.addEventListener('click', () => lightboxNav(-1));
+    document.getElementById('lightboxNextBtn')?.addEventListener('click', () => lightboxNav(+1));
+    document.getElementById('lightboxCloseBtn')?.addEventListener('click', () => closeLightbox());
+
     document.addEventListener('keydown', (event) => {
       if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
       if (event.key === 'ArrowRight') lightboxNav(+1);
@@ -284,5 +374,5 @@
     currentSearch = initialParams.get('q') || '';
     document.getElementById('catalogSearchInput').value = currentSearch;
     loadGallery();
-  
+
 

@@ -13,6 +13,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">মূল কনটেন্টে যান</a>
   <div class="page-shell">
     <header class="topbar">
       <a href="index.html#gallery" class="nav-logo">
@@ -42,7 +43,7 @@
       <a href="index.html#gallery" class="back-link">← হোমপেজে ফিরুন</a>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="hero">
         <div class="hero-label">ফুল ক্যাটালগ</div>
         <h1 class="hero-title">সব <span>স্যাম্পল</span> একসাথে</h1>
@@ -70,11 +71,13 @@
         <div class="catalog-tools">
           <div class="catalog-search-wrap">
             <span class="catalog-search-icon">🔍</span>
+            <label class="visually-hidden" for="catalogSearchInput">ডিজাইন সার্চ করুন</label>
             <input type="search" id="catalogSearchInput" class="catalog-search-input"
               placeholder="ডিজাইন, মডেল বা কীওয়ার্ড লিখুন">
           </div>
           <div class="catalog-model-wrap">
             <span class="catalog-model-icon">🚘</span>
+            <label class="visually-hidden" for="catalogModelSelect">গাড়ির মডেল নির্বাচন করুন</label>
             <select id="catalogModelSelect" class="catalog-model-select">
               <option value="">সব মডেল</option>
             </select>
@@ -87,10 +90,10 @@
     </main>
   </div>
 
-  <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox(event)">
+  <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" aria-hidden="true">
     <div class="lightbox-inner">
-      <button class="lightbox-nav-btn lightbox-prev" onclick="lightboxNav(-1)">‹</button>
-      <button class="lightbox-nav-btn lightbox-next" onclick="lightboxNav(+1)">›</button>
+      <button type="button" class="lightbox-nav-btn lightbox-prev" id="lightboxPrevBtn" aria-label="পূর্বের ছবি">‹</button>
+      <button type="button" class="lightbox-nav-btn lightbox-next" id="lightboxNextBtn" aria-label="পরের ছবি">›</button>
       <div class="lightbox-img-wrap" id="lightboxImgWrap"></div>
       <div class="lightbox-info-bar">
         <div>
@@ -99,7 +102,7 @@
         </div>
         <div class="lightbox-info-actions">
           <span class="lightbox-counter" id="lightboxCounter"></span>
-          <div class="lightbox-close-btn" onclick="closeLightbox()">✕</div>
+          <button type="button" class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="বন্ধ করুন">✕</button>
         </div>
       </div>
     </div>

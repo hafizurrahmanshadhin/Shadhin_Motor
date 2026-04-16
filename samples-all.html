@@ -14,6 +14,7 @@
 </head>
 
 <body class="samples-catalog-page">
+  <a class="skip-link" href="#main-content">মূল কনটেন্টে যান</a>
   <div class="samples-catalog-shell">
     <header class="samples-catalog-topbar">
       <a href="index.html#samples" class="nav-logo">
@@ -43,7 +44,7 @@
       <a href="index.html#samples" class="samples-catalog-back-link">← হোমপেজে ফিরুন</a>
     </header>
 
-    <main class="samples-catalog-main">
+    <main class="samples-catalog-main" id="main-content">
       <section class="samples-catalog-hero">
         <div class="section-label">ফুল স্যাম্পল ক্যাটালগ</div>
         <div class="samples-catalog-hero-row">
@@ -77,6 +78,7 @@
         <div class="samples-catalog-search-row">
           <div class="sample-search-wrap samples-catalog-search-wrap">
             <span class="sample-search-icon">🔍</span>
+            <label class="visually-hidden" for="samplesCatalogSearchInput">স্যাম্পল সার্চ করুন</label>
             <input type="search" class="sample-search" id="samplesCatalogSearchInput"
               placeholder="ID, নাম, রং বা note দিয়ে খুঁজুন">
           </div>
@@ -223,13 +225,13 @@
     </div>
   </footer>
 
-  <div class="sample-modal-overlay" id="sampleModal">
-    <div class="sample-modal">
+  <div class="sample-modal-overlay" id="sampleModal" aria-hidden="true">
+    <div class="sample-modal" role="dialog" aria-modal="true" aria-labelledby="sampleModalName">
       <div class="sample-modal-swatch" id="sampleModalSwatch">
         <img src="" id="sampleModalImg" alt="">
         <span id="sampleModalSwatchFallback" class="sample-modal-swatch-fallback">🪑</span>
       </div>
-      <div class="sample-modal-close" id="sampleModalCloseBtn">✕</div>
+      <button type="button" class="sample-modal-close" id="sampleModalCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="sample-modal-body">
         <div class="sample-modal-id" id="sampleModalId"></div>
         <div class="sample-modal-name" id="sampleModalName"></div>

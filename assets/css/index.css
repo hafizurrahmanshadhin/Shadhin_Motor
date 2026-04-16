@@ -54,6 +54,42 @@
       overscroll-behavior: none;
     }
 
+    .skip-link {
+      position: fixed;
+      top: 10px;
+      left: 12px;
+      z-index: 1400;
+      transform: translateY(-180%);
+      padding: 10px 14px;
+      border: 1px solid rgba(200, 134, 10, 0.9);
+      background: #0d0904;
+      color: var(--gold-pale);
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    :where(a, button, input, select, textarea, [role="button"]):focus-visible {
+      outline: 3px solid var(--gold-light);
+      outline-offset: 3px;
+    }
+
     /* ── NOISE TEXTURE OVERLAY ── */
     body::before {
       content: '';
@@ -208,6 +244,9 @@
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
+      border: none;
+      background: transparent;
+      padding: 4px;
     }
 
     .hamburger span {
@@ -762,6 +801,12 @@
       border-color: rgba(200, 134, 10, 0.3);
     }
 
+    .sample-card[tabindex="0"]:focus-visible {
+      outline: none;
+      border-color: var(--gold-light);
+      box-shadow: 0 0 0 3px rgba(232, 168, 50, 0.55), 0 12px 36px rgba(0, 0, 0, 0.4);
+    }
+
     .sample-card.selected {
       border-color: var(--gold);
       box-shadow: 0 0 0 1px var(--gold), 0 12px 36px rgba(200, 134, 10, 0.2);
@@ -1291,6 +1336,13 @@
       box-shadow: 0 24px 54px rgba(0, 0, 0, 0.38);
       border-color: rgba(200, 134, 10, 0.34);
       z-index: 6;
+    }
+
+    .gallery-item[role="button"]:focus-visible {
+      outline: none;
+      border-color: var(--gold-light);
+      box-shadow: 0 0 0 3px rgba(232, 168, 50, 0.55), 0 24px 54px rgba(0, 0, 0, 0.38);
+      z-index: 7;
     }
 
     .gallery-item::after {
@@ -3892,6 +3944,25 @@
 
 .reveal-delay-5 {
   transition-delay: 0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .text-gold {
