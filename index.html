@@ -933,27 +933,27 @@
   <div class="confirm-modal-overlay" id="sampleConfirmModal">
     <div class="confirm-modal">
       <button type="button" class="confirm-modal-close" onclick="closeSampleConfirmModal()" aria-label="বন্ধ করুন">✕</button>
-      <div class="confirm-modal-badge">স্যাম্পল এখনো বাছাই করা হয়নি</div>
-      <h3 class="confirm-modal-title">Sample ID ছাড়া অর্ডার জমা দিতে চান?</h3>
-      <p class="confirm-modal-copy">
+      <div class="confirm-modal-badge" id="sampleConfirmBadge">স্যাম্পল এখনো বাছাই করা হয়নি</div>
+      <h3 class="confirm-modal-title" id="sampleConfirmTitle">Sample ID ছাড়া অর্ডার জমা দিতে চান?</h3>
+      <p class="confirm-modal-copy" id="sampleConfirmCopy">
         আপনি চাইলে এখনই ফর্ম জমা দিতে পারেন। তবে একটি স্যাম্পল বেছে নিলে আমরা রং, ফিনিশ ও মেটেরিয়াল আরও দ্রুত এবং
         নির্ভুলভাবে বুঝে নিতে পারব।
       </p>
       <div class="confirm-modal-highlights">
         <div class="confirm-modal-highlight">
-          <strong>স্যাম্পল বেছে নিলে</strong>
-          <span>দ্রুত মূল্য ও ডিজাইন ম্যাচ করা সহজ হবে</span>
+          <strong id="sampleConfirmHighlightPrimaryTitle">স্যাম্পল বেছে নিলে</strong>
+          <span id="sampleConfirmHighlightPrimaryCopy">দ্রুত মূল্য ও ডিজাইন ম্যাচ করা সহজ হবে</span>
         </div>
         <div class="confirm-modal-highlight">
-          <strong>স্যাম্পল ছাড়া দিলেও</strong>
-          <span>অর্ডার যাবে, পরে আমরা কথা বলে বিস্তারিত নেব</span>
+          <strong id="sampleConfirmHighlightSecondaryTitle">স্যাম্পল ছাড়া দিলেও</strong>
+          <span id="sampleConfirmHighlightSecondaryCopy">অর্ডার যাবে, পরে আমরা কথা বলে বিস্তারিত নেব</span>
         </div>
       </div>
       <div class="confirm-modal-actions">
-        <button type="button" class="btn-secondary confirm-modal-select-btn" onclick="goChooseSample()">
+        <button type="button" class="btn-secondary confirm-modal-select-btn" id="sampleConfirmSecondaryBtn" onclick="handleOrderConfirmSecondaryAction()">
           🪡 আগে স্যাম্পল বেছে নেব
         </button>
-        <button type="button" class="btn-primary confirm-modal-submit-btn" onclick="confirmSubmitWithoutSample()">
+        <button type="button" class="btn-primary confirm-modal-submit-btn" id="sampleConfirmPrimaryBtn" onclick="confirmSubmitOrder()">
           ✅ স্যাম্পল ছাড়া অর্ডার জমা দিন
         </button>
       </div>

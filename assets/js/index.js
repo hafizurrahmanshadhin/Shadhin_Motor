@@ -1796,6 +1796,9 @@
     let currentSearch = '';
     let selectedSample = null;
     let modalSample = null;
+    const orderConfirmState = {
+      secondaryAction: 'choose-sample'
+    };
 
     function normalizeSampleMaterial(value) {
       const raw = String(value || '').trim().toLowerCase();
@@ -2091,8 +2094,52 @@
       }, 100);
     }
 
+    function getSampleMaterialLabel(sample) {
+      if (!sample) return '';
+      return sample.material === 'rexine' ? 'রেক্সিন' : 'লেদার';
+    }
+
     function openSampleConfirmModal() {
-      document.getElementById('sampleConfirmModal').classList.add('open');
+      const modal = document.getElementById('sampleConfirmModal');
+      const badge = document.getElementById('sampleConfirmBadge');
+      const title = document.getElementById('sampleConfirmTitle');
+      const copy = document.getElementById('sampleConfirmCopy');
+      const primaryHighlightTitle = document.getElementById('sampleConfirmHighlightPrimaryTitle');
+      const primaryHighlightCopy = document.getElementById('sampleConfirmHighlightPrimaryCopy');
+      const secondaryHighlightTitle = document.getElementById('sampleConfirmHighlightSecondaryTitle');
+      const secondaryHighlightCopy = document.getElementById('sampleConfirmHighlightSecondaryCopy');
+      const secondaryBtn = document.getElementById('sampleConfirmSecondaryBtn');
+      const primaryBtn = document.getElementById('sampleConfirmPrimaryBtn');
+      const sampleId = document.getElementById('selectedSampleId').value.trim();
+      const sample = sampleId
+        ? (allSamples.find(item => item.id === sampleId) || selectedSample)
+        : null;
+
+      if (sample) {
+        orderConfirmState.secondaryAction = 'edit-order';
+        badge.textContent = 'স্যাম্পল নির্বাচন করা হয়েছে';
+        title.textContent = 'নির্বাচিত Sample ID সহ অর্ডার জমা দিতে চান?';
+        copy.textContent = `আপনার অর্ডারের সঙ্গে ${sample.id} স্যাম্পলটি যুক্ত থাকবে। confirm করলে অর্ডার জমা হয়ে যাবে, পরে আমরা এই স্যাম্পল অনুযায়ী যোগাযোগ করব।`;
+        primaryHighlightTitle.textContent = `${sample.id} — ${sample.name}`;
+        primaryHighlightCopy.textContent = `${getSampleMaterialLabel(sample)} · ${sample.color}`;
+        secondaryHighlightTitle.textContent = 'জমা দেওয়ার আগে';
+        secondaryHighlightCopy.textContent = 'ফর্ম বা স্যাম্পল বদলাতে চাইলে এখন ফিরে গিয়ে আবার দেখে নিতে পারেন।';
+        secondaryBtn.textContent = '✏️ আরেকবার দেখে নেই';
+        primaryBtn.textContent = '✅ হ্যাঁ, অর্ডার জমা দিন';
+      } else {
+        orderConfirmState.secondaryAction = 'choose-sample';
+        badge.textContent = 'স্যাম্পল এখনো বাছাই করা হয়নি';
+        title.textContent = 'Sample ID ছাড়া অর্ডার জমা দিতে চান?';
+        copy.textContent = 'আপনি চাইলে এখনই ফর্ম জমা দিতে পারেন। তবে একটি স্যাম্পল বেছে নিলে আমরা রং, ফিনিশ ও মেটেরিয়াল আরও দ্রুত এবং নির্ভুলভাবে বুঝে নিতে পারব।';
+        primaryHighlightTitle.textContent = 'স্যাম্পল বেছে নিলে';
+        primaryHighlightCopy.textContent = 'দ্রুত মূল্য ও ডিজাইন ম্যাচ করা সহজ হবে';
+        secondaryHighlightTitle.textContent = 'স্যাম্পল ছাড়া দিলেও';
+        secondaryHighlightCopy.textContent = 'অর্ডার যাবে, পরে আমরা কথা বলে বিস্তারিত নেব';
+        secondaryBtn.textContent = '🪡 আগে স্যাম্পল বেছে নেব';
+        primaryBtn.textContent = '✅ স্যাম্পল ছাড়া অর্ডার জমা দিন';
+      }
+
+      modal.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
 
@@ -2109,9 +2156,22 @@
       showToast('🪡 একটি স্যাম্পল বেছে নিন', 'Sample ID নির্বাচন করলে আমরা ডিজাইন, রং ও মূল্যের বিষয়ে আরও দ্রুত সাহায্য করতে পারব।', 5000);
     }
 
-    function confirmSubmitWithoutSample() {
+    function handleOrderConfirmSecondaryAction() {
+      if (orderConfirmState.secondaryAction === 'choose-sample') {
+        goChooseSample();
+        return;
+      }
+
+      closeSampleConfirmModal();
+    }
+
+    function confirmSubmitOrder() {
       closeSampleConfirmModal();
       submitOrder(true);
+    }
+
+    function confirmSubmitWithoutSample() {
+      confirmSubmitOrder();
     }
 
     document.getElementById('sampleConfirmModal').addEventListener('click', function (event) {
@@ -2132,7 +2192,7 @@
 
       const sampleId = document.getElementById('selectedSampleId').value;
 
-      if (!sampleId && !skipSampleConfirmation) {
+      if (!skipSampleConfirmation) {
         openSampleConfirmModal();
         return;
       }
