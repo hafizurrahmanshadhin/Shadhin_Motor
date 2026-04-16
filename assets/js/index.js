@@ -241,6 +241,36 @@
       previewUrls: []
     };
 
+    const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
+    const REVIEW_VIDEO_EXT_RE = /\.(3gp|avi|m4v|mkv|mov|mp4|ogg|ogv|webm)$/i;
+
+    function getReviewFileKind(file) {
+      if (!file) return 'unknown';
+
+      const mime = String(file.type || '').toLowerCase();
+      const name = String(file.name || '').toLowerCase();
+
+      if (mime.startsWith('image/')) return 'image';
+      if (mime.startsWith('video/')) return 'video';
+      if (REVIEW_IMAGE_EXT_RE.test(name)) return 'image';
+      if (REVIEW_VIDEO_EXT_RE.test(name)) return 'video';
+
+      return 'unknown';
+    }
+
+    function formatReviewFileSize(bytes = 0) {
+      const size = Number(bytes) || 0;
+      if (size <= 0) return '0 B';
+
+      if (size >= 1024 * 1024) {
+        return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+      }
+      if (size >= 1024) {
+        return `${Math.round(size / 1024)} KB`;
+      }
+      return `${size} B`;
+    }
+
     function releaseReviewConfirmPreviewUrls() {
       if (!reviewSubmitConfirmState.previewUrls.length) return;
 
@@ -318,22 +348,29 @@
         ? `${payload.comment.slice(0, 210)}...`
         : payload.comment;
 
-      const profileStatus = payload.avatarFile ? payload.avatarFile.name : 'দেওয়া হয়নি';
+      const profileStatus = payload.avatarFile
+        ? `${payload.avatarFile.name} • ${formatReviewFileSize(payload.avatarFile.size)}`
+        : 'দেওয়া হয়নি';
       const mediaStatus = payload.mediaFiles.length
         ? `${payload.mediaFiles.length}টি`
         : 'দেওয়া হয়নি';
 
       let profilePreviewMarkup = '<p class="review-confirm-file-name">দেওয়া হয়নি</p>';
-      if (payload.avatarFile && payload.avatarFile.type.startsWith('image/')) {
+      const avatarKind = getReviewFileKind(payload.avatarFile);
+
+      if (payload.avatarFile && avatarKind === 'image') {
         const avatarPreviewUrl = createReviewConfirmPreviewUrl(payload.avatarFile);
         profilePreviewMarkup = `
-          <div class="review-confirm-media-thumb review-confirm-avatar-thumb">
-            <img src="${avatarPreviewUrl}" alt="${escapeHtml(payload.avatarFile.name || 'avatar')}" loading="lazy">
-          </div>
+          <figure class="review-confirm-media-thumb review-confirm-avatar-thumb" data-preview-type="image" data-preview-src="${avatarPreviewUrl}" role="button" tabindex="0" aria-label="প্রোফাইল ছবি বড় করে দেখুন">
+            <img src="${avatarPreviewUrl}" alt="${escapeHtml(payload.avatarFile.name || 'avatar')}" loading="eager" decoding="async">
+          </figure>
           <p class="review-confirm-file-name">${escapeHtml(profileStatus)}</p>
         `;
       } else if (payload.avatarFile) {
-        profilePreviewMarkup = `<p class="review-confirm-file-name">${escapeHtml(profileStatus)}</p>`;
+        profilePreviewMarkup = `
+          <p class="review-confirm-file-name">${escapeHtml(payload.avatarFile.name || 'অজানা ফাইল')}</p>
+          <p class="review-confirm-file-name">Preview unavailable: শুধু image file প্রিভিউ করা যায়</p>
+        `;
       }
 
       let mediaPreviewMarkup = '<p class="review-confirm-file-name">দেওয়া হয়নি</p>';
@@ -343,22 +380,35 @@
             ${payload.mediaFiles.map(file => {
               const src = createReviewConfirmPreviewUrl(file);
               const safeName = escapeHtml(file.name || 'media');
-              const isVideo = file.type.startsWith('video/');
+              const safeSize = escapeHtml(formatReviewFileSize(file.size));
+              const mediaKind = getReviewFileKind(file);
+              const isVideo = mediaKind === 'video';
+              const isImage = mediaKind === 'image';
+
               if (isVideo) {
                 return `
-                  <figure class="review-confirm-media-thumb review-confirm-media-video">
+                  <figure class="review-confirm-media-thumb review-confirm-media-video" data-preview-type="video" data-preview-src="${src}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
                     <video src="${src}" muted playsinline preload="metadata"></video>
                     <span class="review-confirm-media-kind">ভিডিও</span>
-                    <figcaption>${safeName}</figcaption>
+                    <figcaption>${safeName} • ${safeSize}</figcaption>
+                  </figure>
+                `;
+              }
+
+              if (isImage) {
+                return `
+                  <figure class="review-confirm-media-thumb review-confirm-media-image" data-preview-type="image" data-preview-src="${src}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
+                    <img src="${src}" alt="${safeName}" loading="eager" decoding="async">
+                    <span class="review-confirm-media-kind">ছবি</span>
+                    <figcaption>${safeName} • ${safeSize}</figcaption>
                   </figure>
                 `;
               }
 
               return `
-                <figure class="review-confirm-media-thumb review-confirm-media-image">
-                  <img src="${src}" alt="${safeName}" loading="lazy">
-                  <span class="review-confirm-media-kind">ছবি</span>
-                  <figcaption>${safeName}</figcaption>
+                <figure class="review-confirm-media-thumb review-confirm-media-unknown">
+                  <div class="review-confirm-media-unknown-body">Preview unavailable</div>
+                  <figcaption>${safeName} • ${safeSize}</figcaption>
                 </figure>
               `;
             }).join('')}
@@ -368,25 +418,25 @@
       }
 
       summaryEl.innerHTML = `
-        <div class="review-confirm-item">
+        <div class="review-confirm-item review-confirm-item-meta">
           <span class="review-confirm-item-label">আপনার নাম</span>
           <div class="review-confirm-item-value">${escapeHtml(payload.name)}</div>
         </div>
-        <div class="review-confirm-item">
+        <div class="review-confirm-item review-confirm-item-meta">
           <span class="review-confirm-item-label">গাড়ি/কাজের তথ্য</span>
           <div class="review-confirm-item-value">${escapeHtml(payload.workInfo)}</div>
         </div>
-        <div class="review-confirm-item">
+        <div class="review-confirm-item review-confirm-item-meta">
           <span class="review-confirm-item-label">রেটিং</span>
           <div class="review-confirm-item-value">${payload.rating}★</div>
         </div>
-        <div class="review-confirm-item">
+        <div class="review-confirm-item review-confirm-item-media">
           <span class="review-confirm-item-label">প্রোফাইল ছবি</span>
           <div class="review-confirm-item-value review-confirm-media-wrap">
             ${profilePreviewMarkup}
           </div>
         </div>
-        <div class="review-confirm-item">
+        <div class="review-confirm-item review-confirm-item-media">
           <span class="review-confirm-item-label">কাজের ছবি/ভিডিও</span>
           <div class="review-confirm-item-value review-confirm-media-wrap">
             ${mediaPreviewMarkup}
@@ -1056,9 +1106,11 @@
     }
 
     async function toMediaPayload(file) {
-      const isImage = file.type.startsWith('image/');
-      const isVideo = file.type.startsWith('video/');
-      if (!isImage && !isVideo) {
+      const fileKind = getReviewFileKind(file);
+      const isImage = fileKind === 'image';
+      const isVideo = fileKind === 'video';
+
+      if (fileKind === 'unknown') {
         throw new Error('শুধু image/video file দেওয়া যাবে।');
       }
 
@@ -1109,12 +1161,12 @@
       const mediaFiles = reviewUploadFormState.mediaFiles;
 
       if (avatarPreviewEl) {
-        if (avatarFile && avatarFile.type.startsWith('image/')) {
+        if (avatarFile && getReviewFileKind(avatarFile) === 'image') {
           const avatarUrl = createReviewUploadObjectUrl(avatarFile);
           avatarPreviewEl.innerHTML = `
             <div class="review-file-preview-content">
               <button type="button" class="review-upload-preview-trigger" data-preview-type="image" data-preview-src="${avatarUrl}" aria-label="প্রোফাইল ছবি বড় করে দেখুন">
-                <img src="${avatarUrl}" alt="Selected profile preview">
+                <img src="${avatarUrl}" alt="Selected profile preview" loading="eager" decoding="async">
               </button>
               <div class="review-file-preview-note-row">
                 <p class="review-file-preview-note">${escapeHtml(avatarFile.name)}</p>
@@ -1123,7 +1175,7 @@
             </div>
           `;
         } else if (avatarFile) {
-          avatarPreviewEl.innerHTML = '<div class="review-file-preview-empty">এই file টাইপ প্রোফাইল preview হিসেবে দেখানো যাবে না।</div>';
+          avatarPreviewEl.innerHTML = '<div class="review-file-preview-empty">এই ফাইল প্রোফাইল preview হিসেবে দেখানো যাবে না।</div>';
         } else {
           avatarPreviewEl.innerHTML = '<div class="review-file-preview-empty">প্রোফাইল ছবি নির্বাচন করলে এখানে preview দেখা যাবে।</div>';
         }
@@ -1135,25 +1187,26 @@
         } else {
           mediaPreviewGridEl.innerHTML = mediaFiles.map((file, idx) => {
             const safeName = escapeHtml(file.name || 'media');
+            const fileKind = getReviewFileKind(file);
 
-            if (file.type.startsWith('image/')) {
+            if (fileKind === 'image') {
               const src = createReviewUploadObjectUrl(file);
               return `
                 <figure class="review-media-preview-card" data-preview-type="image" data-preview-src="${src}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
                   <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ছবি রিমুভ করুন">✕</button>
-                  <img src="${src}" alt="${safeName}">
+                  <img src="${src}" alt="${safeName}" loading="eager" decoding="async">
                   <span class="review-media-preview-badge">ছবি</span>
                   <figcaption class="review-media-preview-name">${safeName}</figcaption>
                 </figure>
               `;
             }
 
-            if (file.type.startsWith('video/')) {
+            if (fileKind === 'video') {
               const src = createReviewUploadObjectUrl(file);
               return `
                 <figure class="review-media-preview-card" data-preview-type="video" data-preview-src="${src}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
                   <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ভিডিও রিমুভ করুন">✕</button>
-                  <video src="${src}" muted playsinline preload="metadata"></video>
+                  <video src="${src}" controls muted playsinline preload="auto"></video>
                   <span class="review-media-preview-badge">ভিডিও</span>
                   <figcaption class="review-media-preview-name">${safeName}</figcaption>
                 </figure>
@@ -1162,6 +1215,7 @@
 
             return `
               <figure class="review-media-preview-card">
+                <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ফাইল রিমুভ করুন">✕</button>
                 <div class="review-file-preview-empty">Preview unavailable</div>
                 <figcaption class="review-media-preview-name">${safeName}</figcaption>
               </figure>
@@ -1250,6 +1304,55 @@
       });
     }
 
+    function initReviewConfirmPreviewInteractions() {
+      const summaryEl = document.getElementById('reviewSubmitConfirmSummary');
+      if (!summaryEl) return;
+
+      const openFromConfirmThumb = sourceEl => {
+        const src = String(sourceEl.dataset.previewSrc || '').trim();
+        if (!src) return;
+
+        const type = sourceEl.dataset.previewType === 'video' ? 'video' : 'image';
+        const mediaGrid = sourceEl.closest('.review-confirm-media-grid');
+
+        if (!mediaGrid) {
+          openReviewMediaPreview([{ type, src }], 0, 'প্রোফাইল ছবি');
+          return;
+        }
+
+        const cards = Array.from(mediaGrid.querySelectorAll('.review-confirm-media-thumb[data-preview-src]'));
+        if (!cards.length) return;
+
+        const items = cards
+          .map(card => ({
+            type: card.dataset.previewType === 'video' ? 'video' : 'image',
+            src: String(card.dataset.previewSrc || '').trim()
+          }))
+          .filter(item => item.src);
+
+        if (!items.length) return;
+
+        const startIndex = Math.max(0, cards.indexOf(sourceEl));
+        openReviewMediaPreview(items, startIndex, 'কাজের ছবি/ভিডিও');
+      };
+
+      summaryEl.addEventListener('click', event => {
+        const thumb = event.target.closest('.review-confirm-media-thumb[data-preview-src]');
+        if (!thumb || !summaryEl.contains(thumb)) return;
+        openFromConfirmThumb(thumb);
+      });
+
+      summaryEl.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+
+        const thumb = event.target.closest('.review-confirm-media-thumb[data-preview-src]');
+        if (!thumb || !summaryEl.contains(thumb)) return;
+
+        event.preventDefault();
+        openFromConfirmThumb(thumb);
+      });
+    }
+
     async function handleReviewSubmit(event) {
       event.preventDefault();
 
@@ -1270,7 +1373,7 @@
         return;
       }
 
-      if (avatarFile && !avatarFile.type.startsWith('image/')) {
+      if (avatarFile && getReviewFileKind(avatarFile) !== 'image') {
         showToast('⚠️ ভুল প্রোফাইল ফাইল', 'প্রোফাইল হিসেবে image file দিন।');
         return;
       }
@@ -1362,6 +1465,7 @@
 
       if (form) form.addEventListener('submit', handleReviewSubmit);
       initReviewUploadPreviewInteractions();
+      initReviewConfirmPreviewInteractions();
       updateReviewFileMeta();
     }
 
