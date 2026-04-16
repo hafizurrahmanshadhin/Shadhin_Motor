@@ -220,6 +220,12 @@
       resizeTick: 0
     };
 
+    const reviewPreviewState = {
+      items: [],
+      index: 0,
+      title: ''
+    };
+
     function safeParseArray(rawValue) {
       try {
         const parsed = JSON.parse(rawValue || '[]');
@@ -444,22 +450,174 @@
 
             if (item.type === 'video') {
               return `
-                <figure class="review-media-item" data-media-index="${idx}">
-                  <video src="${safeSrc}" preload="metadata" controls playsinline></video>
+                <figure class="review-media-item" data-media-index="${idx}" data-preview-type="video" data-preview-src="${safeSrc}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
+                  <video src="${safeSrc}" preload="metadata" playsinline muted></video>
+                  <span class="review-media-open-indicator">⤢</span>
                   <span class="review-media-type">ভিডিও</span>
                 </figure>
               `;
             }
 
             return `
-              <figure class="review-media-item" data-media-index="${idx}">
+              <figure class="review-media-item" data-media-index="${idx}" data-preview-type="image" data-preview-src="${safeSrc}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
                 <img src="${safeSrc}" alt="Customer work media ${idx + 1}" loading="lazy" decoding="async">
+                <span class="review-media-open-indicator">⤢</span>
                 <span class="review-media-type">ছবি</span>
               </figure>
             `;
           }).join('')}
         </div>
       `;
+    }
+
+    function renderReviewMediaPreview() {
+      const wrap = document.getElementById('reviewPreviewMediaWrap');
+      const titleEl = document.getElementById('reviewPreviewTitle');
+      const counterEl = document.getElementById('reviewPreviewCounter');
+      const fullBtn = document.getElementById('reviewPreviewFullscreenBtn');
+      const prevBtn = document.getElementById('reviewPreviewPrev');
+      const nextBtn = document.getElementById('reviewPreviewNext');
+      if (!wrap || !titleEl || !counterEl || !fullBtn) return;
+
+      const total = reviewPreviewState.items.length;
+      const current = reviewPreviewState.items[reviewPreviewState.index];
+
+      if (prevBtn) prevBtn.hidden = total <= 1;
+      if (nextBtn) nextBtn.hidden = total <= 1;
+
+      if (!current) {
+        wrap.innerHTML = '<div class="review-preview-empty">কোনো preview item পাওয়া যায়নি।</div>';
+        titleEl.textContent = 'রিভিউ মিডিয়া';
+        counterEl.textContent = '0 / 0';
+        fullBtn.hidden = true;
+        return;
+      }
+
+      titleEl.textContent = reviewPreviewState.title || 'রিভিউ মিডিয়া';
+      counterEl.textContent = `${reviewPreviewState.index + 1} / ${total}`;
+
+      if (current.type === 'video') {
+        wrap.innerHTML = `<video id="reviewPreviewVideo" src="${escapeHtml(current.src)}" controls playsinline preload="metadata"></video>`;
+        fullBtn.hidden = false;
+      } else {
+        wrap.innerHTML = `<img src="${escapeHtml(current.src)}" alt="Review media preview">`;
+        fullBtn.hidden = true;
+      }
+    }
+
+    function openReviewMediaPreview(items, startIndex = 0, title = '') {
+      const overlay = document.getElementById('reviewMediaPreviewOverlay');
+      if (!overlay || !Array.isArray(items) || !items.length) return;
+
+      reviewPreviewState.items = items;
+      reviewPreviewState.index = Math.max(0, Math.min(startIndex, items.length - 1));
+      reviewPreviewState.title = title;
+
+      renderReviewMediaPreview();
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReviewMediaPreview() {
+      const overlay = document.getElementById('reviewMediaPreviewOverlay');
+      if (!overlay) return;
+
+      const videoEl = document.getElementById('reviewPreviewVideo');
+      if (videoEl) videoEl.pause();
+
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+
+      const reviewSubmitOpen = document.getElementById('reviewSubmitModal')?.classList.contains('open');
+      const galleryLightboxOpen = document.getElementById('lightboxOverlay')?.classList.contains('open');
+      if (!reviewSubmitOpen && !galleryLightboxOpen) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    function navReviewMediaPreview(dir) {
+      const total = reviewPreviewState.items.length;
+      if (!total) return;
+
+      reviewPreviewState.index = (reviewPreviewState.index + dir + total) % total;
+      renderReviewMediaPreview();
+    }
+
+    function requestReviewPreviewFullscreen() {
+      const videoEl = document.getElementById('reviewPreviewVideo');
+      if (!videoEl || typeof videoEl.requestFullscreen !== 'function') return;
+      videoEl.requestFullscreen().catch(() => { /* no-op */ });
+    }
+
+    function getPreviewItemsFromStrip(stripEl) {
+      const nodes = Array.from(stripEl.querySelectorAll('.review-media-item'));
+
+      const items = nodes
+        .map(node => ({
+          type: node.dataset.previewType === 'video' ? 'video' : 'image',
+          src: String(node.dataset.previewSrc || '').trim()
+        }))
+        .filter(item => item.src);
+
+      return { items, nodes };
+    }
+
+    function initReviewMediaPreviewEvents() {
+      const grid = document.getElementById('reviewsGrid');
+      const overlay = document.getElementById('reviewMediaPreviewOverlay');
+      const prevBtn = document.getElementById('reviewPreviewPrev');
+      const nextBtn = document.getElementById('reviewPreviewNext');
+      const closeBtn = document.getElementById('reviewPreviewClose');
+      const fullscreenBtn = document.getElementById('reviewPreviewFullscreenBtn');
+
+      if (!grid || !overlay) return;
+
+      grid.addEventListener('click', event => {
+        const mediaItem = event.target.closest('.review-media-item');
+        if (!mediaItem || !grid.contains(mediaItem)) return;
+
+        const strip = mediaItem.closest('.review-media-strip');
+        if (!strip) return;
+
+        const { items, nodes } = getPreviewItemsFromStrip(strip);
+        if (!items.length) return;
+
+        const startIndex = Math.max(0, nodes.indexOf(mediaItem));
+        const card = mediaItem.closest('.review-card');
+        const title = card?.querySelector('.reviewer-name')?.textContent?.trim() || 'রিভিউ মিডিয়া';
+
+        openReviewMediaPreview(items, startIndex, title);
+      });
+
+      grid.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+
+        const mediaItem = event.target.closest('.review-media-item');
+        if (!mediaItem || !grid.contains(mediaItem)) return;
+
+        event.preventDefault();
+        const strip = mediaItem.closest('.review-media-strip');
+        if (!strip) return;
+
+        const { items, nodes } = getPreviewItemsFromStrip(strip);
+        if (!items.length) return;
+
+        const startIndex = Math.max(0, nodes.indexOf(mediaItem));
+        const card = mediaItem.closest('.review-card');
+        const title = card?.querySelector('.reviewer-name')?.textContent?.trim() || 'রিভিউ মিডিয়া';
+
+        openReviewMediaPreview(items, startIndex, title);
+      });
+
+      overlay.addEventListener('click', event => {
+        if (event.target === overlay) closeReviewMediaPreview();
+      });
+
+      if (prevBtn) prevBtn.addEventListener('click', () => navReviewMediaPreview(-1));
+      if (nextBtn) nextBtn.addEventListener('click', () => navReviewMediaPreview(+1));
+      if (closeBtn) closeBtn.addEventListener('click', closeReviewMediaPreview);
+      if (fullscreenBtn) fullscreenBtn.addEventListener('click', requestReviewPreviewFullscreen);
     }
 
     function reviewCardTemplate(review, idx) {
@@ -863,6 +1021,7 @@
 
       initReviewsPaginationEvents();
       initReviewSubmissionModal();
+      initReviewMediaPreviewEvents();
       refreshReviews(true);
 
       window.addEventListener('resize', () => {
@@ -1189,6 +1348,16 @@
         closeSampleConfirmModal();
         return;
       }
+
+      const reviewPreviewOpen = document.getElementById('reviewMediaPreviewOverlay')?.classList.contains('open');
+      if (reviewPreviewOpen) {
+        if (e.key === 'ArrowRight') navReviewMediaPreview(+1);
+        if (e.key === 'ArrowLeft') navReviewMediaPreview(-1);
+        if (e.key.toLowerCase() === 'f') requestReviewPreviewFullscreen();
+        if (e.key === 'Escape') closeReviewMediaPreview();
+        return;
+      }
+
       if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
       if (e.key === 'ArrowRight') lightboxNav(+1);
       if (e.key === 'ArrowLeft') lightboxNav(-1);

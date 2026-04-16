@@ -1029,6 +1029,32 @@
     </div>
   </div>
 
+  <!-- REVIEW MEDIA PREVIEW -->
+  <div class="review-preview-overlay" id="reviewMediaPreviewOverlay" aria-hidden="true">
+    <div class="review-preview-inner" role="dialog" aria-modal="true" aria-labelledby="reviewPreviewTitle">
+      <button type="button" class="review-preview-nav-btn review-preview-prev" id="reviewPreviewPrev" aria-label="পূর্বের মিডিয়া">‹</button>
+      <button type="button" class="review-preview-nav-btn review-preview-next" id="reviewPreviewNext" aria-label="পরের মিডিয়া">›</button>
+
+      <div class="review-preview-media-wrap" id="reviewPreviewMediaWrap">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="review-preview-toolbar">
+        <div class="review-preview-meta">
+          <div class="review-preview-kicker">Customer Media Preview</div>
+          <h3 class="review-preview-title" id="reviewPreviewTitle">রিভিউ মিডিয়া</h3>
+        </div>
+        <div class="review-preview-actions">
+          <span class="review-preview-counter" id="reviewPreviewCounter">0 / 0</span>
+          <button type="button" class="review-preview-fullscreen-btn" id="reviewPreviewFullscreenBtn">
+            Fullscreen
+          </button>
+          <button type="button" class="review-preview-close" id="reviewPreviewClose" aria-label="বন্ধ করুন">✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </main>
 
   <!-- FOOTER -->
