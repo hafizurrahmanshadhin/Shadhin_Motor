@@ -271,6 +271,38 @@
       return `${size} B`;
     }
 
+    const BODY_SCROLL_LOCK_OVERLAYS = [
+      'lightboxOverlay',
+      'sampleModal',
+      'sampleConfirmModal',
+      'reviewSubmitModal',
+      'reviewSubmitConfirmOverlay',
+      'reviewMediaPreviewOverlay'
+    ];
+
+    function syncBodyScrollLockState() {
+      const root = document.documentElement;
+      const body = document.body;
+      const shouldLock = BODY_SCROLL_LOCK_OVERLAYS.some(id => {
+        const el = document.getElementById(id);
+        return !!el && el.classList.contains('open');
+      });
+
+      if (!root || !body) return;
+
+      root.classList.toggle('body-scroll-locked', shouldLock);
+      body.classList.toggle('body-scroll-locked', shouldLock);
+
+      if (shouldLock) {
+        root.style.overflow = 'hidden';
+        body.style.overflow = 'hidden';
+        return;
+      }
+
+      root.style.removeProperty('overflow');
+      body.style.removeProperty('overflow');
+    }
+
     function releaseReviewConfirmPreviewUrls() {
       if (!reviewSubmitConfirmState.previewUrls.length) return;
 
@@ -833,7 +865,7 @@
       renderReviewMediaPreview();
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      syncBodyScrollLockState();
     }
 
     function closeReviewMediaPreview() {
@@ -845,12 +877,7 @@
 
       overlay.classList.remove('open');
       overlay.setAttribute('aria-hidden', 'true');
-
-      const reviewSubmitOpen = document.getElementById('reviewSubmitModal')?.classList.contains('open');
-      const galleryLightboxOpen = document.getElementById('lightboxOverlay')?.classList.contains('open');
-      if (!reviewSubmitOpen && !galleryLightboxOpen) {
-        document.body.style.overflow = '';
-      }
+      syncBodyScrollLockState();
     }
 
     function navReviewMediaPreview(dir) {
@@ -1133,7 +1160,7 @@
       if (!modal) return;
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
+      syncBodyScrollLockState();
       updateReviewFileMeta();
     }
 
@@ -1142,9 +1169,9 @@
       if (!modal) return;
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
       closeReviewSubmitConfirm();
       releaseReviewUploadPreviewUrls();
+      syncBodyScrollLockState();
     }
 
     function updateReviewFileMeta() {
@@ -1729,7 +1756,10 @@
       };
 
       viewport.onpointerdown = (event) => {
-        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        // Keep marquee drag on desktop mouse only.
+        // On touch devices this can interfere with native page scrolling.
+        if (event.pointerType !== 'mouse') return;
+        if (event.button !== 0) return;
         galleryPointerDown = true;
         galleryPointerId = event.pointerId;
         galleryDragging = false;
@@ -1790,13 +1820,13 @@
       lightboxIdx = idx;
       renderLightbox();
       document.getElementById('lightboxOverlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
+      syncBodyScrollLockState();
     }
 
     function closeLightbox(e) {
       if (e && e.target !== document.getElementById('lightboxOverlay') && !e.currentTarget.classList.contains('lightbox-close-btn')) return;
       document.getElementById('lightboxOverlay').classList.remove('open');
-      document.body.style.overflow = '';
+      syncBodyScrollLockState();
     }
 
     function lightboxNav(dir) {
@@ -1845,8 +1875,7 @@
       if (e.key === 'ArrowRight') lightboxNav(+1);
       if (e.key === 'ArrowLeft') lightboxNav(-1);
       if (e.key === 'Escape') {
-        document.getElementById('lightboxOverlay').classList.remove('open');
-        document.body.style.overflow = '';
+        closeLightbox();
       }
     });
 
@@ -2131,12 +2160,12 @@
       }
 
       document.getElementById('sampleModal').classList.add('open');
-      document.body.style.overflow = 'hidden';
+      syncBodyScrollLockState();
     }
 
     function closeSampleModal() {
       document.getElementById('sampleModal').classList.remove('open');
-      document.body.style.overflow = '';
+      syncBodyScrollLockState();
     }
     document.getElementById('sampleModal').addEventListener('click', function (e) {
       if (e.target === this) closeSampleModal();
@@ -2244,12 +2273,12 @@
       }
 
       modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      syncBodyScrollLockState();
     }
 
     function closeSampleConfirmModal() {
       document.getElementById('sampleConfirmModal').classList.remove('open');
-      document.body.style.overflow = '';
+      syncBodyScrollLockState();
     }
 
     function goChooseSample() {
@@ -2330,6 +2359,21 @@
     }
 
     // ─── INIT ─────────────────────────────────────────────────────────────────────
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    window.addEventListener('load', () => {
+      if (!window.location.hash) {
+        window.scrollTo(0, 0);
+      }
+    });
+
+    window.addEventListener('pageshow', syncBodyScrollLockState);
+    window.addEventListener('resize', syncBodyScrollLockState);
+    window.addEventListener('orientationchange', syncBodyScrollLockState);
+    syncBodyScrollLockState();
+
     initReviewsModule();
     loadSamples();
     loadGallery();

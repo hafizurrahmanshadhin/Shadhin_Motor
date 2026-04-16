@@ -26,10 +26,15 @@
     }
 
     html {
+      min-height: 100%;
       scroll-behavior: smooth;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     body {
+      min-height: 100%;
       background: var(--bg-deep);
       color: var(--cream);
       font-family: var(--font-ui);
@@ -39,6 +44,14 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
+      overscroll-behavior-y: auto;
+    }
+
+    html.body-scroll-locked,
+    body.body-scroll-locked {
+      height: 100%;
+      overflow: hidden !important;
+      overscroll-behavior: none;
     }
 
     /* ── NOISE TEXTURE OVERLAY ── */
@@ -211,7 +224,7 @@
       min-height: 100svh;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       position: relative;
       overflow: hidden;
       padding: 120px 60px 80px;
@@ -239,6 +252,8 @@
       z-index: 2;
       max-width: 700px;
       min-width: 0;
+      margin-right: auto;
+      text-align: left;
     }
 
     .hero-badge {
@@ -301,6 +316,7 @@
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
+      justify-content: flex-start;
       animation: fadeSlideUp 0.8s 0.5s ease both;
     }
 
@@ -4240,11 +4256,42 @@
       }
 
       #hero {
-        padding: 120px 24px 70px;
+        min-height: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: start;
+        row-gap: 18px;
+        padding: 104px 24px 56px;
+      }
+
+      .hero-content {
+        max-width: 100%;
       }
 
       .hero-right {
-        display: none;
+        position: relative;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        transform: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        width: 100%;
+        animation: none;
+      }
+
+      .stat-card {
+        min-width: 0;
+        padding: 16px 14px;
+      }
+
+      .stat-num {
+        font-size: 24px;
+      }
+
+      .stat-label {
+        letter-spacing: 0.5px;
       }
 
       .hero-title {
@@ -4470,8 +4517,9 @@
         right: auto;
         bottom: auto;
         transform: none;
+        animation: none;
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 14px;
         width: 100%;
       }
@@ -4508,6 +4556,21 @@
 
       .footer-top {
         gap: 34px 28px;
+      }
+
+      /* Keep vertical touch scrolling smooth even when swipe starts on form controls. */
+      #contact,
+      .contact-grid,
+      .order-form,
+      .form-row,
+      .form-group,
+      .form-group label,
+      .form-group input,
+      .form-group select,
+      .form-group textarea,
+      .form-submit,
+      footer {
+        touch-action: pan-y;
       }
     }
 
@@ -4721,6 +4784,30 @@
       }
     }
 
+    @media (hover: none), (pointer: coarse) {
+      #contact,
+      .contact-grid,
+      .order-form,
+      .form-row,
+      .form-group,
+      .form-group label,
+      .form-submit,
+      footer {
+        touch-action: pan-y;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 16px;
+        touch-action: pan-y;
+      }
+
+      .form-group textarea {
+        resize: none;
+      }
+    }
+
     @media (max-width: 640px) {
       #navbar,
       #hero,
@@ -4761,6 +4848,19 @@
         width: 100%;
         justify-content: center;
         padding: 14px 18px;
+      }
+
+      .hero-right {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .stat-card {
+        padding: 14px 14px;
+      }
+
+      .stat-num {
+        font-size: 22px;
       }
 
       .section-header {
