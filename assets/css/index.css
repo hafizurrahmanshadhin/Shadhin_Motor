@@ -3520,12 +3520,19 @@
       font-size: 15px;
       color: var(--cream);
       box-shadow: var(--shadow);
-      transform: translateX(110%);
-      transition: transform 0.4s ease;
+      transform: translateX(calc(100% + 42px));
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: transform 0.4s ease, opacity 0.24s ease, visibility 0s linear 0.4s;
     }
 
     .toast.show {
       transform: translateX(0);
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transition: transform 0.4s ease, opacity 0.24s ease;
     }
 
     .toast-title {
@@ -4227,10 +4234,18 @@
         bottom: 14px;
         max-width: none;
         transform: translateY(120%);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.35s ease, opacity 0.24s ease, visibility 0s linear 0.35s;
       }
 
       .toast.show {
         transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: transform 0.35s ease, opacity 0.24s ease;
       }
     }
 
