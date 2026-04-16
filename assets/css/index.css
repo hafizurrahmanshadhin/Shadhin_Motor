@@ -2795,4 +2795,244 @@
       }
     }
 
+    /* ── RESPONSIVE SYSTEM OVERRIDES ── */
+    nav,
+    #hero,
+    section,
+    footer {
+      padding-left: clamp(16px, 4vw, 60px);
+      padding-right: clamp(16px, 4vw, 60px);
+    }
+
+    .hero-right {
+      right: clamp(16px, 4vw, 60px);
+    }
+
+    @media (min-width: 901px) and (max-width: 1280px) {
+      nav,
+      #hero,
+      section,
+      footer {
+        padding-left: clamp(20px, 2.2vw, 32px);
+        padding-right: clamp(20px, 2.2vw, 32px);
+      }
+
+      .hero-right {
+        right: clamp(20px, 2.2vw, 32px);
+      }
+
+      .nav-links {
+        gap: 16px;
+      }
+
+      .nav-links a {
+        font-size: 12px;
+      }
+
+      .nav-logo-main {
+        font-size: 19px;
+      }
+
+      .nav-logo-sub {
+        letter-spacing: 2.4px;
+      }
+
+      .nav-cta {
+        padding: 8px 14px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav,
+      #hero,
+      section,
+      footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .nav-links.open {
+        top: 64px;
+        padding: 24px 16px 34px;
+        overflow-y: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav,
+      #hero,
+      section,
+      footer {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      nav {
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+
+      #hero {
+        min-height: auto;
+        padding-top: 104px;
+        padding-bottom: 56px;
+      }
+
+      .hero-title {
+        font-size: clamp(34px, 11vw, 46px);
+      }
+
+      .hero-subtitle {
+        font-size: 15px;
+        line-height: 1.65;
+        margin-bottom: 28px;
+      }
+
+      .hero-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 18px;
+      }
+
+      .section-header {
+        margin-bottom: 44px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        padding: 36px 22px;
+      }
+
+      .sample-modal-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item {
+        flex-basis: 214px;
+        width: 214px;
+        height: 178px;
+      }
+
+      .gallery-toolbar-meta,
+      .samples-toolbar-actions {
+        justify-content: flex-start;
+      }
+
+      .selected-sample-bar-actions {
+        width: 100%;
+      }
+
+      .selected-sample-order-btn,
+      .selected-sample-clear-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .toast {
+        left: 12px;
+        right: 12px;
+        bottom: 14px;
+        max-width: none;
+        transform: translateY(120%);
+      }
+
+      .toast.show {
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 420px) {
+      nav,
+      #hero,
+      section,
+      footer {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .nav-logo-main {
+        font-size: 17px;
+      }
+
+      .nav-logo-sub {
+        letter-spacing: 2px;
+        font-size: 8px;
+      }
+
+      .hero-title {
+        font-size: clamp(30px, 12vw, 40px);
+      }
+
+      .section-title {
+        font-size: clamp(26px, 9vw, 34px);
+      }
+
+      .gallery-item {
+        flex-basis: 196px;
+        width: 196px;
+        height: 168px;
+      }
+
+      .floating-cta-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 19px;
+      }
+    }
+
+    @media (min-width: 1600px) {
+      nav,
+      #hero,
+      section,
+      footer {
+        padding-left: clamp(64px, 6vw, 120px);
+        padding-right: clamp(64px, 6vw, 120px);
+      }
+
+      .hero-right {
+        right: clamp(64px, 6vw, 120px);
+      }
+
+      .services-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .process-steps {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 2200px) {
+      nav,
+      #hero,
+      section,
+      footer {
+        padding-left: clamp(96px, 7vw, 180px);
+        padding-right: clamp(96px, 7vw, 180px);
+      }
+
+      .hero-right {
+        right: clamp(96px, 7vw, 180px);
+      }
+
+      .hero-content {
+        max-width: 860px;
+      }
+
+      .gallery-item {
+        flex-basis: clamp(320px, 18vw, 420px);
+        width: clamp(320px, 18vw, 420px);
+        height: 280px;
+      }
+    }
+
 

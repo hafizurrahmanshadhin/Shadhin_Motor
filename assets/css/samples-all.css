@@ -8,8 +8,10 @@
 .samples-catalog-shell {
   position: relative;
   z-index: 1;
-  width: min(1280px, calc(100% - 48px));
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding-inline: clamp(20px, 4.2vw, 60px);
 }
 
 .samples-catalog-topbar {
@@ -226,7 +228,7 @@
 
 @media (max-width: 900px) {
   .samples-catalog-shell {
-    width: min(100% - 32px, 100%);
+    padding-inline: 16px;
   }
 
   .samples-catalog-topbar {
@@ -261,5 +263,102 @@
 
   .samples-catalog-grid .sample-card-swatch {
     height: 176px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .samples-catalog-shell {
+    padding-inline: clamp(64px, 6vw, 120px);
+  }
+
+  .samples-catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  }
+}
+
+@media (min-width: 2200px) {
+  .samples-catalog-shell {
+    padding-inline: clamp(96px, 7vw, 180px);
+  }
+
+  .samples-catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1280px) {
+  .samples-catalog-shell {
+    padding-inline: clamp(18px, 2.4vw, 30px);
+  }
+
+  .samples-catalog-panel {
+    padding: 20px;
+  }
+
+  .samples-catalog-main {
+    padding: 42px 0 62px;
+  }
+}
+
+@media (max-width: 640px) {
+  .samples-catalog-shell {
+    padding-inline: 12px;
+  }
+
+  .samples-catalog-main {
+    padding: 30px 0 50px;
+  }
+
+  .samples-catalog-hero {
+    margin-bottom: 24px;
+  }
+
+  .samples-catalog-hero-note {
+    width: 100%;
+  }
+
+  .samples-catalog-panel {
+    padding: 14px;
+  }
+
+  .samples-filter-group {
+    width: 100%;
+  }
+
+  .sample-filter-btn {
+    flex: 1 1 calc(50% - 8px);
+    text-align: center;
+  }
+
+  .samples-catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .samples-catalog-grid .sample-card-swatch {
+    height: 200px;
+  }
+}
+
+@media (max-width: 420px) {
+  .samples-catalog-shell {
+    padding-inline: 10px;
+  }
+
+  .samples-catalog-topbar {
+    padding: 18px 0 14px;
+  }
+
+  .samples-catalog-back-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .samples-catalog-helper {
+    font-size: 13px;
+  }
+
+  .sample-filter-btn {
+    flex: 1 1 100%;
   }
 }
