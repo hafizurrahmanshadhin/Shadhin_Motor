@@ -903,7 +903,6 @@
             </div>
             <div class="reviewer-rating" aria-label="${rating} out of 5 stars">
               <span class="reviewer-stars">${stars}</span>
-              <strong>${rating}</strong>
             </div>
           </div>
           <p class="reviewer-comment">${escapeHtml(review.comment)}</p>

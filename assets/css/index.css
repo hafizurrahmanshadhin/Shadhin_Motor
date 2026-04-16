@@ -2315,7 +2315,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 2px;
+      gap: 0;
     }
 
     .reviewer-stars {
@@ -2323,13 +2323,6 @@
       font-size: 12px;
       letter-spacing: 1px;
       line-height: 1;
-    }
-
-    .reviewer-rating strong {
-      color: var(--cream);
-      font-size: 15px;
-      line-height: 1;
-      font-weight: 700;
     }
 
     .reviewer-comment {
