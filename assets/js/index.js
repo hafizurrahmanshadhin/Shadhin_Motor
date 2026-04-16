@@ -237,8 +237,28 @@
 
     const reviewSubmitConfirmState = {
       pendingPayload: null,
-      submitting: false
+      submitting: false,
+      previewUrls: []
     };
+
+    function releaseReviewConfirmPreviewUrls() {
+      if (!reviewSubmitConfirmState.previewUrls.length) return;
+
+      reviewSubmitConfirmState.previewUrls.forEach(url => {
+        if (typeof url !== 'string' || !url.startsWith('blob:')) return;
+        if (typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+        URL.revokeObjectURL(url);
+      });
+
+      reviewSubmitConfirmState.previewUrls = [];
+    }
+
+    function createReviewConfirmPreviewUrl(file) {
+      if (typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function') return '';
+      const objectUrl = URL.createObjectURL(file);
+      reviewSubmitConfirmState.previewUrls.push(objectUrl);
+      return objectUrl;
+    }
 
     function releaseReviewUploadPreviewUrls() {
       if (!reviewUploadPreviewState.objectUrls.length) return;
@@ -292,6 +312,8 @@
       const summaryEl = document.getElementById('reviewSubmitConfirmSummary');
       if (!overlay || !summaryEl || !payload) return;
 
+      releaseReviewConfirmPreviewUrls();
+
       const commentPreview = payload.comment.length > 210
         ? `${payload.comment.slice(0, 210)}...`
         : payload.comment;
@@ -300,6 +322,50 @@
       const mediaStatus = payload.mediaFiles.length
         ? `${payload.mediaFiles.length}টি`
         : 'দেওয়া হয়নি';
+
+      let profilePreviewMarkup = '<p class="review-confirm-file-name">দেওয়া হয়নি</p>';
+      if (payload.avatarFile && payload.avatarFile.type.startsWith('image/')) {
+        const avatarPreviewUrl = createReviewConfirmPreviewUrl(payload.avatarFile);
+        profilePreviewMarkup = `
+          <div class="review-confirm-media-thumb review-confirm-avatar-thumb">
+            <img src="${avatarPreviewUrl}" alt="${escapeHtml(payload.avatarFile.name || 'avatar')}" loading="lazy">
+          </div>
+          <p class="review-confirm-file-name">${escapeHtml(profileStatus)}</p>
+        `;
+      } else if (payload.avatarFile) {
+        profilePreviewMarkup = `<p class="review-confirm-file-name">${escapeHtml(profileStatus)}</p>`;
+      }
+
+      let mediaPreviewMarkup = '<p class="review-confirm-file-name">দেওয়া হয়নি</p>';
+      if (payload.mediaFiles.length) {
+        mediaPreviewMarkup = `
+          <div class="review-confirm-media-grid">
+            ${payload.mediaFiles.map(file => {
+              const src = createReviewConfirmPreviewUrl(file);
+              const safeName = escapeHtml(file.name || 'media');
+              const isVideo = file.type.startsWith('video/');
+              if (isVideo) {
+                return `
+                  <figure class="review-confirm-media-thumb review-confirm-media-video">
+                    <video src="${src}" muted playsinline preload="metadata"></video>
+                    <span class="review-confirm-media-kind">ভিডিও</span>
+                    <figcaption>${safeName}</figcaption>
+                  </figure>
+                `;
+              }
+
+              return `
+                <figure class="review-confirm-media-thumb review-confirm-media-image">
+                  <img src="${src}" alt="${safeName}" loading="lazy">
+                  <span class="review-confirm-media-kind">ছবি</span>
+                  <figcaption>${safeName}</figcaption>
+                </figure>
+              `;
+            }).join('')}
+          </div>
+          <p class="review-confirm-file-name">মোট ${escapeHtml(mediaStatus)}</p>
+        `;
+      }
 
       summaryEl.innerHTML = `
         <div class="review-confirm-item">
@@ -316,11 +382,15 @@
         </div>
         <div class="review-confirm-item">
           <span class="review-confirm-item-label">প্রোফাইল ছবি</span>
-          <div class="review-confirm-item-value">${escapeHtml(profileStatus)}</div>
+          <div class="review-confirm-item-value review-confirm-media-wrap">
+            ${profilePreviewMarkup}
+          </div>
         </div>
         <div class="review-confirm-item">
           <span class="review-confirm-item-label">কাজের ছবি/ভিডিও</span>
-          <div class="review-confirm-item-value">${escapeHtml(mediaStatus)}</div>
+          <div class="review-confirm-item-value review-confirm-media-wrap">
+            ${mediaPreviewMarkup}
+          </div>
         </div>
         <div class="review-confirm-item review-confirm-comment">
           <span class="review-confirm-item-label">রিভিউ টেক্সট</span>
@@ -341,6 +411,7 @@
       overlay.setAttribute('aria-hidden', 'true');
       reviewSubmitConfirmState.pendingPayload = null;
       reviewSubmitConfirmState.submitting = false;
+      releaseReviewConfirmPreviewUrls();
     }
 
     async function finalizeReviewSubmitFromConfirm() {
