@@ -1,3 +1,14 @@
+/**
+ * Samples catalog page controller.
+ *
+ * Responsibilities:
+ * - normalize sample data from localStorage/admin panel
+ * - provide filter/search interactions with URL sync
+ * - handle accessible modal preview + order handoff
+ */
+(function () {
+  'use strict';
+
 const SAMPLE_LABELS = { all: 'সব', rexine: 'রেক্সিন', leather: 'লেদার' };
 
 const DEFAULT_SAMPLES = [
@@ -28,6 +39,15 @@ const FOCUSABLE_SELECTOR = [
   'textarea:not([disabled])',
   '[tabindex]:not([tabindex="-1"])'
 ].join(', ');
+const ACTIVATION_KEYS = new Set(['Enter', ' ']);
+
+function isActivationKey(event) {
+  return ACTIVATION_KEYS.has(event.key);
+}
+
+function findSampleById(sampleId) {
+  return allSamples.find(item => item.id === sampleId) || null;
+}
 
 function normalizeSampleMaterial(value) {
   const raw = String(value || '').trim().toLowerCase();
@@ -149,7 +169,7 @@ function renderSamplesCatalog() {
     card.addEventListener('click', () => openSampleModal(card.dataset.sampleId, card));
     card.addEventListener('keydown', event => {
       if (event.target.closest('[data-order-sample-id]')) return;
-      if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (!isActivationKey(event)) return;
       event.preventDefault();
       openSampleModal(card.dataset.sampleId, card);
     });
@@ -206,7 +226,7 @@ function sampleCard(sample) {
 }
 
 function openSampleModal(id, triggerEl = null) {
-  const sample = allSamples.find(item => item.id === id);
+  const sample = findSampleById(id);
   if (!sample) return;
   modalSample = sample;
   lastSampleTrigger = triggerEl instanceof HTMLElement
@@ -268,7 +288,7 @@ function closeSampleModal() {
 }
 
 function orderSample(sampleId) {
-  const sample = allSamples.find(item => item.id === sampleId);
+  const sample = findSampleById(sampleId);
   if (!sample || !sample.available) return;
   localStorage.setItem('ac_selected_sample_id', sampleId);
   window.location.href = `index.html?sample=${encodeURIComponent(sampleId)}#contact`;
@@ -313,3 +333,5 @@ currentFilter = normalizeFilter(initialParams.get('material') || 'all');
 currentSearch = initialParams.get('q') || '';
 document.getElementById('samplesCatalogSearchInput').value = currentSearch;
 loadSamples();
+
+})();

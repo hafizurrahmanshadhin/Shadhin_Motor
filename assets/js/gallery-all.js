@@ -1,3 +1,14 @@
+/**
+ * Gallery catalog page controller.
+ *
+ * Responsibilities:
+ * - normalize gallery data coming from localStorage/admin panel
+ * - handle filter/search/model query state
+ * - render cards and accessible lightbox navigation
+ */
+(function () {
+  'use strict';
+
     const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার', all: 'সব' };
     const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
 
@@ -38,6 +49,16 @@
       'textarea:not([disabled])',
       '[tabindex]:not([tabindex="-1"])'
     ].join(', ');
+    const ACTIVATION_KEYS = new Set(['Enter', ' ']);
+
+    function getValidIndex(rawValue) {
+      const idx = Number(rawValue || '-1');
+      return Number.isInteger(idx) && idx >= 0 ? idx : null;
+    }
+
+    function isActivationKey(event) {
+      return ACTIVATION_KEYS.has(event.key);
+    }
 
     function normalizeFilter(value) {
       return ['all', 'car', 'bike', 'repair'].includes(value) ? value : 'all';
@@ -91,6 +112,7 @@
     }
 
     function getRelatedGroupItems(item) {
+      // When multiple photos belong to one model group, keep lightbox navigation scoped to that group.
       const key = getGroupKey(item);
       const related = allGallery.filter(candidate => candidate.cat === item.cat && getGroupKey(candidate) === key);
       return related.length ? related : [item];
@@ -200,17 +222,17 @@
 
       root.querySelectorAll('.gallery-card[data-gallery-index]').forEach(card => {
         card.addEventListener('click', () => {
-          const idx = Number(card.dataset.galleryIndex || '-1');
-          if (!Number.isInteger(idx) || idx < 0) return;
+          const idx = getValidIndex(card.dataset.galleryIndex);
+          if (idx === null) return;
           openLightbox(idx, card);
         });
 
         card.addEventListener('keydown', event => {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
+          if (!isActivationKey(event)) return;
           event.preventDefault();
 
-          const idx = Number(card.dataset.galleryIndex || '-1');
-          if (!Number.isInteger(idx) || idx < 0) return;
+          const idx = getValidIndex(card.dataset.galleryIndex);
+          if (idx === null) return;
           openLightbox(idx, card);
         });
       });
@@ -374,5 +396,7 @@
     currentSearch = initialParams.get('q') || '';
     document.getElementById('catalogSearchInput').value = currentSearch;
     loadGallery();
+
+  })();
 
 

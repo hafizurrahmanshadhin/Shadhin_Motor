@@ -1,3 +1,15 @@
+/**
+ * Homepage interaction controller.
+ *
+ * This file keeps all runtime UI flows for:
+ * - navigation state
+ * - review module (create + list + preview)
+ * - gallery showcase + lightbox
+ * - sample selection + order flow
+ */
+(function () {
+  'use strict';
+
     // ─── NAVBAR ─────────────────────────────────────────────────────────────────
     const navbar = document.getElementById('navbar');
     const navLinksContainer = document.getElementById('navLinks');
@@ -2416,10 +2428,18 @@
       if (!modalSample) return;
       selectSample(modalSample.id);
       closeSampleModal();
-      // Smooth scroll to order form
-      setTimeout(() => {
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-      }, 200);
+      scrollToSectionById('contact', 200);
+    }
+
+    // Keep all delayed smooth-scroll behavior in one helper for consistency.
+    function scrollToSectionById(sectionId, delayMs = 0, block = 'start') {
+      const target = document.getElementById(sectionId);
+      if (!target) return;
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.setTimeout(() => {
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block });
+      }, delayMs);
     }
 
     // Select a sample — sets global state + updates UI
@@ -2463,9 +2483,7 @@
     }
 
     function scrollToOrder() {
-      setTimeout(() => {
-        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      scrollToSectionById('contact', 100);
     }
 
     function getSampleMaterialLabel(sample) {
@@ -2533,9 +2551,7 @@
 
     function goChooseSample() {
       closeSampleConfirmModal();
-      setTimeout(() => {
-        document.getElementById('samples').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 120);
+      scrollToSectionById('samples', 120, 'start');
       showToast('🪡 একটি স্যাম্পল বেছে নিন', 'Sample ID নির্বাচন করলে আমরা ডিজাইন, রং ও মূল্যের বিষয়ে আরও দ্রুত সাহায্য করতে পারব।', 5000);
     }
 
@@ -2656,5 +2672,7 @@
     initReviewsModule();
     loadSamples();
     loadGallery();
+
+  })();
 
 

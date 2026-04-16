@@ -1,3 +1,7 @@
+/*
+  Samples catalog page stylesheet.
+  This file extends shared styles from index.css and focuses on page-specific layout, toolbar, and card presentation.
+*/
 .samples-catalog-page {
   background:
     radial-gradient(circle at top right, rgba(232, 168, 50, 0.08), transparent 28%),
@@ -16,6 +20,7 @@
   padding-inline: clamp(20px, 4.2vw, 60px);
 }
 
+/* Top navigation strip for the dedicated samples page. */
 .samples-catalog-topbar {
   display: flex;
   align-items: center;
@@ -85,6 +90,7 @@
   letter-spacing: 0.5px;
 }
 
+/* Main interactive panel: filters, search controls, and catalog grid. */
 .samples-catalog-panel {
   padding: 26px;
   border: 1px solid rgba(200, 134, 10, 0.12);

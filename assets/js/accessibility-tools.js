@@ -1,10 +1,17 @@
 (function () {
   'use strict';
 
+  // Shared accessibility helper injected across all public pages.
+  // This module is intentionally standalone so pages can opt in with one script tag.
   const STORAGE_KEY = 'shadhinMotorA11yPrefs.v1';
   const FOCUSABLE_SELECTOR = 'button, a[href], [tabindex]:not([tabindex="-1"])';
   const WHATSAPP_LINK = 'https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai.';
   const CALL_LINK = 'tel:+8801911387254';
+  const ACTION_LABELS = {
+    largeText: 'বড় লেখা',
+    highContrast: 'উচ্চ কনট্রাস্ট',
+    easyRead: 'সহজ পাঠ মোড'
+  };
 
   const state = {
     largeText: false,
@@ -59,6 +66,7 @@
 
   function getReadablePageText() {
     const sourceRoot = document.querySelector('main') || document.body;
+    // Prioritize content-heavy elements so read-aloud is useful instead of noisy.
     const selectors = [
       'h1', 'h2', 'h3',
       '.section-label', '.section-title', '.section-lead',
@@ -163,12 +171,7 @@
       syncPressedStates();
       saveState();
 
-      const labels = {
-        largeText: 'বড় লেখা',
-        highContrast: 'উচ্চ কনট্রাস্ট',
-        easyRead: 'সহজ পাঠ মোড'
-      };
-      setStatus(`${labels[key]} ${state[key] ? 'চালু' : 'বন্ধ'} হয়েছে`);
+      setStatus(`${ACTION_LABELS[key]} ${state[key] ? 'চালু' : 'বন্ধ'} হয়েছে`);
     };
 
     const scrollToContact = () => {
@@ -240,6 +243,16 @@
       setStatus('সব সেটিং ডিফল্টে নেওয়া হয়েছে');
     };
 
+    const actionHandlers = {
+      largeText: () => toggleFeature('largeText'),
+      highContrast: () => toggleFeature('highContrast'),
+      easyRead: () => toggleFeature('easyRead'),
+      gotoContact: scrollToContact,
+      readAloud,
+      stopRead: stopReading,
+      reset: resetAll
+    };
+
     toggleBtn?.addEventListener('click', () => {
       if (shell.classList.contains('open')) closePanel();
       else openPanel();
@@ -250,13 +263,8 @@
       if (!actionEl) return;
 
       const action = actionEl.getAttribute('data-a11y-action');
-      if (action === 'largeText') toggleFeature('largeText');
-      if (action === 'highContrast') toggleFeature('highContrast');
-      if (action === 'easyRead') toggleFeature('easyRead');
-      if (action === 'gotoContact') scrollToContact();
-      if (action === 'readAloud') readAloud();
-      if (action === 'stopRead') stopReading();
-      if (action === 'reset') resetAll();
+      const handler = action ? actionHandlers[action] : null;
+      if (typeof handler === 'function') handler();
     });
 
     document.addEventListener('click', event => {

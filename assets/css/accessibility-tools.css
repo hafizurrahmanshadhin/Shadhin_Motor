@@ -1,3 +1,7 @@
+/*
+  Shared accessibility toolbar styles.
+  Applied on all public pages via accessibility-tools.js.
+*/
 :root {
   --a11y-panel-bg: #0f0b06;
   --a11y-panel-border: rgba(245, 215, 142, 0.45);
@@ -8,6 +12,7 @@
   --a11y-action-muted-text: #f5d78e;
 }
 
+/* Floating toolbar shell */
 .a11y-tools {
   position: fixed;
   left: 12px;
@@ -104,6 +109,7 @@
   color: #f8df9f;
 }
 
+/* Runtime body classes toggled by accessibility-tools.js */
 body.a11y-large-text {
   font-size: 112%;
 }

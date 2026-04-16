@@ -1,3 +1,7 @@
+/*
+  Gallery catalog page stylesheet.
+  Structure: design tokens -> base reset -> page shell -> catalog UI -> card grid -> lightbox -> footer -> responsive.
+*/
     :root {
       --bg-deep: #0e0a04;
       --bg-dark: #1c1107;
@@ -52,6 +56,7 @@
       color: inherit;
     }
 
+    /* Shared accessibility helpers for keyboard and screen-reader users. */
     .skip-link {
       position: fixed;
       top: 10px;

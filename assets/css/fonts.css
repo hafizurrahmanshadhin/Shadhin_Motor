@@ -1,3 +1,7 @@
+/*
+  Local font-face declarations used across the website.
+  Keeping font-display: swap ensures text remains visible while custom fonts load.
+*/
 @font-face {
   font-family: 'Hind Siliguri';
   src: url('../fonts/hind-siliguri-300.ttf') format('truetype');
