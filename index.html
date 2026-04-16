@@ -683,10 +683,24 @@
           </div>
         </div>
 
-        <a href="#contact" class="btn-primary reviews-summary-cta">আপনিও অর্ডার দিন</a>
+        <div class="reviews-summary-actions">
+          <button type="button" class="btn-secondary reviews-submit-trigger" id="openReviewModalBtn">
+            আপনার রিভিউ দিন
+          </button>
+          <a href="#contact" class="btn-primary reviews-summary-cta">আপনিও অর্ডার দিন</a>
+        </div>
       </aside>
 
-      <div class="reviews-grid" id="reviewsGrid">
+      <div class="reviews-rail">
+        <div class="reviews-rail-head reveal">
+          <p class="reviews-rail-meta" id="reviewsDisplayMeta">মোট 0টি রিভিউ থেকে 0টি দেখানো হচ্ছে</p>
+          <button type="button" class="btn-secondary reviews-submit-trigger reviews-submit-trigger-top"
+            id="openReviewModalBtnTop">
+            রিভিউ দিন
+          </button>
+        </div>
+
+        <div class="reviews-grid" id="reviewsGrid">
         <article class="review-card reveal" data-review-score="5">
           <div class="review-card-head">
             <img src="assets/images/reviews/reviewer-rk.jpeg" class="review-avatar" alt="Customer profile: Rashed Karim"
@@ -798,6 +812,10 @@
             customer-friendly।
           </p>
         </article>
+
+        </div>
+
+        <div class="reviews-pagination" id="reviewsPagination" aria-label="Reviews pagination"></div>
       </div>
     </div>
   </section>
@@ -946,6 +964,68 @@
           ✅ স্যাম্পল ছাড়া অর্ডার জমা দিন
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- REVIEW SUBMIT MODAL -->
+  <div class="review-submit-overlay" id="reviewSubmitModal" aria-hidden="true">
+    <div class="review-submit-modal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+      <button type="button" class="review-submit-close" id="closeReviewModalBtn" aria-label="বন্ধ করুন">✕</button>
+      <div class="review-submit-badge">আপনার কাজের রিভিউ শেয়ার করুন</div>
+      <h3 class="review-submit-title" id="reviewModalTitle">Shadhin Motor-কে রিভিউ দিন</h3>
+      <p class="review-submit-copy">
+        আপনার ছবি/ভিডিওসহ রিভিউ submit করুন। Dashboard থেকে approve করার পর selected review homepage-এ show হবে।
+      </p>
+
+      <form id="reviewSubmitForm" class="review-submit-form" novalidate>
+        <div class="review-submit-grid">
+          <div class="form-group">
+            <label for="reviewUserName">আপনার নাম</label>
+            <input type="text" id="reviewUserName" name="reviewUserName" placeholder="যেমন: মোঃ রাশেদ" required
+              maxlength="60">
+          </div>
+          <div class="form-group">
+            <label for="reviewWorkInfo">গাড়ি/কাজের তথ্য</label>
+            <input type="text" id="reviewWorkInfo" name="reviewWorkInfo" placeholder="যেমন: Toyota Axio • মিরপুর"
+              required maxlength="90">
+          </div>
+          <div class="form-group">
+            <label for="reviewUserRating">রেটিং (১-৫)</label>
+            <select id="reviewUserRating" name="reviewUserRating" required>
+              <option value="">রেটিং নির্বাচন করুন</option>
+              <option value="5">5 ★</option>
+              <option value="4">4 ★</option>
+              <option value="3">3 ★</option>
+              <option value="2">2 ★</option>
+              <option value="1">1 ★</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="reviewUserAvatar">প্রোফাইল ছবি</label>
+            <input type="file" id="reviewUserAvatar" name="reviewUserAvatar" accept="image/*" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reviewUserComment">রিভিউ (টেক্সট)</label>
+          <textarea id="reviewUserComment" name="reviewUserComment" rows="4" maxlength="600"
+            placeholder="কাজের মান, ফিটিং, সার্ভিস অভিজ্ঞতা লিখুন" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="reviewUserMedia">কাজের ছবি/ভিডিও (১ বা একাধিক)</label>
+          <input type="file" id="reviewUserMedia" name="reviewUserMedia" accept="image/*,video/*" multiple
+            required>
+          <small class="review-submit-hint">আপনি ১-৬টি image/video দিতে পারবেন। image max 2MB, video max 8MB
+            (compressed).</small>
+          <div class="review-submit-meta" id="reviewSubmitFileMeta">এখনও কোনো file নির্বাচন করা হয়নি।</div>
+        </div>
+
+        <div class="review-submit-actions">
+          <button type="button" class="btn-secondary review-cancel-btn" id="reviewCancelBtn">বাতিল</button>
+          <button type="submit" class="btn-primary review-submit-primary-btn">রিভিউ সাবমিট করুন</button>
+        </div>
+      </form>
     </div>
   </div>
 

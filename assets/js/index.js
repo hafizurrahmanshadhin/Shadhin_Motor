@@ -55,53 +55,304 @@
     const revealObs = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    function observeRevealElements(root = document) {
+      root.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+    }
+    observeRevealElements();
 
-    // ─── REVIEWS SUMMARY ───────────────────────────────────────────────────────
-    function initReviewsSummary() {
-      const cards = Array.from(document.querySelectorAll('.review-card[data-review-score]'));
-      if (!cards.length) return;
+    // ─── REVIEWS MODULE ───────────────────────────────────────────────────────
+    const REVIEW_STORAGE_KEY = 'ac_reviews';
+    const REVIEW_PENDING_STORAGE_KEY = 'ac_review_submissions';
+    const REVIEW_SELECTED_IDS_KEY = 'ac_selected_review_ids';
+    const REVIEW_AVATAR_FALLBACKS = [
+      'assets/images/reviews/reviewer-rk.jpeg',
+      'assets/images/reviews/reviewer-na.jpeg',
+      'assets/images/reviews/reviewer-ma.jpeg',
+      'assets/images/reviews/reviewer-sa.jpeg',
+      'assets/images/reviews/reviewer-fa.jpeg',
+      'assets/images/reviews/reviewer-ta.jpeg'
+    ];
 
-      const normalizedRatings = cards
-        .map(card => {
-          const rawScore = Number(card.dataset.reviewScore);
-          if (!Number.isFinite(rawScore) || rawScore <= 0) return null;
+    const reviewState = {
+      fallbackReviews: [],
+      publishedReviews: [],
+      page: 1,
+      perPage: 6,
+      resizeTick: 0
+    };
 
-          // Review score must be a whole number from 1 to 5.
-          const score = Math.max(1, Math.min(5, Math.round(rawScore)));
-          return { card, score };
+    function safeParseArray(rawValue) {
+      try {
+        const parsed = JSON.parse(rawValue || '[]');
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function escapeHtml(value = '') {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getFallbackAvatar(index = 0) {
+      return REVIEW_AVATAR_FALLBACKS[index % REVIEW_AVATAR_FALLBACKS.length];
+    }
+
+    function sanitizeMediaSrc(src = '', type = 'image') {
+      const clean = String(src || '').trim();
+      if (!clean) return '';
+
+      const isImageData = clean.startsWith('data:image/');
+      const isVideoData = clean.startsWith('data:video/');
+      const isHttp = /^https?:\/\//i.test(clean);
+      const isRelative = clean.startsWith('assets/') || clean.startsWith('./') || clean.startsWith('../');
+
+      if (type === 'video') {
+        if (isVideoData || isHttp || isRelative) return clean;
+        return '';
+      }
+
+      if (isImageData || isHttp || isRelative) return clean;
+      return '';
+    }
+
+    function normalizeMediaItem(rawMedia) {
+      if (!rawMedia) return null;
+
+      if (typeof rawMedia === 'string') {
+        const src = rawMedia.trim();
+        const isVideo = src.startsWith('data:video/') || /\.(mp4|webm|ogg|mov)(\?|#|$)/i.test(src);
+        const type = isVideo ? 'video' : 'image';
+        const safeSrc = sanitizeMediaSrc(src, type);
+        return safeSrc ? { type, src: safeSrc } : null;
+      }
+
+      if (typeof rawMedia === 'object') {
+        const src = (rawMedia.src || rawMedia.url || '').trim();
+        const fallbackType = src.startsWith('data:video/') || /\.(mp4|webm|ogg|mov)(\?|#|$)/i.test(src)
+          ? 'video'
+          : 'image';
+        const type = rawMedia.type === 'video' ? 'video' : fallbackType;
+        const safeSrc = sanitizeMediaSrc(src, type);
+        if (!safeSrc) return null;
+
+        return {
+          type,
+          src: safeSrc,
+          name: rawMedia.name ? String(rawMedia.name) : ''
+        };
+      }
+
+      return null;
+    }
+
+    function normalizeMediaCollection(raw) {
+      if (!Array.isArray(raw)) return [];
+      return raw
+        .map(normalizeMediaItem)
+        .filter(Boolean)
+        .slice(0, 12);
+    }
+
+    function normalizeReview(rawReview, index = 0) {
+      if (!rawReview || typeof rawReview !== 'object') return null;
+
+      const rawRating = Number(
+        rawReview.rating
+        ?? rawReview.score
+        ?? rawReview.stars
+        ?? rawReview.userRating
+        ?? rawReview.reviewScore
+        ?? 0
+      );
+      const rating = Math.max(1, Math.min(5, Math.round(rawRating || 0)));
+
+      const name = String(rawReview.name || rawReview.customerName || rawReview.reviewerName || '').trim();
+      const work = String(rawReview.work || rawReview.meta || rawReview.workInfo || rawReview.vehicleInfo || rawReview.workTitle || '').trim();
+      const comment = String(rawReview.comment || rawReview.reviewText || rawReview.review || rawReview.text || '').trim();
+
+      if (!name || !work || !comment) return null;
+
+      const avatarCandidate = String(rawReview.avatar || rawReview.avatarUrl || rawReview.profilePic || '').trim();
+      const avatar = sanitizeMediaSrc(avatarCandidate, 'image') || getFallbackAvatar(index);
+
+      const directMedia = normalizeMediaCollection(rawReview.media);
+      const imageList = Array.isArray(rawReview.images)
+        ? rawReview.images.map(src => ({ type: 'image', src }))
+        : [];
+      const videoList = Array.isArray(rawReview.videos)
+        ? rawReview.videos.map(src => ({ type: 'video', src }))
+        : [];
+      const mergedMedia = directMedia.length
+        ? directMedia
+        : normalizeMediaCollection([...imageList, ...videoList]);
+
+      return {
+        id: String(rawReview.id || rawReview.reviewId || `review-${Date.now()}-${index}`),
+        name,
+        work,
+        rating,
+        comment,
+        avatar,
+        media: mergedMedia,
+        approved: rawReview.approved !== false && rawReview.isApproved !== false,
+        selected: rawReview.selected !== false && rawReview.isSelected !== false,
+        status: String(rawReview.status || ((rawReview.approved === false || rawReview.isApproved === false) ? 'pending' : 'approved')),
+        createdAt: String(rawReview.createdAt || rawReview.dateISO || rawReview.date || '')
+      };
+    }
+
+    function collectFallbackReviewsFromMarkup() {
+      const cards = Array.from(document.querySelectorAll('#reviewsGrid .review-card[data-review-score]'));
+
+      return cards
+        .map((card, idx) => {
+          const name = card.querySelector('.reviewer-name')?.textContent?.trim() || '';
+          const work = card.querySelector('.reviewer-meta')?.textContent?.trim() || '';
+          const comment = card.querySelector('.reviewer-comment')?.textContent?.trim() || '';
+          const avatar = card.querySelector('.review-avatar')?.getAttribute('src') || getFallbackAvatar(idx);
+          const scoreRaw = Number(card.dataset.reviewScore);
+
+          return normalizeReview({
+            id: `seed-review-${idx + 1}`,
+            name,
+            work,
+            comment,
+            avatar,
+            rating: scoreRaw,
+            approved: true,
+            selected: true,
+            status: 'approved'
+          }, idx);
         })
         .filter(Boolean);
+    }
 
-      const scores = normalizedRatings.map(({ score }) => score);
+    function loadPublishedReviews() {
+      const storedReviews = safeParseArray(localStorage.getItem(REVIEW_STORAGE_KEY));
+      const source = storedReviews.length ? storedReviews : reviewState.fallbackReviews;
 
-      if (!scores.length) return;
+      const normalized = source
+        .map((review, idx) => normalizeReview(review, idx))
+        .filter(Boolean)
+        .filter(review => review.approved !== false && review.status !== 'pending');
 
-      normalizedRatings.forEach(({ card, score }) => {
-        card.dataset.reviewScore = String(score);
+      const selectedIds = safeParseArray(localStorage.getItem(REVIEW_SELECTED_IDS_KEY)).map(id => String(id));
+      const selectedSet = new Set(selectedIds);
 
-        const ratingWrap = card.querySelector('.reviewer-rating');
-        const starsEl = card.querySelector('.reviewer-stars');
-        const scoreEl = card.querySelector('.reviewer-rating strong');
+      const selected = selectedSet.size
+        ? normalized.filter(review => selectedSet.has(String(review.id)))
+        : normalized.filter(review => review.selected !== false);
 
-        if (ratingWrap) ratingWrap.setAttribute('aria-label', `${score} out of 5 stars`);
-        if (starsEl) starsEl.textContent = `${'★'.repeat(score)}${'☆'.repeat(5 - score)}`;
-        if (scoreEl) scoreEl.textContent = String(score);
+      selected.sort((a, b) => {
+        const left = Date.parse(a.createdAt || '') || 0;
+        const right = Date.parse(b.createdAt || '') || 0;
+        return right - left;
       });
 
-      const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
-      const roundedAverage = Math.round(average * 10) / 10;
+      reviewState.publishedReviews = selected;
+    }
 
+    function getReviewStars(rating) {
+      return `${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}`;
+    }
+
+    function getReviewsPerPage() {
+      if (window.innerWidth <= 640) return 2;
+      if (window.innerWidth <= 1100) return 4;
+      return 6;
+    }
+
+    function renderReviewMedia(mediaList) {
+      if (!mediaList.length) return '';
+
+      return `
+        <div class="review-media-strip" aria-label="Customer shared media">
+          ${mediaList.map((item, idx) => {
+            const safeSrc = escapeHtml(item.src);
+            if (!safeSrc) return '';
+
+            if (item.type === 'video') {
+              return `
+                <figure class="review-media-item" data-media-index="${idx}">
+                  <video src="${safeSrc}" preload="metadata" controls playsinline></video>
+                  <span class="review-media-type">ভিডিও</span>
+                </figure>
+              `;
+            }
+
+            return `
+              <figure class="review-media-item" data-media-index="${idx}">
+                <img src="${safeSrc}" alt="Customer work media ${idx + 1}" loading="lazy" decoding="async">
+                <span class="review-media-type">ছবি</span>
+              </figure>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    function reviewCardTemplate(review, idx) {
+      const rating = Math.max(1, Math.min(5, Math.round(Number(review.rating) || 0)));
+      const stars = getReviewStars(rating);
+      const delayClass = idx % 6 ? `reveal-delay-${Math.min(idx % 6, 5)}` : '';
+      const mediaBlock = renderReviewMedia(review.media || []);
+
+      return `
+        <article class="review-card reveal ${delayClass}" data-review-id="${escapeHtml(review.id)}" data-review-score="${rating}">
+          <div class="review-card-head">
+            <img src="${escapeHtml(review.avatar)}" class="review-avatar" alt="Customer profile: ${escapeHtml(review.name)}" loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">${escapeHtml(review.name)}</h3>
+              <p class="reviewer-meta">${escapeHtml(review.work)}</p>
+            </div>
+            <div class="reviewer-rating" aria-label="${rating} out of 5 stars">
+              <span class="reviewer-stars">${stars}</span>
+              <strong>${rating}</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">${escapeHtml(review.comment)}</p>
+          ${mediaBlock}
+        </article>
+      `;
+    }
+
+    function updateReviewsSummary(reviews) {
       const avgEl = document.getElementById('reviewsAverage');
       const countEl = document.getElementById('reviewsCount');
       const starsFillEl = document.getElementById('reviewsStarsFill');
 
-      if (avgEl) avgEl.textContent = roundedAverage.toFixed(1);
-      if (countEl) countEl.textContent = String(scores.length);
-      if (starsFillEl) {
-        const pct = Math.max(0, Math.min(100, (average / 5) * 100));
-        starsFillEl.style.width = `${pct}%`;
+      const scores = reviews
+        .map(review => Number(review.rating))
+        .filter(score => Number.isFinite(score) && score >= 1 && score <= 5)
+        .map(score => Math.round(score));
+
+      const total = scores.length;
+
+      if (!total) {
+        if (avgEl) avgEl.textContent = '0.0';
+        if (countEl) countEl.textContent = '0';
+        if (starsFillEl) starsFillEl.style.width = '0%';
+        document.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
+          const fillEl = row.querySelector('.reviews-breakdown-fill');
+          const countTextEl = row.querySelector('.reviews-breakdown-count');
+          if (fillEl) fillEl.style.width = '0%';
+          if (countTextEl) countTextEl.textContent = '0';
+        });
+        return;
       }
+
+      const average = scores.reduce((sum, score) => sum + score, 0) / total;
+      const roundedAverage = Math.round(average * 10) / 10;
+
+      if (avgEl) avgEl.textContent = roundedAverage.toFixed(1);
+      if (countEl) countEl.textContent = String(total);
+      if (starsFillEl) starsFillEl.style.width = `${Math.max(0, Math.min(100, (average / 5) * 100))}%`;
 
       const buckets = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       scores.forEach(score => {
@@ -114,8 +365,349 @@
         const fillEl = row.querySelector('.reviews-breakdown-fill');
         const countTextEl = row.querySelector('.reviews-breakdown-count');
 
-        if (fillEl) fillEl.style.width = `${(count / scores.length) * 100}%`;
+        if (fillEl) fillEl.style.width = `${(count / total) * 100}%`;
         if (countTextEl) countTextEl.textContent = String(count);
+      });
+    }
+
+    function updateReviewsDisplayMeta(total, from, to) {
+      const metaEl = document.getElementById('reviewsDisplayMeta');
+      if (!metaEl) return;
+
+      if (!total) {
+        metaEl.textContent = 'এখনও approved রিভিউ পাওয়া যায়নি।';
+        return;
+      }
+
+      metaEl.textContent = `মোট ${total}টি রিভিউ থেকে ${from}-${to}টি দেখানো হচ্ছে`;
+    }
+
+    function buildPageTokens(totalPages, currentPage) {
+      const tokens = [];
+      for (let page = 1; page <= totalPages; page += 1) {
+        const edgePage = page === 1 || page === totalPages;
+        const nearCurrent = Math.abs(page - currentPage) <= 1;
+        if (edgePage || nearCurrent) tokens.push(page);
+        else if (tokens[tokens.length - 1] !== 'ellipsis') tokens.push('ellipsis');
+      }
+      return tokens;
+    }
+
+    function renderReviewsPagination(totalPages) {
+      const paginationEl = document.getElementById('reviewsPagination');
+      if (!paginationEl) return;
+
+      if (totalPages <= 1) {
+        paginationEl.classList.add('is-hidden');
+        paginationEl.innerHTML = '';
+        return;
+      }
+
+      paginationEl.classList.remove('is-hidden');
+      const tokens = buildPageTokens(totalPages, reviewState.page);
+
+      paginationEl.innerHTML = `
+        <button type="button" class="reviews-page-btn" data-action="prev" ${reviewState.page <= 1 ? 'disabled' : ''}>‹</button>
+        ${tokens.map(token => {
+          if (token === 'ellipsis') return '<span class="reviews-page-ellipsis">…</span>';
+          return `<button type="button" class="reviews-page-btn ${token === reviewState.page ? 'active' : ''}" data-page="${token}">${token}</button>`;
+        }).join('')}
+        <button type="button" class="reviews-page-btn" data-action="next" ${reviewState.page >= totalPages ? 'disabled' : ''}>›</button>
+      `;
+    }
+
+    function renderReviewsPage() {
+      const grid = document.getElementById('reviewsGrid');
+      if (!grid) return;
+
+      const allReviews = reviewState.publishedReviews;
+      reviewState.perPage = getReviewsPerPage();
+
+      const total = allReviews.length;
+      const totalPages = Math.max(1, Math.ceil(total / reviewState.perPage));
+      reviewState.page = Math.max(1, Math.min(reviewState.page, totalPages));
+
+      if (!total) {
+        grid.innerHTML = `
+          <div class="reviews-empty">
+            <h3>এই মুহূর্তে show করার মতো approved review নেই</h3>
+            <p>আপনার কাজের ছবি/ভিডিওসহ রিভিউ দিন, approve হলে এখানে দেখানো হবে।</p>
+          </div>
+        `;
+        updateReviewsSummary([]);
+        updateReviewsDisplayMeta(0, 0, 0);
+        renderReviewsPagination(0);
+        return;
+      }
+
+      const start = (reviewState.page - 1) * reviewState.perPage;
+      const end = start + reviewState.perPage;
+      const pageItems = allReviews.slice(start, end);
+
+      grid.innerHTML = pageItems.map((review, idx) => reviewCardTemplate(review, idx)).join('');
+      updateReviewsSummary(allReviews);
+      updateReviewsDisplayMeta(total, start + 1, Math.min(end, total));
+      renderReviewsPagination(totalPages);
+      observeRevealElements(grid);
+    }
+
+    function refreshReviews(resetPage = false) {
+      loadPublishedReviews();
+      if (resetPage) reviewState.page = 1;
+      renderReviewsPage();
+    }
+
+    function readFileAsDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result || ''));
+        reader.onerror = () => reject(new Error('File পড়তে সমস্যা হয়েছে।'));
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function toMediaPayload(file) {
+      const isImage = file.type.startsWith('image/');
+      const isVideo = file.type.startsWith('video/');
+      if (!isImage && !isVideo) {
+        throw new Error('শুধু image/video file দেওয়া যাবে।');
+      }
+
+      const maxSizeBytes = isVideo ? 8 * 1024 * 1024 : 2 * 1024 * 1024;
+      if (file.size > maxSizeBytes) {
+        const maxText = isVideo ? '8MB' : '2MB';
+        throw new Error(`${file.name} file size limit (${maxText}) এর বেশি।`);
+      }
+
+      const src = await readFileAsDataUrl(file);
+      return {
+        type: isVideo ? 'video' : 'image',
+        src,
+        name: file.name
+      };
+    }
+
+    function openReviewModal() {
+      const modal = document.getElementById('reviewSubmitModal');
+      if (!modal) return;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReviewModal() {
+      const modal = document.getElementById('reviewSubmitModal');
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateReviewFileMeta() {
+      const avatarInput = document.getElementById('reviewUserAvatar');
+      const mediaInput = document.getElementById('reviewUserMedia');
+      const metaEl = document.getElementById('reviewSubmitFileMeta');
+      if (!avatarInput || !mediaInput || !metaEl) return;
+
+      const avatarFile = avatarInput.files?.[0] || null;
+      const mediaFiles = Array.from(mediaInput.files || []);
+
+      if (!avatarFile && !mediaFiles.length) {
+        metaEl.textContent = 'এখনও কোনো file নির্বাচন করা হয়নি।';
+        return;
+      }
+
+      const mediaNames = mediaFiles.slice(0, 2).map(file => file.name).join(', ');
+      const extraText = mediaFiles.length > 2 ? ` +${mediaFiles.length - 2}টি` : '';
+
+      metaEl.textContent = `প্রোফাইল: ${avatarFile ? avatarFile.name : 'নির্বাচিত হয়নি'} | মিডিয়া: ${mediaFiles.length}টি${mediaNames ? ` (${mediaNames}${extraText})` : ''}`;
+    }
+
+    async function handleReviewSubmit(event) {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+      const submitBtn = form.querySelector('.review-submit-primary-btn');
+
+      const name = document.getElementById('reviewUserName')?.value.trim() || '';
+      const workInfo = document.getElementById('reviewWorkInfo')?.value.trim() || '';
+      const comment = document.getElementById('reviewUserComment')?.value.trim() || '';
+      const rating = Number(document.getElementById('reviewUserRating')?.value || '0');
+      const avatarInput = document.getElementById('reviewUserAvatar');
+      const mediaInput = document.getElementById('reviewUserMedia');
+
+      const avatarFile = avatarInput?.files?.[0] || null;
+      const mediaFiles = Array.from(mediaInput?.files || []);
+
+      if (!name || !workInfo || !comment) {
+        showToast('⚠️ অপূর্ণ তথ্য', 'নাম, কাজের তথ্য ও রিভিউ লিখতে হবে।');
+        return;
+      }
+
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        showToast('⚠️ ভুল রেটিং', 'রেটিং শুধু ১, ২, ৩, ৪ বা ৫ হতে পারবে।');
+        return;
+      }
+
+      if (!avatarFile) {
+        showToast('⚠️ প্রোফাইল ছবি লাগবে', 'রিভিউ submit করতে একটি profile photo দিন।');
+        return;
+      }
+
+      if (!avatarFile.type.startsWith('image/')) {
+        showToast('⚠️ ভুল প্রোফাইল ফাইল', 'প্রোফাইল হিসেবে image file দিন।');
+        return;
+      }
+
+      if (avatarFile.size > 2 * 1024 * 1024) {
+        showToast('⚠️ প্রোফাইল ফাইল বড়', 'Profile photo 2MB এর মধ্যে দিন।');
+        return;
+      }
+
+      if (!mediaFiles.length) {
+        showToast('⚠️ মিডিয়া দিন', 'কাজের অন্তত ১টি ছবি বা ভিডিও দিন।');
+        return;
+      }
+
+      if (mediaFiles.length > 6) {
+        showToast('⚠️ অতিরিক্ত ফাইল', 'সর্বোচ্চ ৬টি image/video দেয়া যাবে।');
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'সাবমিট হচ্ছে...';
+      }
+
+      try {
+        const avatar = await readFileAsDataUrl(avatarFile);
+        const media = [];
+
+        for (const file of mediaFiles) {
+          // eslint-disable-next-line no-await-in-loop
+          media.push(await toMediaPayload(file));
+        }
+
+        const pendingReviews = safeParseArray(localStorage.getItem(REVIEW_PENDING_STORAGE_KEY));
+        const newReview = {
+          id: `review-${Date.now()}`,
+          name,
+          work: workInfo,
+          comment,
+          rating,
+          avatar,
+          media,
+          approved: false,
+          selected: false,
+          status: 'pending',
+          createdAt: new Date().toISOString()
+        };
+
+        pendingReviews.unshift(newReview);
+        localStorage.setItem(REVIEW_PENDING_STORAGE_KEY, JSON.stringify(pendingReviews));
+
+        form.reset();
+        updateReviewFileMeta();
+        closeReviewModal();
+
+        showToast(
+          '✅ রিভিউ জমা হয়েছে',
+          'ধন্যবাদ! Dashboard থেকে approve এবং select করার পর আপনার রিভিউ homepage-এ দেখানো হবে।',
+          6000
+        );
+      } catch (error) {
+        const quotaHit = error && (error.name === 'QuotaExceededError' || /quota/i.test(String(error.message || '')));
+        const message = quotaHit
+          ? 'Browser storage limit শেষ হয়ে গেছে। কম size এর image/video দিয়ে আবার submit করুন।'
+          : (error?.message || 'রিভিউ submit করা যায়নি। আবার চেষ্টা করুন।');
+
+        showToast('⚠️ রিভিউ জমা হয়নি', message, 6500);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'রিভিউ সাবমিট করুন';
+        }
+      }
+    }
+
+    function initReviewSubmissionModal() {
+      const openBtns = [
+        document.getElementById('openReviewModalBtn'),
+        document.getElementById('openReviewModalBtnTop')
+      ].filter(Boolean);
+
+      const closeBtn = document.getElementById('closeReviewModalBtn');
+      const cancelBtn = document.getElementById('reviewCancelBtn');
+      const overlay = document.getElementById('reviewSubmitModal');
+      const form = document.getElementById('reviewSubmitForm');
+      const avatarInput = document.getElementById('reviewUserAvatar');
+      const mediaInput = document.getElementById('reviewUserMedia');
+
+      openBtns.forEach(btn => btn.addEventListener('click', openReviewModal));
+      if (closeBtn) closeBtn.addEventListener('click', closeReviewModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeReviewModal);
+
+      if (overlay) {
+        overlay.addEventListener('click', event => {
+          if (event.target === overlay) closeReviewModal();
+        });
+      }
+
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        if (overlay?.classList.contains('open')) closeReviewModal();
+      });
+
+      if (avatarInput) avatarInput.addEventListener('change', updateReviewFileMeta);
+      if (mediaInput) mediaInput.addEventListener('change', updateReviewFileMeta);
+      if (form) form.addEventListener('submit', handleReviewSubmit);
+    }
+
+    function initReviewsPaginationEvents() {
+      const paginationEl = document.getElementById('reviewsPagination');
+      if (!paginationEl) return;
+
+      paginationEl.addEventListener('click', event => {
+        const btn = event.target.closest('button[data-page], button[data-action]');
+        if (!btn) return;
+
+        const totalPages = Math.max(1, Math.ceil(reviewState.publishedReviews.length / reviewState.perPage));
+
+        if (btn.dataset.action === 'prev') {
+          reviewState.page = Math.max(1, reviewState.page - 1);
+          renderReviewsPage();
+          return;
+        }
+
+        if (btn.dataset.action === 'next') {
+          reviewState.page = Math.min(totalPages, reviewState.page + 1);
+          renderReviewsPage();
+          return;
+        }
+
+        const page = Number(btn.dataset.page || '1');
+        if (!Number.isFinite(page)) return;
+        reviewState.page = Math.max(1, Math.min(totalPages, page));
+        renderReviewsPage();
+      });
+    }
+
+    function initReviewsModule() {
+      reviewState.fallbackReviews = collectFallbackReviewsFromMarkup();
+      reviewState.perPage = getReviewsPerPage();
+
+      initReviewsPaginationEvents();
+      initReviewSubmissionModal();
+      refreshReviews(true);
+
+      window.addEventListener('resize', () => {
+        window.clearTimeout(reviewState.resizeTick);
+        reviewState.resizeTick = window.setTimeout(() => {
+          const nextPerPage = getReviewsPerPage();
+          if (nextPerPage === reviewState.perPage) return;
+          reviewState.perPage = nextPerPage;
+          renderReviewsPage();
+        }, 140);
       });
     }
 
@@ -861,7 +1453,7 @@
     }
 
     // ─── INIT ─────────────────────────────────────────────────────────────────────
-    initReviewsSummary();
+    initReviewsModule();
     loadSamples();
     loadGallery();
 
