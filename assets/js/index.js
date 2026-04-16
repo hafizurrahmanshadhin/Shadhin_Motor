@@ -226,6 +226,29 @@
       title: ''
     };
 
+    const reviewUploadPreviewState = {
+      objectUrls: []
+    };
+
+    function releaseReviewUploadPreviewUrls() {
+      if (!reviewUploadPreviewState.objectUrls.length) return;
+
+      reviewUploadPreviewState.objectUrls.forEach(url => {
+        if (typeof url !== 'string' || !url.startsWith('blob:')) return;
+        if (typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') return;
+        URL.revokeObjectURL(url);
+      });
+
+      reviewUploadPreviewState.objectUrls = [];
+    }
+
+    function createReviewUploadObjectUrl(file) {
+      if (typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function') return '';
+      const objectUrl = URL.createObjectURL(file);
+      reviewUploadPreviewState.objectUrls.push(objectUrl);
+      return objectUrl;
+    }
+
     function safeParseArray(rawValue) {
       try {
         const parsed = JSON.parse(rawValue || '[]');
@@ -816,6 +839,7 @@
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      updateReviewFileMeta();
     }
 
     function closeReviewModal() {
@@ -824,16 +848,76 @@
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      releaseReviewUploadPreviewUrls();
     }
 
     function updateReviewFileMeta() {
       const avatarInput = document.getElementById('reviewUserAvatar');
       const mediaInput = document.getElementById('reviewUserMedia');
       const metaEl = document.getElementById('reviewSubmitFileMeta');
+      const avatarPreviewEl = document.getElementById('reviewAvatarPreview');
+      const mediaPreviewGridEl = document.getElementById('reviewMediaPreviewGrid');
       if (!avatarInput || !mediaInput || !metaEl) return;
+
+      releaseReviewUploadPreviewUrls();
 
       const avatarFile = avatarInput.files?.[0] || null;
       const mediaFiles = Array.from(mediaInput.files || []);
+
+      if (avatarPreviewEl) {
+        if (avatarFile && avatarFile.type.startsWith('image/')) {
+          const avatarUrl = createReviewUploadObjectUrl(avatarFile);
+          avatarPreviewEl.innerHTML = `
+            <div class="review-file-preview-content">
+              <img src="${avatarUrl}" alt="Selected profile preview">
+              <p class="review-file-preview-note">${escapeHtml(avatarFile.name)}</p>
+            </div>
+          `;
+        } else if (avatarFile) {
+          avatarPreviewEl.innerHTML = '<div class="review-file-preview-empty">এই file টাইপ প্রোফাইল preview হিসেবে দেখানো যাবে না।</div>';
+        } else {
+          avatarPreviewEl.innerHTML = '<div class="review-file-preview-empty">প্রোফাইল ছবি নির্বাচন করলে এখানে preview দেখা যাবে।</div>';
+        }
+      }
+
+      if (mediaPreviewGridEl) {
+        if (!mediaFiles.length) {
+          mediaPreviewGridEl.innerHTML = '<div class="review-file-preview-empty">কাজের ছবি/ভিডিও নির্বাচন করলে এখানে preview দেখা যাবে।</div>';
+        } else {
+          mediaPreviewGridEl.innerHTML = mediaFiles.map(file => {
+            const safeName = escapeHtml(file.name || 'media');
+
+            if (file.type.startsWith('image/')) {
+              const src = createReviewUploadObjectUrl(file);
+              return `
+                <figure class="review-media-preview-card">
+                  <img src="${src}" alt="${safeName}">
+                  <span class="review-media-preview-badge">ছবি</span>
+                  <figcaption class="review-media-preview-name">${safeName}</figcaption>
+                </figure>
+              `;
+            }
+
+            if (file.type.startsWith('video/')) {
+              const src = createReviewUploadObjectUrl(file);
+              return `
+                <figure class="review-media-preview-card">
+                  <video src="${src}" controls muted playsinline preload="metadata"></video>
+                  <span class="review-media-preview-badge">ভিডিও</span>
+                  <figcaption class="review-media-preview-name">${safeName}</figcaption>
+                </figure>
+              `;
+            }
+
+            return `
+              <figure class="review-media-preview-card">
+                <div class="review-file-preview-empty">Preview unavailable</div>
+                <figcaption class="review-media-preview-name">${safeName}</figcaption>
+              </figure>
+            `;
+          }).join('');
+        }
+      }
 
       if (!avatarFile && !mediaFiles.length) {
         metaEl.textContent = 'এখনও কোনো file নির্বাচন করা হয়নি।';
@@ -842,8 +926,12 @@
 
       const mediaNames = mediaFiles.slice(0, 2).map(file => file.name).join(', ');
       const extraText = mediaFiles.length > 2 ? ` +${mediaFiles.length - 2}টি` : '';
+      const avatarLabel = avatarFile ? avatarFile.name : 'দেওয়া হয়নি';
+      const mediaLabel = mediaFiles.length
+        ? `${mediaFiles.length}টি${mediaNames ? ` (${mediaNames}${extraText})` : ''}`
+        : 'দেওয়া হয়নি';
 
-      metaEl.textContent = `প্রোফাইল: ${avatarFile ? avatarFile.name : 'নির্বাচিত হয়নি'} | মিডিয়া: ${mediaFiles.length}টি${mediaNames ? ` (${mediaNames}${extraText})` : ''}`;
+      metaEl.textContent = `প্রোফাইল: ${avatarLabel} | মিডিয়া: ${mediaLabel}`;
     }
 
     async function handleReviewSubmit(event) {
@@ -872,23 +960,13 @@
         return;
       }
 
-      if (!avatarFile) {
-        showToast('⚠️ প্রোফাইল ছবি লাগবে', 'রিভিউ submit করতে একটি profile photo দিন।');
-        return;
-      }
-
-      if (!avatarFile.type.startsWith('image/')) {
+      if (avatarFile && !avatarFile.type.startsWith('image/')) {
         showToast('⚠️ ভুল প্রোফাইল ফাইল', 'প্রোফাইল হিসেবে image file দিন।');
         return;
       }
 
-      if (avatarFile.size > 2 * 1024 * 1024) {
+      if (avatarFile && avatarFile.size > 2 * 1024 * 1024) {
         showToast('⚠️ প্রোফাইল ফাইল বড়', 'Profile photo 2MB এর মধ্যে দিন।');
-        return;
-      }
-
-      if (!mediaFiles.length) {
-        showToast('⚠️ মিডিয়া দিন', 'কাজের অন্তত ১টি ছবি বা ভিডিও দিন।');
         return;
       }
 
@@ -903,7 +981,7 @@
       }
 
       try {
-        const avatar = await readFileAsDataUrl(avatarFile);
+        const avatar = avatarFile ? await readFileAsDataUrl(avatarFile) : '';
         const media = [];
 
         for (const file of mediaFiles) {
@@ -984,6 +1062,7 @@
       if (avatarInput) avatarInput.addEventListener('change', updateReviewFileMeta);
       if (mediaInput) mediaInput.addEventListener('change', updateReviewFileMeta);
       if (form) form.addEventListener('submit', handleReviewSubmit);
+      updateReviewFileMeta();
     }
 
     function initReviewsPaginationEvents() {

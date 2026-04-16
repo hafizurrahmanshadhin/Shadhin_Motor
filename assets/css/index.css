@@ -2569,6 +2569,105 @@
       line-height: 1.5;
     }
 
+    .review-file-preview {
+      margin-top: 8px;
+      min-height: 126px;
+      border: 1px dashed rgba(200, 134, 10, 0.28);
+      background: rgba(0, 0, 0, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 8px;
+    }
+
+    .review-file-preview-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .review-file-preview img {
+      width: 100%;
+      height: 108px;
+      object-fit: cover;
+      border: 1px solid rgba(200, 134, 10, 0.26);
+    }
+
+    .review-file-preview-empty {
+      color: var(--cream-dim);
+      font-size: 12px;
+      line-height: 1.55;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .review-file-preview-note {
+      margin-top: 7px;
+      font-size: 11px;
+      color: var(--cream-dim);
+      line-height: 1.4;
+      text-align: left;
+      width: 100%;
+      word-break: break-word;
+    }
+
+    .review-media-preview-grid {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .review-media-preview-grid .review-file-preview-empty {
+      grid-column: 1 / -1;
+    }
+
+    .review-media-preview-card {
+      position: relative;
+      border: 1px solid rgba(200, 134, 10, 0.28);
+      background: rgba(0, 0, 0, 0.28);
+      overflow: hidden;
+    }
+
+    .review-media-preview-card img,
+    .review-media-preview-card video {
+      width: 100%;
+      height: 92px;
+      object-fit: cover;
+      display: block;
+      background: #000;
+    }
+
+    .review-media-preview-card video {
+      background: #000;
+    }
+
+    .review-media-preview-badge {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--cream);
+      background: rgba(0, 0, 0, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.26);
+    }
+
+    .review-media-preview-name {
+      margin: 0;
+      padding: 7px 8px;
+      font-size: 11px;
+      color: var(--cream-dim);
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     .review-submit-meta {
       margin-top: 8px;
       padding: 9px 10px;
@@ -2812,6 +2911,14 @@
 
       .review-submit-grid {
         grid-template-columns: 1fr;
+      }
+
+      .review-file-preview {
+        min-height: 112px;
+      }
+
+      .review-media-preview-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .review-submit-actions {

@@ -1001,8 +1001,11 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="reviewUserAvatar">প্রোফাইল ছবি</label>
-            <input type="file" id="reviewUserAvatar" name="reviewUserAvatar" accept="image/*" required>
+            <label for="reviewUserAvatar">প্রোফাইল ছবি (ঐচ্ছিক)</label>
+            <input type="file" id="reviewUserAvatar" name="reviewUserAvatar" accept="image/*">
+            <div class="review-file-preview" id="reviewAvatarPreview">
+              <div class="review-file-preview-empty">প্রোফাইল ছবি নির্বাচন করলে এখানে preview দেখা যাবে।</div>
+            </div>
           </div>
         </div>
 
@@ -1013,11 +1016,13 @@
         </div>
 
         <div class="form-group">
-          <label for="reviewUserMedia">কাজের ছবি/ভিডিও (১ বা একাধিক)</label>
-          <input type="file" id="reviewUserMedia" name="reviewUserMedia" accept="image/*,video/*" multiple
-            required>
-          <small class="review-submit-hint">আপনি ১-৬টি image/video দিতে পারবেন। image max 2MB, video max 8MB
+          <label for="reviewUserMedia">কাজের ছবি/ভিডিও (ঐচ্ছিক)</label>
+          <input type="file" id="reviewUserMedia" name="reviewUserMedia" accept="image/*,video/*" multiple>
+          <small class="review-submit-hint">আপনি ০-৬টি image/video দিতে পারবেন। image max 2MB, video max 8MB
             (compressed).</small>
+          <div class="review-media-preview-grid" id="reviewMediaPreviewGrid">
+            <div class="review-file-preview-empty">কাজের ছবি/ভিডিও নির্বাচন করলে এখানে preview দেখা যাবে।</div>
+          </div>
           <div class="review-submit-meta" id="reviewSubmitFileMeta">এখনও কোনো file নির্বাচন করা হয়নি।</div>
         </div>
 
