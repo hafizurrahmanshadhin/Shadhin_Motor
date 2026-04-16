@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-# Add the final absolute sitemap URL here after the live domain is configured.
+# Replace your live domain in the sitemap URL after deployment.
+Sitemap: https://your-domain.com/sitemap.xml

@@ -2599,6 +2599,45 @@
   font-size: 12px;
 }
 
+.floating-cta {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.floating-cta-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  font-size: 23px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+}
+
+.floating-cta-btn.wa {
+  background: #25d366;
+  color: #0a1f13;
+}
+
+.floating-cta-btn.call {
+  background: var(--gold);
+  color: var(--bg-deep);
+}
+
     /* ── MOBILE ── */
     @media (max-width: 900px) {
       nav {
@@ -2705,6 +2744,17 @@
     justify-content: center;
   }
 
+  .floating-cta {
+    right: 12px;
+    bottom: 16px;
+  }
+
+  .floating-cta-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 21px;
+  }
+
   .confirm-modal {
     padding: 28px 20px 22px;
   }
@@ -2744,5 +2794,5 @@
         width: 286px;
       }
     }
-  
+
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Shadhin Motor icon">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#1c1107"/>
+      <stop offset="1" stop-color="#0e0a04"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="url(#bg)"/>
+  <rect x="15" y="9" width="34" height="32" rx="7" fill="none" stroke="#e8a832" stroke-width="2.4"/>
+  <rect x="10" y="41" width="44" height="14" rx="6" fill="none" stroke="#e8a832" stroke-width="2.4"/>
+  <line x1="18" y1="47" x2="46" y2="47" stroke="#e8a832" stroke-width="1.8" stroke-dasharray="3 2"/>
+  <circle cx="28" cy="22" r="3" fill="none" stroke="#c8860a" stroke-width="1.6"/>
+  <circle cx="36" cy="30" r="3" fill="none" stroke="#c8860a" stroke-width="1.6"/>
+  <circle cx="36" cy="22" r="3" fill="none" stroke="#c8860a" stroke-width="1.6"/>
+  <circle cx="28" cy="30" r="3" fill="none" stroke="#c8860a" stroke-width="1.6"/>
+</svg>
