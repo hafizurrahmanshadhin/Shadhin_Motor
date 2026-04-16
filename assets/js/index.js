@@ -230,6 +230,16 @@
       objectUrls: []
     };
 
+    const reviewUploadFormState = {
+      avatarFile: null,
+      mediaFiles: []
+    };
+
+    const reviewSubmitConfirmState = {
+      pendingPayload: null,
+      submitting: false
+    };
+
     function releaseReviewUploadPreviewUrls() {
       if (!reviewUploadPreviewState.objectUrls.length) return;
 
@@ -247,6 +257,169 @@
       const objectUrl = URL.createObjectURL(file);
       reviewUploadPreviewState.objectUrls.push(objectUrl);
       return objectUrl;
+    }
+
+    function syncReviewMediaInputFromState() {
+      const mediaInput = document.getElementById('reviewUserMedia');
+      if (!mediaInput) return;
+
+      if (typeof DataTransfer === 'undefined') {
+        // Fallback: cannot reconstruct FileList in this browser.
+        return;
+      }
+
+      const dt = new DataTransfer();
+      reviewUploadFormState.mediaFiles.forEach(file => dt.items.add(file));
+      mediaInput.files = dt.files;
+    }
+
+    function clearReviewAvatarSelection() {
+      const avatarInput = document.getElementById('reviewUserAvatar');
+      reviewUploadFormState.avatarFile = null;
+      if (avatarInput) avatarInput.value = '';
+      updateReviewFileMeta();
+    }
+
+    function removeReviewMediaSelection(index) {
+      if (!Number.isInteger(index) || index < 0 || index >= reviewUploadFormState.mediaFiles.length) return;
+      reviewUploadFormState.mediaFiles = reviewUploadFormState.mediaFiles.filter((_, idx) => idx !== index);
+      syncReviewMediaInputFromState();
+      updateReviewFileMeta();
+    }
+
+    function openReviewSubmitConfirm(payload) {
+      const overlay = document.getElementById('reviewSubmitConfirmOverlay');
+      const summaryEl = document.getElementById('reviewSubmitConfirmSummary');
+      if (!overlay || !summaryEl || !payload) return;
+
+      const commentPreview = payload.comment.length > 210
+        ? `${payload.comment.slice(0, 210)}...`
+        : payload.comment;
+
+      const profileStatus = payload.avatarFile ? payload.avatarFile.name : 'দেওয়া হয়নি';
+      const mediaStatus = payload.mediaFiles.length
+        ? `${payload.mediaFiles.length}টি`
+        : 'দেওয়া হয়নি';
+
+      summaryEl.innerHTML = `
+        <div class="review-confirm-item">
+          <span class="review-confirm-item-label">আপনার নাম</span>
+          <div class="review-confirm-item-value">${escapeHtml(payload.name)}</div>
+        </div>
+        <div class="review-confirm-item">
+          <span class="review-confirm-item-label">গাড়ি/কাজের তথ্য</span>
+          <div class="review-confirm-item-value">${escapeHtml(payload.workInfo)}</div>
+        </div>
+        <div class="review-confirm-item">
+          <span class="review-confirm-item-label">রেটিং</span>
+          <div class="review-confirm-item-value">${payload.rating}★</div>
+        </div>
+        <div class="review-confirm-item">
+          <span class="review-confirm-item-label">প্রোফাইল ছবি</span>
+          <div class="review-confirm-item-value">${escapeHtml(profileStatus)}</div>
+        </div>
+        <div class="review-confirm-item">
+          <span class="review-confirm-item-label">কাজের ছবি/ভিডিও</span>
+          <div class="review-confirm-item-value">${escapeHtml(mediaStatus)}</div>
+        </div>
+        <div class="review-confirm-item review-confirm-comment">
+          <span class="review-confirm-item-label">রিভিউ টেক্সট</span>
+          <div class="review-confirm-item-value">${escapeHtml(commentPreview)}</div>
+        </div>
+      `;
+
+      reviewSubmitConfirmState.pendingPayload = payload;
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeReviewSubmitConfirm() {
+      const overlay = document.getElementById('reviewSubmitConfirmOverlay');
+      if (!overlay) return;
+
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      reviewSubmitConfirmState.pendingPayload = null;
+      reviewSubmitConfirmState.submitting = false;
+    }
+
+    async function finalizeReviewSubmitFromConfirm() {
+      const payload = reviewSubmitConfirmState.pendingPayload;
+      const form = document.getElementById('reviewSubmitForm');
+      const submitBtn = form?.querySelector('.review-submit-primary-btn');
+      const confirmSubmitBtn = document.getElementById('reviewSubmitConfirmSubmitBtn');
+
+      if (!payload || reviewSubmitConfirmState.submitting) return;
+
+      reviewSubmitConfirmState.submitting = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'সাবমিট হচ্ছে...';
+      }
+      if (confirmSubmitBtn) {
+        confirmSubmitBtn.disabled = true;
+        confirmSubmitBtn.textContent = 'সাবমিট হচ্ছে...';
+      }
+
+      try {
+        const avatar = payload.avatarFile ? await readFileAsDataUrl(payload.avatarFile) : '';
+        const media = [];
+
+        for (const file of payload.mediaFiles) {
+          // eslint-disable-next-line no-await-in-loop
+          media.push(await toMediaPayload(file));
+        }
+
+        const pendingReviews = safeParseArray(localStorage.getItem(REVIEW_PENDING_STORAGE_KEY));
+        const newReview = {
+          id: `review-${Date.now()}`,
+          name: payload.name,
+          work: payload.workInfo,
+          comment: payload.comment,
+          rating: payload.rating,
+          avatar,
+          media,
+          approved: false,
+          selected: false,
+          status: 'pending',
+          createdAt: new Date().toISOString()
+        };
+
+        pendingReviews.unshift(newReview);
+        localStorage.setItem(REVIEW_PENDING_STORAGE_KEY, JSON.stringify(pendingReviews));
+
+        if (form) form.reset();
+        reviewUploadFormState.avatarFile = null;
+        reviewUploadFormState.mediaFiles = [];
+        syncReviewMediaInputFromState();
+        updateReviewFileMeta();
+
+        closeReviewSubmitConfirm();
+        closeReviewModal();
+
+        showToast(
+          '✅ রিভিউ জমা হয়েছে',
+          'ধন্যবাদ! Dashboard থেকে approve এবং select করার পর আপনার রিভিউ homepage-এ দেখানো হবে।',
+          6000
+        );
+      } catch (error) {
+        const quotaHit = error && (error.name === 'QuotaExceededError' || /quota/i.test(String(error.message || '')));
+        const message = quotaHit
+          ? 'Browser storage limit শেষ হয়ে গেছে। কম size এর image/video দিয়ে আবার submit করুন।'
+          : (error?.message || 'রিভিউ submit করা যায়নি। আবার চেষ্টা করুন।');
+
+        showToast('⚠️ রিভিউ জমা হয়নি', message, 6500);
+      } finally {
+        reviewSubmitConfirmState.submitting = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'রিভিউ সাবমিট করুন';
+        }
+        if (confirmSubmitBtn) {
+          confirmSubmitBtn.disabled = false;
+          confirmSubmitBtn.textContent = 'হ্যাঁ, সাবমিট করুন';
+        }
+      }
     }
 
     function safeParseArray(rawValue) {
@@ -848,6 +1021,7 @@
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = '';
+      closeReviewSubmitConfirm();
       releaseReviewUploadPreviewUrls();
     }
 
@@ -861,16 +1035,21 @@
 
       releaseReviewUploadPreviewUrls();
 
-      const avatarFile = avatarInput.files?.[0] || null;
-      const mediaFiles = Array.from(mediaInput.files || []);
+      const avatarFile = reviewUploadFormState.avatarFile;
+      const mediaFiles = reviewUploadFormState.mediaFiles;
 
       if (avatarPreviewEl) {
         if (avatarFile && avatarFile.type.startsWith('image/')) {
           const avatarUrl = createReviewUploadObjectUrl(avatarFile);
           avatarPreviewEl.innerHTML = `
             <div class="review-file-preview-content">
-              <img src="${avatarUrl}" alt="Selected profile preview">
-              <p class="review-file-preview-note">${escapeHtml(avatarFile.name)}</p>
+              <button type="button" class="review-upload-preview-trigger" data-preview-type="image" data-preview-src="${avatarUrl}" aria-label="প্রোফাইল ছবি বড় করে দেখুন">
+                <img src="${avatarUrl}" alt="Selected profile preview">
+              </button>
+              <div class="review-file-preview-note-row">
+                <p class="review-file-preview-note">${escapeHtml(avatarFile.name)}</p>
+                <button type="button" class="review-upload-file-remove" data-remove-avatar="1">রিমুভ</button>
+              </div>
             </div>
           `;
         } else if (avatarFile) {
@@ -884,13 +1063,14 @@
         if (!mediaFiles.length) {
           mediaPreviewGridEl.innerHTML = '<div class="review-file-preview-empty">কাজের ছবি/ভিডিও নির্বাচন করলে এখানে preview দেখা যাবে।</div>';
         } else {
-          mediaPreviewGridEl.innerHTML = mediaFiles.map(file => {
+          mediaPreviewGridEl.innerHTML = mediaFiles.map((file, idx) => {
             const safeName = escapeHtml(file.name || 'media');
 
             if (file.type.startsWith('image/')) {
               const src = createReviewUploadObjectUrl(file);
               return `
-                <figure class="review-media-preview-card">
+                <figure class="review-media-preview-card" data-preview-type="image" data-preview-src="${src}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
+                  <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ছবি রিমুভ করুন">✕</button>
                   <img src="${src}" alt="${safeName}">
                   <span class="review-media-preview-badge">ছবি</span>
                   <figcaption class="review-media-preview-name">${safeName}</figcaption>
@@ -901,8 +1081,9 @@
             if (file.type.startsWith('video/')) {
               const src = createReviewUploadObjectUrl(file);
               return `
-                <figure class="review-media-preview-card">
-                  <video src="${src}" controls muted playsinline preload="metadata"></video>
+                <figure class="review-media-preview-card" data-preview-type="video" data-preview-src="${src}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
+                  <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ভিডিও রিমুভ করুন">✕</button>
+                  <video src="${src}" muted playsinline preload="metadata"></video>
                   <span class="review-media-preview-badge">ভিডিও</span>
                   <figcaption class="review-media-preview-name">${safeName}</figcaption>
                 </figure>
@@ -934,21 +1115,80 @@
       metaEl.textContent = `প্রোফাইল: ${avatarLabel} | মিডিয়া: ${mediaLabel}`;
     }
 
+    function initReviewUploadPreviewInteractions() {
+      const avatarPreviewEl = document.getElementById('reviewAvatarPreview');
+      const mediaPreviewGridEl = document.getElementById('reviewMediaPreviewGrid');
+
+      if (avatarPreviewEl) {
+        avatarPreviewEl.addEventListener('click', event => {
+          const removeBtn = event.target.closest('.review-upload-file-remove[data-remove-avatar]');
+          if (removeBtn) {
+            clearReviewAvatarSelection();
+            return;
+          }
+
+          const trigger = event.target.closest('.review-upload-preview-trigger[data-preview-src]');
+          if (!trigger) return;
+
+          const src = String(trigger.dataset.previewSrc || '').trim();
+          if (!src) return;
+          openReviewMediaPreview([{ type: 'image', src }], 0, 'প্রোফাইল ছবি');
+        });
+      }
+
+      if (!mediaPreviewGridEl) return;
+
+      const openFromMediaCard = sourceEl => {
+        const cards = Array.from(mediaPreviewGridEl.querySelectorAll('.review-media-preview-card[data-preview-src]'));
+        if (!cards.length) return;
+
+        const items = cards
+          .map(card => ({
+            type: card.dataset.previewType === 'video' ? 'video' : 'image',
+            src: String(card.dataset.previewSrc || '').trim()
+          }))
+          .filter(item => item.src);
+
+        if (!items.length) return;
+
+        const startIndex = Math.max(0, cards.indexOf(sourceEl));
+        openReviewMediaPreview(items, startIndex, 'আপনার আপলোড করা মিডিয়া');
+      };
+
+      mediaPreviewGridEl.addEventListener('click', event => {
+        const removeBtn = event.target.closest('.review-media-preview-remove[data-remove-media-index]');
+        if (removeBtn) {
+          const idx = Number(removeBtn.dataset.removeMediaIndex || '-1');
+          removeReviewMediaSelection(idx);
+          return;
+        }
+
+        const card = event.target.closest('.review-media-preview-card[data-preview-src]');
+        if (!card || !mediaPreviewGridEl.contains(card)) return;
+        openFromMediaCard(card);
+      });
+
+      mediaPreviewGridEl.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        if (event.target.closest('.review-media-preview-remove')) return;
+
+        const card = event.target.closest('.review-media-preview-card[data-preview-src]');
+        if (!card || !mediaPreviewGridEl.contains(card)) return;
+
+        event.preventDefault();
+        openFromMediaCard(card);
+      });
+    }
+
     async function handleReviewSubmit(event) {
       event.preventDefault();
-
-      const form = event.currentTarget;
-      const submitBtn = form.querySelector('.review-submit-primary-btn');
 
       const name = document.getElementById('reviewUserName')?.value.trim() || '';
       const workInfo = document.getElementById('reviewWorkInfo')?.value.trim() || '';
       const comment = document.getElementById('reviewUserComment')?.value.trim() || '';
       const rating = Number(document.getElementById('reviewUserRating')?.value || '0');
-      const avatarInput = document.getElementById('reviewUserAvatar');
-      const mediaInput = document.getElementById('reviewUserMedia');
-
-      const avatarFile = avatarInput?.files?.[0] || null;
-      const mediaFiles = Array.from(mediaInput?.files || []);
+      const avatarFile = reviewUploadFormState.avatarFile;
+      const mediaFiles = reviewUploadFormState.mediaFiles;
 
       if (!name || !workInfo || !comment) {
         showToast('⚠️ অপূর্ণ তথ্য', 'নাম, কাজের তথ্য ও রিভিউ লিখতে হবে।');
@@ -975,60 +1215,14 @@
         return;
       }
 
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'সাবমিট হচ্ছে...';
-      }
-
-      try {
-        const avatar = avatarFile ? await readFileAsDataUrl(avatarFile) : '';
-        const media = [];
-
-        for (const file of mediaFiles) {
-          // eslint-disable-next-line no-await-in-loop
-          media.push(await toMediaPayload(file));
-        }
-
-        const pendingReviews = safeParseArray(localStorage.getItem(REVIEW_PENDING_STORAGE_KEY));
-        const newReview = {
-          id: `review-${Date.now()}`,
-          name,
-          work: workInfo,
-          comment,
-          rating,
-          avatar,
-          media,
-          approved: false,
-          selected: false,
-          status: 'pending',
-          createdAt: new Date().toISOString()
-        };
-
-        pendingReviews.unshift(newReview);
-        localStorage.setItem(REVIEW_PENDING_STORAGE_KEY, JSON.stringify(pendingReviews));
-
-        form.reset();
-        updateReviewFileMeta();
-        closeReviewModal();
-
-        showToast(
-          '✅ রিভিউ জমা হয়েছে',
-          'ধন্যবাদ! Dashboard থেকে approve এবং select করার পর আপনার রিভিউ homepage-এ দেখানো হবে।',
-          6000
-        );
-      } catch (error) {
-        const quotaHit = error && (error.name === 'QuotaExceededError' || /quota/i.test(String(error.message || '')));
-        const message = quotaHit
-          ? 'Browser storage limit শেষ হয়ে গেছে। কম size এর image/video দিয়ে আবার submit করুন।'
-          : (error?.message || 'রিভিউ submit করা যায়নি। আবার চেষ্টা করুন।');
-
-        showToast('⚠️ রিভিউ জমা হয়নি', message, 6500);
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'রিভিউ সাবমিট করুন';
-        }
-      }
+      openReviewSubmitConfirm({
+        name,
+        workInfo,
+        comment,
+        rating,
+        avatarFile,
+        mediaFiles: [...mediaFiles]
+      });
     }
 
     function initReviewSubmissionModal() {
@@ -1043,10 +1237,19 @@
       const form = document.getElementById('reviewSubmitForm');
       const avatarInput = document.getElementById('reviewUserAvatar');
       const mediaInput = document.getElementById('reviewUserMedia');
+      const confirmOverlay = document.getElementById('reviewSubmitConfirmOverlay');
+      const confirmCloseBtn = document.getElementById('reviewSubmitConfirmClose');
+      const confirmEditBtn = document.getElementById('reviewSubmitConfirmEditBtn');
+      const confirmSubmitBtn = document.getElementById('reviewSubmitConfirmSubmitBtn');
 
       openBtns.forEach(btn => btn.addEventListener('click', openReviewModal));
       if (closeBtn) closeBtn.addEventListener('click', closeReviewModal);
       if (cancelBtn) cancelBtn.addEventListener('click', closeReviewModal);
+      if (confirmCloseBtn) confirmCloseBtn.addEventListener('click', closeReviewSubmitConfirm);
+      if (confirmEditBtn) confirmEditBtn.addEventListener('click', closeReviewSubmitConfirm);
+      if (confirmSubmitBtn) confirmSubmitBtn.addEventListener('click', () => {
+        finalizeReviewSubmitFromConfirm();
+      });
 
       if (overlay) {
         overlay.addEventListener('click', event => {
@@ -1054,14 +1257,41 @@
         });
       }
 
+      if (confirmOverlay) {
+        confirmOverlay.addEventListener('click', event => {
+          if (event.target === confirmOverlay) closeReviewSubmitConfirm();
+        });
+      }
+
       document.addEventListener('keydown', event => {
         if (event.key !== 'Escape') return;
+
+        if (confirmOverlay?.classList.contains('open')) {
+          closeReviewSubmitConfirm();
+          return;
+        }
+
         if (overlay?.classList.contains('open')) closeReviewModal();
       });
 
-      if (avatarInput) avatarInput.addEventListener('change', updateReviewFileMeta);
-      if (mediaInput) mediaInput.addEventListener('change', updateReviewFileMeta);
+      if (avatarInput) {
+        avatarInput.addEventListener('change', () => {
+          reviewUploadFormState.avatarFile = avatarInput.files?.[0] || null;
+          closeReviewSubmitConfirm();
+          updateReviewFileMeta();
+        });
+      }
+
+      if (mediaInput) {
+        mediaInput.addEventListener('change', () => {
+          reviewUploadFormState.mediaFiles = Array.from(mediaInput.files || []);
+          closeReviewSubmitConfirm();
+          updateReviewFileMeta();
+        });
+      }
+
       if (form) form.addEventListener('submit', handleReviewSubmit);
+      initReviewUploadPreviewInteractions();
       updateReviewFileMeta();
     }
 

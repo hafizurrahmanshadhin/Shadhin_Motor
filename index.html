@@ -1009,13 +1009,13 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group review-text-group">
           <label for="reviewUserComment">রিভিউ (টেক্সট)</label>
           <textarea id="reviewUserComment" name="reviewUserComment" rows="4" maxlength="600"
             placeholder="কাজের মান, ফিটিং, সার্ভিস অভিজ্ঞতা লিখুন" required></textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group review-media-group">
           <label for="reviewUserMedia">কাজের ছবি/ভিডিও (ঐচ্ছিক)</label>
           <input type="file" id="reviewUserMedia" name="reviewUserMedia" accept="image/*,video/*" multiple>
           <small class="review-submit-hint">আপনি ০-৬টি image/video দিতে পারবেন। image max 2MB, video max 8MB
@@ -1031,6 +1031,23 @@
           <button type="submit" class="btn-primary review-submit-primary-btn">রিভিউ সাবমিট করুন</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- REVIEW SUBMIT CONFIRM MODAL -->
+  <div class="review-confirm-overlay" id="reviewSubmitConfirmOverlay" aria-hidden="true">
+    <div class="review-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="reviewSubmitConfirmTitle">
+      <button type="button" class="review-confirm-close" id="reviewSubmitConfirmClose" aria-label="বন্ধ করুন">✕</button>
+      <div class="review-confirm-badge">সাবমিটের আগে যাচাই করুন</div>
+      <h3 class="review-confirm-title" id="reviewSubmitConfirmTitle">রিভিউটি কি সাবমিট করবেন?</h3>
+      <p class="review-confirm-copy">একবার দেখে নিন। ভুল থাকলে এডিট করে তারপর সাবমিট করতে পারবেন।</p>
+
+      <div class="review-confirm-summary" id="reviewSubmitConfirmSummary"></div>
+
+      <div class="review-confirm-actions">
+        <button type="button" class="btn-secondary review-confirm-edit-btn" id="reviewSubmitConfirmEditBtn">আরও এডিট করি</button>
+        <button type="button" class="btn-primary review-confirm-submit-btn" id="reviewSubmitConfirmSubmitBtn">হ্যাঁ, সাবমিট করুন</button>
+      </div>
     </div>
   </div>
 
