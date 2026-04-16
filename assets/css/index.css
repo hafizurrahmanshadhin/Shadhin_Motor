@@ -53,7 +53,7 @@
     }
 
     /* ── NAVBAR ── */
-    nav {
+    #navbar {
       position: fixed;
       top: 0;
       left: 0;
@@ -67,7 +67,7 @@
       transition: background 0.3s;
     }
 
-    nav.scrolled {
+    #navbar.scrolled {
       background: rgba(14, 10, 4, 0.97);
       border-bottom: 1px solid rgba(200, 134, 10, 0.2);
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
@@ -4070,7 +4070,7 @@
 
     /* ── MOBILE ── */
     @media (max-width: 900px) {
-      nav {
+      #navbar {
         padding: 16px 24px;
       }
 
@@ -4239,7 +4239,7 @@
     }
 
     /* ── RESPONSIVE SYSTEM OVERRIDES ── */
-    nav,
+    #navbar,
     #hero,
     section,
     footer {
@@ -4252,7 +4252,7 @@
     }
 
     @media (min-width: 901px) and (max-width: 1280px) {
-      nav,
+      #navbar,
       #hero,
       section,
       footer {
@@ -4286,7 +4286,7 @@
     }
 
     @media (max-width: 900px) {
-      nav,
+      #navbar,
       #hero,
       section,
       footer {
@@ -4302,7 +4302,7 @@
     }
 
     @media (max-width: 640px) {
-      nav,
+      #navbar,
       #hero,
       section,
       footer {
@@ -4310,7 +4310,7 @@
         padding-right: 14px;
       }
 
-      nav {
+      #navbar {
         padding-top: 14px;
         padding-bottom: 14px;
       }
@@ -4402,7 +4402,7 @@
     }
 
     @media (max-width: 420px) {
-      nav,
+      #navbar,
       #hero,
       section,
       footer {
@@ -4441,7 +4441,7 @@
     }
 
     @media (min-width: 1600px) {
-      nav,
+      #navbar,
       #hero,
       section,
       footer {
@@ -4463,7 +4463,7 @@
     }
 
     @media (min-width: 2200px) {
-      nav,
+      #navbar,
       #hero,
       section,
       footer {
