@@ -28,6 +28,7 @@
 
     body {
       min-height: 100vh;
+      min-height: 100svh;
       background:
         radial-gradient(circle at top right, rgba(232, 168, 50, 0.08), transparent 28%),
         radial-gradient(circle at left center, rgba(139, 58, 15, 0.1), transparent 30%),
@@ -216,6 +217,7 @@
       gap: 14px;
       flex-wrap: wrap;
       justify-content: flex-end;
+      min-width: 0;
     }
 
     .catalog-count,
@@ -602,6 +604,7 @@
       align-items: center;
       gap: 10px;
       flex-shrink: 0;
+      min-width: 0;
     }
 
     .lightbox-counter {
@@ -748,6 +751,7 @@
     .footer-map-link {
       display: inline-flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 6px;
       text-decoration: none;
       color: var(--gold-pale);
@@ -818,6 +822,7 @@
       border-radius: 999px;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 8px 22px rgba(0, 0, 0, 0.2);
       overflow: hidden;
+      max-width: 100%;
       transition: transform 0.22s ease, box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease;
     }
 
@@ -855,6 +860,7 @@
       z-index: 1;
       font-weight: 700;
       letter-spacing: 0.2px;
+      overflow-wrap: anywhere;
     }
 
     .social-facebook .footer-social-icon {
@@ -894,12 +900,17 @@
 
     .floating-cta {
       position: fixed;
-      right: 16px;
-      bottom: 18px;
+      right: calc(16px + env(safe-area-inset-right, 0px));
+      bottom: calc(18px + env(safe-area-inset-bottom, 0px));
       z-index: 1200;
       display: flex;
       flex-direction: column;
       gap: 8px;
+    }
+
+    :where(.catalog-count, .catalog-state, .lightbox-info-title, .footer-location-address, .footer-credit) {
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     .floating-cta-btn {
@@ -1020,7 +1031,7 @@
       }
     }
 
-    @media (min-width: 901px) and (max-width: 1280px) {
+    @media (min-width: 901px) and (max-width: 1440px) {
       .page-shell {
         padding-inline: clamp(18px, 2.4vw, 30px);
       }
@@ -1036,6 +1047,120 @@
       .filter-btn {
         padding: 9px 14px;
         font-size: 12px;
+      }
+    }
+
+    @media (min-width: 901px) and (max-width: 1180px) {
+      .topbar {
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .hero {
+        padding: 46px 0 24px;
+      }
+
+      .hero-title {
+        font-size: clamp(34px, 5vw, 54px);
+      }
+
+      .hero-copy {
+        max-width: 100%;
+      }
+
+      .catalog-toolbar,
+      .catalog-meta {
+        justify-content: flex-start;
+      }
+
+      .catalog-tools {
+        gap: 10px;
+      }
+
+      .catalog-search-wrap,
+      .catalog-model-wrap {
+        min-width: 200px;
+      }
+
+      .footer-top {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 34px 28px;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .catalog-meta,
+      .lightbox-info-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .catalog-count,
+      .catalog-state {
+        line-height: 1.6;
+        letter-spacing: 1px;
+      }
+
+      .footer-credit {
+        margin-right: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .catalog-filters {
+        width: 100%;
+      }
+
+      .filter-btn {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+      }
+
+      .catalog-search-wrap,
+      .catalog-model-wrap {
+        flex: 1 1 100%;
+        min-width: 0;
+      }
+
+      .catalog-reset-btn {
+        width: 100%;
+      }
+
+      .lightbox-info-actions {
+        justify-content: space-between;
+      }
+
+      .footer-map-link {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .footer-social-links .footer-social-link {
+        flex: 1 1 calc(50% - 10px);
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .filter-btn,
+      .footer-social-links .footer-social-link {
+        flex-basis: 100%;
+      }
+
+      .back-link {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (min-width: 901px) and (max-height: 820px) {
+      .hero {
+        padding: 38px 0 18px;
+      }
+
+      .catalog-panel {
+        margin-bottom: 48px;
       }
     }
 
