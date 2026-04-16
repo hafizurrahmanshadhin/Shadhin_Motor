@@ -57,6 +57,48 @@
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
+    // ─── REVIEWS SUMMARY ───────────────────────────────────────────────────────
+    function initReviewsSummary() {
+      const cards = Array.from(document.querySelectorAll('.review-card[data-review-score]'));
+      if (!cards.length) return;
+
+      const scores = cards
+        .map(card => Number(card.dataset.reviewScore))
+        .filter(score => Number.isFinite(score) && score > 0);
+
+      if (!scores.length) return;
+
+      const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+      const roundedAverage = Math.round(average * 10) / 10;
+
+      const avgEl = document.getElementById('reviewsAverage');
+      const countEl = document.getElementById('reviewsCount');
+      const starsFillEl = document.getElementById('reviewsStarsFill');
+
+      if (avgEl) avgEl.textContent = roundedAverage.toFixed(1);
+      if (countEl) countEl.textContent = String(scores.length);
+      if (starsFillEl) {
+        const pct = Math.max(0, Math.min(100, (average / 5) * 100));
+        starsFillEl.style.width = `${pct}%`;
+      }
+
+      const buckets = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+      scores.forEach(score => {
+        const rounded = Math.max(1, Math.min(5, Math.round(score)));
+        buckets[rounded] += 1;
+      });
+
+      document.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
+        const stars = Number(row.dataset.stars);
+        const count = buckets[stars] || 0;
+        const fillEl = row.querySelector('.reviews-breakdown-fill');
+        const countTextEl = row.querySelector('.reviews-breakdown-count');
+
+        if (fillEl) fillEl.style.width = `${(count / scores.length) * 100}%`;
+        if (countTextEl) countTextEl.textContent = String(count);
+      });
+    }
+
     // ─── GALLERY SYSTEM ──────────────────────────────────────────────────────────
     const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার' };
     const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
@@ -799,7 +841,8 @@
     }
 
     // ─── INIT ─────────────────────────────────────────────────────────────────────
+    initReviewsSummary();
     loadSamples();
     loadGallery();
-  
+
 

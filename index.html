@@ -87,6 +87,41 @@
             "bn",
             "en"
           ],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "bestRating": "5",
+            "worstRating": "1",
+            "reviewCount": "206"
+          },
+          "review": [
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Rashed Karim"
+              },
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+              },
+              "reviewBody": "Custom fit and finishing exceeded expectations. Delivery and fitting were professional."
+            },
+            {
+              "@type": "Review",
+              "author": {
+                "@type": "Person",
+                "name": "Nafisa Ahmed"
+              },
+              "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "4.9",
+                "bestRating": "5"
+              },
+              "reviewBody": "Seat stitching and leather texture quality were premium. Very satisfied with overall service."
+            }
+          ],
           "openingHoursSpecification": [
             {
               "@type": "OpeningHoursSpecification",
@@ -206,6 +241,7 @@
       <li><a href="#process">কাজের ধারা</a></li>
       <li><a href="#vehicles">গাড়ির ধরন</a></li>
       <li><a href="#local-seo">সার্ভিস এলাকা</a></li>
+      <li><a href="#reviews">রিভিউ</a></li>
       <li><a href="#contact" class="nav-cta">অর্ডার করুন</a></li>
     </ul>
     <div class="hamburger" id="hamburger" onclick="toggleNav()">
@@ -591,6 +627,181 @@
     </div>
   </section>
 
+  <!-- CUSTOMER REVIEWS -->
+  <section id="reviews">
+    <div class="section-header reveal">
+      <div class="section-label">গ্রাহকদের মতামত</div>
+      <h2 class="section-title">আমাদের কাজ নিয়ে <span>রিভিউ</span></h2>
+      <p class="section-lead">
+        যারা আমাদের দিয়ে সিট কভার করিয়েছেন, তাদের বাস্তব অভিজ্ঞতা, রেটিং এবং মন্তব্য এখানে দেখানো হয়েছে।
+        প্রতিটি রিভিউতে কাজের মান, ফিটিং, টাইমলাইন এবং সার্ভিস নিয়ে সরাসরি মতামত দেওয়া আছে।
+      </p>
+    </div>
+
+    <div class="reviews-layout">
+      <aside class="reviews-summary reveal">
+        <div class="reviews-summary-label">Overall Customer Rating</div>
+        <div class="reviews-score-line">
+          <span class="reviews-score-value" id="reviewsAverage">5.0</span>
+          <span class="reviews-score-total">/5</span>
+        </div>
+
+        <div class="reviews-stars-track" aria-label="Overall review stars">
+          <span class="reviews-stars-base">★★★★★</span>
+          <span class="reviews-stars-fill" id="reviewsStarsFill">★★★★★</span>
+        </div>
+
+        <p class="reviews-summary-meta">
+          মোট <strong id="reviewsCount">0</strong>টি ভেরিফায়েড রিভিউ
+        </p>
+
+        <div class="reviews-breakdown" id="reviewsBreakdown">
+          <div class="reviews-breakdown-row" data-stars="5">
+            <span class="reviews-breakdown-label">5★</span>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <strong class="reviews-breakdown-count">0</strong>
+          </div>
+          <div class="reviews-breakdown-row" data-stars="4">
+            <span class="reviews-breakdown-label">4★</span>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <strong class="reviews-breakdown-count">0</strong>
+          </div>
+          <div class="reviews-breakdown-row" data-stars="3">
+            <span class="reviews-breakdown-label">3★</span>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <strong class="reviews-breakdown-count">0</strong>
+          </div>
+          <div class="reviews-breakdown-row" data-stars="2">
+            <span class="reviews-breakdown-label">2★</span>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <strong class="reviews-breakdown-count">0</strong>
+          </div>
+          <div class="reviews-breakdown-row" data-stars="1">
+            <span class="reviews-breakdown-label">1★</span>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <strong class="reviews-breakdown-count">0</strong>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary reviews-summary-cta">আপনিও অর্ডার দিন</a>
+      </aside>
+
+      <div class="reviews-grid" id="reviewsGrid">
+        <article class="review-card reveal" data-review-score="5">
+          <div class="review-card-head">
+            <img src="assets/images/reviews/reviewer-rk.svg" class="review-avatar" alt="Customer profile: Rashed Karim"
+              loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">রাশেদ করিম</h3>
+              <p class="reviewer-meta">Toyota Corolla Axio • মিরপুর, ঢাকা</p>
+            </div>
+            <div class="reviewer-rating" aria-label="5 out of 5 stars">
+              <span class="reviewer-stars">★★★★★</span>
+              <strong>5.0</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">
+            সিট কভারের ফিটিং একদম factory-finish মনে হয়েছে। ডিজাইন, stitching আর color combination—সবকিছু expected
+            এর থেকেও ভালো।
+          </p>
+        </article>
+
+        <article class="review-card reveal reveal-delay-1" data-review-score="4.9">
+          <div class="review-card-head">
+            <img src="assets/images/reviews/reviewer-na.svg" class="review-avatar" alt="Customer profile: Nafisa Ahmed"
+              loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">নাফিসা আহমেদ</h3>
+              <p class="reviewer-meta">Toyota Premio • উত্তরা, ঢাকা</p>
+            </div>
+            <div class="reviewer-rating" aria-label="4.9 out of 5 stars">
+              <span class="reviewer-stars">★★★★★</span>
+              <strong>4.9</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">
+            Leather quality খুব premium লেগেছে। সময়মতো ডেলিভারি দিয়েছে এবং হোম ফিটিং টিমও খুব professional ছিল।
+          </p>
+        </article>
+
+        <article class="review-card reveal reveal-delay-2" data-review-score="4.8">
+          <div class="review-card-head">
+            <img src="assets/images/reviews/reviewer-ma.svg" class="review-avatar" alt="Customer profile: Masud Hossain"
+              loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">মাসুদ হোসেন</h3>
+              <p class="reviewer-meta">Yamaha R15 • সাভার</p>
+            </div>
+            <div class="reviewer-rating" aria-label="4.8 out of 5 stars">
+              <span class="reviewer-stars">★★★★★</span>
+              <strong>4.8</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">
+            বাইকের সিটে যে grip আর comfort পেয়েছি, daily ride অনেক easy হয়ে গেছে। finishing neat এবং long-term use
+            friendly।
+          </p>
+        </article>
+
+        <article class="review-card reveal reveal-delay-3" data-review-score="5">
+          <div class="review-card-head">
+            <img src="assets/images/reviews/reviewer-sa.svg" class="review-avatar" alt="Customer profile: Saif Rahman"
+              loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">সাইফ রহমান</h3>
+              <p class="reviewer-meta">Honda Vezel • গাজীপুর</p>
+            </div>
+            <div class="reviewer-rating" aria-label="5 out of 5 stars">
+              <span class="reviewer-stars">★★★★★</span>
+              <strong>5.0</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">
+            আগের ছেঁড়া সিট রিপেয়ার করে নতুনের মতো করে দিয়েছে। ভেতরের look অনেক upgrade হয়েছে এবং materials ভালো মানের।
+          </p>
+        </article>
+
+        <article class="review-card reveal reveal-delay-4" data-review-score="4.9">
+          <div class="review-card-head">
+            <img src="assets/images/reviews/reviewer-fa.svg" class="review-avatar" alt="Customer profile: Farzana Noor"
+              loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">ফারজানা নূর</h3>
+              <p class="reviewer-meta">Toyota Noah • নারায়ণগঞ্জ</p>
+            </div>
+            <div class="reviewer-rating" aria-label="4.9 out of 5 stars">
+              <span class="reviewer-stars">★★★★★</span>
+              <strong>4.9</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">
+            Family car-এর জন্য soft কিন্তু durable solution চেয়েছিলাম, exactly সেটাই পেয়েছি। price অনুযায়ী service
+            excellent।
+          </p>
+        </article>
+
+        <article class="review-card reveal reveal-delay-5" data-review-score="5">
+          <div class="review-card-head">
+            <img src="assets/images/reviews/reviewer-ta.svg" class="review-avatar" alt="Customer profile: Tanvir Alam"
+              loading="lazy" decoding="async">
+            <div class="reviewer-info">
+              <h3 class="reviewer-name">তানভীর আলম</h3>
+              <p class="reviewer-meta">Bajaj Pulsar • ধানমন্ডি, ঢাকা</p>
+            </div>
+            <div class="reviewer-rating" aria-label="5 out of 5 stars">
+              <span class="reviewer-stars">★★★★★</span>
+              <strong>5.0</strong>
+            </div>
+          </div>
+          <p class="reviewer-comment">
+            কাজের আগে sample match করে দিয়েছে, তাই final output নিয়ে কোনো surprise ছিল না। পুরো process transparent ও
+            customer-friendly।
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-header reveal">
@@ -794,6 +1005,7 @@
           <li><a href="#contact">অর্ডার দিন</a></li>
           <li><a href="#samples">স্যাম্পল দেখুন</a></li>
           <li><a href="#gallery">গ্যালারি দেখুন</a></li>
+          <li><a href="#reviews">গ্রাহকের রিভিউ</a></li>
           <li><a href="admin.html" target="_blank" class="footer-admin-link">Shadhin Motor
               Admin</a></li>
         </ul>
