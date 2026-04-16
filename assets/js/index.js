@@ -62,11 +62,32 @@
       const cards = Array.from(document.querySelectorAll('.review-card[data-review-score]'));
       if (!cards.length) return;
 
-      const scores = cards
-        .map(card => Number(card.dataset.reviewScore))
-        .filter(score => Number.isFinite(score) && score > 0);
+      const normalizedRatings = cards
+        .map(card => {
+          const rawScore = Number(card.dataset.reviewScore);
+          if (!Number.isFinite(rawScore) || rawScore <= 0) return null;
+
+          // Review score must be a whole number from 1 to 5.
+          const score = Math.max(1, Math.min(5, Math.round(rawScore)));
+          return { card, score };
+        })
+        .filter(Boolean);
+
+      const scores = normalizedRatings.map(({ score }) => score);
 
       if (!scores.length) return;
+
+      normalizedRatings.forEach(({ card, score }) => {
+        card.dataset.reviewScore = String(score);
+
+        const ratingWrap = card.querySelector('.reviewer-rating');
+        const starsEl = card.querySelector('.reviewer-stars');
+        const scoreEl = card.querySelector('.reviewer-rating strong');
+
+        if (ratingWrap) ratingWrap.setAttribute('aria-label', `${score} out of 5 stars`);
+        if (starsEl) starsEl.textContent = `${'★'.repeat(score)}${'☆'.repeat(5 - score)}`;
+        if (scoreEl) scoreEl.textContent = String(score);
+      });
 
       const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
       const roundedAverage = Math.round(average * 10) / 10;
@@ -84,8 +105,7 @@
 
       const buckets = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       scores.forEach(score => {
-        const rounded = Math.max(1, Math.min(5, Math.round(score)));
-        buckets[rounded] += 1;
+        buckets[score] += 1;
       });
 
       document.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
