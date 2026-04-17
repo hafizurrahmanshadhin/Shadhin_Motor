@@ -312,7 +312,9 @@
     const modalViewportState = {
       lightbox: null,
       aboutTeamPreview: null,
-      sampleModal: null
+      sampleModal: null,
+      reviewSubmitModal: null,
+      reviewMediaPreview: null
     };
 
     function focusWithoutScroll(target) {
@@ -1050,6 +1052,7 @@
       const overlay = document.getElementById('reviewMediaPreviewOverlay');
       if (!overlay || !Array.isArray(items) || !items.length) return;
 
+      modalViewportState.reviewMediaPreview = captureViewportPosition();
       reviewPreviewState.items = items;
       reviewPreviewState.index = Math.max(0, Math.min(startIndex, items.length - 1));
       reviewPreviewState.title = title;
@@ -1058,11 +1061,13 @@
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
+      scheduleViewportRestore(modalViewportState.reviewMediaPreview);
     }
 
     function closeReviewMediaPreview() {
       const overlay = document.getElementById('reviewMediaPreviewOverlay');
       if (!overlay) return;
+      const viewport = modalViewportState.reviewMediaPreview || captureViewportPosition();
 
       const videoEl = document.getElementById('reviewPreviewVideo');
       if (videoEl) videoEl.pause();
@@ -1070,6 +1075,8 @@
       overlay.classList.remove('open');
       overlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
+      scheduleViewportRestore(viewport);
+      modalViewportState.reviewMediaPreview = null;
     }
 
     function navReviewMediaPreview(dir) {
@@ -1353,22 +1360,27 @@
       modalFocusState.reviewSubmitTrigger = document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
+      modalViewportState.reviewSubmitModal = captureViewportPosition();
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
       updateReviewFileMeta();
       focusFirstIn(modal);
+      scheduleViewportRestore(modalViewportState.reviewSubmitModal);
     }
 
     function closeReviewModal() {
       const modal = document.getElementById('reviewSubmitModal');
       if (!modal) return;
+      const viewport = modalViewportState.reviewSubmitModal || captureViewportPosition();
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden', 'true');
       closeReviewSubmitConfirm();
       releaseReviewUploadPreviewUrls();
       syncBodyScrollLockState();
       restoreFocus(modalFocusState.reviewSubmitTrigger);
+      scheduleViewportRestore(viewport);
+      modalViewportState.reviewSubmitModal = null;
     }
 
     function updateReviewFileMeta() {
