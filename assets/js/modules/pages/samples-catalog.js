@@ -22,6 +22,8 @@ const SAMPLE_LABELS = Object.freeze({
   leather: 'লেদার'
 });
 
+const EMPTY_IMAGE_DATA_URI = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
 function openDialogModal(dialog) {
   if (!dialog) return;
 
@@ -215,8 +217,8 @@ function openSampleModal(id, triggerEl = null) {
   const swatchEl = document.getElementById('sampleModalSwatch');
   swatchEl.style.backgroundColor = sample.hex;
   const imgEl = document.getElementById('sampleModalImg');
-  imgEl.src = sample.img || '';
-  imgEl.alt = `${sample.name} (${sample.id})`;
+  imgEl.src = sample.img || EMPTY_IMAGE_DATA_URI;
+  imgEl.alt = sample.img ? `${sample.name} (${sample.id})` : 'স্যাম্পল প্রিভিউ';
   imgEl.style.display = sample.img ? '' : 'none';
   imgEl.onerror = () => { imgEl.style.display = 'none'; };
   document.getElementById('sampleModalSwatchFallback').textContent = sample.material === 'rexine' ? '🪡' : '🧥';

@@ -16,6 +16,8 @@ const HOME_SAMPLE_LIMITS = Object.freeze({
   leather: 5
 });
 
+const EMPTY_IMAGE_DATA_URI = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
+
 export function initHomeSamples({
   orderStorageKey,
   openDialog,
@@ -288,8 +290,8 @@ export function initHomeSamples({
     swatchEl.style.backgroundColor = sample.hex;
 
     const imgEl = document.getElementById('sampleModalImg');
-    imgEl.src = sample.img || '';
-    imgEl.alt = `${sample.name} (${sample.id})`;
+    imgEl.src = sample.img || EMPTY_IMAGE_DATA_URI;
+    imgEl.alt = sample.img ? `${sample.name} (${sample.id})` : 'স্যাম্পল প্রিভিউ';
     imgEl.style.display = sample.img ? '' : 'none';
     imgEl.onerror = () => {
       imgEl.style.display = 'none';
