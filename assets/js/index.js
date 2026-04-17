@@ -313,6 +313,7 @@
       lightbox: null,
       aboutTeamPreview: null,
       sampleModal: null,
+      sampleConfirmModal: null,
       reviewSubmitModal: null,
       reviewMediaPreview: null
     };
@@ -3094,6 +3095,7 @@
       orderConfirmState.lastTrigger = document.activeElement instanceof HTMLElement
         ? document.activeElement
         : null;
+      modalViewportState.sampleConfirmModal = captureViewportPosition();
 
       if (sample) {
         orderConfirmState.secondaryAction = 'edit-order';
@@ -3122,19 +3124,23 @@
       modal.classList.add('open');
       modal.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
-      primaryBtn?.focus();
+      focusWithoutScroll(primaryBtn);
+      scheduleViewportRestore(modalViewportState.sampleConfirmModal);
     }
 
-    function closeSampleConfirmModal() {
+    function closeSampleConfirmModal(restoreViewport = true) {
       const modal = document.getElementById('sampleConfirmModal');
+      const viewport = modalViewportState.sampleConfirmModal || captureViewportPosition();
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
       restoreFocus(orderConfirmState.lastTrigger);
+      if (restoreViewport) scheduleViewportRestore(viewport);
+      modalViewportState.sampleConfirmModal = null;
     }
 
     function goChooseSample() {
-      closeSampleConfirmModal();
+      closeSampleConfirmModal(false);
       scrollToSectionById('samples', 120, 'start');
       showToast('🪡 একটি স্যাম্পল বেছে নিন', 'Sample ID নির্বাচন করলে আমরা ডিজাইন, রং ও মূল্যের বিষয়ে আরও দ্রুত সাহায্য করতে পারব।', 5000);
     }
