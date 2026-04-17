@@ -678,6 +678,71 @@
       line-height: 1.8;
     }
 
+    .about-story-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0 12px;
+    }
+
+    .about-scroll-location-btn,
+    .about-map-inline-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 8px 14px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease;
+    }
+
+    .about-scroll-location-btn {
+      border: 1px solid rgba(200, 134, 10, 0.3);
+      background: rgba(200, 134, 10, 0.12);
+      color: var(--gold-pale);
+    }
+
+    .about-map-inline-link {
+      border: 1px solid rgba(232, 168, 50, 0.45);
+      background: linear-gradient(135deg, rgba(232, 168, 50, 0.95), rgba(200, 134, 10, 0.9));
+      color: var(--bg-deep);
+    }
+
+    .about-scroll-location-btn:hover,
+    .about-map-inline-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
+    }
+
+    .about-scroll-location-btn:hover {
+      border-color: rgba(232, 168, 50, 0.6);
+      background: rgba(200, 134, 10, 0.2);
+    }
+
+    .about-owner-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .about-owner-head-copy {
+      min-width: 0;
+    }
+
+    .about-owner-photo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 2px solid rgba(232, 168, 50, 0.5);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
+    }
+
     .about-highlights {
       list-style: none;
       margin-top: 16px;
@@ -710,6 +775,10 @@
       margin-bottom: 10px;
     }
 
+    .about-owner-name {
+      margin-bottom: 0;
+    }
+
     .about-owner-meta {
       margin-top: 20px;
       display: grid;
@@ -740,7 +809,7 @@
 
     .about-experience-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-top: 16px;
       position: relative;
@@ -828,25 +897,18 @@
       opacity: 1;
     }
 
-    .about-team-avatar {
-      width: 48px;
-      height: 48px;
+    .about-team-photo {
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      object-fit: cover;
+      display: block;
       margin-bottom: 12px;
       border: 1px solid rgba(232, 168, 50, 0.52);
-      background: linear-gradient(145deg, rgba(232, 168, 50, 0.36), rgba(107, 59, 31, 0.72));
-      color: var(--bg-deep);
-      font-family: var(--font-accent);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.4px;
-      line-height: 1;
-      text-transform: uppercase;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
     }
 
+    .about-team-name,
     .about-team-role,
     .about-team-duty,
     .about-team-exp {
@@ -854,13 +916,22 @@
       z-index: 1;
     }
 
-    .about-team-role {
+    .about-team-name {
       font-family: var(--font-ui);
-      font-size: 17px;
+      font-size: 21px;
       font-weight: 700;
       color: var(--cream);
-      line-height: 1.4;
-      margin-bottom: 8px;
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+
+    .about-team-role {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1.5;
+      margin-bottom: 10px;
+      letter-spacing: 0.2px;
     }
 
     .about-team-duty {
@@ -892,6 +963,15 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
+      .about-owner-head {
+        align-items: flex-start;
+      }
+
+      .about-story-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
       .about-owner-meta {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -911,6 +991,20 @@
         font-size: 24px;
       }
 
+      .about-owner-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .about-owner-photo {
+        width: 82px;
+        height: 82px;
+      }
+
+      .about-team-name {
+        font-size: 20px;
+      }
+
       .about-experience-grid,
       .about-team-grid,
       .about-owner-meta {
@@ -919,6 +1013,11 @@
 
       .about-team-head {
         margin-top: 24px;
+      }
+
+      .about-scroll-location-btn,
+      .about-map-inline-link {
+        width: 100%;
       }
     }
 
@@ -3944,6 +4043,10 @@
       background: #080603;
       border-top: 1px solid rgba(200, 134, 10, 0.1);
       padding: 60px 60px 30px;
+    }
+
+    #footer-location {
+      scroll-margin-top: 110px;
     }
 
     .footer-top {
