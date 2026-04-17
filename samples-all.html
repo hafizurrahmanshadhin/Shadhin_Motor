@@ -47,7 +47,7 @@
 
     <main class="samples-catalog-main" id="main-content">
       <section class="samples-catalog-hero">
-        <div class="section-label">ফুল স্যাম্পল ক্যাটালগ</div>
+        <p class="section-label">ফুল স্যাম্পল ক্যাটালগ</p>
         <div class="samples-catalog-hero-row">
           <div>
             <h1 class="section-title">সব <span>স্যাম্পল</span> একসাথে</h1>
@@ -71,7 +71,7 @@
             <button class="sample-filter-btn" type="button" data-filter="leather" aria-pressed="false">🧥 লেদার</button>
           </div>
           <div class="samples-catalog-toolbar-side">
-            <div class="samples-catalog-count-info">মোট <strong id="samplesCatalogCount">0</strong> টি স্যাম্পল</div>
+            <div class="samples-catalog-count-info">মোট <output id="samplesCatalogCount">0</output> টি স্যাম্পল</div>
             <a href="index.html#contact" class="samples-catalog-order-link">অর্ডার পেইজে যান</a>
           </div>
         </div>
@@ -235,30 +235,30 @@
       </figure>
       <button type="button" class="sample-modal-close" id="sampleModalCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="sample-modal-body">
-        <div class="sample-modal-id" id="sampleModalId"></div>
-        <div class="sample-modal-name" id="sampleModalName"></div>
-        <div class="sample-modal-meta">
+        <p class="sample-modal-id" id="sampleModalId"></p>
+        <h2 class="sample-modal-name" id="sampleModalName">স্যাম্পল প্রিভিউ</h2>
+        <dl class="sample-modal-meta">
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">মেটেরিয়াল</div>
-            <div class="sample-modal-meta-value" id="sampleModalMaterial"></div>
+            <dt class="sample-modal-meta-label">মেটেরিয়াল</dt>
+            <dd class="sample-modal-meta-value" id="sampleModalMaterial"></dd>
           </div>
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">রং</div>
-            <div class="sample-modal-meta-value">
+            <dt class="sample-modal-meta-label">রং</dt>
+            <dd class="sample-modal-meta-value">
               <span id="sampleModalColorDot" class="sample-modal-color-dot"></span>
               <span id="sampleModalColorName"></span>
-            </div>
+            </dd>
           </div>
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">উপলব্ধতা</div>
-            <div class="sample-modal-meta-value" id="sampleModalStock"></div>
+            <dt class="sample-modal-meta-label">উপলব্ধতা</dt>
+            <dd class="sample-modal-meta-value" id="sampleModalStock" data-stock-state=""></dd>
           </div>
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">Sample ID</div>
-            <div class="sample-modal-meta-value sample-modal-id-value" id="sampleModalIdVal"></div>
+            <dt class="sample-modal-meta-label">Sample ID</dt>
+            <dd class="sample-modal-meta-value sample-modal-id-value" id="sampleModalIdVal"></dd>
           </div>
-        </div>
-        <div id="sampleModalNote" class="sample-modal-note"></div>
+        </dl>
+        <p id="sampleModalNote" class="sample-modal-note" hidden></p>
         <button type="button" id="sampleModalOrderBtn" class="btn-primary sample-modal-order-btn">
           ✅ এই স্যাম্পল নিয়ে অর্ডার করুন
         </button>

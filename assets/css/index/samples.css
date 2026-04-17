@@ -351,6 +351,7 @@
       font-weight: 700;
       color: var(--cream);
       line-height: 1.45;
+      margin: 0;
     }
 
     .sample-card-color-row {
@@ -521,6 +522,7 @@
       font-size: 26px;
       font-weight: 700;
       color: var(--cream);
+      margin-top: 0;
       margin-bottom: 16px;
     }
 
@@ -550,6 +552,14 @@
       font-size: 15px;
       color: var(--cream);
       font-weight: 600;
+    }
+
+    .sample-modal-meta-value[data-stock-state="available"] {
+      color: #2ecc71;
+    }
+
+    .sample-modal-meta-value[data-stock-state="unavailable"] {
+      color: #e74c3c;
     }
 
     .samples-empty {

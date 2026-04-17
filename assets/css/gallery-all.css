@@ -290,7 +290,15 @@
       color: var(--cream-dim);
     }
 
-    .catalog-count strong,
+    .catalog-count output {
+      display: inline;
+      font: inherit;
+      background: none;
+      border: 0;
+      padding: 0;
+    }
+
+    .catalog-count :is(strong, output),
     .catalog-state strong {
       color: var(--gold);
     }
@@ -690,6 +698,7 @@
       font-weight: 700;
       color: var(--cream);
       line-height: 1.35;
+      margin: 0;
     }
 
     .lightbox-info-actions {

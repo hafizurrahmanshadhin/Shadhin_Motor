@@ -316,16 +316,16 @@ export function initHomeGallery({
       <span class="gallery-item-placeholder-label">${escapeHTML(catLabel)}</span>
     </div>`;
 
-    return `<div class="gallery-item" data-cat="${escapeAttr(item.cat)}" data-idx="${index}" role="button" tabindex="0" aria-label="${escapeAttr(`${catLabel}: ${item.title}`)}">
+    return `<article class="gallery-item" data-cat="${escapeAttr(item.cat)}" data-idx="${index}" role="button" tabindex="0" aria-label="${escapeAttr(`${catLabel}: ${item.title}`)}">
     ${inner}
     ${placeholder}
     <div class="gallery-overlay">
       <div class="gallery-overlay-zoom">🔍</div>
       <div class="gallery-overlay-cat">${escapeHTML(catLabel)}</div>
-      <div class="gallery-overlay-title">${escapeHTML(item.title)}</div>
+      <h3 class="gallery-overlay-title">${escapeHTML(item.title)}</h3>
       <div class="gallery-overlay-desc">${escapeHTML(item.desc || 'ডিটেইল দেখতে ক্লিক করুন')}</div>
     </div>
-  </div>`;
+  </article>`;
   }
 
   function openLightbox(index, triggerEl = null) {

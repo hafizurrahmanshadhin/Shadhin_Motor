@@ -128,7 +128,15 @@
   color: var(--cream-dim);
 }
 
-.samples-catalog-count-info strong {
+.samples-catalog-count-info output {
+  display: inline;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.samples-catalog-count-info :is(strong, output) {
   color: var(--gold);
 }
 
@@ -247,7 +255,7 @@
   margin-bottom: 14px;
 }
 
-.samples-catalog-page .sample-modal-note {
+.samples-catalog-page .sample-modal-note[hidden] {
   display: none;
 }
 

@@ -1,7 +1,9 @@
 import { escapeAttr, escapeHTML } from '../core/dom-helpers.js';
+import { EMPTY_IMAGE_DATA_URI } from '../core/media-helpers.js';
 import {
   isFeaturedSample,
   loadSamplesFromStorage,
+  sanitizeColor,
   SELECTED_SAMPLE_STORAGE_KEY
 } from '../data/sample-store.js';
 
@@ -15,8 +17,6 @@ const HOME_SAMPLE_LIMITS = Object.freeze({
   rexine: 5,
   leather: 5
 });
-
-const EMPTY_IMAGE_DATA_URI = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
 
 export function initHomeSamples({
   orderStorageKey,
@@ -166,7 +166,7 @@ export function initHomeSamples({
       const safeId = escapeHTML(sample.id);
       const safeName = escapeHTML(sample.name);
       const safeColor = escapeHTML(sample.color);
-      const safeHex = escapeAttr(sample.hex);
+      const safeHex = sanitizeColor(sample.hex, sample.material === 'rexine' ? '#3d2010' : '#3b1f0a');
       const matTag = sample.material === 'rexine'
         ? '<span class="sample-card-material-tag tag-rexine">রেক্সিন</span>'
         : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
@@ -181,7 +181,7 @@ export function initHomeSamples({
         : 'aria-disabled="true"';
 
       return `
-    <div class="sample-card ${isSelected ? 'selected' : ''} ${!sample.available ? 'out-of-stock' : ''}"
+    <article class="sample-card ${isSelected ? 'selected' : ''} ${!sample.available ? 'out-of-stock' : ''}"
          ${cardAttrs}>
       <div class="sample-card-swatch" style="background-color: ${safeHex};">
         ${swatchContent}
@@ -193,7 +193,7 @@ export function initHomeSamples({
           <span>${safeId}</span>
           ${matTag}
         </div>
-        <div class="sample-card-name">${safeName}</div>
+        <h3 class="sample-card-name">${safeName}</h3>
         <div class="sample-card-color-row">
           <div class="sample-card-color-dot" style="background:${safeHex}"></div>
           <span class="sample-card-color-name">${safeColor}</span>
@@ -202,7 +202,7 @@ export function initHomeSamples({
           ${isSelected ? '✓ নির্বাচিত' : (sample.available ? '+ অর্ডারে যোগ করুন' : 'স্টক নেই')}
         </button>
       </div>
-    </div>`;
+    </article>`;
     }).join('');
 
     bindSampleCardImages(grid);
@@ -272,43 +272,42 @@ export function initHomeSamples({
     document.getElementById('sampleModalIdVal').textContent = sample.id;
     document.getElementById('sampleModalName').textContent = sample.name;
     document.getElementById('sampleModalMaterial').textContent = sample.material === 'rexine' ? 'রেক্সিন (Rexine)' : 'চামড়া (Leather)';
-    document.getElementById('sampleModalColorDot').style.background = sample.hex;
+    const sampleHex = sanitizeColor(sample.hex, sample.material === 'rexine' ? '#3d2010' : '#3b1f0a');
+    document.getElementById('sampleModalColorDot').style.background = sampleHex;
     document.getElementById('sampleModalColorName').textContent = sample.color;
-    document.getElementById('sampleModalStock').innerHTML = sample.available
-      ? '<span style="color:#2ecc71">✅ উপলব্ধ</span>'
-      : '<span style="color:#e74c3c">❌ স্টক নেই</span>';
+    const stockEl = document.getElementById('sampleModalStock');
+    stockEl.textContent = sample.available ? '✅ উপলব্ধ' : '❌ স্টক নেই';
+    stockEl.dataset.stockState = sample.available ? 'available' : 'unavailable';
 
     const noteEl = document.getElementById('sampleModalNote');
     if (sample.note) {
       noteEl.textContent = sample.note;
-      noteEl.style.display = '';
+      noteEl.hidden = false;
     } else {
-      noteEl.style.display = 'none';
+      noteEl.textContent = '';
+      noteEl.hidden = true;
     }
 
     const swatchEl = document.getElementById('sampleModalSwatch');
-    swatchEl.style.backgroundColor = sample.hex;
+    swatchEl.style.backgroundColor = sampleHex;
 
     const imgEl = document.getElementById('sampleModalImg');
     imgEl.src = sample.img || EMPTY_IMAGE_DATA_URI;
     imgEl.alt = sample.img ? `${sample.name} (${sample.id})` : 'স্যাম্পল প্রিভিউ';
-    imgEl.style.display = sample.img ? '' : 'none';
+    imgEl.hidden = !sample.img;
     imgEl.onerror = () => {
-      imgEl.style.display = 'none';
+      imgEl.hidden = true;
     };
 
     document.getElementById('sampleModalSwatchFallback').textContent = sample.material === 'rexine' ? '🪡' : '🧥';
 
     const orderBtn = document.getElementById('sampleModalOrderBtn');
-    if (!sample.available) {
-      orderBtn.textContent = '❌ স্টক নেই';
-      orderBtn.style.opacity = '0.4';
-      orderBtn.style.pointerEvents = 'none';
-    } else {
+    orderBtn.disabled = !sample.available;
+    if (sample.available) {
       const alreadySelected = selectedSample && selectedSample.id === sample.id;
-      orderBtn.innerHTML = alreadySelected ? '✓ ইতোমধ্যে নির্বাচিত — অর্ডারে যান' : '✅ এই স্যাম্পল নির্বাচন করুন';
-      orderBtn.style.opacity = '';
-      orderBtn.style.pointerEvents = '';
+      orderBtn.textContent = alreadySelected ? '✓ ইতোমধ্যে নির্বাচিত — অর্ডারে যান' : '✅ এই স্যাম্পল নির্বাচন করুন';
+    } else {
+      orderBtn.textContent = '❌ স্টক নেই';
     }
 
     openDialog(modalOverlay);
@@ -353,7 +352,8 @@ export function initHomeSamples({
     selectedSample = sample;
 
     const bar = document.getElementById('selectedSampleBar');
-    document.getElementById('selectedBarSwatch').style.background = sample.hex;
+    const sampleHex = sanitizeColor(sample.hex, sample.material === 'rexine' ? '#3d2010' : '#3b1f0a');
+    document.getElementById('selectedBarSwatch').style.background = sampleHex;
     document.getElementById('selectedBarName').textContent = `${sample.id} — ${sample.name}`;
     document.getElementById('selectedBarMeta').textContent =
       `${sample.material === 'rexine' ? 'রেক্সিন' : 'লেদার'} · ${sample.color}`;
@@ -361,7 +361,7 @@ export function initHomeSamples({
 
     document.getElementById('selectedSampleId').value = sample.id;
     const strip = document.getElementById('formSampleStrip');
-    document.getElementById('formSwatchDot').style.background = sample.hex;
+    document.getElementById('formSwatchDot').style.background = sampleHex;
     document.getElementById('formSampleLabel').textContent =
       `${sample.id} — ${sample.name} (${sample.material === 'rexine' ? 'রেক্সিন' : 'লেদার'}, ${sample.color})`;
     strip.style.display = 'flex';

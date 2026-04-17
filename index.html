@@ -299,7 +299,7 @@
   <!-- SERVICES -->
   <section id="services">
     <div class="section-header reveal">
-      <div class="section-label">আমাদের সার্ভিস</div>
+      <p class="section-label">আমাদের সার্ভিস</p>
       <h2 class="section-title">যা যা <span>করে থাকি</span></h2>
       <p class="section-lead">
         আপনার গাড়ির ধরন, ব্যবহার ও বাজেট অনুযায়ী আমরা সঠিক সিট কভার সমাধান দিই। নতুন তৈরি, রিপেয়ার,
@@ -357,7 +357,7 @@
   <!-- ABOUT -->
   <section id="about">
     <div class="section-header reveal">
-      <div class="section-label">আমাদের সম্পর্কে</div>
+      <p class="section-label">আমাদের সম্পর্কে</p>
       <h2 class="section-title">দোকান, অভিজ্ঞতা ও <span>আমাদের টিম</span></h2>
       <p class="section-lead">
         স্বাধীন মটর শুধু সিট কভার বিক্রি করে না, আমরা আপনার গাড়ির ভিতরের পুরো আরাম ও লুক upgrade করার কাজ করি।
@@ -486,7 +486,7 @@
   <!-- GALLERY -->
   <section id="gallery">
     <div class="section-header reveal">
-      <div class="section-label">আমাদের কাজ</div>
+      <p class="section-label">আমাদের কাজ</p>
       <h2 class="section-title">কাজের <span>স্যাম্পল</span></h2>
       <p class="section-lead">
         বাস্তব কাজের স্যাম্পল দেখে ডিজাইন, ফিটিং ও ফিনিশ আগে থেকেই বুঝে নিন। কার, বাইক ও রিপেয়ার
@@ -524,8 +524,8 @@
       </div>
       <figcaption class="lightbox-info-bar">
         <div class="lightbox-info-text">
-          <div class="lightbox-info-cat" id="lightboxCat"></div>
-          <div class="lightbox-info-title" id="lightboxTitle"></div>
+          <p class="lightbox-info-cat" id="lightboxCat"></p>
+          <h2 class="lightbox-info-title" id="lightboxTitle">গ্যালারি প্রিভিউ</h2>
         </div>
         <div class="lightbox-info-actions">
           <span class="lightbox-counter" id="lightboxCounter"></span>
@@ -538,7 +538,7 @@
   <!-- SAMPLES: REXINE & LEATHER -->
   <section id="samples">
     <div class="section-header reveal">
-      <div class="section-label">মেটেরিয়াল বাছাই করুন</div>
+      <p class="section-label">মেটেরিয়াল বাছাই করুন</p>
       <h2 class="section-title">রেক্সিন ও লেদার <span>স্যাম্পল</span></h2>
       <p class="samples-section-lead">
         পছন্দের স্যাম্পলটি বেছে নিন এবং <strong class="text-gold">Sample ID</strong> উল্লেখ করে অর্ডার দিন —
@@ -600,31 +600,30 @@
       </figure>
       <button type="button" class="sample-modal-close" id="sampleModalCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="sample-modal-body">
-        <div class="sample-modal-id" id="sampleModalId"></div>
-        <div class="sample-modal-name" id="sampleModalName"></div>
-        <div class="sample-modal-meta">
+        <p class="sample-modal-id" id="sampleModalId"></p>
+        <h2 class="sample-modal-name" id="sampleModalName">স্যাম্পল প্রিভিউ</h2>
+        <dl class="sample-modal-meta">
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">মেটেরিয়াল</div>
-            <div class="sample-modal-meta-value" id="sampleModalMaterial"></div>
+            <dt class="sample-modal-meta-label">মেটেরিয়াল</dt>
+            <dd class="sample-modal-meta-value" id="sampleModalMaterial"></dd>
           </div>
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">রং</div>
-            <div class="sample-modal-meta-value" id="sampleModalColor">
+            <dt class="sample-modal-meta-label">রং</dt>
+            <dd class="sample-modal-meta-value" id="sampleModalColor">
               <span id="sampleModalColorDot" class="sample-modal-color-dot"></span>
               <span id="sampleModalColorName"></span>
-            </div>
+            </dd>
           </div>
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">উপলব্ধতা</div>
-            <div class="sample-modal-meta-value" id="sampleModalStock"></div>
+            <dt class="sample-modal-meta-label">উপলব্ধতা</dt>
+            <dd class="sample-modal-meta-value" id="sampleModalStock" data-stock-state=""></dd>
           </div>
           <div class="sample-modal-meta-item">
-            <div class="sample-modal-meta-label">Sample ID</div>
-            <div class="sample-modal-meta-value sample-modal-id-value" id="sampleModalIdVal"></div>
+            <dt class="sample-modal-meta-label">Sample ID</dt>
+            <dd class="sample-modal-meta-value sample-modal-id-value" id="sampleModalIdVal"></dd>
           </div>
-        </div>
-        <div id="sampleModalNote" class="sample-modal-note">
-        </div>
+        </dl>
+        <p id="sampleModalNote" class="sample-modal-note" hidden></p>
         <button type="button" id="sampleModalOrderBtn" class="btn-primary sample-modal-order-btn">
           ✅ এই স্যাম্পল নির্বাচন করুন
         </button>
@@ -635,7 +634,7 @@
   <!-- HOW IT WORKS -->
   <section id="process">
     <div class="section-header reveal">
-      <div class="section-label">কাজের পদ্ধতি</div>
+      <p class="section-label">কাজের পদ্ধতি</p>
       <h2 class="section-title">কিভাবে <span>অর্ডার করবেন</span></h2>
       <p class="section-lead">
         অর্ডার প্রক্রিয়াটি সহজ রাখতে আমরা ধাপে ধাপে পুরো নির্দেশনা সাজিয়েছি। Sample ID নির্বাচন থেকে
@@ -674,7 +673,7 @@
   <!-- VEHICLES -->
   <section id="vehicles">
     <div>
-      <div class="section-label reveal">আমরা কী কী করি</div>
+      <p class="section-label reveal">আমরা কী কী করি</p>
       <div class="vehicles-info">
         <h2 class="reveal">যেকোনো গাড়ির <span class="text-gold-light">সিট কভার</span></h2>
         <p class="reveal">প্রাইভেট কার থেকে মোটরসাইকেল — সব ধরনের গাড়ির সিট কভারে আমরা বিশেষজ্ঞ। উচ্চমানের রেক্সিন ও
@@ -714,7 +713,7 @@
   <!-- LOCAL SEO CONTENT -->
   <section id="local-seo">
     <div class="section-header reveal">
-      <div class="section-label">ঢাকা ও ঢাকা বিভাগ</div>
+      <p class="section-label">ঢাকা ও ঢাকা বিভাগ</p>
       <h2 class="section-title">ঢাকায় সিট কভার <span>সার্ভিস</span></h2>
       <p class="section-lead">
         স্বাধীন মটর মূলত ঢাকা ও পুরো ঢাকা বিভাগে প্রাইভেট কার, SUV, মাইক্রোবাস এবং মোটরসাইকেলের রেক্সিন ও চামড়ার
@@ -779,7 +778,7 @@
   <!-- CUSTOMER REVIEWS -->
   <section id="reviews">
     <div class="section-header reveal">
-      <div class="section-label">গ্রাহকদের মতামত</div>
+      <p class="section-label">গ্রাহকদের মতামত</p>
       <h2 class="section-title">আমাদের কাজ নিয়ে <span>রিভিউ</span></h2>
       <p class="section-lead">
         যারা আমাদের দিয়ে সিট কভার করিয়েছেন, তাদের বাস্তব অভিজ্ঞতা, রেটিং এবং মন্তব্য এখানে দেখানো হয়েছে।
@@ -984,7 +983,7 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-header reveal">
-      <div class="section-label">যোগাযোগ</div>
+      <p class="section-label">যোগাযোগ</p>
       <h2 class="section-title">অর্ডার দিন বা <span>কথা বলুন</span></h2>
       <p class="section-lead">
         অর্ডার দিতে চাইলে বা কাজের ধরন, মেটেরিয়াল, ডিজাইন, মূল্য এবং ফিটিং নিয়ে জানতে চাইলে এখান থেকে সরাসরি
