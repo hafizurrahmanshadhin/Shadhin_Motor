@@ -251,6 +251,24 @@
   display: none;
 }
 
+dialog.sample-modal-overlay {
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+
+dialog.sample-modal-overlay::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+dialog.sample-modal-overlay[open] {
+  display: flex;
+}
+
 @media (max-width: 900px) {
   .samples-catalog-shell {
     padding-inline: 16px;

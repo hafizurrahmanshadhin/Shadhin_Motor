@@ -1,32 +1,29 @@
-(function () {
-  'use strict';
+import { storageKeys } from './site-config.js';
 
-  // Shared accessibility helper injected across all public pages.
-  // This module is intentionally standalone so pages can opt in with one script tag.
-  const siteConfig = window.ShadhinMotorSiteConfig || {};
-  const storageKeys = siteConfig.storageKeys || {};
-  const STORAGE_KEY = storageKeys.accessibilityPrefs || 'shadhinMotorA11yPrefs.v1';
-  const FOCUSABLE_SELECTOR = 'button, a[href], [tabindex]:not([tabindex="-1"])';
-  const WHATSAPP_LINK = 'https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai.';
-  const CALL_LINK = 'tel:+8801911387254';
-  const ACTION_LABELS = {
-    largeText: 'বড় লেখা',
-    highContrast: 'উচ্চ কনট্রাস্ট',
-    easyRead: 'সহজ পাঠ মোড'
-  };
+// Shared accessibility helper injected across all public pages.
+// This module is intentionally standalone so pages can opt in with one script tag.
+const STORAGE_KEY = storageKeys.accessibilityPrefs || 'shadhinMotorA11yPrefs.v1';
+const FOCUSABLE_SELECTOR = 'button, a[href], [tabindex]:not([tabindex="-1"])';
+const WHATSAPP_LINK = 'https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai.';
+const CALL_LINK = 'tel:+8801911387254';
+const ACTION_LABELS = {
+  largeText: 'বড় লেখা',
+  highContrast: 'উচ্চ কনট্রাস্ট',
+  easyRead: 'সহজ পাঠ মোড'
+};
 
-  const state = {
-    largeText: false,
-    highContrast: false,
-    easyRead: false,
-    isSpeaking: false
-  };
+const state = {
+  largeText: false,
+  highContrast: false,
+  easyRead: false,
+  isSpeaking: false
+};
 
-  const classMap = {
-    largeText: 'a11y-large-text',
-    highContrast: 'a11y-high-contrast',
-    easyRead: 'a11y-easy-read'
-  };
+const classMap = {
+  largeText: 'a11y-large-text',
+  highContrast: 'a11y-high-contrast',
+  easyRead: 'a11y-easy-read'
+};
 
   function safeParse(jsonText) {
     try {
@@ -137,7 +134,7 @@
     return shell;
   }
 
-  function init() {
+  export function initAccessibilityTools() {
     loadState();
     applyBodyClasses();
 
@@ -311,8 +308,7 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
+    document.addEventListener('DOMContentLoaded', initAccessibilityTools, { once: true });
   } else {
-    init();
+    initAccessibilityTools();
   }
-})();

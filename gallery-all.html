@@ -69,7 +69,7 @@
           </div>
         </div>
 
-        <div class="catalog-tools">
+        <search class="catalog-tools">
           <div class="catalog-search-wrap">
             <span class="catalog-search-icon">🔍</span>
             <label class="visually-hidden" for="catalogSearchInput">ডিজাইন সার্চ করুন</label>
@@ -84,14 +84,14 @@
             </select>
           </div>
           <button type="button" id="catalogResetBtn" class="catalog-reset-btn">ফিল্টার রিসেট</button>
-        </div>
+        </search>
 
         <div class="gallery-grid" id="galleryPageGrid"></div>
       </section>
     </main>
   </div>
 
-  <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" aria-hidden="true">
+  <dialog class="lightbox-overlay" id="lightboxOverlay" aria-labelledby="lightboxTitle">
     <div class="lightbox-inner">
       <button type="button" class="lightbox-nav-btn lightbox-prev" id="lightboxPrevBtn" aria-label="পূর্বের ছবি">‹</button>
       <button type="button" class="lightbox-nav-btn lightbox-next" id="lightboxNextBtn" aria-label="পরের ছবি">›</button>
@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- FOOTER -->
   <footer>
@@ -244,9 +244,8 @@
     </a>
   </nav>
 
-    <script src="assets/js/site-config.js" defer></script>
-    <script src="assets/js/accessibility-tools.js" defer></script>
-    <script src="assets/js/gallery-all.js" defer></script>
+    <script type="module" src="assets/js/accessibility-tools.js"></script>
+    <script type="module" src="assets/js/gallery-all.js"></script>
 </body>
 
 </html>

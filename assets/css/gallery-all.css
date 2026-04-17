@@ -601,6 +601,24 @@
       display: flex;
     }
 
+    dialog.lightbox-overlay {
+      width: 100%;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    dialog.lightbox-overlay::backdrop {
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(10px);
+    }
+
+    dialog.lightbox-overlay[open] {
+      display: flex;
+    }
+
     .lightbox-inner {
       max-width: 920px;
       width: 100%;

@@ -76,7 +76,7 @@
           </div>
         </div>
 
-        <div class="samples-catalog-search-row">
+        <search class="samples-catalog-search-row">
           <div class="sample-search-wrap samples-catalog-search-wrap">
             <span class="sample-search-icon">🔍</span>
             <label class="visually-hidden" for="samplesCatalogSearchInput">স্যাম্পল সার্চ করুন</label>
@@ -84,7 +84,7 @@
               placeholder="ID, নাম, রং বা note দিয়ে খুঁজুন">
           </div>
           <button type="button" id="samplesCatalogResetBtn" class="samples-catalog-reset-btn">ফিল্টার রিসেট</button>
-        </div>
+        </search>
 
         <p class="samples-catalog-helper">
           এখানে search ও filter ব্যবহার করে দ্রুত নির্দিষ্ট স্যাম্পল খুঁজে নিন। যে কোনো card-এ click করলে preview
@@ -226,8 +226,8 @@
     </div>
   </footer>
 
-  <div class="sample-modal-overlay" id="sampleModal" aria-hidden="true">
-    <div class="sample-modal" role="dialog" aria-modal="true" aria-labelledby="sampleModalName">
+  <dialog class="sample-modal-overlay" id="sampleModal" aria-labelledby="sampleModalName">
+    <article class="sample-modal">
       <div class="sample-modal-swatch" id="sampleModalSwatch">
         <img src="" id="sampleModalImg" alt="">
         <span id="sampleModalSwatchFallback" class="sample-modal-swatch-fallback">🪑</span>
@@ -262,8 +262,8 @@
           ✅ এই স্যাম্পল নিয়ে অর্ডার করুন
         </button>
       </div>
-    </div>
-  </div>
+    </article>
+  </dialog>
 
   <nav class="floating-cta" aria-label="Quick contact actions">
     <a class="floating-cta-btn wa" href="https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai."
@@ -275,9 +275,8 @@
     </a>
   </nav>
 
-  <script src="assets/js/site-config.js" defer></script>
-  <script src="assets/js/accessibility-tools.js" defer></script>
-  <script src="assets/js/samples-all.js" defer></script>
+  <script type="module" src="assets/js/accessibility-tools.js"></script>
+  <script type="module" src="assets/js/samples-all.js"></script>
 </body>
 
 </html>
