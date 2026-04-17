@@ -47,7 +47,6 @@
       overscroll-behavior-y: auto;
     }
 
-    html.body-scroll-locked,
     body.body-scroll-locked {
       height: 100%;
       overflow: hidden !important;
@@ -1137,25 +1136,35 @@
       background: linear-gradient(145deg, rgba(40, 27, 11, 0.98), rgba(20, 13, 5, 0.98));
       border: 1px solid rgba(200, 134, 10, 0.28);
       box-shadow: 0 28px 48px rgba(0, 0, 0, 0.5);
-      padding: 16px 16px 58px;
-      position: relative;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
       overflow-y: auto;
       box-sizing: border-box;
       margin: auto;
     }
 
+    .about-team-preview-footer {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 14px;
+    }
+
     .about-team-preview-close {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border: 1px solid rgba(200, 134, 10, 0.36);
       background: rgba(15, 10, 4, 0.86);
       color: var(--gold-light);
       cursor: pointer;
       font-size: 18px;
       line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       transition: background 0.22s ease, border-color 0.22s ease;
     }
 
@@ -1176,7 +1185,7 @@
     }
 
     .about-team-preview-copy {
-      margin-top: 12px;
+      min-width: 0;
     }
 
     .about-team-preview-copy h4 {
@@ -1290,7 +1299,7 @@
         width: 100%;
         max-height: calc(100vh - 14px);
         max-height: calc(100dvh - 14px);
-        padding: 14px 14px 54px;
+        padding: 14px;
       }
 
       .about-team-preview-image {
@@ -1328,9 +1337,8 @@
         margin: 0 auto;
       }
 
-      .about-team-preview-close {
-        bottom: 6px;
-        right: 6px;
+      .about-team-preview-footer {
+        gap: 10px;
       }
     }
 

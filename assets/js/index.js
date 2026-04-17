@@ -309,6 +309,21 @@
       reviewSubmitTrigger: null,
       aboutTeamPreviewTrigger: null
     };
+    const modalViewportState = {
+      lightbox: null,
+      aboutTeamPreview: null
+    };
+
+    function focusWithoutScroll(target) {
+      if (!(target instanceof HTMLElement)) return;
+      if (typeof target.focus !== 'function') return;
+
+      try {
+        target.focus({ preventScroll: true });
+      } catch (error) {
+        target.focus();
+      }
+    }
 
     function getFirstFocusable(container) {
       return container?.querySelector(FOCUSABLE_SELECTOR) || null;
@@ -316,13 +331,55 @@
 
     function focusFirstIn(container) {
       const firstFocusable = getFirstFocusable(container);
-      if (firstFocusable) firstFocusable.focus();
+      focusWithoutScroll(firstFocusable);
     }
 
     function restoreFocus(target) {
-      if (!(target instanceof HTMLElement)) return;
-      if (typeof target.focus !== 'function') return;
-      target.focus();
+      focusWithoutScroll(target);
+    }
+
+    function captureViewportPosition() {
+      const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+
+      return {
+        x: scrollRoot?.scrollLeft || window.scrollX || window.pageXOffset || 0,
+        y: scrollRoot?.scrollTop || window.scrollY || window.pageYOffset || 0
+      };
+    }
+
+    function restoreViewportPosition(viewport) {
+      if (!viewport) return;
+
+      const restoreX = Number.isFinite(viewport.x) ? viewport.x : 0;
+      const restoreY = Number.isFinite(viewport.y) ? viewport.y : 0;
+      const root = document.documentElement;
+      const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+      const previousRootBehavior = root?.style.scrollBehavior || '';
+      const previousScrollRootBehavior = scrollRoot instanceof HTMLElement ? scrollRoot.style.scrollBehavior : '';
+
+      if (root) root.style.scrollBehavior = 'auto';
+      if (scrollRoot instanceof HTMLElement) scrollRoot.style.scrollBehavior = 'auto';
+
+      if (scrollRoot) {
+        scrollRoot.scrollLeft = restoreX;
+        scrollRoot.scrollTop = restoreY;
+      }
+
+      window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
+
+      requestAnimationFrame(() => {
+        if (root) root.style.scrollBehavior = previousRootBehavior;
+        if (scrollRoot instanceof HTMLElement) scrollRoot.style.scrollBehavior = previousScrollRootBehavior;
+      });
+    }
+
+    function scheduleViewportRestore(viewport) {
+      if (!viewport) return;
+
+      requestAnimationFrame(() => {
+        restoreViewportPosition(viewport);
+        requestAnimationFrame(() => restoreViewportPosition(viewport));
+      });
     }
 
     function getReviewFileKind(file) {
@@ -361,6 +418,63 @@
       'reviewMediaPreviewOverlay',
       'aboutTeamPreviewOverlay'
     ];
+    const bodyScrollLockState = {
+      locked: false,
+      x: 0,
+      y: 0,
+      scrollbarGap: 0
+    };
+
+    function lockBodyScroll(root, body) {
+      body.classList.add('body-scroll-locked');
+
+      if (!bodyScrollLockState.locked) {
+        const viewport = captureViewportPosition();
+        bodyScrollLockState.locked = true;
+        bodyScrollLockState.x = viewport.x;
+        bodyScrollLockState.y = viewport.y;
+        bodyScrollLockState.scrollbarGap = Math.max(0, window.innerWidth - root.clientWidth);
+      }
+
+      body.style.overflow = 'hidden';
+      body.style.position = 'fixed';
+      body.style.top = `-${bodyScrollLockState.y}px`;
+      body.style.left = '0';
+      body.style.right = '0';
+      body.style.width = '100%';
+
+      if (bodyScrollLockState.scrollbarGap > 0) {
+        body.style.paddingRight = `${bodyScrollLockState.scrollbarGap}px`;
+        return;
+      }
+
+      body.style.removeProperty('padding-right');
+    }
+
+    function unlockBodyScroll(root, body) {
+      body.classList.remove('body-scroll-locked');
+      body.style.removeProperty('overflow');
+
+      if (!bodyScrollLockState.locked) return;
+
+      const topOffset = Number.parseInt(body.style.top || '0', 10);
+      const restoreX = bodyScrollLockState.x;
+      const restoreY = bodyScrollLockState.y || Math.abs(Number.isNaN(topOffset) ? 0 : topOffset);
+
+      bodyScrollLockState.locked = false;
+      bodyScrollLockState.x = 0;
+      bodyScrollLockState.y = 0;
+      bodyScrollLockState.scrollbarGap = 0;
+
+      body.style.removeProperty('position');
+      body.style.removeProperty('top');
+      body.style.removeProperty('left');
+      body.style.removeProperty('right');
+      body.style.removeProperty('width');
+      body.style.removeProperty('padding-right');
+
+      window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
+    }
 
     function syncBodyScrollLockState() {
       const root = document.documentElement;
@@ -372,17 +486,12 @@
 
       if (!root || !body) return;
 
-      root.classList.toggle('body-scroll-locked', shouldLock);
-      body.classList.toggle('body-scroll-locked', shouldLock);
-
       if (shouldLock) {
-        root.style.overflow = 'hidden';
-        body.style.overflow = 'hidden';
+        lockBodyScroll(root, body);
         return;
       }
 
-      root.style.removeProperty('overflow');
-      body.style.removeProperty('overflow');
+      unlockBodyScroll(root, body);
     }
 
     function releaseReviewConfirmPreviewUrls() {
@@ -1965,6 +2074,7 @@
       modalFocusState.lightboxTrigger = triggerEl instanceof HTMLElement
         ? triggerEl
         : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+      modalViewportState.lightbox = captureViewportPosition();
       lightboxIdx = idx;
       renderLightbox();
       const overlay = document.getElementById('lightboxOverlay');
@@ -1972,7 +2082,8 @@
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
-      document.getElementById('lightboxCloseBtn')?.focus();
+      focusWithoutScroll(document.getElementById('lightboxCloseBtn'));
+      scheduleViewportRestore(modalViewportState.lightbox);
     }
 
     function closeLightbox(e) {
@@ -1980,10 +2091,14 @@
       if (!overlay) return;
       if (e && e.target !== overlay) return;
 
+      const viewport = modalViewportState.lightbox || captureViewportPosition();
+
       overlay.classList.remove('open');
       overlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
       restoreFocus(modalFocusState.lightboxTrigger);
+      scheduleViewportRestore(viewport);
+      modalViewportState.lightbox = null;
     }
 
     function lightboxNav(dir) {
@@ -2268,6 +2383,7 @@
       modalFocusState.aboutTeamPreviewTrigger = triggerEl instanceof HTMLElement
         ? triggerEl
         : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+      modalViewportState.aboutTeamPreview = captureViewportPosition();
 
       const previewSrc = imageSrc || ABOUT_TEAM_FALLBACK_IMAGE;
       const previewName = name || 'শাধিন মোটর টিম';
@@ -2287,17 +2403,22 @@
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
-      document.getElementById('aboutTeamPreviewCloseBtn')?.focus();
+      focusWithoutScroll(document.getElementById('aboutTeamPreviewCloseBtn'));
+      scheduleViewportRestore(modalViewportState.aboutTeamPreview);
     }
 
     function closeAboutTeamPreview() {
       const overlay = document.getElementById('aboutTeamPreviewOverlay');
       if (!overlay) return;
 
+      const viewport = modalViewportState.aboutTeamPreview || captureViewportPosition();
+
       overlay.classList.remove('open');
       overlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
       restoreFocus(modalFocusState.aboutTeamPreviewTrigger);
+      scheduleViewportRestore(viewport);
+      modalViewportState.aboutTeamPreview = null;
       setAboutTeamPaused('preview', false);
     }
 
