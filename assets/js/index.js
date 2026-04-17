@@ -306,7 +306,8 @@
       lightboxTrigger: null,
       sampleTrigger: null,
       sampleConfirmTrigger: null,
-      reviewSubmitTrigger: null
+      reviewSubmitTrigger: null,
+      aboutTeamPreviewTrigger: null
     };
 
     function getFirstFocusable(container) {
@@ -357,7 +358,8 @@
       'sampleConfirmModal',
       'reviewSubmitModal',
       'reviewSubmitConfirmOverlay',
-      'reviewMediaPreviewOverlay'
+      'reviewMediaPreviewOverlay',
+      'aboutTeamPreviewOverlay'
     ];
 
     function syncBodyScrollLockState() {
@@ -2020,6 +2022,271 @@
       }
     }
 
+    const ABOUT_TEAM_PAGE_SIZE = 3;
+    const ABOUT_TEAM_FALLBACK_IMAGE = 'assets/images/about/employee-1.jpeg';
+    const ABOUT_TEAM_MEMBERS = [
+      {
+        name: 'মোঃ রায়হান ইসলাম',
+        role: 'মাস্টার কাটিং কারিগর',
+        duty: 'গাড়ির seat frame অনুযায়ী pattern prepare করে accuracy বজায় রেখে material cut করেন।',
+        exp: '১২+ বছর',
+        image: 'assets/images/about/employee-1.jpeg'
+      },
+      {
+        name: 'মোঃ সাগর হোসেন',
+        role: 'স্টিচিং ও ডিজাইন স্পেশালিস্ট',
+        duty: 'panel join, thread matching এবং design line detailing step-by-step সম্পন্ন করেন।',
+        exp: '৯+ বছর',
+        image: 'assets/images/about/employee-2.jpeg'
+      },
+      {
+        name: 'মোঃ নাঈম আহমেদ',
+        role: 'ফিটিং ও ফিনিশিং টেকনিশিয়ান',
+        duty: 'final stretch, edge alignment এবং wrinkle-free fitting নিশ্চিত করেন।',
+        exp: '৮+ বছর',
+        image: 'assets/images/about/employee-3.jpeg'
+      },
+      {
+        name: 'মোঃ তানভীর রহমান',
+        role: 'গ্রাহক সাপোর্ট ও ডেলিভারি সহকারী',
+        duty: 'order follow-up, delivery coordination এবং after-service support দেখেন।',
+        exp: '৬+ বছর',
+        image: 'assets/images/about/employee-4.jpeg'
+      },
+      {
+        name: 'মোঃ রাকিব হাসান',
+        role: 'ফোম শেইপিং কারিগর',
+        duty: 'seat cushion contour অনুযায়ী foam shaping ও edge balancing করে comfort level বাড়ান।',
+        exp: '৭+ বছর',
+        image: 'assets/images/about/employee-5.jpeg'
+      },
+      {
+        name: 'মোঃ জাহিদ মিয়া',
+        role: 'কাটিং সহকারী',
+        duty: 'master cutter-এর নির্দেশনায় precision marking ও pre-cut preparation সম্পন্ন করেন।',
+        exp: '৫+ বছর',
+        image: 'assets/images/about/employee-6.jpeg'
+      },
+      {
+        name: 'মোঃ ফারুক খান',
+        role: 'সেলাই মেশিন অপারেটর',
+        duty: 'heavy stitch machine-এ consistent seam depth বজায় রেখে daily production complete করেন।',
+        exp: '৬+ বছর',
+        image: 'assets/images/about/employee-7.jpeg'
+      },
+      {
+        name: 'মোঃ মানিক সরকার',
+        role: 'সাইড প্যানেল ফিটিং সহকারী',
+        duty: 'door panel cover, side fitting ও corner locking carefully সেটআপ করেন।',
+        exp: '৪+ বছর',
+        image: 'assets/images/about/employee-8.jpeg'
+      },
+      {
+        name: 'মোঃ আল-আমিন',
+        role: 'ফাইনাল ক্লিনিং এক্সিকিউটিভ',
+        duty: 'delivery-এর আগে loose thread cleanup, surface finishing এবং shine balance maintain করেন।',
+        exp: '৫+ বছর',
+        image: 'assets/images/about/employee-9.jpeg'
+      },
+      {
+        name: 'মোঃ হৃদয় ইসলাম',
+        role: 'কোয়ালিটি চেক সহকারী',
+        duty: 'stitch line, fitting tension এবং customer spec অনুযায়ী final quality checklist সম্পন্ন করেন।',
+        exp: '৪+ বছর',
+        image: 'assets/images/about/employee-10.jpeg'
+      },
+      {
+        name: 'মোঃ সাব্বির আহমেদ',
+        role: 'ইনস্টলেশন ও ডেলিভারি টেক',
+        duty: 'on-spot fitment adjustment, customer handover briefing এবং basic care instruction দেন।',
+        exp: '৫+ বছর',
+        image: 'assets/images/about/employee-11.jpeg'
+      }
+    ];
+
+    const aboutTeamState = {
+      page: 1,
+      totalPages: 1
+    };
+
+    function updateAboutTeamPaginationMeta() {
+      const prevBtn = document.getElementById('aboutTeamPrevBtn');
+      const nextBtn = document.getElementById('aboutTeamNextBtn');
+      const meta = document.getElementById('aboutTeamPageMeta');
+
+      if (meta) {
+        meta.textContent = `পৃষ্ঠা ${aboutTeamState.page} / ${aboutTeamState.totalPages}`;
+      }
+
+      if (prevBtn) prevBtn.disabled = aboutTeamState.page <= 1;
+      if (nextBtn) nextBtn.disabled = aboutTeamState.page >= aboutTeamState.totalPages;
+    }
+
+    function bindAboutTeamCardImageFallbacks(root = document) {
+      root.querySelectorAll('.about-team-photo').forEach(img => {
+        const fallbackToDefault = () => {
+          if (img.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
+          img.src = ABOUT_TEAM_FALLBACK_IMAGE;
+        };
+
+        img.addEventListener('error', fallbackToDefault, { once: true });
+      });
+    }
+
+    function renderAboutTeamCards() {
+      const grid = document.getElementById('aboutTeamGrid');
+      if (!grid) return;
+
+      const startIdx = (aboutTeamState.page - 1) * ABOUT_TEAM_PAGE_SIZE;
+      const pageMembers = ABOUT_TEAM_MEMBERS.slice(startIdx, startIdx + ABOUT_TEAM_PAGE_SIZE);
+
+      if (!pageMembers.length) {
+        grid.innerHTML = '<div class="about-team-empty">এই মুহূর্তে কোনো কর্মচারী তথ্য দেখানো যাচ্ছে না।</div>';
+        updateAboutTeamPaginationMeta();
+        return;
+      }
+
+      grid.innerHTML = pageMembers.map(member => {
+        const safeName = escapeHtml(member.name);
+        const safeRole = escapeHtml(member.role);
+        const safeDuty = escapeHtml(member.duty);
+        const safeExp = escapeHtml(member.exp);
+        const safeImage = escapeHtml(member.image || ABOUT_TEAM_FALLBACK_IMAGE);
+
+        return `
+          <article class="about-team-card">
+            <div class="about-team-top">
+              <button
+                type="button"
+                class="about-team-photo-btn"
+                data-team-preview-src="${safeImage}"
+                data-team-preview-name="${safeName}"
+                data-team-preview-role="${safeRole}"
+                aria-label="${safeName} এর ছবি বড় করে দেখুন">
+                <img
+                  src="${safeImage}"
+                  alt="কর্মচারীর ছবি: ${safeName}"
+                  class="about-team-photo"
+                  loading="lazy"
+                  decoding="async">
+              </button>
+              <div class="about-team-headline">
+                <h4 class="about-team-name">${safeName}</h4>
+                <p class="about-team-role">${safeRole}</p>
+              </div>
+            </div>
+            <p class="about-team-duty">${safeDuty}</p>
+            <span class="about-team-exp">অভিজ্ঞতা: ${safeExp}</span>
+          </article>
+        `;
+      }).join('');
+
+      bindAboutTeamCardImageFallbacks(grid);
+      updateAboutTeamPaginationMeta();
+    }
+
+    function goToAboutTeamPage(pageNumber) {
+      const nextPage = Math.max(1, Math.min(aboutTeamState.totalPages, pageNumber));
+      if (nextPage === aboutTeamState.page) return;
+
+      aboutTeamState.page = nextPage;
+      renderAboutTeamCards();
+    }
+
+    function openAboutTeamPreview(imageSrc, name, role, triggerEl = null) {
+      const overlay = document.getElementById('aboutTeamPreviewOverlay');
+      const image = document.getElementById('aboutTeamPreviewImage');
+      const nameEl = document.getElementById('aboutTeamPreviewName');
+      const roleEl = document.getElementById('aboutTeamPreviewRole');
+
+      if (!overlay || !image || !nameEl || !roleEl) return;
+
+      modalFocusState.aboutTeamPreviewTrigger = triggerEl instanceof HTMLElement
+        ? triggerEl
+        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+
+      const previewSrc = imageSrc || ABOUT_TEAM_FALLBACK_IMAGE;
+      const previewName = name || 'শাধিন মোটর টিম';
+      const previewRole = role || 'টিম মেম্বার';
+
+      image.src = previewSrc;
+      image.alt = `${previewName} - বড় প্রিভিউ`;
+      image.onerror = () => {
+        if (image.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
+        image.src = ABOUT_TEAM_FALLBACK_IMAGE;
+      };
+
+      nameEl.textContent = previewName;
+      roleEl.textContent = previewRole;
+
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      syncBodyScrollLockState();
+      document.getElementById('aboutTeamPreviewCloseBtn')?.focus();
+    }
+
+    function closeAboutTeamPreview() {
+      const overlay = document.getElementById('aboutTeamPreviewOverlay');
+      if (!overlay) return;
+
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      syncBodyScrollLockState();
+      restoreFocus(modalFocusState.aboutTeamPreviewTrigger);
+    }
+
+    function initAboutTeamModule() {
+      const grid = document.getElementById('aboutTeamGrid');
+      if (!grid) return;
+
+      aboutTeamState.page = 1;
+      aboutTeamState.totalPages = Math.max(1, Math.ceil(ABOUT_TEAM_MEMBERS.length / ABOUT_TEAM_PAGE_SIZE));
+
+      renderAboutTeamCards();
+
+      document.getElementById('aboutTeamPrevBtn')?.addEventListener('click', () => {
+        goToAboutTeamPage(aboutTeamState.page - 1);
+      });
+
+      document.getElementById('aboutTeamNextBtn')?.addEventListener('click', () => {
+        goToAboutTeamPage(aboutTeamState.page + 1);
+      });
+
+      grid.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-team-preview-src]');
+        if (!trigger || !grid.contains(trigger)) return;
+
+        openAboutTeamPreview(
+          trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+          trigger.dataset.teamPreviewName || '',
+          trigger.dataset.teamPreviewRole || '',
+          trigger
+        );
+      });
+
+      grid.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+
+        const trigger = event.target.closest('[data-team-preview-src]');
+        if (!trigger || !grid.contains(trigger)) return;
+
+        event.preventDefault();
+        openAboutTeamPreview(
+          trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+          trigger.dataset.teamPreviewName || '',
+          trigger.dataset.teamPreviewRole || '',
+          trigger
+        );
+      });
+
+      const previewOverlay = document.getElementById('aboutTeamPreviewOverlay');
+      previewOverlay?.addEventListener('click', event => {
+        if (event.target === previewOverlay) closeAboutTeamPreview();
+      });
+
+      document.getElementById('aboutTeamPreviewCloseBtn')?.addEventListener('click', closeAboutTeamPreview);
+    }
+
     document.addEventListener('keydown', e => {
       if (document.getElementById('sampleConfirmModal').classList.contains('open') && e.key === 'Escape') {
         closeSampleConfirmModal();
@@ -2032,6 +2299,12 @@
         if (e.key === 'ArrowLeft') navReviewMediaPreview(-1);
         if (e.key.toLowerCase() === 'f') requestReviewPreviewFullscreen();
         if (e.key === 'Escape') closeReviewMediaPreview();
+        return;
+      }
+
+      const aboutTeamPreviewOpen = document.getElementById('aboutTeamPreviewOverlay')?.classList.contains('open');
+      if (aboutTeamPreviewOpen) {
+        if (e.key === 'Escape') closeAboutTeamPreview();
         return;
       }
 
@@ -2668,6 +2941,7 @@
     window.addEventListener('orientationchange', syncBodyScrollLockState);
     syncBodyScrollLockState();
 
+    initAboutTeamModule();
     initSamplesGridInteractions();
     initReviewsModule();
     loadSamples();

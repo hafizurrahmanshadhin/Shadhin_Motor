@@ -453,55 +453,28 @@
       </p>
     </div>
 
-    <div class="about-team-grid">
-      <article class="about-team-card reveal">
-        <img
-          src="assets/images/about/employee-1.jpeg"
-          alt="কর্মচারীর placeholder ছবি: মোঃ রায়হান ইসলাম"
-          class="about-team-photo"
-          loading="lazy"
-          decoding="async">
-        <h4 class="about-team-name">মোঃ রায়হান ইসলাম</h4>
-        <p class="about-team-role">মাস্টার কাটিং কারিগর</p>
-        <p class="about-team-duty">গাড়ির seat frame অনুযায়ী pattern prepare ও material cut করেন।</p>
-        <span class="about-team-exp">অভিজ্ঞতা: ১২+ বছর</span>
-      </article>
-      <article class="about-team-card reveal reveal-delay-1">
-        <img
-          src="assets/images/about/employee-2.jpeg"
-          alt="কর্মচারীর placeholder ছবি: মোঃ সাগর হোসেন"
-          class="about-team-photo"
-          loading="lazy"
-          decoding="async">
-        <h4 class="about-team-name">মোঃ সাগর হোসেন</h4>
-        <p class="about-team-role">স্টিচিং ও ডিজাইন স্পেশালিস্ট</p>
-        <p class="about-team-duty">panel join, thread matching এবং design line detailing নিশ্চিত করেন।</p>
-        <span class="about-team-exp">অভিজ্ঞতা: ৯+ বছর</span>
-      </article>
-      <article class="about-team-card reveal reveal-delay-2">
-        <img
-          src="assets/images/about/employee-3.jpeg"
-          alt="কর্মচারীর placeholder ছবি: মোঃ নাঈম আহমেদ"
-          class="about-team-photo"
-          loading="lazy"
-          decoding="async">
-        <h4 class="about-team-name">মোঃ নাঈম আহমেদ</h4>
-        <p class="about-team-role">ফিটিং ও ফিনিশিং টেকনিশিয়ান</p>
-        <p class="about-team-duty">final stretch, edge alignment এবং wrinkle-free fitting complete করেন।</p>
-        <span class="about-team-exp">অভিজ্ঞতা: ৮+ বছর</span>
-      </article>
-      <article class="about-team-card reveal reveal-delay-3">
-        <img
-          src="assets/images/about/employee-4.jpeg"
-          alt="কর্মচারীর placeholder ছবি: মোঃ তানভীর রহমান"
-          class="about-team-photo"
-          loading="lazy"
-          decoding="async">
-        <h4 class="about-team-name">মোঃ তানভীর রহমান</h4>
-        <p class="about-team-role">গ্রাহক সাপোর্ট ও ডেলিভারি সহকারী</p>
-        <p class="about-team-duty">order follow-up, delivery coordination এবং after-service support দেখেন।</p>
-        <span class="about-team-exp">অভিজ্ঞতা: ৬+ বছর</span>
-      </article>
+    <div class="about-team-slider reveal">
+      <div class="about-team-grid" id="aboutTeamGrid" aria-live="polite"></div>
+      <div class="about-team-pagination" aria-label="কর্মচারী দলের পেজ নেভিগেশন">
+        <button type="button" class="about-team-page-btn" id="aboutTeamPrevBtn" aria-label="আগের ৩ জন কর্মচারী দেখুন">
+          ← আগের
+        </button>
+        <span class="about-team-page-meta" id="aboutTeamPageMeta" aria-live="polite">পৃষ্ঠা ১ / ১</span>
+        <button type="button" class="about-team-page-btn" id="aboutTeamNextBtn" aria-label="পরের ৩ জন কর্মচারী দেখুন">
+          পরের →
+        </button>
+      </div>
+    </div>
+
+    <div class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-hidden="true">
+      <div class="about-team-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="aboutTeamPreviewName">
+        <button type="button" class="about-team-preview-close" id="aboutTeamPreviewCloseBtn" aria-label="প্রিভিউ বন্ধ করুন">✕</button>
+        <img src="" alt="" id="aboutTeamPreviewImage" class="about-team-preview-image" loading="eager" decoding="async">
+        <div class="about-team-preview-copy">
+          <h4 id="aboutTeamPreviewName"></h4>
+          <p id="aboutTeamPreviewRole"></p>
+        </div>
+      </div>
     </div>
   </section>
 
