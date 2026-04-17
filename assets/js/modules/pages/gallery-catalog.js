@@ -7,6 +7,7 @@
  * - render cards and accessible lightbox navigation
  */
 import { closeDialogModal, openDialogModal } from '../core/dialog-helpers.js';
+import { replaceCatalogQuery, syncPressedState } from '../core/catalog-helpers.js';
 import { escapeAttr, escapeHTML, FOCUSABLE_SELECTOR } from '../core/dom-helpers.js';
 import {
   buildGroupCountMap,
@@ -24,6 +25,7 @@ export function initGalleryCatalogPage() {
     let currentFilter = 'all';
     let currentModel = '';
     let currentSearch = '';
+    const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
     let displayedGalleryItems = [];
     let galleryGroupCountMap = new Map();
     let lightboxItems = [];
@@ -65,12 +67,11 @@ export function initGalleryCatalogPage() {
     }
 
     function syncQueryParams() {
-      const params = new URLSearchParams();
-      if (currentFilter !== 'all') params.set('cat', currentFilter);
-      if (currentModel) params.set('model', currentModel);
-      if (currentSearch) params.set('q', currentSearch);
-      const query = params.toString();
-      history.replaceState(null, '', query ? `gallery-all.html?${query}` : 'gallery-all.html');
+      replaceCatalogQuery('gallery-all.html', {
+        cat: currentFilter === 'all' ? '' : currentFilter,
+        model: currentModel,
+        q: currentSearch
+      });
     }
 
     function loadGallery() {
@@ -101,11 +102,7 @@ export function initGalleryCatalogPage() {
       displayedGalleryItems = filtered;
       syncQueryParams();
 
-      document.querySelectorAll('.filter-btn').forEach(btn => {
-        const isActive = btn.dataset.filter === currentFilter;
-        btn.classList.toggle('active', isActive);
-        btn.setAttribute('aria-pressed', String(isActive));
-      });
+      syncPressedState(filterButtons, button => button.dataset.filter === currentFilter);
 
       document.getElementById('catalogCurrentLabel').textContent = CAT_LABELS[currentFilter] || 'সব';
       document.getElementById('catalogCount').textContent = filtered.length;
@@ -265,7 +262,7 @@ export function initGalleryCatalogPage() {
       }
     }
 
-    document.querySelectorAll('.filter-btn').forEach(btn => {
+    filterButtons.forEach(btn => {
       btn.addEventListener('click', () => setFilter(btn.dataset.filter));
     });
 

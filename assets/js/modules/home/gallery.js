@@ -1,4 +1,5 @@
 import { escapeAttr, escapeHTML } from '../core/dom-helpers.js';
+import { syncPressedState } from '../core/catalog-helpers.js';
 import { loadGalleryFromStorage } from '../data/gallery-store.js';
 
 const CAT_LABELS = Object.freeze({
@@ -41,6 +42,7 @@ export function initHomeGallery({
   let galleryDragStartX = 0;
   let galleryDragStartOffset = 0;
   let gallerySuppressClick = false;
+  const filterButtons = Array.from(document.querySelectorAll('[data-gallery-filter]'));
 
   const galleryMotionSpeed = 34;
 
@@ -50,11 +52,7 @@ export function initHomeGallery({
   }
 
   function setActiveGalleryFilterButton(filterValue) {
-    document.querySelectorAll('[data-gallery-filter]').forEach(button => {
-      const isActive = button.dataset.galleryFilter === filterValue;
-      button.classList.toggle('active', isActive);
-      button.setAttribute('aria-pressed', String(isActive));
-    });
+    syncPressedState(filterButtons, button => button.dataset.galleryFilter === filterValue);
   }
 
   function filterGallery(category, button) {
@@ -438,7 +436,7 @@ export function initHomeGallery({
     document.fonts.ready.then(syncGalleryMarquee);
   }
 
-  document.querySelectorAll('[data-gallery-filter]').forEach(button => {
+  filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       filterGallery(button.dataset.galleryFilter || 'all', button);
     });

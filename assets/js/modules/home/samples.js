@@ -1,4 +1,5 @@
 import { escapeAttr, escapeHTML } from '../core/dom-helpers.js';
+import { syncPressedState } from '../core/catalog-helpers.js';
 import { EMPTY_IMAGE_DATA_URI } from '../core/media-helpers.js';
 import {
   isFeaturedSample,
@@ -36,6 +37,7 @@ export function initHomeSamples({
   let sampleModalTrigger = null;
   let sampleModalViewport = null;
   let sampleConfirmViewport = null;
+  const filterButtons = Array.from(document.querySelectorAll('[data-sample-filter]'));
 
   const orderConfirmState = {
     secondaryAction: 'choose-sample',
@@ -130,11 +132,7 @@ export function initHomeSamples({
   }
 
   function setActiveSampleFilterButton(filterValue) {
-    document.querySelectorAll('[data-sample-filter]').forEach(button => {
-      const isActive = button.dataset.sampleFilter === filterValue;
-      button.classList.toggle('active', isActive);
-      button.setAttribute('aria-pressed', String(isActive));
-    });
+    syncPressedState(filterButtons, button => button.dataset.sampleFilter === filterValue);
   }
 
   function filterSamples(filterValue, button) {
@@ -548,7 +546,7 @@ export function initHomeSamples({
     closeSampleConfirmModal();
   });
 
-  document.querySelectorAll('[data-sample-filter]').forEach(button => {
+  filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       filterSamples(button.dataset.sampleFilter || 'all', button);
     });

@@ -7,6 +7,7 @@
  * - handle accessible modal preview + order handoff
  */
 import { closeDialogModal, openDialogModal } from '../core/dialog-helpers.js';
+import { replaceCatalogQuery, syncPressedState } from '../core/catalog-helpers.js';
 import { escapeAttr, escapeHTML, FOCUSABLE_SELECTOR } from '../core/dom-helpers.js';
 import { EMPTY_IMAGE_DATA_URI } from '../core/media-helpers.js';
 import {
@@ -28,6 +29,7 @@ export function initSamplesCatalogPage() {
   let allSamples = [];
   let currentFilter = 'all';
   let currentSearch = '';
+  const filterButtons = Array.from(document.querySelectorAll('.sample-filter-btn[data-filter]'));
   let modalSample = null;
   let lastSampleTrigger = null;
 
@@ -50,11 +52,10 @@ function getFilteredSamples() {
 }
 
 function syncQueryParams() {
-  const params = new URLSearchParams();
-  if (currentFilter !== 'all') params.set('material', currentFilter);
-  if (currentSearch) params.set('q', currentSearch);
-  const query = params.toString();
-  history.replaceState(null, '', query ? `samples-all.html?${query}` : 'samples-all.html');
+  replaceCatalogQuery('samples-all.html', {
+    material: currentFilter === 'all' ? '' : currentFilter,
+    q: currentSearch
+  });
 }
 
 function updateCatalogSummary(total) {
@@ -68,11 +69,7 @@ function renderSamplesCatalog() {
   const filtered = getFilteredSamples();
   const grid = document.getElementById('samplesCatalogGrid');
 
-  document.querySelectorAll('.sample-filter-btn[data-filter]').forEach(btn => {
-    const isActive = btn.dataset.filter === currentFilter;
-    btn.classList.toggle('active', isActive);
-    btn.setAttribute('aria-pressed', String(isActive));
-  });
+  syncPressedState(filterButtons, button => button.dataset.filter === currentFilter);
 
   updateCatalogSummary(filtered.length);
   syncQueryParams();
@@ -227,7 +224,7 @@ function orderSample(sampleId) {
   window.location.href = `index.html?sample=${encodeURIComponent(sampleId)}#contact`;
 }
 
-document.querySelectorAll('.sample-filter-btn[data-filter]').forEach(button => {
+filterButtons.forEach(button => {
   button.addEventListener('click', () => {
     currentFilter = normalizeSampleFilter(button.dataset.filter);
     renderSamplesCatalog();
