@@ -21,6 +21,12 @@
   width: auto;
   max-width: calc(100vw - 24px);
   font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', 'Segoe UI', sans-serif;
+  animation: a11y-fab-float 5.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.a11y-tools.open {
+  animation: none;
 }
 
 .a11y-tools-toggle {
@@ -41,6 +47,9 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
+  isolation: isolate;
+  animation: a11y-toggle-breathe 3.6s ease-in-out infinite;
   transition:
     width 0.24s ease,
     gap 0.24s ease,
@@ -48,6 +57,36 @@
     border-color 0.2s ease,
     box-shadow 0.2s ease,
     transform 0.2s ease;
+}
+
+.a11y-tools-toggle::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 24% 24%, rgba(255, 255, 255, 0.28), transparent 48%),
+    radial-gradient(circle at 78% 82%, rgba(255, 255, 255, 0.16), transparent 54%);
+  opacity: 0.32;
+  transform: scale(0.9);
+  z-index: -1;
+  pointer-events: none;
+  animation: a11y-toggle-glow 2.8s ease-in-out infinite;
+}
+
+.a11y-tools-toggle::after {
+  content: '';
+  position: absolute;
+  top: -80%;
+  left: -30%;
+  width: 54%;
+  height: 260%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.8) 48%, transparent 100%);
+  transform: translateX(-230%) rotate(22deg);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: a11y-toggle-sheen 3.6s ease-in-out infinite;
 }
 
 .a11y-tools-toggle:hover,
@@ -59,6 +98,12 @@
   padding: 0 13px;
   border-color: rgba(245, 215, 142, 0.72);
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.42);
+  transform: translateY(-2px);
+}
+
+.a11y-tools.open .a11y-tools-toggle::after {
+  animation: none;
+  opacity: 0;
 }
 
 .a11y-tools-toggle-icon {
@@ -174,6 +219,59 @@
   color: #f8df9f;
 }
 
+@keyframes a11y-fab-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes a11y-toggle-breathe {
+  0%,
+  100% {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  50% {
+    box-shadow: 0 13px 30px rgba(0, 0, 0, 0.45);
+  }
+}
+
+@keyframes a11y-toggle-glow {
+  0%,
+  100% {
+    opacity: 0.28;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 0.58;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes a11y-toggle-sheen {
+  0%,
+  20% {
+    transform: translateX(-230%) rotate(22deg);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 0.7;
+  }
+
+  48%,
+  100% {
+    transform: translateX(260%) rotate(22deg);
+    opacity: 0;
+  }
+}
+
 /* Runtime body classes toggled by accessibility-tools.js */
 body.a11y-large-text {
   font-size: 112%;
@@ -231,11 +329,15 @@ body.a11y-high-contrast :where(a, button, input, select, textarea, [role='button
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .a11y-tools,
   .a11y-tools-toggle,
+  .a11y-tools-toggle::before,
+  .a11y-tools-toggle::after,
   .a11y-tools-toggle-text,
   .a11y-tools-panel,
   .a11y-tools-action,
   .a11y-tools-link {
+    animation: none !important;
     transition: none !important;
   }
 }
