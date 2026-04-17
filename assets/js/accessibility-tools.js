@@ -98,7 +98,20 @@
 
     shell.innerHTML = `
       <button type="button" class="a11y-tools-toggle" aria-expanded="false">
-        সহজ ব্যবহার সহায়তা
+        <span class="a11y-tools-toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M4 7h8"></path>
+            <path d="M15 7h5"></path>
+            <circle cx="13" cy="7" r="2"></circle>
+            <path d="M4 12h3"></path>
+            <path d="M10 12h10"></path>
+            <circle cx="8" cy="12" r="2"></circle>
+            <path d="M4 17h11"></path>
+            <path d="M18 17h2"></path>
+            <circle cx="17" cy="17" r="2"></circle>
+          </svg>
+        </span>
+        <span class="a11y-tools-toggle-text">সহজ ব্যবহার সহায়তা</span>
       </button>
       <div class="a11y-tools-panel" aria-hidden="true">
         <h2 class="a11y-tools-title">সবাইয়ের জন্য সহজ ব্যবহার</h2>
@@ -152,11 +165,19 @@
       if (firstFocusable) firstFocusable.focus();
     };
 
-    const closePanel = () => {
+    const closePanel = ({ returnFocus = false } = {}) => {
       shell.classList.remove('open');
       toggleBtn?.setAttribute('aria-expanded', 'false');
       panel?.setAttribute('aria-hidden', 'true');
-      toggleBtn?.focus();
+
+      if (returnFocus) {
+        toggleBtn?.focus();
+        return;
+      }
+
+      if (toggleBtn instanceof HTMLElement && document.activeElement === toggleBtn) {
+        toggleBtn.blur();
+      }
     };
 
     const syncPressedStates = () => {
@@ -276,7 +297,7 @@
     document.addEventListener('keydown', event => {
       if (event.key !== 'Escape') return;
       if (!shell.classList.contains('open')) return;
-      closePanel();
+      closePanel({ returnFocus: true });
     });
 
     window.addEventListener('beforeunload', () => {
