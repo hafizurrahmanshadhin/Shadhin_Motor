@@ -817,6 +817,7 @@
       color: var(--cream);
       line-height: 1.7;
       margin-bottom: 12px;
+      font-style: normal;
     }
 
     .footer-map-link {
