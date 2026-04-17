@@ -25,9 +25,13 @@ const SAMPLE_LABELS = Object.freeze({
 function openDialogModal(dialog) {
   if (!dialog) return;
 
-  if (typeof dialog.showModal === 'function' && !dialog.open) {
-    dialog.showModal();
-  } else {
+  try {
+    if (typeof dialog.showModal === 'function' && !dialog.open) {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
+    }
+  } catch {
     dialog.setAttribute('open', '');
   }
 

@@ -8,12 +8,10 @@
  * - sample selection + order flow
  */
 import { storageKeys as siteStorageKeys } from '../../site-config.js';
-import { loadGalleryFromStorage } from '../data/gallery-store.js';
-import {
-  isFeaturedSample,
-  loadSamplesFromStorage,
-  SELECTED_SAMPLE_STORAGE_KEY
-} from '../data/sample-store.js';
+import { FOCUSABLE_SELECTOR } from '../core/dom-helpers.js';
+import { initHomeAboutTeam } from '../home/about-team.js';
+import { initHomeGallery } from '../home/gallery.js';
+import { initHomeSamples } from '../home/samples.js';
 
 export function initHomePage() {
     const ORDER_STORAGE_KEY = siteStorageKeys.orders || 'ac_orders';
@@ -25,15 +23,6 @@ export function initHomePage() {
     const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
     const trackedSections = Array.from(document.querySelectorAll('section[id]'))
       .filter(section => navLinks.some(link => link.getAttribute('href') === `#${section.id}`));
-    const FOCUSABLE_SELECTOR = [
-      'a[href]',
-      'button:not([disabled])',
-      'input:not([disabled])',
-      'select:not([disabled])',
-      'textarea:not([disabled])',
-      '[tabindex]:not([tabindex="-1"])'
-    ].join(', ');
-
     function updateNavToggleButtonState(isOpen) {
       if (!hamburgerBtn) return;
       hamburgerBtn.setAttribute('aria-expanded', String(isOpen));
@@ -311,17 +300,9 @@ export function initHomePage() {
     const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
     const REVIEW_VIDEO_EXT_RE = /\.(3gp|avi|m4v|mkv|mov|mp4|ogg|ogv|webm)$/i;
     const modalFocusState = {
-      lightboxTrigger: null,
-      sampleTrigger: null,
-      sampleConfirmTrigger: null,
-      reviewSubmitTrigger: null,
-      aboutTeamPreviewTrigger: null
+      reviewSubmitTrigger: null
     };
     const modalViewportState = {
-      lightbox: null,
-      aboutTeamPreview: null,
-      sampleModal: null,
-      sampleConfirmModal: null,
       reviewSubmitModal: null,
       reviewMediaPreview: null
     };
@@ -392,6 +373,34 @@ export function initHomePage() {
         restoreViewportPosition(viewport);
         requestAnimationFrame(() => restoreViewportPosition(viewport));
       });
+    }
+
+    function openOverlayDialog(dialog) {
+      if (!dialog) return;
+
+      try {
+        if (typeof dialog.showModal === 'function' && !dialog.open) {
+          dialog.showModal();
+        } else {
+          dialog.setAttribute('open', '');
+        }
+      } catch {
+        dialog.setAttribute('open', '');
+      }
+
+      dialog.classList.add('open');
+    }
+
+    function closeOverlayDialog(dialog) {
+      if (!dialog) return;
+
+      dialog.classList.remove('open');
+
+      if (typeof dialog.close === 'function' && dialog.open) {
+        dialog.close();
+      } else {
+        dialog.removeAttribute('open');
+      }
     }
 
     function getReviewFileKind(file) {
@@ -684,16 +693,16 @@ export function initHomePage() {
       `;
 
       reviewSubmitConfirmState.pendingPayload = payload;
-      overlay.classList.add('open');
-      overlay.setAttribute('aria-hidden', 'false');
+      openOverlayDialog(overlay);
+      syncBodyScrollLockState();
     }
 
     function closeReviewSubmitConfirm() {
       const overlay = document.getElementById('reviewSubmitConfirmOverlay');
       if (!overlay) return;
 
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
+      closeOverlayDialog(overlay);
+      syncBodyScrollLockState();
       reviewSubmitConfirmState.pendingPayload = null;
       reviewSubmitConfirmState.submitting = false;
       releaseReviewConfirmPreviewUrls();
@@ -985,6 +994,22 @@ export function initHomePage() {
       return `${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}`;
     }
 
+    function getReviewDateMeta(value) {
+      const timestamp = Date.parse(String(value || '').trim());
+      if (!Number.isFinite(timestamp)) return null;
+
+      const date = new Date(timestamp);
+
+      return {
+        datetime: date.toISOString(),
+        label: new Intl.DateTimeFormat('bn-BD', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }).format(date)
+      };
+    }
+
     function getReviewsPerPage() {
       if (window.innerWidth <= 640) return 2;
       if (window.innerWidth <= 1100) return 4;
@@ -1067,8 +1092,7 @@ export function initHomePage() {
       reviewPreviewState.title = title;
 
       renderReviewMediaPreview();
-      overlay.classList.add('open');
-      overlay.setAttribute('aria-hidden', 'false');
+      openOverlayDialog(overlay);
       syncBodyScrollLockState();
       scheduleViewportRestore(modalViewportState.reviewMediaPreview);
     }
@@ -1081,8 +1105,7 @@ export function initHomePage() {
       const videoEl = document.getElementById('reviewPreviewVideo');
       if (videoEl) videoEl.pause();
 
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
+      closeOverlayDialog(overlay);
       syncBodyScrollLockState();
       scheduleViewportRestore(viewport);
       modalViewportState.reviewMediaPreview = null;
@@ -1165,11 +1188,23 @@ export function initHomePage() {
       overlay.addEventListener('click', event => {
         if (event.target === overlay) closeReviewMediaPreview();
       });
+      overlay.addEventListener('cancel', event => {
+        event.preventDefault();
+        closeReviewMediaPreview();
+      });
 
       if (prevBtn) prevBtn.addEventListener('click', () => navReviewMediaPreview(-1));
       if (nextBtn) nextBtn.addEventListener('click', () => navReviewMediaPreview(+1));
       if (closeBtn) closeBtn.addEventListener('click', closeReviewMediaPreview);
       if (fullscreenBtn) fullscreenBtn.addEventListener('click', requestReviewPreviewFullscreen);
+
+      document.addEventListener('keydown', event => {
+        if (!overlay.classList.contains('open')) return;
+        if (event.key === 'ArrowRight') navReviewMediaPreview(+1);
+        if (event.key === 'ArrowLeft') navReviewMediaPreview(-1);
+        if (event.key.toLowerCase() === 'f') requestReviewPreviewFullscreen();
+        if (event.key === 'Escape') closeReviewMediaPreview();
+      });
     }
 
     function reviewCardTemplate(review, idx) {
@@ -1177,6 +1212,10 @@ export function initHomePage() {
       const stars = getReviewStars(rating);
       const delayClass = idx % 6 ? `reveal-delay-${Math.min(idx % 6, 5)}` : '';
       const mediaBlock = renderReviewMedia(review.media || []);
+      const reviewDate = getReviewDateMeta(review.createdAt);
+      const reviewDateMarkup = reviewDate
+        ? `<time class="reviewer-time" datetime="${escapeHtml(reviewDate.datetime)}">${escapeHtml(reviewDate.label)}</time>`
+        : '';
 
       return `
         <article class="review-card reveal ${delayClass}" data-review-id="${escapeHtml(review.id)}" data-review-score="${rating}">
@@ -1184,7 +1223,10 @@ export function initHomePage() {
             <img src="${escapeHtml(review.avatar)}" class="review-avatar" alt="Customer profile: ${escapeHtml(review.name)}" loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">${escapeHtml(review.name)}</h3>
-              <p class="reviewer-meta">${escapeHtml(review.work)}</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">${escapeHtml(review.work)}</span>
+                ${reviewDateMarkup}
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="${rating} out of 5 stars">
               <span class="reviewer-stars">${stars}</span>
@@ -1370,8 +1412,7 @@ export function initHomePage() {
         ? document.activeElement
         : null;
       modalViewportState.reviewSubmitModal = captureViewportPosition();
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
+      openOverlayDialog(modal);
       syncBodyScrollLockState();
       updateReviewFileMeta();
       focusFirstIn(modal);
@@ -1382,8 +1423,7 @@ export function initHomePage() {
       const modal = document.getElementById('reviewSubmitModal');
       if (!modal) return;
       const viewport = modalViewportState.reviewSubmitModal || captureViewportPosition();
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
+      closeOverlayDialog(modal);
       closeReviewSubmitConfirm();
       releaseReviewUploadPreviewUrls();
       syncBodyScrollLockState();
@@ -1673,24 +1713,21 @@ export function initHomePage() {
         overlay.addEventListener('click', event => {
           if (event.target === overlay) closeReviewModal();
         });
+        overlay.addEventListener('cancel', event => {
+          event.preventDefault();
+          closeReviewModal();
+        });
       }
 
       if (confirmOverlay) {
         confirmOverlay.addEventListener('click', event => {
           if (event.target === confirmOverlay) closeReviewSubmitConfirm();
         });
-      }
-
-      document.addEventListener('keydown', event => {
-        if (event.key !== 'Escape') return;
-
-        if (confirmOverlay?.classList.contains('open')) {
+        confirmOverlay.addEventListener('cancel', event => {
+          event.preventDefault();
           closeReviewSubmitConfirm();
-          return;
-        }
-
-        if (overlay?.classList.contains('open')) closeReviewModal();
-      });
+        });
+      }
 
       if (avatarInput) {
         avatarInput.addEventListener('change', () => {
@@ -1763,865 +1800,6 @@ export function initHomePage() {
       });
     }
 
-    // ─── GALLERY SYSTEM ──────────────────────────────────────────────────────────
-    const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার' };
-    const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
-
-    let allGallery = [];
-    let galleryFilter = 'all';
-    let lightboxItems = [];
-    let lightboxIdx = 0;
-    let galleryResizeFrame = 0;
-    let galleryMotionRaf = 0;
-    let galleryMotionLastTs = 0;
-    let galleryMotionOffset = 0;
-    let galleryMotionCycle = 0;
-    let galleryHovered = false;
-    let galleryDragging = false;
-    let galleryDragMoved = false;
-    let galleryPointerDown = false;
-    let galleryPointerId = null;
-    let galleryDragStartX = 0;
-    let galleryDragStartOffset = 0;
-    let gallerySuppressClick = false;
-    const galleryMotionSpeed = 34;
-
-    function loadGallery() {
-      allGallery = loadGalleryFromStorage(localStorage);
-      renderGallery();
-    }
-
-    function setActiveGalleryFilterButton(filterValue) {
-      document.querySelectorAll('[data-gallery-filter]').forEach(button => {
-        const isActive = button.dataset.galleryFilter === filterValue;
-        button.classList.toggle('active', isActive);
-        button.setAttribute('aria-pressed', String(isActive));
-      });
-    }
-
-    function filterGallery(cat, btn) {
-      galleryFilter = cat;
-      if (btn) setActiveGalleryFilterButton(btn.dataset.galleryFilter || cat);
-      else setActiveGalleryFilterButton(cat);
-      renderGallery();
-    }
-
-    function getFilteredGallery() {
-      return galleryFilter === 'all'
-        ? allGallery
-        : allGallery.filter(g => g.cat === galleryFilter);
-    }
-
-    function renderGallery() {
-      const filtered = getFilteredGallery();
-      lightboxItems = filtered;
-      setActiveGalleryFilterButton(galleryFilter);
-
-      const grid = document.getElementById('galleryGrid');
-
-      if (!filtered.length) {
-        grid.innerHTML = `<div class="gallery-empty">
-      <span class="gallery-empty-icon">📷</span>
-      <p>এই ক্যাটাগরিতে কোনো ছবি নেই।</p>
-    </div>`;
-        updateGalleryCount(0);
-        return;
-      }
-
-      const primaryGroup = `<div class="gallery-marquee-group">${filtered.map((g, i) => galleryCard(g, i)).join('')}</div>`;
-      const duplicateGroup = filtered.length > 1
-        ? `<div class="gallery-marquee-group" aria-hidden="true">${filtered.map((g, i) => galleryCard(g, i)).join('')}</div>`
-        : '';
-
-      grid.innerHTML = `<div class="gallery-marquee-shell">
-      <div class="gallery-marquee-viewport">
-        <div class="gallery-marquee-track" id="galleryMarqueeTrack">
-          ${primaryGroup}
-          ${duplicateGroup}
-        </div>
-      </div>
-    </div>`;
-
-      updateGalleryCount(filtered.length);
-      syncGalleryMarquee();
-      bindGalleryCardAccessibility(grid);
-      bindGalleryCardImages(grid);
-    }
-
-    function updateGalleryCount(total) {
-      document.getElementById('galleryTotalCount').textContent = total;
-      updateGalleryViewAllLink();
-    }
-
-    function updateGalleryViewAllLink() {
-      const viewAllBtn = document.getElementById('galleryViewAllBtn');
-      if (!viewAllBtn) return;
-      viewAllBtn.href = `gallery-all.html?cat=${encodeURIComponent(galleryFilter)}`;
-    }
-
-    function destroyGalleryMotion() {
-      cancelAnimationFrame(galleryMotionRaf);
-      galleryMotionRaf = 0;
-      galleryMotionLastTs = 0;
-    }
-
-    function syncGalleryMarquee() {
-      const track = document.getElementById('galleryMarqueeTrack');
-      destroyGalleryMotion();
-      if (!track) return;
-
-      const groups = track.querySelectorAll('.gallery-marquee-group');
-      if (groups.length < 2 || lightboxItems.length < 2) {
-        galleryMotionCycle = 0;
-        galleryMotionOffset = 0;
-        bindGalleryInteractions();
-        applyGalleryOffset();
-        return;
-      }
-
-      const computed = getComputedStyle(track);
-      const gap = parseFloat(computed.gap || computed.columnGap || 18) || 18;
-      const groupWidth = groups[0].scrollWidth;
-      galleryMotionCycle = groupWidth + gap;
-      galleryMotionOffset = normalizeGalleryOffset(galleryMotionOffset);
-      bindGalleryInteractions();
-      applyGalleryOffset();
-      startGalleryMotion();
-    }
-
-    function normalizeGalleryOffset(offset) {
-      if (!galleryMotionCycle) return 0;
-      let next = offset % galleryMotionCycle;
-      if (next < 0) next += galleryMotionCycle;
-      return next;
-    }
-
-    function applyGalleryOffset() {
-      const track = document.getElementById('galleryMarqueeTrack');
-      if (!track) return;
-      track.style.transform = `translate3d(${-galleryMotionOffset}px, 0, 0)`;
-    }
-
-    function startGalleryMotion() {
-      if (!galleryMotionCycle || galleryMotionRaf) return;
-
-      const step = (ts) => {
-        if (!galleryMotionLastTs) galleryMotionLastTs = ts;
-        const delta = (ts - galleryMotionLastTs) / 1000;
-        galleryMotionLastTs = ts;
-
-        if (!galleryHovered && !galleryDragging) {
-          galleryMotionOffset = normalizeGalleryOffset(galleryMotionOffset + (galleryMotionSpeed * delta));
-          applyGalleryOffset();
-        }
-
-        galleryMotionRaf = requestAnimationFrame(step);
-      };
-
-      galleryMotionRaf = requestAnimationFrame(step);
-    }
-
-    function bindGalleryInteractions() {
-      const shell = document.querySelector('.gallery-marquee-shell');
-      const viewport = document.querySelector('.gallery-marquee-viewport');
-      if (!shell || !viewport) return;
-
-      const endDrag = (event) => {
-        const hadDrag = galleryDragging && galleryDragMoved;
-
-        if (event && galleryDragging && viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
-          viewport.releasePointerCapture(event.pointerId);
-        }
-
-        galleryPointerDown = false;
-        galleryPointerId = null;
-
-        if (galleryDragging) {
-          galleryDragging = false;
-          shell.classList.remove('is-dragging');
-        }
-
-        if (hadDrag) {
-          gallerySuppressClick = true;
-          setTimeout(() => { gallerySuppressClick = false; }, 220);
-        }
-
-        galleryDragMoved = false;
-        if (!viewport.matches(':hover')) galleryHovered = false;
-      };
-
-      viewport.onpointerenter = () => {
-        galleryHovered = true;
-      };
-
-      viewport.onpointerleave = () => {
-        if (!galleryDragging) galleryHovered = false;
-      };
-
-      viewport.onpointerdown = (event) => {
-        // Keep marquee drag on desktop mouse only.
-        // On touch devices this can interfere with native page scrolling.
-        if (event.pointerType !== 'mouse') return;
-        if (event.button !== 0) return;
-        galleryPointerDown = true;
-        galleryPointerId = event.pointerId;
-        galleryDragging = false;
-        galleryDragMoved = false;
-        galleryHovered = true;
-        galleryDragStartX = event.clientX;
-        galleryDragStartOffset = galleryMotionOffset;
-      };
-
-      viewport.onpointermove = (event) => {
-        if (!galleryPointerDown || event.pointerId !== galleryPointerId) return;
-        const deltaX = event.clientX - galleryDragStartX;
-
-        if (!galleryDragging) {
-          if (Math.abs(deltaX) <= 6) return;
-          galleryDragging = true;
-          galleryDragMoved = true;
-          shell.classList.add('is-dragging');
-          viewport.setPointerCapture(event.pointerId);
-        }
-
-        event.preventDefault();
-        galleryMotionOffset = normalizeGalleryOffset(galleryDragStartOffset - deltaX);
-        applyGalleryOffset();
-      };
-
-      viewport.onpointerup = (event) => endDrag(event);
-      viewport.onpointercancel = (event) => endDrag(event);
-      viewport.onlostpointercapture = (event) => endDrag(event);
-      viewport.ondragstart = () => false;
-    }
-
-    function bindGalleryCardAccessibility(root) {
-      if (!root) return;
-
-      root.querySelectorAll('.gallery-item[data-idx]').forEach(card => {
-        card.addEventListener('click', () => {
-          const idx = Number(card.dataset.idx || '-1');
-          if (!Number.isInteger(idx) || idx < 0) return;
-          openLightbox(idx, card);
-        });
-
-        card.addEventListener('keydown', event => {
-          if (event.key !== 'Enter' && event.key !== ' ') return;
-          event.preventDefault();
-
-          const idx = Number(card.dataset.idx || '-1');
-          if (!Number.isInteger(idx) || idx < 0) return;
-          openLightbox(idx, card);
-        });
-      });
-    }
-
-    function bindGalleryCardImages(root) {
-      if (!root) return;
-
-      root.querySelectorAll('.gallery-item-img').forEach(img => {
-        const item = img.closest('.gallery-item');
-        const placeholder = item?.querySelector('.gallery-item-placeholder');
-        if (!placeholder) return;
-
-        const hidePlaceholder = () => {
-          placeholder.style.display = 'none';
-          img.style.display = '';
-        };
-
-        const showPlaceholder = () => {
-          placeholder.style.display = 'flex';
-          img.style.display = 'none';
-        };
-
-        img.addEventListener('load', hidePlaceholder, { once: true });
-        img.addEventListener('error', showPlaceholder, { once: true });
-
-        if (img.complete && img.naturalWidth > 0) hidePlaceholder();
-      });
-    }
-
-    function galleryCard(g, idx) {
-      const catLabel = CAT_LABELS[g.cat] || g.cat;
-      const catIcon = CAT_ICONS[g.cat] || '📷';
-      const inner = g.img
-        ? `<img class="gallery-item-img" src="${g.img}" alt="${g.title}" loading="lazy" decoding="async">`
-        : '';
-      const placeholder = `<div class="gallery-item-placeholder">
-      <span class="gallery-item-placeholder-icon">${catIcon}</span>
-      <span class="gallery-item-placeholder-label">${catLabel}</span>
-    </div>`;
-
-      return `<div class="gallery-item" data-cat="${g.cat}" data-idx="${idx}" role="button" tabindex="0" aria-label="${catLabel}: ${g.title}">
-    ${inner}
-    ${placeholder}
-    <div class="gallery-overlay">
-      <div class="gallery-overlay-zoom">🔍</div>
-      <div class="gallery-overlay-cat">${catLabel}</div>
-      <div class="gallery-overlay-title">${g.title}</div>
-      <div class="gallery-overlay-desc">${g.desc || 'ডিটেইল দেখতে ক্লিক করুন'}</div>
-    </div>
-  </div>`;
-    }
-
-    function openLightbox(idx, triggerEl = null) {
-      if (gallerySuppressClick) return;
-      modalFocusState.lightboxTrigger = triggerEl instanceof HTMLElement
-        ? triggerEl
-        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
-      modalViewportState.lightbox = captureViewportPosition();
-      lightboxIdx = idx;
-      renderLightbox();
-      const overlay = document.getElementById('lightboxOverlay');
-      if (!overlay) return;
-      overlay.classList.add('open');
-      overlay.setAttribute('aria-hidden', 'false');
-      syncBodyScrollLockState();
-      focusWithoutScroll(document.getElementById('lightboxCloseBtn'));
-      scheduleViewportRestore(modalViewportState.lightbox);
-    }
-
-    function closeLightbox(e) {
-      const overlay = document.getElementById('lightboxOverlay');
-      if (!overlay) return;
-      if (e && e.target !== overlay) return;
-
-      const viewport = modalViewportState.lightbox || captureViewportPosition();
-
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
-      syncBodyScrollLockState();
-      restoreFocus(modalFocusState.lightboxTrigger);
-      scheduleViewportRestore(viewport);
-      modalViewportState.lightbox = null;
-    }
-
-    function lightboxNav(dir) {
-      if (!lightboxItems.length) return;
-      lightboxIdx = (lightboxIdx + dir + lightboxItems.length) % lightboxItems.length;
-      renderLightbox();
-    }
-
-    function renderLightbox() {
-      const g = lightboxItems[lightboxIdx];
-      if (!g) return;
-
-      const catLabel = CAT_LABELS[g.cat] || g.cat;
-      document.getElementById('lightboxCat').textContent = catLabel;
-      document.getElementById('lightboxTitle').textContent = g.title;
-      document.getElementById('lightboxCounter').textContent = `${lightboxIdx + 1} / ${lightboxItems.length}`;
-
-      const wrap = document.getElementById('lightboxImgWrap');
-      if (g.img) {
-        wrap.innerHTML = `<img src="${g.img}" alt="${g.title}">`;
-        const image = wrap.querySelector('img');
-        if (image) {
-          image.addEventListener('error', () => {
-            wrap.innerHTML = `<div class="lightbox-placeholder-full">
-      <span>${CAT_ICONS[g.cat] || '📷'}</span>
-      <small style="font-size:14px;color:var(--cream-dim)">${g.title}</small>
-    </div>`;
-          }, { once: true });
-        }
-      } else {
-        const icon = CAT_ICONS[g.cat] || '📷';
-        wrap.innerHTML = `<div class="lightbox-placeholder-full">
-      <span>${icon}</span>
-      <small style="font-size:14px;color:var(--cream-dim)">${g.title}</small>
-    </div>`;
-      }
-    }
-
-    const ABOUT_TEAM_MOTION_SPEED = 34;
-    const ABOUT_TEAM_FALLBACK_IMAGE = 'assets/images/about/employee-1.jpeg';
-    const ABOUT_TEAM_MEMBERS = [
-      {
-        name: 'মোঃ রায়হান ইসলাম',
-        role: 'মাস্টার কাটিং কারিগর',
-        duty: 'গাড়ির seat frame অনুযায়ী pattern prepare করে accuracy বজায় রেখে material cut করেন।',
-        exp: '১২+ বছর',
-        image: 'assets/images/about/employee-1.jpeg'
-      },
-      {
-        name: 'মোঃ সাগর হোসেন',
-        role: 'স্টিচিং ও ডিজাইন স্পেশালিস্ট',
-        duty: 'panel join, thread matching এবং design line detailing step-by-step সম্পন্ন করেন।',
-        exp: '৯+ বছর',
-        image: 'assets/images/about/employee-2.jpeg'
-      },
-      {
-        name: 'মোঃ নাঈম আহমেদ',
-        role: 'ফিটিং ও ফিনিশিং টেকনিশিয়ান',
-        duty: 'final stretch, edge alignment এবং wrinkle-free fitting নিশ্চিত করেন।',
-        exp: '৮+ বছর',
-        image: 'assets/images/about/employee-3.jpeg'
-      },
-      {
-        name: 'মোঃ তানভীর রহমান',
-        role: 'গ্রাহক সাপোর্ট ও ডেলিভারি সহকারী',
-        duty: 'order follow-up, delivery coordination এবং after-service support দেখেন।',
-        exp: '৬+ বছর',
-        image: 'assets/images/about/employee-4.jpeg'
-      },
-      {
-        name: 'মোঃ রাকিব হাসান',
-        role: 'ফোম শেইপিং কারিগর',
-        duty: 'seat cushion contour অনুযায়ী foam shaping ও edge balancing করে comfort level বাড়ান।',
-        exp: '৭+ বছর',
-        image: 'assets/images/about/employee-5.jpeg'
-      },
-      {
-        name: 'মোঃ জাহিদ মিয়া',
-        role: 'কাটিং সহকারী',
-        duty: 'master cutter-এর নির্দেশনায় precision marking ও pre-cut preparation সম্পন্ন করেন।',
-        exp: '৫+ বছর',
-        image: 'assets/images/about/employee-6.jpeg'
-      },
-      {
-        name: 'মোঃ ফারুক খান',
-        role: 'সেলাই মেশিন অপারেটর',
-        duty: 'heavy stitch machine-এ consistent seam depth বজায় রেখে daily production complete করেন।',
-        exp: '৬+ বছর',
-        image: 'assets/images/about/employee-7.jpeg'
-      },
-      {
-        name: 'মোঃ মানিক সরকার',
-        role: 'সাইড প্যানেল ফিটিং সহকারী',
-        duty: 'door panel cover, side fitting ও corner locking carefully সেটআপ করেন।',
-        exp: '৪+ বছর',
-        image: 'assets/images/about/employee-8.jpeg'
-      },
-      {
-        name: 'মোঃ আল-আমিন',
-        role: 'ফাইনাল ক্লিনিং এক্সিকিউটিভ',
-        duty: 'delivery-এর আগে loose thread cleanup, surface finishing এবং shine balance maintain করেন।',
-        exp: '৫+ বছর',
-        image: 'assets/images/about/employee-9.jpeg'
-      },
-      {
-        name: 'মোঃ হৃদয় ইসলাম',
-        role: 'কোয়ালিটি চেক সহকারী',
-        duty: 'stitch line, fitting tension এবং customer spec অনুযায়ী final quality checklist সম্পন্ন করেন।',
-        exp: '৪+ বছর',
-        image: 'assets/images/about/employee-10.jpeg'
-      },
-      {
-        name: 'মোঃ সাব্বির আহমেদ',
-        role: 'ইনস্টলেশন ও ডেলিভারি টেক',
-        duty: 'on-spot fitment adjustment, customer handover briefing এবং basic care instruction দেন।',
-        exp: '৫+ বছর',
-        image: 'assets/images/about/employee-11.jpeg'
-      }
-    ];
-
-    const aboutTeamState = {
-      motionRaf: 0,
-      motionLastTs: 0,
-      motionOffset: 0,
-      motionCycle: 0,
-      pauseReasons: new Set(),
-      resizeTick: 0,
-      dragging: false,
-      dragMoved: false,
-      pointerDown: false,
-      pointerId: null,
-      dragStartX: 0,
-      dragStartOffset: 0,
-      suppressClick: false
-    };
-
-    function updateAboutTeamPauseState() {
-      const paused = aboutTeamState.pauseReasons.size > 0;
-      document.getElementById('aboutTeamSlider')?.classList.toggle('is-paused', paused);
-      return paused;
-    }
-
-    function setAboutTeamPaused(reason, paused) {
-      if (!reason) return;
-      if (paused) aboutTeamState.pauseReasons.add(reason);
-      else aboutTeamState.pauseReasons.delete(reason);
-      updateAboutTeamPauseState();
-    }
-
-    function destroyAboutTeamMotion() {
-      cancelAnimationFrame(aboutTeamState.motionRaf);
-      aboutTeamState.motionRaf = 0;
-      aboutTeamState.motionLastTs = 0;
-    }
-
-    function normalizeAboutTeamOffset(offset) {
-      if (!aboutTeamState.motionCycle) return 0;
-
-      let nextOffset = offset % aboutTeamState.motionCycle;
-      if (nextOffset < 0) nextOffset += aboutTeamState.motionCycle;
-      return nextOffset;
-    }
-
-    function applyAboutTeamOffset() {
-      const track = document.getElementById('aboutTeamGrid');
-      if (!track) return;
-
-      track.style.transform = `translate3d(${-aboutTeamState.motionOffset}px, 0, 0)`;
-    }
-
-    function startAboutTeamMotion() {
-      if (!aboutTeamState.motionCycle || aboutTeamState.motionRaf) return;
-
-      const step = (timestamp) => {
-        if (!aboutTeamState.motionLastTs) aboutTeamState.motionLastTs = timestamp;
-        const delta = (timestamp - aboutTeamState.motionLastTs) / 1000;
-        aboutTeamState.motionLastTs = timestamp;
-
-        if (aboutTeamState.pauseReasons.size === 0) {
-          aboutTeamState.motionOffset = normalizeAboutTeamOffset(
-            aboutTeamState.motionOffset + (ABOUT_TEAM_MOTION_SPEED * delta)
-          );
-          applyAboutTeamOffset();
-        }
-
-        aboutTeamState.motionRaf = requestAnimationFrame(step);
-      };
-
-      aboutTeamState.motionRaf = requestAnimationFrame(step);
-    }
-
-    function syncAboutTeamMarquee() {
-      const track = document.getElementById('aboutTeamGrid');
-      const viewport = document.getElementById('aboutTeamMarqueeViewport');
-      destroyAboutTeamMotion();
-      if (!track || !viewport) return;
-
-      const groups = track.querySelectorAll('.about-team-marquee-group');
-      if (groups.length < 2 || ABOUT_TEAM_MEMBERS.length < 2) {
-        aboutTeamState.motionCycle = 0;
-        aboutTeamState.motionOffset = 0;
-        bindAboutTeamInteractions();
-        applyAboutTeamOffset();
-        return;
-      }
-
-      const computedStyle = getComputedStyle(track);
-      const gap = parseFloat(computedStyle.gap || computedStyle.columnGap || 12) || 12;
-      const groupWidth = groups[0].scrollWidth;
-      aboutTeamState.motionCycle = groupWidth + gap;
-      aboutTeamState.motionOffset = normalizeAboutTeamOffset(aboutTeamState.motionOffset);
-
-      bindAboutTeamInteractions();
-      applyAboutTeamOffset();
-      startAboutTeamMotion();
-    }
-
-    function bindAboutTeamInteractions() {
-      const shell = document.querySelector('.about-team-marquee-shell');
-      const viewport = document.getElementById('aboutTeamMarqueeViewport');
-      if (!shell || !viewport) return;
-
-      const endDrag = (event) => {
-        const hadDrag = aboutTeamState.dragging && aboutTeamState.dragMoved;
-
-        if (event && aboutTeamState.dragging && viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
-          viewport.releasePointerCapture(event.pointerId);
-        }
-
-        aboutTeamState.pointerDown = false;
-        aboutTeamState.pointerId = null;
-
-        if (aboutTeamState.dragging) {
-          aboutTeamState.dragging = false;
-          shell.classList.remove('is-dragging');
-        }
-
-        if (hadDrag) {
-          aboutTeamState.suppressClick = true;
-          setTimeout(() => { aboutTeamState.suppressClick = false; }, 220);
-        }
-
-        aboutTeamState.dragMoved = false;
-        setAboutTeamPaused('pointer', false);
-      };
-
-      viewport.onpointerdown = (event) => {
-        if (event.pointerType !== 'mouse') return;
-        if (event.button !== 0) return;
-
-        aboutTeamState.pointerDown = true;
-        aboutTeamState.pointerId = event.pointerId;
-        aboutTeamState.dragging = false;
-        aboutTeamState.dragMoved = false;
-        aboutTeamState.dragStartX = event.clientX;
-        aboutTeamState.dragStartOffset = aboutTeamState.motionOffset;
-        setAboutTeamPaused('pointer', true);
-      };
-
-      viewport.onpointermove = (event) => {
-        if (!aboutTeamState.pointerDown || event.pointerId !== aboutTeamState.pointerId) return;
-        const deltaX = event.clientX - aboutTeamState.dragStartX;
-
-        if (!aboutTeamState.dragging) {
-          if (Math.abs(deltaX) <= 6) return;
-          aboutTeamState.dragging = true;
-          aboutTeamState.dragMoved = true;
-          shell.classList.add('is-dragging');
-          viewport.setPointerCapture(event.pointerId);
-        }
-
-        event.preventDefault();
-        aboutTeamState.motionOffset = normalizeAboutTeamOffset(aboutTeamState.dragStartOffset - deltaX);
-        applyAboutTeamOffset();
-      };
-
-      viewport.onpointerup = (event) => endDrag(event);
-      viewport.onpointercancel = (event) => endDrag(event);
-      viewport.onlostpointercapture = (event) => endDrag(event);
-      viewport.ondragstart = () => false;
-    }
-
-    function bindAboutTeamCardImageFallbacks(root = document) {
-      root.querySelectorAll('.about-team-photo').forEach(img => {
-        const fallbackToDefault = () => {
-          if (img.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
-          img.src = ABOUT_TEAM_FALLBACK_IMAGE;
-        };
-
-        img.addEventListener('error', fallbackToDefault, { once: true });
-      });
-    }
-
-    function buildAboutTeamCard(member) {
-      const safeName = escapeHtml(member.name);
-      const safeRole = escapeHtml(member.role);
-      const safeDuty = escapeHtml(member.duty);
-      const safeExp = escapeHtml(member.exp);
-      const safeImage = escapeHtml(member.image || ABOUT_TEAM_FALLBACK_IMAGE);
-
-      return `
-        <article class="about-team-card">
-          <div class="about-team-top">
-            <button
-              type="button"
-              class="about-team-photo-btn"
-              data-team-preview-src="${safeImage}"
-              data-team-preview-name="${safeName}"
-              data-team-preview-role="${safeRole}"
-              aria-label="${safeName} এর ছবি বড় করে দেখুন">
-              <img
-                src="${safeImage}"
-                alt="কর্মচারীর ছবি: ${safeName}"
-                class="about-team-photo"
-                loading="lazy"
-                decoding="async">
-            </button>
-            <div class="about-team-headline">
-              <h4 class="about-team-name">${safeName}</h4>
-              <p class="about-team-role">${safeRole}</p>
-            </div>
-          </div>
-          <p class="about-team-duty">${safeDuty}</p>
-          <span class="about-team-exp">অভিজ্ঞতা: ${safeExp}</span>
-        </article>
-      `;
-    }
-
-    function renderAboutTeamCards() {
-      const track = document.getElementById('aboutTeamGrid');
-      if (!track) return;
-
-      if (!ABOUT_TEAM_MEMBERS.length) {
-        track.innerHTML = '<div class="about-team-empty">এই মুহূর্তে কোনো কর্মচারী তথ্য দেখানো যাচ্ছে না।</div>';
-        destroyAboutTeamMotion();
-        return;
-      }
-
-      const primaryGroup = `<div class="about-team-marquee-group">${ABOUT_TEAM_MEMBERS.map(member => buildAboutTeamCard(member)).join('')}</div>`;
-      const duplicateGroup = ABOUT_TEAM_MEMBERS.length > 1
-        ? `<div class="about-team-marquee-group" aria-hidden="true">${ABOUT_TEAM_MEMBERS.map(member => buildAboutTeamCard(member)).join('')}</div>`
-        : '';
-
-      track.innerHTML = `${primaryGroup}${duplicateGroup}`;
-      bindAboutTeamCardImageFallbacks(track);
-      syncAboutTeamMarquee();
-    }
-
-    function openAboutTeamPreview(imageSrc, name, role, triggerEl = null) {
-      const overlay = document.getElementById('aboutTeamPreviewOverlay');
-      const image = document.getElementById('aboutTeamPreviewImage');
-      const nameEl = document.getElementById('aboutTeamPreviewName');
-      const roleEl = document.getElementById('aboutTeamPreviewRole');
-
-      if (!overlay || !image || !nameEl || !roleEl) return;
-
-      modalFocusState.aboutTeamPreviewTrigger = triggerEl instanceof HTMLElement
-        ? triggerEl
-        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
-      modalViewportState.aboutTeamPreview = captureViewportPosition();
-
-      const previewSrc = imageSrc || ABOUT_TEAM_FALLBACK_IMAGE;
-      const previewName = name || 'শাধিন মোটর টিম';
-      const previewRole = role || 'টিম মেম্বার';
-
-      image.src = previewSrc;
-      image.alt = `${previewName} - বড় প্রিভিউ`;
-      image.onerror = () => {
-        if (image.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
-        image.src = ABOUT_TEAM_FALLBACK_IMAGE;
-      };
-
-      nameEl.textContent = previewName;
-      roleEl.textContent = previewRole;
-
-      setAboutTeamPaused('preview', true);
-      overlay.classList.add('open');
-      overlay.setAttribute('aria-hidden', 'false');
-      syncBodyScrollLockState();
-      focusWithoutScroll(document.getElementById('aboutTeamPreviewCloseBtn'));
-      scheduleViewportRestore(modalViewportState.aboutTeamPreview);
-    }
-
-    function closeAboutTeamPreview() {
-      const overlay = document.getElementById('aboutTeamPreviewOverlay');
-      if (!overlay) return;
-
-      const viewport = modalViewportState.aboutTeamPreview || captureViewportPosition();
-
-      overlay.classList.remove('open');
-      overlay.setAttribute('aria-hidden', 'true');
-      syncBodyScrollLockState();
-      restoreFocus(modalFocusState.aboutTeamPreviewTrigger);
-      scheduleViewportRestore(viewport);
-      modalViewportState.aboutTeamPreview = null;
-      setAboutTeamPaused('preview', false);
-    }
-
-    function initAboutTeamModule() {
-      const track = document.getElementById('aboutTeamGrid');
-      const slider = document.getElementById('aboutTeamSlider');
-      if (!track || !slider) return;
-
-      aboutTeamState.pauseReasons.clear();
-      renderAboutTeamCards();
-
-      track.addEventListener('click', event => {
-        if (aboutTeamState.suppressClick) {
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-
-        const trigger = event.target.closest('[data-team-preview-src]');
-        if (!trigger || !track.contains(trigger)) return;
-
-        openAboutTeamPreview(
-          trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
-          trigger.dataset.teamPreviewName || '',
-          trigger.dataset.teamPreviewRole || '',
-          trigger
-        );
-      });
-
-      track.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-
-        const trigger = event.target.closest('[data-team-preview-src]');
-        if (!trigger || !track.contains(trigger)) return;
-
-        event.preventDefault();
-        openAboutTeamPreview(
-          trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
-          trigger.dataset.teamPreviewName || '',
-          trigger.dataset.teamPreviewRole || '',
-          trigger
-        );
-      });
-
-      const previewOverlay = document.getElementById('aboutTeamPreviewOverlay');
-      previewOverlay?.addEventListener('click', event => {
-        if (event.target === previewOverlay) closeAboutTeamPreview();
-      });
-
-      document.getElementById('aboutTeamPreviewCloseBtn')?.addEventListener('click', closeAboutTeamPreview);
-
-      const ownerPreviewTrigger = document.querySelector('.about-owner-photo-btn[data-team-preview-src]');
-      ownerPreviewTrigger?.addEventListener('click', () => {
-        openAboutTeamPreview(
-          ownerPreviewTrigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
-          ownerPreviewTrigger.dataset.teamPreviewName || 'প্রতিষ্ঠাতা ও প্রধান কারিগর',
-          ownerPreviewTrigger.dataset.teamPreviewRole || 'Owner & Workshop Lead',
-          ownerPreviewTrigger
-        );
-      });
-
-      slider.addEventListener('mouseenter', () => setAboutTeamPaused('hover', true));
-      slider.addEventListener('mouseleave', () => setAboutTeamPaused('hover', false));
-      slider.addEventListener('focusin', () => setAboutTeamPaused('focus', true));
-      slider.addEventListener('focusout', event => {
-        const nextTarget = event.relatedTarget;
-        if (nextTarget instanceof Node && slider.contains(nextTarget)) return;
-        setAboutTeamPaused('focus', false);
-      });
-
-      document.addEventListener('visibilitychange', () => {
-        setAboutTeamPaused('hidden', document.hidden);
-      });
-
-      window.addEventListener('resize', () => {
-        cancelAnimationFrame(aboutTeamState.resizeTick);
-        aboutTeamState.resizeTick = requestAnimationFrame(syncAboutTeamMarquee);
-      });
-
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(syncAboutTeamMarquee);
-      }
-
-      setAboutTeamPaused('hidden', document.hidden);
-    }
-
-    document.addEventListener('keydown', e => {
-      if (document.getElementById('sampleConfirmModal').classList.contains('open') && e.key === 'Escape') {
-        closeSampleConfirmModal();
-        return;
-      }
-
-      const reviewPreviewOpen = document.getElementById('reviewMediaPreviewOverlay')?.classList.contains('open');
-      if (reviewPreviewOpen) {
-        if (e.key === 'ArrowRight') navReviewMediaPreview(+1);
-        if (e.key === 'ArrowLeft') navReviewMediaPreview(-1);
-        if (e.key.toLowerCase() === 'f') requestReviewPreviewFullscreen();
-        if (e.key === 'Escape') closeReviewMediaPreview();
-        return;
-      }
-
-      const aboutTeamPreviewOpen = document.getElementById('aboutTeamPreviewOverlay')?.classList.contains('open');
-      if (aboutTeamPreviewOpen) {
-        if (e.key === 'Escape') closeAboutTeamPreview();
-        return;
-      }
-
-      if (!document.getElementById('lightboxOverlay').classList.contains('open')) return;
-      if (e.key === 'ArrowRight') lightboxNav(+1);
-      if (e.key === 'ArrowLeft') lightboxNav(-1);
-      if (e.key === 'Escape') {
-        closeLightbox();
-      }
-    });
-
-    const lightboxOverlay = document.getElementById('lightboxOverlay');
-    lightboxOverlay?.addEventListener('click', event => {
-      if (event.target === lightboxOverlay) closeLightbox(event);
-    });
-    document.getElementById('lightboxPrevBtn')?.addEventListener('click', () => lightboxNav(-1));
-    document.getElementById('lightboxNextBtn')?.addEventListener('click', () => lightboxNav(+1));
-    document.getElementById('lightboxCloseBtn')?.addEventListener('click', () => closeLightbox());
-
-    window.addEventListener('resize', () => {
-      cancelAnimationFrame(galleryResizeFrame);
-      galleryResizeFrame = requestAnimationFrame(syncGalleryMarquee);
-    });
-
-    window.addEventListener('load', syncGalleryMarquee);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(syncGalleryMarquee);
-    }
-
     // ─── TOAST ───────────────────────────────────────────────────────────────────
     function showToast(title, msg, duration = 4000) {
       const t = document.getElementById('toast');
@@ -2629,538 +1807,6 @@ export function initHomePage() {
       document.getElementById('toastMsg').textContent = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), duration);
-    }
-
-    // ═══════════════════════════════════════════════════════════════════════════════
-    // SAMPLE SYSTEM
-    // ═══════════════════════════════════════════════════════════════════════════════
-
-    const SAMPLE_MATERIAL_LABELS = { all: 'সব', rexine: 'রেক্সিন', leather: 'লেদার' };
-    const HOME_SAMPLE_LIMITS = { rexine: 5, leather: 5 };
-
-    // State
-    let allSamples = [];
-    let currentFilter = 'all';
-    let currentSearch = '';
-    let selectedSample = null;
-    let modalSample = null;
-    const orderConfirmState = {
-      secondaryAction: 'choose-sample',
-      lastTrigger: null
-    };
-
-    function getSampleHomeSortOrder(sample) {
-      const sortableValue = [sample.homeOrder, sample.featuredOrder, sample.sortOrder, sample.order]
-        .map(value => Number(value))
-        .find(value => Number.isFinite(value));
-      return Number.isFinite(sortableValue) ? sortableValue : Number.MAX_SAFE_INTEGER;
-    }
-
-    function getHomeMaterialSamples(material) {
-      const scoped = allSamples
-        .filter(sample => sample.material === material)
-        .sort((a, b) => {
-          const featuredDiff = Number(isFeaturedSample(a)) === Number(isFeaturedSample(b))
-            ? 0
-            : (isFeaturedSample(a) ? -1 : 1);
-          if (featuredDiff) return featuredDiff;
-
-          const availableDiff = Number(a.available === false) - Number(b.available === false);
-          if (availableDiff) return availableDiff;
-
-          const orderDiff = getSampleHomeSortOrder(a) - getSampleHomeSortOrder(b);
-          if (orderDiff) return orderDiff;
-
-          return a.id.localeCompare(b.id, 'en');
-        });
-
-      return scoped.slice(0, HOME_SAMPLE_LIMITS[material] || 5);
-    }
-
-    function injectSelectedHomeSample(items) {
-      if (!selectedSample) return items;
-      if (currentFilter !== 'all' && selectedSample.material !== currentFilter) return items;
-      if (items.some(item => item.id === selectedSample.id)) return items;
-      if (!items.length) return [selectedSample];
-      return [selectedSample, ...items.slice(0, items.length - 1)];
-    }
-
-    function updateSamplesOverview(totalShown) {
-      const countEl = document.getElementById('samplesCountInfo');
-      const viewAllBtn = document.getElementById('samplesViewAllBtn');
-      if (countEl) {
-        countEl.textContent = currentFilter === 'all'
-          ? `হোমপেজে বাছাই করা ${totalShown}টি স্যাম্পল`
-          : `${SAMPLE_MATERIAL_LABELS[currentFilter]} থেকে ${totalShown}টি বাছাই করা স্যাম্পল`;
-      }
-      if (viewAllBtn) {
-        viewAllBtn.href = `samples-all.html?material=${encodeURIComponent(currentFilter)}`;
-      }
-    }
-
-    function clearPendingSampleParams() {
-      const url = new URL(window.location.href);
-      if (!url.searchParams.has('sample')) return;
-      url.searchParams.delete('sample');
-      const nextQuery = url.searchParams.toString();
-      history.replaceState(null, '', `${url.pathname}${nextQuery ? `?${nextQuery}` : ''}${url.hash}`);
-    }
-
-    function applyPendingSampleSelection() {
-      const params = new URLSearchParams(window.location.search);
-      const pendingId = params.get('sample') || localStorage.getItem(SELECTED_SAMPLE_STORAGE_KEY) || '';
-      if (!pendingId) return;
-
-      localStorage.removeItem(SELECTED_SAMPLE_STORAGE_KEY);
-      clearPendingSampleParams();
-
-      const pendingSample = allSamples.find(sample => sample.id === pendingId);
-      if (!pendingSample || !pendingSample.available) return;
-      selectSample(pendingSample.id);
-    }
-
-    // Load samples from admin localStorage, fallback to defaults
-    function loadSamples() {
-      allSamples = loadSamplesFromStorage(localStorage);
-      renderSamples();
-      applyPendingSampleSelection();
-    }
-
-    // Filter + home selection
-    function getFilteredSamples() {
-      const baseSamples = currentFilter === 'all'
-        ? [...getHomeMaterialSamples('rexine'), ...getHomeMaterialSamples('leather')]
-        : getHomeMaterialSamples(currentFilter);
-
-      return injectSelectedHomeSample(baseSamples);
-    }
-
-    function setActiveSampleFilterButton(filterValue) {
-      document.querySelectorAll('[data-sample-filter]').forEach(button => {
-        const isActive = button.dataset.sampleFilter === filterValue;
-        button.classList.toggle('active', isActive);
-        button.setAttribute('aria-pressed', String(isActive));
-      });
-    }
-
-    function filterSamples(f, btn) {
-      currentFilter = f;
-      if (btn) setActiveSampleFilterButton(btn.dataset.sampleFilter || f);
-      else setActiveSampleFilterButton(f);
-      renderSamples();
-    }
-
-    // Render sample cards
-    function renderSamples() {
-      const grid = document.getElementById('samplesGrid');
-      const filtered = getFilteredSamples();
-      updateSamplesOverview(filtered.length);
-      setActiveSampleFilterButton(currentFilter);
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `<div class="samples-empty">
-      <span class="samples-empty-icon">🔍</span>
-      <p>কোনো স্যাম্পল পাওয়া যায়নি।</p>
-    </div>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(s => {
-        const isSelected = selectedSample && selectedSample.id === s.id;
-        const matTag = s.material === 'rexine'
-          ? '<span class="sample-card-material-tag tag-rexine">রেক্সিন</span>'
-          : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
-
-        const swatchContent = s.img
-          ? `<img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async">
-         <span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`
-          : `<span class="swatch-no-img">${s.material === 'rexine' ? '🪡' : '🧥'}</span>`;
-
-        const cardAttrs = s.available
-          ? `data-sample-id="${s.id}" tabindex="0" aria-label="${s.id} ${s.name}"`
-          : 'aria-disabled="true"';
-
-        return `
-    <div class="sample-card ${isSelected ? 'selected' : ''} ${!s.available ? 'out-of-stock' : ''}"
-         ${cardAttrs}>
-      <div class="sample-card-swatch" style="background-color: ${s.hex};">
-        ${swatchContent}
-        <div class="sample-card-selected-badge">✓</div>
-        ${!s.available ? '<div class="sample-card-stock-badge">স্টক নেই</div>' : ''}
-      </div>
-      <div class="sample-card-body">
-        <div class="sample-card-id">
-          <span>${s.id}</span>
-          ${matTag}
-        </div>
-        <div class="sample-card-name">${s.name}</div>
-        <div class="sample-card-color-row">
-          <div class="sample-card-color-dot" style="background:${s.hex}"></div>
-          <span class="sample-card-color-name">${s.color}</span>
-        </div>
-        <button type="button" class="sample-card-order-btn" data-select-sample-id="${s.id}" ${s.available ? '' : 'disabled'}>
-          ${isSelected ? '✓ নির্বাচিত' : (s.available ? '+ অর্ডারে যোগ করুন' : 'স্টক নেই')}
-        </button>
-      </div>
-    </div>`;
-      }).join('');
-
-      bindSampleCardImages(grid);
-    }
-
-    function bindSampleCardImages(root) {
-      if (!root) return;
-
-      root.querySelectorAll('.sample-card-swatch img').forEach(img => {
-        const showFallback = () => {
-          img.remove();
-        };
-
-        img.addEventListener('error', showFallback, { once: true });
-      });
-    }
-
-    function initSamplesGridInteractions() {
-      const grid = document.getElementById('samplesGrid');
-      if (!grid || grid.dataset.accessibilityBound === 'true') return;
-
-      grid.addEventListener('click', event => {
-        const selectBtn = event.target.closest('[data-select-sample-id]');
-        if (selectBtn) {
-          event.stopPropagation();
-          const sampleId = selectBtn.dataset.selectSampleId;
-          if (sampleId) selectSample(sampleId);
-          return;
-        }
-
-        const card = event.target.closest('.sample-card[data-sample-id]');
-        if (!card || !grid.contains(card)) return;
-        const sampleId = card.dataset.sampleId;
-        if (!sampleId) return;
-
-        openSampleModal(sampleId, card);
-      });
-
-      grid.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        if (event.target.closest('[data-select-sample-id]')) return;
-
-        const card = event.target.closest('.sample-card[data-sample-id]');
-        if (!card || !grid.contains(card)) return;
-
-        event.preventDefault();
-        const sampleId = card.dataset.sampleId;
-        if (!sampleId) return;
-
-        openSampleModal(sampleId, card);
-      });
-
-      grid.dataset.accessibilityBound = 'true';
-    }
-
-    // Open sample detail modal
-    function openSampleModal(id, triggerEl = null) {
-      const s = allSamples.find(x => x.id === id);
-      if (!s) return;
-      modalSample = s;
-      modalFocusState.sampleTrigger = triggerEl instanceof HTMLElement
-        ? triggerEl
-        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
-      modalViewportState.sampleModal = captureViewportPosition();
-
-      document.getElementById('sampleModalId').textContent = 'Sample ID: ' + s.id;
-      document.getElementById('sampleModalIdVal').textContent = s.id;
-      document.getElementById('sampleModalName').textContent = s.name;
-      document.getElementById('sampleModalMaterial').textContent = s.material === 'rexine' ? 'রেক্সিন (Rexine)' : 'চামড়া (Leather)';
-      document.getElementById('sampleModalColorDot').style.background = s.hex;
-      document.getElementById('sampleModalColorName').textContent = s.color;
-      document.getElementById('sampleModalStock').innerHTML = s.available
-        ? '<span style="color:#2ecc71">✅ উপলব্ধ</span>'
-        : '<span style="color:#e74c3c">❌ স্টক নেই</span>';
-
-      const noteEl = document.getElementById('sampleModalNote');
-      if (s.note) { noteEl.textContent = s.note; noteEl.style.display = ''; }
-      else { noteEl.style.display = 'none'; }
-
-      // Swatch
-      const swatchEl = document.getElementById('sampleModalSwatch');
-      swatchEl.style.backgroundColor = s.hex;
-      const imgEl = document.getElementById('sampleModalImg');
-      imgEl.src = s.img || '';
-      imgEl.alt = `${s.name} (${s.id})`;
-      imgEl.style.display = s.img ? '' : 'none';
-      imgEl.onerror = () => { imgEl.style.display = 'none'; };
-      document.getElementById('sampleModalSwatchFallback').textContent = s.material === 'rexine' ? '🪡' : '🧥';
-
-      // Order button
-      const btn = document.getElementById('sampleModalOrderBtn');
-      if (!s.available) {
-        btn.textContent = '❌ স্টক নেই';
-        btn.style.opacity = '0.4';
-        btn.style.pointerEvents = 'none';
-      } else {
-        const alreadySelected = selectedSample && selectedSample.id === s.id;
-        btn.innerHTML = alreadySelected ? '✓ ইতোমধ্যে নির্বাচিত — অর্ডারে যান' : '✅ এই স্যাম্পল নির্বাচন করুন';
-        btn.style.opacity = '';
-        btn.style.pointerEvents = '';
-      }
-
-      const modalOverlay = document.getElementById('sampleModal');
-      modalOverlay.classList.add('open');
-      modalOverlay.setAttribute('aria-hidden', 'false');
-      syncBodyScrollLockState();
-      focusWithoutScroll(document.getElementById('sampleModalCloseBtn'));
-      scheduleViewportRestore(modalViewportState.sampleModal);
-    }
-
-    function closeSampleModal(restoreViewport = true) {
-      const modalOverlay = document.getElementById('sampleModal');
-      const viewport = modalViewportState.sampleModal || captureViewportPosition();
-      modalOverlay.classList.remove('open');
-      modalOverlay.setAttribute('aria-hidden', 'true');
-      syncBodyScrollLockState();
-      restoreFocus(modalFocusState.sampleTrigger);
-      if (restoreViewport) scheduleViewportRestore(viewport);
-      modalViewportState.sampleModal = null;
-    }
-
-    document.getElementById('sampleModal').addEventListener('click', function (e) {
-      if (e.target === this) closeSampleModal();
-    });
-    document.getElementById('sampleModalCloseBtn')?.addEventListener('click', closeSampleModal);
-    document.getElementById('sampleModalOrderBtn')?.addEventListener('click', selectFromModal);
-
-    function selectFromModal() {
-      if (!modalSample) return;
-      selectSample(modalSample.id);
-      closeSampleModal(false);
-      scrollToSectionById('contact', 200);
-    }
-
-    // Keep all delayed smooth-scroll behavior in one helper for consistency.
-    function scrollToSectionById(sectionId, delayMs = 0, block = 'start') {
-      const target = document.getElementById(sectionId);
-      if (!target) return;
-
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.setTimeout(() => {
-        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block });
-      }, delayMs);
-    }
-
-    // Select a sample — sets global state + updates UI
-    function selectSample(id) {
-      const s = allSamples.find(x => x.id === id);
-      if (!s || !s.available) return;
-      selectedSample = s;
-
-      // Update the floating top bar
-      const bar = document.getElementById('selectedSampleBar');
-      document.getElementById('selectedBarSwatch').style.background = s.hex;
-      document.getElementById('selectedBarName').textContent = `${s.id} — ${s.name}`;
-      document.getElementById('selectedBarMeta').textContent =
-        `${s.material === 'rexine' ? 'রেক্সিন' : 'লেদার'} · ${s.color}`;
-      bar.classList.add('visible');
-
-      // Update order form
-      document.getElementById('selectedSampleId').value = s.id;
-      const strip = document.getElementById('formSampleStrip');
-      document.getElementById('formSwatchDot').style.background = s.hex;
-      document.getElementById('formSampleLabel').textContent =
-        `${s.id} — ${s.name} (${s.material === 'rexine' ? 'রেক্সিন' : 'লেদার'}, ${s.color})`;
-      strip.style.display = 'flex';
-
-      // Auto-set material dropdown
-      const matSel = document.getElementById('material');
-      matSel.value = s.material === 'rexine' ? 'রেক্সিন (Rexine)' : 'চামড়া (Leather)';
-
-      // Re-render cards to show selection
-      renderSamples();
-
-      showToast('✅ স্যাম্পল নির্বাচিত!', `${s.id} — ${s.name} নির্বাচন হয়েছে। এখন অর্ডার ফর্ম পূরণ করুন।`, 4000);
-    }
-
-    function clearSelectedSample() {
-      selectedSample = null;
-      document.getElementById('selectedSampleBar').classList.remove('visible');
-      document.getElementById('selectedSampleId').value = '';
-      document.getElementById('formSampleStrip').style.display = 'none';
-      renderSamples();
-    }
-
-    function scrollToOrder() {
-      scrollToSectionById('contact', 100);
-    }
-
-    function getSampleMaterialLabel(sample) {
-      if (!sample) return '';
-      return sample.material === 'rexine' ? 'রেক্সিন' : 'লেদার';
-    }
-
-    function openSampleConfirmModal() {
-      const modal = document.getElementById('sampleConfirmModal');
-      const badge = document.getElementById('sampleConfirmBadge');
-      const title = document.getElementById('sampleConfirmTitle');
-      const copy = document.getElementById('sampleConfirmCopy');
-      const primaryHighlightTitle = document.getElementById('sampleConfirmHighlightPrimaryTitle');
-      const primaryHighlightCopy = document.getElementById('sampleConfirmHighlightPrimaryCopy');
-      const secondaryHighlightTitle = document.getElementById('sampleConfirmHighlightSecondaryTitle');
-      const secondaryHighlightCopy = document.getElementById('sampleConfirmHighlightSecondaryCopy');
-      const secondaryBtn = document.getElementById('sampleConfirmSecondaryBtn');
-      const primaryBtn = document.getElementById('sampleConfirmPrimaryBtn');
-      const sampleId = document.getElementById('selectedSampleId').value.trim();
-      const sample = sampleId
-        ? (allSamples.find(item => item.id === sampleId) || selectedSample)
-        : null;
-
-      orderConfirmState.lastTrigger = document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
-      modalViewportState.sampleConfirmModal = captureViewportPosition();
-
-      if (sample) {
-        orderConfirmState.secondaryAction = 'edit-order';
-        badge.textContent = 'স্যাম্পল নির্বাচন করা হয়েছে';
-        title.textContent = 'নির্বাচিত Sample ID সহ অর্ডার জমা দিতে চান?';
-        copy.textContent = `আপনার অর্ডারের সঙ্গে ${sample.id} স্যাম্পলটি যুক্ত থাকবে। confirm করলে অর্ডার জমা হয়ে যাবে, পরে আমরা এই স্যাম্পল অনুযায়ী যোগাযোগ করব।`;
-        primaryHighlightTitle.textContent = `${sample.id} — ${sample.name}`;
-        primaryHighlightCopy.textContent = `${getSampleMaterialLabel(sample)} · ${sample.color}`;
-        secondaryHighlightTitle.textContent = 'জমা দেওয়ার আগে';
-        secondaryHighlightCopy.textContent = 'ফর্ম বা স্যাম্পল বদলাতে চাইলে এখন ফিরে গিয়ে আবার দেখে নিতে পারেন।';
-        secondaryBtn.textContent = '✏️ আরেকবার দেখে নেই';
-        primaryBtn.textContent = '✅ হ্যাঁ, অর্ডার জমা দিন';
-      } else {
-        orderConfirmState.secondaryAction = 'choose-sample';
-        badge.textContent = 'স্যাম্পল এখনো বাছাই করা হয়নি';
-        title.textContent = 'Sample ID ছাড়া অর্ডার জমা দিতে চান?';
-        copy.textContent = 'আপনি চাইলে এখনই ফর্ম জমা দিতে পারেন। তবে একটি স্যাম্পল বেছে নিলে আমরা রং, ফিনিশ ও মেটেরিয়াল আরও দ্রুত এবং নির্ভুলভাবে বুঝে নিতে পারব।';
-        primaryHighlightTitle.textContent = 'স্যাম্পল বেছে নিলে';
-        primaryHighlightCopy.textContent = 'দ্রুত মূল্য ও ডিজাইন ম্যাচ করা সহজ হবে';
-        secondaryHighlightTitle.textContent = 'স্যাম্পল ছাড়া দিলেও';
-        secondaryHighlightCopy.textContent = 'অর্ডার যাবে, পরে আমরা কথা বলে বিস্তারিত নেব';
-        secondaryBtn.textContent = '🪡 আগে স্যাম্পল বেছে নেব';
-        primaryBtn.textContent = '✅ স্যাম্পল ছাড়া অর্ডার জমা দিন';
-      }
-
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      syncBodyScrollLockState();
-      focusWithoutScroll(primaryBtn);
-      scheduleViewportRestore(modalViewportState.sampleConfirmModal);
-    }
-
-    function closeSampleConfirmModal(restoreViewport = true) {
-      const modal = document.getElementById('sampleConfirmModal');
-      const viewport = modalViewportState.sampleConfirmModal || captureViewportPosition();
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-      syncBodyScrollLockState();
-      restoreFocus(orderConfirmState.lastTrigger);
-      if (restoreViewport) scheduleViewportRestore(viewport);
-      modalViewportState.sampleConfirmModal = null;
-    }
-
-    function goChooseSample() {
-      closeSampleConfirmModal(false);
-      scrollToSectionById('samples', 120, 'start');
-      showToast('🪡 একটি স্যাম্পল বেছে নিন', 'Sample ID নির্বাচন করলে আমরা ডিজাইন, রং ও মূল্যের বিষয়ে আরও দ্রুত সাহায্য করতে পারব।', 5000);
-    }
-
-    function handleOrderConfirmSecondaryAction() {
-      if (orderConfirmState.secondaryAction === 'choose-sample') {
-        goChooseSample();
-        return;
-      }
-
-      closeSampleConfirmModal();
-    }
-
-    function confirmSubmitOrder() {
-      closeSampleConfirmModal();
-      submitOrder(true);
-    }
-
-    function confirmSubmitWithoutSample() {
-      confirmSubmitOrder();
-    }
-
-    document.getElementById('sampleConfirmModal').addEventListener('click', function (event) {
-      if (event.target === this) closeSampleConfirmModal();
-    });
-
-    document.querySelectorAll('[data-gallery-filter]').forEach(button => {
-      button.addEventListener('click', () => {
-        filterGallery(button.dataset.galleryFilter || 'all', button);
-      });
-    });
-
-    document.querySelectorAll('[data-sample-filter]').forEach(button => {
-      button.addEventListener('click', () => {
-        filterSamples(button.dataset.sampleFilter || 'all', button);
-      });
-    });
-
-    document.getElementById('selectedSampleOrderBtn')?.addEventListener('click', event => {
-      event.preventDefault();
-      scrollToOrder();
-    });
-    document.getElementById('selectedSampleClearBtn')?.addEventListener('click', clearSelectedSample);
-    document.getElementById('formSampleClearBtn')?.addEventListener('click', clearSelectedSample);
-
-    document.getElementById('sampleConfirmCloseBtn')?.addEventListener('click', closeSampleConfirmModal);
-    document.getElementById('sampleConfirmSecondaryBtn')?.addEventListener('click', handleOrderConfirmSecondaryAction);
-    document.getElementById('sampleConfirmPrimaryBtn')?.addEventListener('click', confirmSubmitOrder);
-
-    document.getElementById('orderForm')?.addEventListener('submit', event => {
-      event.preventDefault();
-      submitOrder();
-    });
-
-    // ─── SUBMIT ORDER ─────────────────────────────────────────────────────────────
-    function submitOrder(skipSampleConfirmation = false) {
-      const name = document.getElementById('custName').value.trim();
-      const phone = document.getElementById('custPhone').value.trim();
-      const vehicle = document.getElementById('vehicleType').value;
-      const service = document.getElementById('serviceType').value;
-
-      if (!name || !phone || !vehicle || !service) {
-        showToast('⚠️ অপূর্ণ তথ্য', 'নাম, ফোন, গাড়ির ধরন ও সার্ভিস অবশ্যই পূরণ করুন।');
-        return;
-      }
-
-      const sampleId = document.getElementById('selectedSampleId').value;
-
-      if (!skipSampleConfirmation) {
-        openSampleConfirmModal();
-        return;
-      }
-
-      const order = {
-        id: 'ORD-' + Date.now(),
-        name, phone,
-        vehicle,
-        carModel: document.getElementById('carModel').value,
-        service,
-        material: document.getElementById('material').value,
-        sampleId: sampleId || null,
-        sampleName: sampleId ? (allSamples.find(s => s.id === sampleId)?.name || '') : '',
-        details: document.getElementById('orderDetails').value,
-        status: 'pending',
-        date: new Date().toLocaleDateString('bn-BD'),
-        dateISO: new Date().toISOString()
-      };
-
-      const orders = JSON.parse(localStorage.getItem(ORDER_STORAGE_KEY) || '[]');
-      orders.unshift(order);
-      localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(orders));
-
-      // Clear form
-      ['custName', 'custPhone', 'carModel', 'orderDetails'].forEach(id => document.getElementById(id).value = '');
-      ['vehicleType', 'serviceType', 'material'].forEach(id => document.getElementById(id).selectedIndex = 0);
-      clearSelectedSample();
-
-      const sampleMsg = sampleId ? ` স্যাম্পল: ${sampleId}` : '';
-      showToast('✅ অর্ডার সফল!', `অর্ডার নম্বর: ${order.id}।${sampleMsg} আমরা শীঘ্রই যোগাযোগ করব।`, 6000);
     }
 
     // ─── INIT ─────────────────────────────────────────────────────────────────────
@@ -3179,12 +1825,36 @@ export function initHomePage() {
     window.addEventListener('orientationchange', syncBodyScrollLockState);
     syncBodyScrollLockState();
 
-    initAboutTeamModule();
-    initSamplesGridInteractions();
+    initHomeAboutTeam({
+      openDialog: openOverlayDialog,
+      closeDialog: closeOverlayDialog,
+      focusWithoutScroll,
+      restoreFocus,
+      captureViewportPosition,
+      scheduleViewportRestore,
+      syncBodyScrollLockState
+    });
+    initHomeGallery({
+      openDialog: openOverlayDialog,
+      closeDialog: closeOverlayDialog,
+      focusWithoutScroll,
+      restoreFocus,
+      captureViewportPosition,
+      scheduleViewportRestore,
+      syncBodyScrollLockState
+    });
+    initHomeSamples({
+      orderStorageKey: ORDER_STORAGE_KEY,
+      openDialog: openOverlayDialog,
+      closeDialog: closeOverlayDialog,
+      focusWithoutScroll,
+      restoreFocus,
+      captureViewportPosition,
+      scheduleViewportRestore,
+      syncBodyScrollLockState,
+      showToast
+    });
     initReviewsModule();
-    loadSamples();
-    loadGallery();
-
 }
 
 

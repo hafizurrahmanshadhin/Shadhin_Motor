@@ -469,18 +469,18 @@
       </div>
     </div>
 
-    <div class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-hidden="true">
-      <div class="about-team-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="aboutTeamPreviewName">
+    <dialog class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-labelledby="aboutTeamPreviewName">
+      <figure class="about-team-preview-dialog">
         <img src="" alt="" id="aboutTeamPreviewImage" class="about-team-preview-image" loading="eager" decoding="async">
-        <div class="about-team-preview-footer">
+        <figcaption class="about-team-preview-footer">
           <div class="about-team-preview-copy">
             <h4 id="aboutTeamPreviewName"></h4>
             <p id="aboutTeamPreviewRole"></p>
           </div>
           <button type="button" class="about-team-preview-close" id="aboutTeamPreviewCloseBtn" aria-label="প্রিভিউ বন্ধ করুন">✕</button>
-        </div>
-      </div>
-    </div>
+        </figcaption>
+      </figure>
+    </dialog>
   </section>
 
   <!-- GALLERY -->
@@ -515,14 +515,14 @@
   </section>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle" aria-hidden="true">
-    <div class="lightbox-inner">
+  <dialog class="lightbox-overlay" id="lightboxOverlay" aria-labelledby="lightboxTitle">
+    <figure class="lightbox-inner">
       <button type="button" class="lightbox-nav-btn lightbox-prev" id="lightboxPrevBtn" aria-label="পূর্বের ছবি">‹</button>
       <button type="button" class="lightbox-nav-btn lightbox-next" id="lightboxNextBtn" aria-label="পরের ছবি">›</button>
       <div class="lightbox-img-wrap" id="lightboxImgWrap">
         <!-- filled by JS -->
       </div>
-      <div class="lightbox-info-bar">
+      <figcaption class="lightbox-info-bar">
         <div class="lightbox-info-text">
           <div class="lightbox-info-cat" id="lightboxCat"></div>
           <div class="lightbox-info-title" id="lightboxTitle"></div>
@@ -531,9 +531,9 @@
           <span class="lightbox-counter" id="lightboxCounter"></span>
           <button type="button" class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="বন্ধ করুন">✕</button>
         </div>
-      </div>
-    </div>
-  </div>
+      </figcaption>
+    </figure>
+  </dialog>
 
   <!-- SAMPLES: REXINE & LEATHER -->
   <section id="samples">
@@ -591,12 +591,13 @@
   </section>
 
   <!-- SAMPLE DETAIL MODAL -->
-  <div class="sample-modal-overlay" id="sampleModal" aria-hidden="true">
-    <div class="sample-modal" role="dialog" aria-modal="true" aria-labelledby="sampleModalName">
-      <div class="sample-modal-swatch" id="sampleModalSwatch">
+  <dialog class="sample-modal-overlay" id="sampleModal" aria-labelledby="sampleModalName">
+    <article class="sample-modal">
+      <figure class="sample-modal-swatch" id="sampleModalSwatch">
         <img src="" id="sampleModalImg" alt="">
         <span id="sampleModalSwatchFallback" class="sample-modal-swatch-fallback">🪑</span>
-      </div>
+        <figcaption class="visually-hidden">নির্বাচিত স্যাম্পলের প্রিভিউ</figcaption>
+      </figure>
       <button type="button" class="sample-modal-close" id="sampleModalCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="sample-modal-body">
         <div class="sample-modal-id" id="sampleModalId"></div>
@@ -628,8 +629,8 @@
           ✅ এই স্যাম্পল নির্বাচন করুন
         </button>
       </div>
-    </div>
-  </div>
+    </article>
+  </dialog>
 
   <!-- HOW IT WORKS -->
   <section id="process">
@@ -855,7 +856,10 @@
               loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">রাশেদ করিম</h3>
-              <p class="reviewer-meta">Toyota Corolla Axio • মিরপুর, ঢাকা</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">Toyota Corolla Axio • মিরপুর, ঢাকা</span>
+                <time class="reviewer-time" datetime="2026-01-01">১ জানুয়ারি ২০২৬</time>
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="5 out of 5 stars">
               <span class="reviewer-stars">★★★★★</span>
@@ -873,7 +877,10 @@
               loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">নাফিসা আহমেদ</h3>
-              <p class="reviewer-meta">Toyota Premio • উত্তরা, ঢাকা</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">Toyota Premio • উত্তরা, ঢাকা</span>
+                <time class="reviewer-time" datetime="2026-01-02">২ জানুয়ারি ২০২৬</time>
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="5 out of 5 stars">
               <span class="reviewer-stars">★★★★★</span>
@@ -890,7 +897,10 @@
               loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">মাসুদ হোসেন</h3>
-              <p class="reviewer-meta">Yamaha R15 • সাভার</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">Yamaha R15 • সাভার</span>
+                <time class="reviewer-time" datetime="2026-01-03">৩ জানুয়ারি ২০২৬</time>
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="4 out of 5 stars">
               <span class="reviewer-stars">★★★★☆</span>
@@ -908,7 +918,10 @@
               loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">সাইফ রহমান</h3>
-              <p class="reviewer-meta">Honda Vezel • গাজীপুর</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">Honda Vezel • গাজীপুর</span>
+                <time class="reviewer-time" datetime="2026-01-04">৪ জানুয়ারি ২০২৬</time>
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="5 out of 5 stars">
               <span class="reviewer-stars">★★★★★</span>
@@ -925,7 +938,10 @@
               loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">ফারজানা নূর</h3>
-              <p class="reviewer-meta">Toyota Noah • নারায়ণগঞ্জ</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">Toyota Noah • নারায়ণগঞ্জ</span>
+                <time class="reviewer-time" datetime="2026-01-05">৫ জানুয়ারি ২০২৬</time>
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="5 out of 5 stars">
               <span class="reviewer-stars">★★★★★</span>
@@ -943,7 +959,10 @@
               loading="lazy" decoding="async">
             <div class="reviewer-info">
               <h3 class="reviewer-name">তানভীর আলম</h3>
-              <p class="reviewer-meta">Bajaj Pulsar • ধানমন্ডি, ঢাকা</p>
+              <p class="reviewer-meta">
+                <span class="reviewer-work">Bajaj Pulsar • ধানমন্ডি, ঢাকা</span>
+                <time class="reviewer-time" datetime="2026-01-06">৬ জানুয়ারি ২০২৬</time>
+              </p>
             </div>
             <div class="reviewer-rating" aria-label="5 out of 5 stars">
               <span class="reviewer-stars">★★★★★</span>
@@ -979,21 +998,27 @@
           <div class="contact-item-icon">📍</div>
           <div class="contact-item-text">
             <h4>ঠিকানা</h4>
-            <p>আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে) মোঃপুর, ঢাকা-১২০৭</p>
+            <address>আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে) মোঃপুর, ঢাকা-১২০৭</address>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-item-icon">📞</div>
           <div class="contact-item-text">
             <h4>ফোন নম্বর</h4>
-            <p>০১৯১১-৩৮৭২৫৪<br>সকাল ৯টা — রাত ৯টা</p>
+            <p>
+              <a href="tel:+8801911387254">০১৯১১-৩৮৭২৫৪</a><br>
+              <time datetime="09:00">সকাল ৯টা</time> — <time datetime="21:00">রাত ৯টা</time>
+            </p>
           </div>
         </div>
         <div class="contact-item">
           <div class="contact-item-icon">⏰</div>
           <div class="contact-item-text">
             <h4>খোলার সময়</h4>
-            <p>শনি — বৃহস্পতি: সকাল ৯টা — রাত ৯টা<br>শুক্রবার: সকাল ১০টা — বিকাল ৫টা</p>
+            <p>
+              শনি — বৃহস্পতি: <time datetime="09:00">সকাল ৯টা</time> — <time datetime="21:00">রাত ৯টা</time><br>
+              শুক্রবার: <time datetime="10:00">সকাল ১০টা</time> — <time datetime="17:00">বিকাল ৫টা</time>
+            </p>
           </div>
         </div>
         <div class="contact-item">
@@ -1083,8 +1108,8 @@
     </div>
   </section>
 
-  <div class="confirm-modal-overlay" id="sampleConfirmModal" aria-hidden="true">
-    <div class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="sampleConfirmTitle">
+  <dialog class="confirm-modal-overlay" id="sampleConfirmModal" aria-labelledby="sampleConfirmTitle">
+    <div class="confirm-modal">
       <button type="button" class="confirm-modal-close" id="sampleConfirmCloseBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="confirm-modal-badge" id="sampleConfirmBadge">স্যাম্পল এখনো বাছাই করা হয়নি</div>
       <h3 class="confirm-modal-title" id="sampleConfirmTitle">Sample ID ছাড়া অর্ডার জমা দিতে চান?</h3>
@@ -1111,11 +1136,11 @@
         </button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- REVIEW SUBMIT MODAL -->
-  <div class="review-submit-overlay" id="reviewSubmitModal" aria-hidden="true">
-    <div class="review-submit-modal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+  <dialog class="review-submit-overlay" id="reviewSubmitModal" aria-labelledby="reviewModalTitle">
+    <div class="review-submit-modal">
       <button type="button" class="review-submit-close" id="closeReviewModalBtn" aria-label="বন্ধ করুন">✕</button>
       <div class="review-submit-badge">আপনার কাজের রিভিউ শেয়ার করুন</div>
       <h3 class="review-submit-title" id="reviewModalTitle">Shadhin Motor-কে রিভিউ দিন</h3>
@@ -1178,11 +1203,11 @@
         </div>
       </form>
     </div>
-  </div>
+  </dialog>
 
   <!-- REVIEW SUBMIT CONFIRM MODAL -->
-  <div class="review-confirm-overlay" id="reviewSubmitConfirmOverlay" aria-hidden="true">
-    <div class="review-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="reviewSubmitConfirmTitle">
+  <dialog class="review-confirm-overlay" id="reviewSubmitConfirmOverlay" aria-labelledby="reviewSubmitConfirmTitle">
+    <div class="review-confirm-modal">
       <button type="button" class="review-confirm-close" id="reviewSubmitConfirmClose" aria-label="বন্ধ করুন">✕</button>
       <div class="review-confirm-badge">সাবমিটের আগে যাচাই করুন</div>
       <h3 class="review-confirm-title" id="reviewSubmitConfirmTitle">রিভিউটি কি সাবমিট করবেন?</h3>
@@ -1195,11 +1220,11 @@
         <button type="button" class="btn-primary review-confirm-submit-btn" id="reviewSubmitConfirmSubmitBtn">হ্যাঁ, সাবমিট করুন</button>
       </div>
     </div>
-  </div>
+  </dialog>
 
   <!-- REVIEW MEDIA PREVIEW -->
-  <div class="review-preview-overlay" id="reviewMediaPreviewOverlay" aria-hidden="true">
-    <div class="review-preview-inner" role="dialog" aria-modal="true" aria-labelledby="reviewPreviewTitle">
+  <dialog class="review-preview-overlay" id="reviewMediaPreviewOverlay" aria-labelledby="reviewPreviewTitle">
+    <div class="review-preview-inner">
       <button type="button" class="review-preview-nav-btn review-preview-prev" id="reviewPreviewPrev" aria-label="পূর্বের মিডিয়া">‹</button>
       <button type="button" class="review-preview-nav-btn review-preview-next" id="reviewPreviewNext" aria-label="পরের মিডিয়া">›</button>
 
@@ -1221,7 +1246,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </dialog>
 
   </main>
 
