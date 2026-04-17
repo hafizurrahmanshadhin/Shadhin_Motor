@@ -149,7 +149,8 @@
     .nav-logo-main,
     .nav-logo-sub,
     .back-link {
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
+      word-break: normal;
     }
 
     .nav-logo-main {
@@ -1059,6 +1060,10 @@
         padding-inline: 14px;
       }
 
+      .topbar {
+        flex-wrap: wrap;
+      }
+
       .topbar,
       .catalog-toolbar,
       .lightbox-info-bar {
@@ -1279,6 +1284,36 @@
     @media (max-width: 640px) {
       .page-shell {
         padding-inline: 12px;
+      }
+
+      .topbar {
+        gap: 12px;
+        padding: 20px 0 16px;
+      }
+
+      .nav-logo {
+        width: 100%;
+        align-items: flex-start;
+      }
+
+      .nav-logo-text {
+        flex: 1 1 auto;
+      }
+
+      .nav-logo-main {
+        font-size: 19px;
+      }
+
+      .nav-logo-sub {
+        font-size: 8px;
+        letter-spacing: 2.2px;
+      }
+
+      .back-link {
+        width: 100%;
+        justify-content: center;
+        white-space: normal;
+        text-align: center;
       }
 
       .hero {
