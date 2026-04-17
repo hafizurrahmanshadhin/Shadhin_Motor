@@ -2225,7 +2225,14 @@
       motionOffset: 0,
       motionCycle: 0,
       pauseReasons: new Set(),
-      resizeTick: 0
+      resizeTick: 0,
+      dragging: false,
+      dragMoved: false,
+      pointerDown: false,
+      pointerId: null,
+      dragStartX: 0,
+      dragStartOffset: 0,
+      suppressClick: false
     };
 
     function updateAboutTeamPauseState() {
@@ -2285,13 +2292,15 @@
 
     function syncAboutTeamMarquee() {
       const track = document.getElementById('aboutTeamGrid');
+      const viewport = document.getElementById('aboutTeamMarqueeViewport');
       destroyAboutTeamMotion();
-      if (!track) return;
+      if (!track || !viewport) return;
 
       const groups = track.querySelectorAll('.about-team-marquee-group');
       if (groups.length < 2 || ABOUT_TEAM_MEMBERS.length < 2) {
         aboutTeamState.motionCycle = 0;
         aboutTeamState.motionOffset = 0;
+        bindAboutTeamInteractions();
         applyAboutTeamOffset();
         return;
       }
@@ -2302,8 +2311,74 @@
       aboutTeamState.motionCycle = groupWidth + gap;
       aboutTeamState.motionOffset = normalizeAboutTeamOffset(aboutTeamState.motionOffset);
 
+      bindAboutTeamInteractions();
       applyAboutTeamOffset();
       startAboutTeamMotion();
+    }
+
+    function bindAboutTeamInteractions() {
+      const shell = document.querySelector('.about-team-marquee-shell');
+      const viewport = document.getElementById('aboutTeamMarqueeViewport');
+      if (!shell || !viewport) return;
+
+      const endDrag = (event) => {
+        const hadDrag = aboutTeamState.dragging && aboutTeamState.dragMoved;
+
+        if (event && aboutTeamState.dragging && viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+
+        aboutTeamState.pointerDown = false;
+        aboutTeamState.pointerId = null;
+
+        if (aboutTeamState.dragging) {
+          aboutTeamState.dragging = false;
+          shell.classList.remove('is-dragging');
+        }
+
+        if (hadDrag) {
+          aboutTeamState.suppressClick = true;
+          setTimeout(() => { aboutTeamState.suppressClick = false; }, 220);
+        }
+
+        aboutTeamState.dragMoved = false;
+        setAboutTeamPaused('pointer', false);
+      };
+
+      viewport.onpointerdown = (event) => {
+        if (event.pointerType !== 'mouse') return;
+        if (event.button !== 0) return;
+
+        aboutTeamState.pointerDown = true;
+        aboutTeamState.pointerId = event.pointerId;
+        aboutTeamState.dragging = false;
+        aboutTeamState.dragMoved = false;
+        aboutTeamState.dragStartX = event.clientX;
+        aboutTeamState.dragStartOffset = aboutTeamState.motionOffset;
+        setAboutTeamPaused('pointer', true);
+      };
+
+      viewport.onpointermove = (event) => {
+        if (!aboutTeamState.pointerDown || event.pointerId !== aboutTeamState.pointerId) return;
+        const deltaX = event.clientX - aboutTeamState.dragStartX;
+
+        if (!aboutTeamState.dragging) {
+          if (Math.abs(deltaX) <= 6) return;
+          aboutTeamState.dragging = true;
+          aboutTeamState.dragMoved = true;
+          shell.classList.add('is-dragging');
+          viewport.setPointerCapture(event.pointerId);
+        }
+
+        event.preventDefault();
+        aboutTeamState.motionOffset = normalizeAboutTeamOffset(aboutTeamState.dragStartOffset - deltaX);
+        applyAboutTeamOffset();
+      };
+
+      viewport.onpointerup = (event) => endDrag(event);
+      viewport.onpointercancel = (event) => endDrag(event);
+      viewport.onlostpointercapture = (event) => endDrag(event);
+      viewport.ondragstart = () => false;
     }
 
     function bindAboutTeamCardImageFallbacks(root = document) {
@@ -2431,6 +2506,12 @@
       renderAboutTeamCards();
 
       track.addEventListener('click', event => {
+        if (aboutTeamState.suppressClick) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+
         const trigger = event.target.closest('[data-team-preview-src]');
         if (!trigger || !track.contains(trigger)) return;
 
@@ -2482,12 +2563,6 @@
         if (nextTarget instanceof Node && slider.contains(nextTarget)) return;
         setAboutTeamPaused('focus', false);
       });
-
-      const releasePointerPause = () => setAboutTeamPaused('pointer', false);
-      track.addEventListener('pointerdown', () => setAboutTeamPaused('pointer', true));
-      track.addEventListener('pointerup', releasePointerPause);
-      track.addEventListener('pointercancel', releasePointerPause);
-      track.addEventListener('lostpointercapture', releasePointerPause);
 
       document.addEventListener('visibilitychange', () => {
         setAboutTeamPaused('hidden', document.hidden);
