@@ -4461,6 +4461,10 @@
       color: var(--cream-dim);
     }
 
+    .footer-copyright {
+      padding-left: clamp(42px, 4vw, 56px);
+    }
+
     .footer-credit {
       margin-right: 86px;
       white-space: nowrap;
@@ -5204,6 +5208,10 @@
     flex-direction: column;
     gap: 12px;
     text-align: center;
+  }
+
+  .footer-copyright {
+    padding-left: 0;
   }
 
   .footer-credit {
