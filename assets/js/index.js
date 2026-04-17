@@ -311,7 +311,8 @@
     };
     const modalViewportState = {
       lightbox: null,
-      aboutTeamPreview: null
+      aboutTeamPreview: null,
+      sampleModal: null
     };
 
     function focusWithoutScroll(target) {
@@ -2931,6 +2932,7 @@
       modalFocusState.sampleTrigger = triggerEl instanceof HTMLElement
         ? triggerEl
         : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+      modalViewportState.sampleModal = captureViewportPosition();
 
       document.getElementById('sampleModalId').textContent = 'Sample ID: ' + s.id;
       document.getElementById('sampleModalIdVal').textContent = s.id;
@@ -2973,15 +2975,19 @@
       modalOverlay.classList.add('open');
       modalOverlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
-      document.getElementById('sampleModalCloseBtn')?.focus();
+      focusWithoutScroll(document.getElementById('sampleModalCloseBtn'));
+      scheduleViewportRestore(modalViewportState.sampleModal);
     }
 
-    function closeSampleModal() {
+    function closeSampleModal(restoreViewport = true) {
       const modalOverlay = document.getElementById('sampleModal');
+      const viewport = modalViewportState.sampleModal || captureViewportPosition();
       modalOverlay.classList.remove('open');
       modalOverlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
       restoreFocus(modalFocusState.sampleTrigger);
+      if (restoreViewport) scheduleViewportRestore(viewport);
+      modalViewportState.sampleModal = null;
     }
 
     document.getElementById('sampleModal').addEventListener('click', function (e) {
@@ -2993,7 +2999,7 @@
     function selectFromModal() {
       if (!modalSample) return;
       selectSample(modalSample.id);
-      closeSampleModal();
+      closeSampleModal(false);
       scrollToSectionById('contact', 200);
     }
 
