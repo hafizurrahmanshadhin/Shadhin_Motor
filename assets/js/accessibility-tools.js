@@ -3,7 +3,9 @@
 
   // Shared accessibility helper injected across all public pages.
   // This module is intentionally standalone so pages can opt in with one script tag.
-  const STORAGE_KEY = 'shadhinMotorA11yPrefs.v1';
+  const siteConfig = window.ShadhinMotorSiteConfig || {};
+  const storageKeys = siteConfig.storageKeys || {};
+  const STORAGE_KEY = storageKeys.accessibilityPrefs || 'shadhinMotorA11yPrefs.v1';
   const FOCUSABLE_SELECTOR = 'button, a[href], [tabindex]:not([tabindex="-1"])';
   const WHATSAPP_LINK = 'https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai.';
   const CALL_LINK = 'tel:+8801911387254';

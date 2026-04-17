@@ -30,6 +30,10 @@
   border-bottom: 1px solid rgba(200, 134, 10, 0.14);
 }
 
+.samples-catalog-topbar > * {
+  min-width: 0;
+}
+
 .samples-catalog-back-link {
   display: inline-flex;
   align-items: center;
@@ -41,6 +45,7 @@
   font-size: 13px;
   transition: all 0.25s ease;
   white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .samples-catalog-back-link:hover {
@@ -100,6 +105,11 @@
 
 .samples-catalog-toolbar {
   margin-bottom: 20px;
+}
+
+.samples-catalog-toolbar > *,
+.samples-catalog-search-row > * {
+  min-width: 0;
 }
 
 .samples-catalog-toolbar-side {

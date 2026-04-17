@@ -120,6 +120,10 @@
       border-bottom: 1px solid rgba(200, 134, 10, 0.14);
     }
 
+    .topbar > * {
+      min-width: 0;
+    }
+
     .nav-logo {
       display: inline-flex;
       align-items: center;
@@ -139,6 +143,13 @@
     .nav-logo-text {
       display: flex;
       flex-direction: column;
+      min-width: 0;
+    }
+
+    .nav-logo-main,
+    .nav-logo-sub,
+    .back-link {
+      overflow-wrap: anywhere;
     }
 
     .nav-logo-main {
@@ -732,6 +743,10 @@
       margin-bottom: 50px;
     }
 
+    .footer-top > * {
+      min-width: 0;
+    }
+
     .footer-logo-link {
       margin-bottom: 16px;
       display: inline-flex;
@@ -868,6 +883,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      min-width: 0;
       text-decoration: none;
       color: var(--cream);
       border: 1px solid rgba(200, 134, 10, 0.24);

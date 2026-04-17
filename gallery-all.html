@@ -57,11 +57,11 @@
 
       <section class="catalog-panel">
         <div class="catalog-toolbar">
-          <div class="catalog-filters">
-            <button class="filter-btn" data-filter="all">সব</button>
-            <button class="filter-btn" data-filter="car">🚗 প্রাইভেট কার</button>
-            <button class="filter-btn" data-filter="bike">🏍️ মোটরসাইকেল</button>
-            <button class="filter-btn" data-filter="repair">🔧 রিপেয়ার</button>
+          <div class="catalog-filters" role="group" aria-label="গ্যালারি ক্যাটাগরি ফিল্টার">
+            <button class="filter-btn active" type="button" data-filter="all" aria-pressed="true">সব</button>
+            <button class="filter-btn" type="button" data-filter="car" aria-pressed="false">🚗 প্রাইভেট কার</button>
+            <button class="filter-btn" type="button" data-filter="bike" aria-pressed="false">🏍️ মোটরসাইকেল</button>
+            <button class="filter-btn" type="button" data-filter="repair" aria-pressed="false">🔧 রিপেয়ার</button>
           </div>
           <div class="catalog-meta">
             <div class="catalog-state">চলতি ক্যাটাগরি: <strong id="catalogCurrentLabel">সব</strong></div>
@@ -185,7 +185,6 @@
           <li><a href="index.html#gallery">কাজের স্যাম্পল দেখুন</a></li>
           <li><a href="index.html#about">দোকান ও টিম সম্পর্কে জানুন</a></li>
           <li><a href="index.html#reviews">গ্রাহকের রিভিউ</a></li>
-          <li><a href="admin.html" target="_blank" class="footer-admin-link">Shadhin Motor Admin</a></li>
         </ul>
       </div>
     </div>
@@ -193,7 +192,7 @@
     <div class="footer-bottom">
       <span>© ২০২৬ স্বাধীন মটর।</span>
 
-      <div class="footer-social-links" aria-label="Social links">
+      <nav class="footer-social-links" aria-label="Social links">
         <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="footer-social-link social-facebook" aria-label="Facebook">
           <span class="footer-social-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -229,13 +228,13 @@
           </span>
           <span class="footer-social-text">01911387254</span>
         </a>
-      </div>
+      </nav>
 
-      <span class="footer-credit">Designed for <a href="#">স্বাধীন মটর</a></span>
+      <span class="footer-credit">Designed for <a href="index.html">স্বাধীন মটর</a></span>
     </div>
   </footer>
 
-  <div class="floating-cta" aria-label="Quick contact actions">
+  <nav class="floating-cta" aria-label="Quick contact actions">
     <a class="floating-cta-btn wa" href="https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai."
       target="_blank" rel="noopener noreferrer" aria-label="WhatsApp এ মেসেজ করুন" title="WhatsApp">
       💬
@@ -243,8 +242,9 @@
     <a class="floating-cta-btn call" href="tel:+8801911387254" aria-label="ফোন কল করুন" title="Call">
       📞
     </a>
-  </div>
+  </nav>
 
+    <script src="assets/js/site-config.js" defer></script>
     <script src="assets/js/accessibility-tools.js" defer></script>
     <script src="assets/js/gallery-all.js" defer></script>
 </body>

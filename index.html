@@ -195,7 +195,7 @@
 
   <!-- NAVBAR -->
   <nav id="navbar" aria-label="Primary navigation">
-    <a href="#" class="nav-logo">
+    <a href="#hero" class="nav-logo" aria-label="Shadhin Motor হোম সেকশনে যান">
       <div class="nav-logo-icon">
         <!-- Shadhin Motor seat cover logo -->
         <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46">
@@ -495,11 +495,11 @@
     </div>
 
     <div class="gallery-toolbar reveal">
-      <div class="gallery-filter">
-        <button class="filter-btn active" type="button" data-gallery-filter="all">সব</button>
-        <button class="filter-btn" type="button" data-gallery-filter="car">🚗 প্রাইভেট কার</button>
-        <button class="filter-btn" type="button" data-gallery-filter="bike">🏍️ মোটরসাইকেল</button>
-        <button class="filter-btn" type="button" data-gallery-filter="repair">🔧 রিপেয়ার</button>
+      <div class="gallery-filter" role="group" aria-label="গ্যালারি ক্যাটাগরি ফিল্টার">
+        <button class="filter-btn active" type="button" data-gallery-filter="all" aria-pressed="true">সব</button>
+        <button class="filter-btn" type="button" data-gallery-filter="car" aria-pressed="false">🚗 প্রাইভেট কার</button>
+        <button class="filter-btn" type="button" data-gallery-filter="bike" aria-pressed="false">🏍️ মোটরসাইকেল</button>
+        <button class="filter-btn" type="button" data-gallery-filter="repair" aria-pressed="false">🔧 রিপেয়ার</button>
       </div>
       <div class="gallery-toolbar-meta">
         <div class="gallery-count-info">
@@ -566,10 +566,10 @@
 
     <!-- Toolbar: filter + view all -->
     <div class="samples-toolbar reveal">
-      <div class="samples-filter-group">
-        <button class="sample-filter-btn active" type="button" data-sample-filter="all">সব</button>
-        <button class="sample-filter-btn" type="button" data-sample-filter="rexine">🪡 রেক্সিন</button>
-        <button class="sample-filter-btn" type="button" data-sample-filter="leather">🧥 লেদার</button>
+      <div class="samples-filter-group" role="group" aria-label="স্যাম্পল মেটেরিয়াল ফিল্টার">
+        <button class="sample-filter-btn active" type="button" data-sample-filter="all" aria-pressed="true">সব</button>
+        <button class="sample-filter-btn" type="button" data-sample-filter="rexine" aria-pressed="false">🪡 রেক্সিন</button>
+        <button class="sample-filter-btn" type="button" data-sample-filter="leather" aria-pressed="false">🧥 লেদার</button>
       </div>
       <div class="samples-toolbar-actions">
         <div class="samples-count-info" id="samplesCountInfo">হোমপেজে ১০টি বাছাই করা স্যাম্পল</div>
@@ -1229,7 +1229,7 @@
   <footer>
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="#" class="nav-logo footer-logo-link">
+        <a href="#hero" class="nav-logo footer-logo-link" aria-label="Shadhin Motor হোম সেকশনে যান">
           <div class="nav-logo-icon">
             <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46">
               <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
@@ -1301,15 +1301,13 @@
           <li><a href="#gallery">কাজের স্যাম্পল দেখুন</a></li>
           <li><a href="#about">দোকান ও টিম সম্পর্কে জানুন</a></li>
           <li><a href="#reviews">গ্রাহকের রিভিউ</a></li>
-          <li><a href="admin.html" target="_blank" class="footer-admin-link">Shadhin Motor
-              Admin</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span class="footer-copyright">© ২০২৬ স্বাধীন মটর।</span>
 
-      <div class="footer-social-links" aria-label="Social links">
+      <nav class="footer-social-links" aria-label="Social links">
         <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="footer-social-link social-facebook" aria-label="Facebook">
           <span class="footer-social-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false">
@@ -1345,9 +1343,9 @@
           </span>
           <span class="footer-social-text">01911387254</span>
         </a>
-      </div>
+      </nav>
 
-      <span class="footer-credit">Designed for <a href="#">স্বাধীন মটর</a></span>
+      <span class="footer-credit">Designed for <a href="#hero">স্বাধীন মটর</a></span>
     </div>
   </footer>
 
@@ -1357,7 +1355,7 @@
     <div id="toastMsg"></div>
   </div>
 
-  <div class="floating-cta" aria-label="Quick contact actions">
+  <nav class="floating-cta" aria-label="Quick contact actions">
     <a class="floating-cta-btn wa" href="https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai."
       target="_blank" rel="noopener noreferrer" aria-label="WhatsApp এ মেসেজ করুন" title="WhatsApp">
       💬
@@ -1365,8 +1363,9 @@
     <a class="floating-cta-btn call" href="tel:+8801911387254" aria-label="ফোন কল করুন" title="Call">
       📞
     </a>
-  </div>
+  </nav>
 
+    <script src="assets/js/site-config.js" defer></script>
     <script src="assets/js/accessibility-tools.js" defer></script>
     <script src="assets/js/index.js" defer></script>
 </body>

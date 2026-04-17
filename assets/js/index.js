@@ -10,6 +10,13 @@
 (function () {
   'use strict';
 
+    const siteConfig = window.ShadhinMotorSiteConfig || {};
+    const storageKeys = siteConfig.storageKeys || {};
+    const GALLERY_STORAGE_KEY = storageKeys.gallery || 'ac_gallery';
+    const SAMPLE_STORAGE_KEY = storageKeys.samples || 'ac_samples';
+    const ORDER_STORAGE_KEY = storageKeys.orders || 'ac_orders';
+    const SELECTED_SAMPLE_STORAGE_KEY = storageKeys.selectedSample || 'ac_selected_sample_id';
+
     // ─── NAVBAR ─────────────────────────────────────────────────────────────────
     const navbar = document.getElementById('navbar');
     const navLinksContainer = document.getElementById('navLinks');
@@ -120,9 +127,9 @@
     observeRevealElements();
 
     // ─── REVIEWS MODULE ───────────────────────────────────────────────────────
-    const REVIEW_STORAGE_KEY = 'ac_reviews';
-    const REVIEW_PENDING_STORAGE_KEY = 'ac_review_submissions';
-    const REVIEW_SELECTED_IDS_KEY = 'ac_selected_review_ids';
+    const REVIEW_STORAGE_KEY = storageKeys.reviews || 'ac_reviews';
+    const REVIEW_PENDING_STORAGE_KEY = storageKeys.pendingReviews || 'ac_review_submissions';
+    const REVIEW_SELECTED_IDS_KEY = storageKeys.selectedReviewIds || 'ac_selected_review_ids';
     const REVIEW_AVATAR_FALLBACKS = [
       'assets/images/reviews/reviewer-rk.jpeg',
       'assets/images/reviews/reviewer-na.jpeg',
@@ -1759,25 +1766,9 @@
     const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার' };
     const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
 
-    const DEFAULT_GALLERY = [
-      { id: 'G1', title: 'প্রাইভেট কার ডিজাইন 01', cat: 'car', img: 'assets/images/cars/1.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G2', title: 'প্রাইভেট কার ডিজাইন 02', cat: 'car', img: 'assets/images/cars/2.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G3', title: 'প্রাইভেট কার ডিজাইন 03', cat: 'car', img: 'assets/images/cars/3.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G4', title: 'প্রাইভেট কার ডিজাইন 04', cat: 'car', img: 'assets/images/cars/4.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G5', title: 'প্রাইভেট কার ডিজাইন 05', cat: 'car', img: 'assets/images/cars/5.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G6', title: 'প্রাইভেট কার ডিজাইন 06', cat: 'car', img: 'assets/images/cars/6.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G7', title: 'প্রাইভেট কার ডিজাইন 07', cat: 'car', img: 'assets/images/cars/7.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G8', title: 'প্রাইভেট কার ডিজাইন 08', cat: 'car', img: 'assets/images/cars/8.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G9', title: 'প্রাইভেট কার ডিজাইন 09', cat: 'car', img: 'assets/images/cars/9.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G10', title: 'প্রাইভেট কার ডিজাইন 10', cat: 'car', img: 'assets/images/cars/10.jpeg', desc: 'কার সিট কভার ডিজাইন' },
-      { id: 'G11', title: 'মোটরসাইকেল ডিজাইন 01', cat: 'bike', img: 'assets/images/bikes/11.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G12', title: 'মোটরসাইকেল ডিজাইন 02', cat: 'bike', img: 'assets/images/bikes/12.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G13', title: 'মোটরসাইকেল ডিজাইন 03', cat: 'bike', img: 'assets/images/bikes/13.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G14', title: 'মোটরসাইকেল ডিজাইন 04', cat: 'bike', img: 'assets/images/bikes/14.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন' },
-      { id: 'G15', title: 'রিপেয়ার ডিজাইন 01', cat: 'repair', img: 'assets/images/others/15.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
-      { id: 'G16', title: 'রিপেয়ার ডিজাইন 02', cat: 'repair', img: 'assets/images/others/16.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
-      { id: 'G17', title: 'রিপেয়ার ডিজাইন 03', cat: 'repair', img: 'assets/images/others/17.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ' },
-    ];
+    const DEFAULT_GALLERY = Array.isArray(siteConfig.defaultGallery)
+      ? siteConfig.defaultGallery.map(item => ({ ...item }))
+      : [];
 
     let allGallery = [];
     let galleryFilter = 'all';
@@ -1799,7 +1790,7 @@
     const galleryMotionSpeed = 34;
 
     function loadGallery() {
-      const stored = localStorage.getItem('ac_gallery');
+      const stored = localStorage.getItem(GALLERY_STORAGE_KEY);
       try {
         const parsed = stored ? JSON.parse(stored) : DEFAULT_GALLERY;
         const hasStoredImages = Array.isArray(parsed) && parsed.some(item => item && typeof item.img === 'string' && item.img.trim());
@@ -1813,8 +1804,7 @@
       document.querySelectorAll('[data-gallery-filter]').forEach(button => {
         const isActive = button.dataset.galleryFilter === filterValue;
         button.classList.toggle('active', isActive);
-        if (isActive) button.setAttribute('aria-current', 'true');
-        else button.removeAttribute('aria-current');
+        button.setAttribute('aria-pressed', String(isActive));
       });
     }
 
@@ -2655,22 +2645,9 @@
     // ═══════════════════════════════════════════════════════════════════════════════
 
     // Default demo samples — loaded if admin has not added any yet
-    const DEFAULT_SAMPLES = [
-      // ── REXINE ──
-      { id: 'RX-001', name: 'ডায়মন্ড কোয়িল্ট', material: 'rexine', color: 'কালো', hex: '#1a1a1a', available: true, note: 'সবচেয়ে জনপ্রিয় ডিজাইন। টেকসই ও পরিষ্কার করা সহজ।', img: '' },
-      { id: 'RX-002', name: 'স্ট্রাইপ প্যাটার্ন', material: 'rexine', color: 'বাদামি-কালো', hex: '#3d2010', available: true, note: 'ক্লাসিক স্ট্রাইপ ডিজাইন, দীর্ঘস্থায়ী।', img: '' },
-      { id: 'RX-003', name: 'প্লেইন ম্যাট', material: 'rexine', color: 'নেভি ব্লু', hex: '#1a2a4a', available: true, note: 'সিম্পল ও এলিগেন্ট। অফিসের গাড়ির জন্য উপযুক্ত।', img: '' },
-      { id: 'RX-004', name: 'হানিকম্ব টেক্সচার', material: 'rexine', color: 'ধূসর', hex: '#4a4a4a', available: true, note: 'হেক্সাগোনাল প্যাটার্ন, স্পোর্টি লুক।', img: '' },
-      { id: 'RX-005', name: 'ক্লাসিক পাঞ্চ', material: 'rexine', color: 'লাল-কালো', hex: '#6b0f0f', available: true, note: 'পাঞ্চড ডিজাইন, বায়ু চলাচল ভালো।', img: '' },
-      { id: 'RX-006', name: 'বাক্স কোয়িল্ট', material: 'rexine', color: 'বেইজ', hex: '#c4a882', available: true, note: 'লাক্সারি বক্স কোয়িল্ট, গাড়ির ভেতর প্রিমিয়াম ফিল।', img: '' },
-      { id: 'RX-007', name: 'ডবল স্টিচ লাইন', material: 'rexine', color: 'সাদা-ধূসর', hex: '#d0d0d0', available: true, note: 'দুই রঙের সেলাই, মডার্ন লুক।', img: '' },
-      { id: 'RX-008', name: 'স্পোর্ট মেশ', material: 'rexine', color: 'কমলা-কালো', hex: '#c45010', available: false, note: 'স্টক শেষ। শীঘ্রই আসছে।', img: '' },
-      // ── LEATHER ──
-      { id: 'LT-001', name: 'স্মুথ ফুল লেদার', material: 'leather', color: 'কালো', hex: '#0d0d0d', available: true, note: 'খাঁটি নরম লেদার। প্রিমিয়াম গাড়ির জন্য পারফেক্ট।', img: '' },
-      { id: 'LT-002', name: 'টেক্সচার্ড লেদার', material: 'leather', color: 'গাঢ় বাদামি', hex: '#3b1f0a', available: true, note: 'টেক্সচার্ড ফিনিশ, দীর্ঘস্থায়ী ও স্ক্র্যাচ-রেজিস্ট্যান্ট।', img: '' },
-      { id: 'LT-003', name: 'পার্ফোরেটেড লেদার', material: 'leather', color: 'ধূসর', hex: '#5a5a5a', available: true, note: 'ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই।', img: '' },
-      { id: 'LT-004', name: 'নাপা সফট লেদার', material: 'leather', color: 'আইভরি ক্রিম', hex: '#e8dbc8', available: true, note: 'অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।', img: '' },
-    ];
+    const DEFAULT_SAMPLES = Array.isArray(siteConfig.defaultSamples)
+      ? siteConfig.defaultSamples.map(sample => ({ ...sample }))
+      : [];
 
     const SAMPLE_MATERIAL_LABELS = { all: 'সব', rexine: 'রেক্সিন', leather: 'লেদার' };
     const HOME_SAMPLE_LIMITS = { rexine: 5, leather: 5 };
@@ -2775,10 +2752,10 @@
 
     function applyPendingSampleSelection() {
       const params = new URLSearchParams(window.location.search);
-      const pendingId = params.get('sample') || localStorage.getItem('ac_selected_sample_id') || '';
+      const pendingId = params.get('sample') || localStorage.getItem(SELECTED_SAMPLE_STORAGE_KEY) || '';
       if (!pendingId) return;
 
-      localStorage.removeItem('ac_selected_sample_id');
+      localStorage.removeItem(SELECTED_SAMPLE_STORAGE_KEY);
       clearPendingSampleParams();
 
       const pendingSample = allSamples.find(sample => sample.id === pendingId);
@@ -2788,7 +2765,7 @@
 
     // Load samples from admin localStorage, fallback to defaults
     function loadSamples() {
-      const stored = localStorage.getItem('ac_samples');
+      const stored = localStorage.getItem(SAMPLE_STORAGE_KEY);
       if (stored) {
         try {
           const parsed = JSON.parse(stored);
@@ -2817,8 +2794,7 @@
       document.querySelectorAll('[data-sample-filter]').forEach(button => {
         const isActive = button.dataset.sampleFilter === filterValue;
         button.classList.toggle('active', isActive);
-        if (isActive) button.setAttribute('aria-current', 'true');
-        else button.removeAttribute('aria-current');
+        button.setAttribute('aria-pressed', String(isActive));
       });
     }
 
@@ -3229,9 +3205,9 @@
         dateISO: new Date().toISOString()
       };
 
-      const orders = JSON.parse(localStorage.getItem('ac_orders') || '[]');
+      const orders = JSON.parse(localStorage.getItem(ORDER_STORAGE_KEY) || '[]');
       orders.unshift(order);
-      localStorage.setItem('ac_orders', JSON.stringify(orders));
+      localStorage.setItem(ORDER_STORAGE_KEY, JSON.stringify(orders));
 
       // Clear form
       ['custName', 'custPhone', 'carModel', 'orderDetails'].forEach(id => document.getElementById(id).value = '');

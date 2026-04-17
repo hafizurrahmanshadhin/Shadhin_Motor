@@ -9,28 +9,15 @@
 (function () {
   'use strict';
 
+    const siteConfig = window.ShadhinMotorSiteConfig || {};
+    const storageKeys = siteConfig.storageKeys || {};
+    const GALLERY_STORAGE_KEY = storageKeys.gallery || 'ac_gallery';
     const CAT_LABELS = { car: 'প্রাইভেট কার', bike: 'মোটরসাইকেল', repair: 'রিপেয়ার', all: 'সব' };
     const CAT_ICONS = { car: '🚗', bike: '🏍️', repair: '🔧' };
 
-    const DEFAULT_GALLERY = [
-      { id: 'G1', title: 'প্রাইভেট কার ডিজাইন 01', cat: 'car', img: 'assets/images/cars/1.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla Axio/Fielder'] },
-      { id: 'G2', title: 'প্রাইভেট কার ডিজাইন 02', cat: 'car', img: 'assets/images/cars/2.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Aqua Hybrid'] },
-      { id: 'G3', title: 'প্রাইভেট কার ডিজাইন 03', cat: 'car', img: 'assets/images/cars/3.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Allion'] },
-      { id: 'G4', title: 'প্রাইভেট কার ডিজাইন 04', cat: 'car', img: 'assets/images/cars/4.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla Axio/Fielder'] },
-      { id: 'G5', title: 'প্রাইভেট কার ডিজাইন 05', cat: 'car', img: 'assets/images/cars/5.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Premio'] },
-      { id: 'G6', title: 'প্রাইভেট কার ডিজাইন 06', cat: 'car', img: 'assets/images/cars/6.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla Axio/Fielder'] },
-      { id: 'G7', title: 'প্রাইভেট কার ডিজাইন 07', cat: 'car', img: 'assets/images/cars/7.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Noah'] },
-      { id: 'G8', title: 'প্রাইভেট কার ডিজাইন 08', cat: 'car', img: 'assets/images/cars/8.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Aqua Hybrid'] },
-      { id: 'G9', title: 'প্রাইভেট কার ডিজাইন 09', cat: 'car', img: 'assets/images/cars/9.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Corolla'] },
-      { id: 'G10', title: 'প্রাইভেট কার ডিজাইন 10', cat: 'car', img: 'assets/images/cars/10.jpeg', desc: 'কার সিট কভার ডিজাইন', models: ['Toyota Allion'] },
-      { id: 'G11', title: 'মোটরসাইকেল ডিজাইন 01', cat: 'bike', img: 'assets/images/bikes/11.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Yamaha R15'] },
-      { id: 'G12', title: 'মোটরসাইকেল ডিজাইন 02', cat: 'bike', img: 'assets/images/bikes/12.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Bajaj Pulsar'] },
-      { id: 'G13', title: 'মোটরসাইকেল ডিজাইন 03', cat: 'bike', img: 'assets/images/bikes/13.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Honda Hornet'] },
-      { id: 'G14', title: 'মোটরসাইকেল ডিজাইন 04', cat: 'bike', img: 'assets/images/bikes/14.jpeg', desc: 'মোটরসাইকেল সিট কভার ডিজাইন', models: ['Suzuki Gixxer'] },
-      { id: 'G15', title: 'রিপেয়ার ডিজাইন 01', cat: 'repair', img: 'assets/images/others/15.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ', models: ['সিট রিপেয়ার'] },
-      { id: 'G16', title: 'রিপেয়ার ডিজাইন 02', cat: 'repair', img: 'assets/images/others/16.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ', models: ['ড্যাশবোর্ড রিফিনিশ'] },
-      { id: 'G17', title: 'রিপেয়ার ডিজাইন 03', cat: 'repair', img: 'assets/images/others/17.jpeg', desc: 'রিপেয়ার ও রিফিনিশ কাজ', models: ['হোম ফিটিং'] },
-    ];
+    const DEFAULT_GALLERY = Array.isArray(siteConfig.defaultGallery)
+      ? siteConfig.defaultGallery.map(item => ({ ...item }))
+      : [];
 
     let allGallery = [];
     let currentFilter = 'all';
@@ -173,7 +160,7 @@
     }
 
     function loadGallery() {
-      const stored = localStorage.getItem('ac_gallery');
+      const stored = localStorage.getItem(GALLERY_STORAGE_KEY);
       try {
         const parsed = stored ? JSON.parse(stored) : DEFAULT_GALLERY;
         const storedItems = Array.isArray(parsed) ? parsed.map(normalizeGalleryItem) : [];
@@ -211,8 +198,7 @@
       document.querySelectorAll('.filter-btn').forEach(btn => {
         const isActive = btn.dataset.filter === currentFilter;
         btn.classList.toggle('active', isActive);
-        if (isActive) btn.setAttribute('aria-current', 'true');
-        else btn.removeAttribute('aria-current');
+        btn.setAttribute('aria-pressed', String(isActive));
       });
 
       document.getElementById('catalogCurrentLabel').textContent = CAT_LABELS[currentFilter] || 'সব';

@@ -149,6 +149,12 @@
     .nav-logo-text {
       display: flex;
       flex-direction: column;
+      min-width: 0;
+    }
+
+    .nav-logo-main,
+    .nav-logo-sub {
+      overflow-wrap: anywhere;
     }
 
     .nav-logo-main {
@@ -4382,6 +4388,10 @@
       margin-bottom: 50px;
     }
 
+    .footer-top > * {
+      min-width: 0;
+    }
+
     .footer-brand .nav-logo-main {
       font-size: 28px;
       display: block;
@@ -4505,6 +4515,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      min-width: 0;
       text-decoration: none;
       color: var(--cream);
       border: 1px solid rgba(200, 134, 10, 0.24);
@@ -5180,13 +5191,23 @@
         inset: 0;
         top: 60px;
         background: rgba(14, 10, 4, 0.98);
-        align-items: center;
-        justify-content: center;
-        gap: 32px;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 14px;
+        padding: 24px 16px 34px;
+        overflow-y: auto;
         z-index: 99;
       }
 
       .nav-links.open a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: min(100%, 420px);
+        margin-inline: auto;
+        padding: 14px 18px;
+        border: 1px solid rgba(200, 134, 10, 0.16);
+        background: rgba(37, 26, 10, 0.58);
         font-size: 20px;
       }
 
@@ -5620,8 +5641,7 @@
 
       .nav-links.open {
         top: 64px;
-        padding: 24px 16px 34px;
-        overflow-y: auto;
+        padding-top: 20px;
       }
     }
 

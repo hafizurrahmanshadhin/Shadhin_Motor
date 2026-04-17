@@ -9,22 +9,14 @@
 (function () {
   'use strict';
 
+const siteConfig = window.ShadhinMotorSiteConfig || {};
+const storageKeys = siteConfig.storageKeys || {};
+const SAMPLE_STORAGE_KEY = storageKeys.samples || 'ac_samples';
+const SELECTED_SAMPLE_STORAGE_KEY = storageKeys.selectedSample || 'ac_selected_sample_id';
 const SAMPLE_LABELS = { all: 'সব', rexine: 'রেক্সিন', leather: 'লেদার' };
-
-const DEFAULT_SAMPLES = [
-  { id: 'RX-001', name: 'ডায়মন্ড কোয়িল্ট', material: 'rexine', color: 'কালো', hex: '#1a1a1a', available: true, note: 'সবচেয়ে জনপ্রিয় ডিজাইন। টেকসই ও পরিষ্কার করা সহজ।', img: '', featured: true },
-  { id: 'RX-002', name: 'স্ট্রাইপ প্যাটার্ন', material: 'rexine', color: 'বাদামি-কালো', hex: '#3d2010', available: true, note: 'ক্লাসিক স্ট্রাইপ ডিজাইন, দীর্ঘস্থায়ী।', img: '', featured: true },
-  { id: 'RX-003', name: 'প্লেইন ম্যাট', material: 'rexine', color: 'নেভি ব্লু', hex: '#1a2a4a', available: true, note: 'সিম্পল ও এলিগেন্ট। অফিসের গাড়ির জন্য উপযুক্ত।', img: '', featured: true },
-  { id: 'RX-004', name: 'হানিকম্ব টেক্সচার', material: 'rexine', color: 'ধূসর', hex: '#4a4a4a', available: true, note: 'হেক্সাগোনাল প্যাটার্ন, স্পোর্টি লুক।', img: '' },
-  { id: 'RX-005', name: 'ক্লাসিক পাঞ্চ', material: 'rexine', color: 'লাল-কালো', hex: '#6b0f0f', available: true, note: 'পাঞ্চড ডিজাইন, বায়ু চলাচল ভালো।', img: '' },
-  { id: 'RX-006', name: 'বাক্স কোয়িল্ট', material: 'rexine', color: 'বেইজ', hex: '#c4a882', available: true, note: 'লাক্সারি বক্স কোয়িল্ট, গাড়ির ভেতর প্রিমিয়াম ফিল।', img: '' },
-  { id: 'RX-007', name: 'ডবল স্টিচ লাইন', material: 'rexine', color: 'সাদা-ধূসর', hex: '#d0d0d0', available: true, note: 'দুই রঙের সেলাই, মডার্ন লুক।', img: '' },
-  { id: 'RX-008', name: 'স্পোর্ট মেশ', material: 'rexine', color: 'কমলা-কালো', hex: '#c45010', available: false, note: 'স্টক শেষ। শীঘ্রই আসছে।', img: '' },
-  { id: 'LT-001', name: 'স্মুথ ফুল লেদার', material: 'leather', color: 'কালো', hex: '#0d0d0d', available: true, note: 'খাঁটি নরম লেদার। প্রিমিয়াম গাড়ির জন্য পারফেক্ট।', img: '', featured: true },
-  { id: 'LT-002', name: 'টেক্সচার্ড লেদার', material: 'leather', color: 'গাঢ় বাদামি', hex: '#3b1f0a', available: true, note: 'টেক্সচার্ড ফিনিশ, দীর্ঘস্থায়ী ও স্ক্র্যাচ-রেজিস্ট্যান্ট।', img: '', featured: true },
-  { id: 'LT-003', name: 'পার্ফোরেটেড লেদার', material: 'leather', color: 'ধূসর', hex: '#5a5a5a', available: true, note: 'ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই।', img: '', featured: true },
-  { id: 'LT-004', name: 'নাপা সফট লেদার', material: 'leather', color: 'আইভরি ক্রিম', hex: '#e8dbc8', available: true, note: 'অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।', img: '' },
-];
+const DEFAULT_SAMPLES = Array.isArray(siteConfig.defaultSamples)
+  ? siteConfig.defaultSamples.map(sample => ({ ...sample }))
+  : [];
 
 let allSamples = [];
 let currentFilter = 'all';
@@ -108,7 +100,7 @@ function isFeaturedSample(sample) {
 }
 
 function loadSamples() {
-  const stored = localStorage.getItem('ac_samples');
+  const stored = localStorage.getItem(SAMPLE_STORAGE_KEY);
   if (stored) {
     try {
       const parsed = JSON.parse(stored);
@@ -165,8 +157,7 @@ function renderSamplesCatalog() {
   document.querySelectorAll('.sample-filter-btn[data-filter]').forEach(btn => {
     const isActive = btn.dataset.filter === currentFilter;
     btn.classList.toggle('active', isActive);
-    if (isActive) btn.setAttribute('aria-current', 'true');
-    else btn.removeAttribute('aria-current');
+    btn.setAttribute('aria-pressed', String(isActive));
   });
 
   updateCatalogSummary(filtered.length);
@@ -320,7 +311,7 @@ function closeSampleModal() {
 function orderSample(sampleId) {
   const sample = findSampleById(sampleId);
   if (!sample || !sample.available) return;
-  localStorage.setItem('ac_selected_sample_id', sampleId);
+  localStorage.setItem(SELECTED_SAMPLE_STORAGE_KEY, sampleId);
   window.location.href = `index.html?sample=${encodeURIComponent(sampleId)}#contact`;
 }
 
