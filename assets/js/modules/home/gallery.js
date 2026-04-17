@@ -80,27 +80,29 @@ export function initHomeGallery({
     if (!grid) return;
 
     if (!filtered.length) {
-      grid.innerHTML = `<div class="gallery-empty">
+      grid.innerHTML = `<li class="gallery-empty">
       <span class="gallery-empty-icon">📷</span>
       <p>এই ক্যাটাগরিতে কোনো ছবি নেই।</p>
-    </div>`;
+    </li>`;
       updateGalleryCount(0);
       return;
     }
 
-    const primaryGroup = `<div class="gallery-marquee-group">${filtered.map((item, index) => galleryCard(item, index)).join('')}</div>`;
+    const primaryGroup = `<ul class="gallery-marquee-group" role="list">${filtered.map((item, index) => galleryCard(item, index)).join('')}</ul>`;
     const duplicateGroup = filtered.length > 1
-      ? `<div class="gallery-marquee-group" aria-hidden="true">${filtered.map((item, index) => galleryCard(item, index)).join('')}</div>`
+      ? `<ul class="gallery-marquee-group" aria-hidden="true">${filtered.map((item, index) => galleryCard(item, index)).join('')}</ul>`
       : '';
 
-    grid.innerHTML = `<div class="gallery-marquee-shell">
-      <div class="gallery-marquee-viewport">
-        <div class="gallery-marquee-track" id="galleryMarqueeTrack">
-          ${primaryGroup}
-          ${duplicateGroup}
+    grid.innerHTML = `<li class="gallery-marquee-shell-item">
+      <div class="gallery-marquee-shell">
+        <div class="gallery-marquee-viewport">
+          <div class="gallery-marquee-track" id="galleryMarqueeTrack">
+            ${primaryGroup}
+            ${duplicateGroup}
+          </div>
         </div>
       </div>
-    </div>`;
+    </li>`;
 
     updateGalleryCount(filtered.length);
     syncGalleryMarquee();
@@ -262,20 +264,21 @@ export function initHomeGallery({
   function bindGalleryCardAccessibility(root) {
     if (!root) return;
 
-    root.querySelectorAll('.gallery-item[data-idx]').forEach(card => {
-      card.addEventListener('click', () => {
-        const index = Number(card.dataset.idx || '-1');
+    root.querySelectorAll('.gallery-item-trigger[data-idx]').forEach(trigger => {
+      trigger.addEventListener('click', event => {
+        event.preventDefault();
+        const index = Number(trigger.dataset.idx || '-1');
         if (!Number.isInteger(index) || index < 0) return;
-        openLightbox(index, card);
+        openLightbox(index, trigger);
       });
 
-      card.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
+      trigger.addEventListener('keydown', event => {
+        if (event.key !== ' ') return;
         event.preventDefault();
 
-        const index = Number(card.dataset.idx || '-1');
+        const index = Number(trigger.dataset.idx || '-1');
         if (!Number.isInteger(index) || index < 0) return;
-        openLightbox(index, card);
+        openLightbox(index, trigger);
       });
     });
   }
@@ -316,16 +319,20 @@ export function initHomeGallery({
       <span class="gallery-item-placeholder-label">${escapeHTML(catLabel)}</span>
     </div>`;
 
-    return `<article class="gallery-item" data-cat="${escapeAttr(item.cat)}" data-idx="${index}" role="button" tabindex="0" aria-label="${escapeAttr(`${catLabel}: ${item.title}`)}">
-    ${inner}
-    ${placeholder}
-    <div class="gallery-overlay">
-      <div class="gallery-overlay-zoom">🔍</div>
-      <div class="gallery-overlay-cat">${escapeHTML(catLabel)}</div>
-      <h3 class="gallery-overlay-title">${escapeHTML(item.title)}</h3>
-      <div class="gallery-overlay-desc">${escapeHTML(item.desc || 'ডিটেইল দেখতে ক্লিক করুন')}</div>
-    </div>
-  </article>`;
+    return `<li class="gallery-item-shell">
+    <article class="gallery-item" data-cat="${escapeAttr(item.cat)}">
+      <a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="${index}" aria-label="${escapeAttr(`${catLabel}: ${item.title}`)}">
+        ${inner}
+        ${placeholder}
+        <div class="gallery-overlay">
+          <div class="gallery-overlay-zoom">🔍</div>
+          <div class="gallery-overlay-cat">${escapeHTML(catLabel)}</div>
+          <h3 class="gallery-overlay-title">${escapeHTML(item.title)}</h3>
+          <div class="gallery-overlay-desc">${escapeHTML(item.desc || 'ডিটেইল দেখতে ক্লিক করুন')}</div>
+        </div>
+      </a>
+    </article>
+  </li>`;
   }
 
   function openLightbox(index, triggerEl = null) {

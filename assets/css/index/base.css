@@ -93,7 +93,7 @@
       border: 0;
     }
 
-    :where(a, button, input, select, textarea, [role="button"]):focus-visible {
+    :where(a, button, input, select, textarea):focus-visible {
       outline: 3px solid var(--gold-light);
       outline-offset: 3px;
     }

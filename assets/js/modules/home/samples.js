@@ -154,10 +154,10 @@ export function initHomeSamples({
     if (!grid) return;
 
     if (!filtered.length) {
-      grid.innerHTML = `<div class="samples-empty">
+      grid.innerHTML = `<li class="samples-empty">
       <span class="samples-empty-icon">🔍</span>
       <p>কোনো স্যাম্পল পাওয়া যায়নি।</p>
-    </div>`;
+    </li>`;
       return;
     }
 
@@ -176,13 +176,7 @@ export function initHomeSamples({
          <span class="swatch-no-img">${sample.material === 'rexine' ? '🪡' : '🧥'}</span>`
         : `<span class="swatch-no-img">${sample.material === 'rexine' ? '🪡' : '🧥'}</span>`;
 
-      const cardAttrs = sample.available
-        ? `data-sample-id="${escapeAttr(sample.id)}" tabindex="0" aria-label="${escapeAttr(`${sample.id} ${sample.name}`)}"`
-        : 'aria-disabled="true"';
-
-      return `
-    <article class="sample-card ${isSelected ? 'selected' : ''} ${!sample.available ? 'out-of-stock' : ''}"
-         ${cardAttrs}>
+      const previewContent = `
       <div class="sample-card-swatch" style="background-color: ${safeHex};">
         ${swatchContent}
         <div class="sample-card-selected-badge">✓</div>
@@ -198,11 +192,21 @@ export function initHomeSamples({
           <div class="sample-card-color-dot" style="background:${safeHex}"></div>
           <span class="sample-card-color-name">${safeColor}</span>
         </div>
+      </div>`;
+
+      const previewMarkup = sample.available
+        ? `<a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="${escapeAttr(sample.id)}" aria-label="${escapeAttr(`${sample.id} ${sample.name}`)}">${previewContent}</a>`
+        : `<div class="sample-card-preview sample-card-preview-static">${previewContent}</div>`;
+
+      return `
+    <li class="sample-card-item">
+      <article class="sample-card ${isSelected ? 'selected' : ''} ${!sample.available ? 'out-of-stock' : ''}">
+        ${previewMarkup}
         <button type="button" class="sample-card-order-btn" data-select-sample-id="${escapeAttr(sample.id)}" ${sample.available ? '' : 'disabled'}>
           ${isSelected ? '✓ নির্বাচিত' : (sample.available ? '+ অর্ডারে যোগ করুন' : 'স্টক নেই')}
         </button>
-      </div>
-    </article>`;
+      </article>
+    </li>`;
     }).join('');
 
     bindSampleCardImages(grid);
@@ -231,25 +235,26 @@ export function initHomeSamples({
         return;
       }
 
-      const card = event.target.closest('.sample-card[data-sample-id]');
-      if (!card || !grid.contains(card)) return;
-      const sampleId = card.dataset.sampleId;
+      const previewLink = event.target.closest('.sample-card-preview[data-preview-sample-id]');
+      if (!previewLink || !grid.contains(previewLink)) return;
+      event.preventDefault();
+      const sampleId = previewLink.dataset.previewSampleId;
       if (!sampleId) return;
 
-      openSampleModal(sampleId, card);
+      openSampleModal(sampleId, previewLink);
     });
 
     grid.addEventListener('keydown', event => {
-      if (event.key !== 'Enter' && event.key !== ' ') return;
+      if (event.key !== ' ') return;
       if (event.target.closest('[data-select-sample-id]')) return;
 
-      const card = event.target.closest('.sample-card[data-sample-id]');
-      if (!card || !grid.contains(card)) return;
+      const previewLink = event.target.closest('.sample-card-preview[data-preview-sample-id]');
+      if (!previewLink || !grid.contains(previewLink)) return;
 
       event.preventDefault();
-      const sampleId = card.dataset.sampleId;
+      const sampleId = previewLink.dataset.previewSampleId;
       if (!sampleId) return;
-      openSampleModal(sampleId, card);
+      openSampleModal(sampleId, previewLink);
     });
 
     grid.dataset.accessibilityBound = 'true';

@@ -183,12 +183,18 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 16px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .sample-card-item {
+      list-style: none;
     }
 
     .sample-card {
       background: var(--bg-card);
       border: 2px solid transparent;
-      cursor: pointer;
       position: relative;
       overflow: hidden;
       transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
@@ -196,14 +202,27 @@
       flex-direction: column;
     }
 
-    .sample-card:hover {
+    .sample-card-preview,
+    .sample-card-preview-static {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .sample-card-preview:focus {
+      outline: none;
+    }
+
+    .sample-card:hover,
+    .sample-card:focus-within {
       transform: translateY(-4px);
       box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
       border-color: rgba(200, 134, 10, 0.3);
     }
 
-    .sample-card[tabindex="0"]:focus-visible {
-      outline: none;
+    .sample-card:focus-within {
       border-color: var(--gold-light);
       box-shadow: 0 0 0 3px rgba(232, 168, 50, 0.55), 0 12px 36px rgba(0, 0, 0, 0.4);
     }
@@ -215,7 +234,6 @@
 
     .sample-card.out-of-stock {
       opacity: 0.45;
-      cursor: not-allowed;
     }
 
     .sample-card.out-of-stock:hover {

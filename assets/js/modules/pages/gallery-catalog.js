@@ -7,7 +7,7 @@
  * - render cards and accessible lightbox navigation
  */
 import { closeDialogModal, openDialogModal } from '../core/dialog-helpers.js';
-import { escapeAttr, escapeHTML, FOCUSABLE_SELECTOR, isActivationKey } from '../core/dom-helpers.js';
+import { escapeAttr, escapeHTML, FOCUSABLE_SELECTOR } from '../core/dom-helpers.js';
 import {
   buildGroupCountMap,
   CAT_ICONS,
@@ -111,10 +111,10 @@ export function initGalleryCatalogPage() {
       document.getElementById('catalogCount').textContent = filtered.length;
 
       if (!filtered.length) {
-        grid.innerHTML = `<div class="gallery-empty">
+        grid.innerHTML = `<li class="gallery-empty">
           <span class="gallery-empty-icon">📷</span>
           <p>এই ক্যাটাগরিতে এখনো কোনো ডিজাইন যোগ করা হয়নি।</p>
-        </div>`;
+        </li>`;
         return;
       }
 
@@ -126,20 +126,21 @@ export function initGalleryCatalogPage() {
     function bindGalleryCardInteractions(root) {
       if (!root) return;
 
-      root.querySelectorAll('.gallery-card[data-gallery-index]').forEach(card => {
-        card.addEventListener('click', () => {
-          const idx = getValidIndex(card.dataset.galleryIndex);
+      root.querySelectorAll('.gallery-card-trigger[data-gallery-index]').forEach(trigger => {
+        trigger.addEventListener('click', event => {
+          event.preventDefault();
+          const idx = getValidIndex(trigger.dataset.galleryIndex);
           if (idx === null) return;
-          openLightbox(idx, card);
+          openLightbox(idx, trigger);
         });
 
-        card.addEventListener('keydown', event => {
-          if (!isActivationKey(event)) return;
+        trigger.addEventListener('keydown', event => {
+          if (event.key !== ' ') return;
           event.preventDefault();
 
-          const idx = getValidIndex(card.dataset.galleryIndex);
+          const idx = getValidIndex(trigger.dataset.galleryIndex);
           if (idx === null) return;
-          openLightbox(idx, card);
+          openLightbox(idx, trigger);
         });
       });
     }
@@ -185,20 +186,24 @@ export function initGalleryCatalogPage() {
         ? `<img class="gallery-card-img" src="${escapeAttr(item.img)}" alt="${escapeAttr(item.title)}" loading="lazy" decoding="async">`
         : '';
 
-      return `<article class="gallery-card" data-cat="${item.cat}" data-gallery-index="${idx}" role="button" tabindex="0" aria-label="${safeAriaLabel}">
-        ${imageHtml}
-        ${groupBadge}
-        <div class="gallery-card-placeholder">
-          <span class="gallery-card-placeholder-icon">${catIcon}</span>
-          <span class="gallery-card-placeholder-label">${safeCatLabel}</span>
-        </div>
-        <div class="gallery-card-overlay">
-          <div class="gallery-card-cat">${safeCatLabel}</div>
-          <h3 class="gallery-card-title">${safeTitle}</h3>
-          ${modelPills}
-          <p class="gallery-card-desc">${safeDesc}</p>
-        </div>
-      </article>`;
+      return `<li class="gallery-card-item">
+        <article class="gallery-card" data-cat="${item.cat}">
+          <a class="gallery-card-trigger" href="#lightboxOverlay" data-gallery-index="${idx}" aria-label="${safeAriaLabel}">
+            ${imageHtml}
+            ${groupBadge}
+            <div class="gallery-card-placeholder">
+              <span class="gallery-card-placeholder-icon">${catIcon}</span>
+              <span class="gallery-card-placeholder-label">${safeCatLabel}</span>
+            </div>
+            <div class="gallery-card-overlay">
+              <div class="gallery-card-cat">${safeCatLabel}</div>
+              <h3 class="gallery-card-title">${safeTitle}</h3>
+              ${modelPills}
+              <p class="gallery-card-desc">${safeDesc}</p>
+            </div>
+          </a>
+        </article>
+      </li>`;
     }
 
     function openLightbox(idx, triggerEl = null) {

@@ -7,7 +7,7 @@
  * - handle accessible modal preview + order handoff
  */
 import { closeDialogModal, openDialogModal } from '../core/dialog-helpers.js';
-import { escapeAttr, escapeHTML, FOCUSABLE_SELECTOR, isActivationKey } from '../core/dom-helpers.js';
+import { escapeAttr, escapeHTML, FOCUSABLE_SELECTOR } from '../core/dom-helpers.js';
 import { EMPTY_IMAGE_DATA_URI } from '../core/media-helpers.js';
 import {
   getSampleSearchText,
@@ -78,10 +78,10 @@ function renderSamplesCatalog() {
   syncQueryParams();
 
   if (!filtered.length) {
-    grid.innerHTML = `<div class="samples-catalog-empty">
+    grid.innerHTML = `<li class="samples-catalog-empty">
       <span class="samples-catalog-empty-icon">🔍</span>
       <p>এই filter অনুযায়ী কোনো sample পাওয়া যায়নি। অন্য keyword বা material দিয়ে চেষ্টা করুন।</p>
-    </div>`;
+    </li>`;
     return;
   }
 
@@ -93,14 +93,16 @@ function renderSamplesCatalog() {
     }, { once: true });
   });
 
-  grid.querySelectorAll('.sample-card[data-sample-id]').forEach(card => {
-    if (card.classList.contains('out-of-stock')) return;
-    card.addEventListener('click', () => openSampleModal(card.dataset.sampleId, card));
-    card.addEventListener('keydown', event => {
-      if (event.target.closest('[data-order-sample-id]')) return;
-      if (!isActivationKey(event)) return;
+  grid.querySelectorAll('.sample-card-preview[data-preview-sample-id]').forEach(trigger => {
+    trigger.addEventListener('click', event => {
       event.preventDefault();
-      openSampleModal(card.dataset.sampleId, card);
+      openSampleModal(trigger.dataset.previewSampleId, trigger);
+    });
+
+    trigger.addEventListener('keydown', event => {
+      if (event.key !== ' ') return;
+      event.preventDefault();
+      openSampleModal(trigger.dataset.previewSampleId, trigger);
     });
   });
 
@@ -132,11 +134,7 @@ function sampleCard(sample) {
     ? '<div class="sample-card-featured-badge">জনপ্রিয় পছন্দ</div>'
     : '';
 
-  const cardAttrs = sample.available
-    ? `data-sample-id="${safeIdAttr}" tabindex="0" aria-label="${safeAriaLabel}"`
-    : 'aria-disabled="true"';
-
-  return `<article class="sample-card ${sample.available ? '' : 'out-of-stock'}" ${cardAttrs}>
+  const previewContent = `
     <div class="sample-card-swatch" style="background-color: ${safeHex};">
       ${swatchContent}
       ${featuredBadge}
@@ -153,11 +151,20 @@ function sampleCard(sample) {
         <span class="sample-card-color-name">${safeColor}</span>
       </div>
       ${sample.note ? `<p class="sample-card-note">${escapeHTML(sample.note)}</p>` : ''}
+    </div>`;
+
+  const previewMarkup = sample.available
+    ? `<a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="${safeIdAttr}" aria-label="${safeAriaLabel}">${previewContent}</a>`
+    : `<div class="sample-card-preview sample-card-preview-static">${previewContent}</div>`;
+
+  return `<li class="sample-card-item">
+    <article class="sample-card ${sample.available ? '' : 'out-of-stock'}">
+      ${previewMarkup}
       <button type="button" class="sample-card-order-btn" data-order-sample-id="${safeIdAttr}" ${sample.available ? '' : 'disabled'}>
         ${sample.available ? 'অর্ডার শুরু করুন' : 'স্টক নেই'}
       </button>
-    </div>
-  </article>`;
+    </article>
+  </li>`;
 }
 
 function openSampleModal(id, triggerEl = null) {

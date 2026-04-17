@@ -605,9 +605,9 @@ export function initHomePage() {
       if (payload.avatarFile && avatarKind === 'image') {
         const avatarPreviewUrl = createReviewConfirmPreviewUrl(payload.avatarFile);
         profilePreviewMarkup = `
-          <figure class="review-confirm-media-thumb review-confirm-avatar-thumb" data-preview-type="image" data-preview-src="${avatarPreviewUrl}" role="button" tabindex="0" aria-label="প্রোফাইল ছবি বড় করে দেখুন">
+          <button type="button" class="review-confirm-media-thumb review-confirm-avatar-thumb" data-preview-type="image" data-preview-src="${avatarPreviewUrl}" aria-label="প্রোফাইল ছবি বড় করে দেখুন">
             <img src="${avatarPreviewUrl}" alt="${escapeHtml(payload.avatarFile.name || 'avatar')}" loading="eager" decoding="async">
-          </figure>
+          </button>
           <p class="review-confirm-file-name">${escapeHtml(profileStatus)}</p>
         `;
       } else if (payload.avatarFile) {
@@ -631,21 +631,21 @@ export function initHomePage() {
 
               if (isVideo) {
                 return `
-                  <figure class="review-confirm-media-thumb review-confirm-media-video" data-preview-type="video" data-preview-src="${src}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
+                  <button type="button" class="review-confirm-media-thumb review-confirm-media-video" data-preview-type="video" data-preview-src="${src}" aria-label="ভিডিও বড় করে দেখুন">
                     <video src="${src}" muted playsinline preload="metadata"></video>
                     <span class="review-confirm-media-kind">ভিডিও</span>
-                    <figcaption>${safeName} • ${safeSize}</figcaption>
-                  </figure>
+                    <span class="review-confirm-media-caption">${safeName} • ${safeSize}</span>
+                  </button>
                 `;
               }
 
               if (isImage) {
                 return `
-                  <figure class="review-confirm-media-thumb review-confirm-media-image" data-preview-type="image" data-preview-src="${src}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
+                  <button type="button" class="review-confirm-media-thumb review-confirm-media-image" data-preview-type="image" data-preview-src="${src}" aria-label="ছবি বড় করে দেখুন">
                     <img src="${src}" alt="${safeName}" loading="eager" decoding="async">
                     <span class="review-confirm-media-kind">ছবি</span>
-                    <figcaption>${safeName} • ${safeSize}</figcaption>
-                  </figure>
+                    <span class="review-confirm-media-caption">${safeName} • ${safeSize}</span>
+                  </button>
                 `;
               }
 
@@ -1020,30 +1020,34 @@ export function initHomePage() {
       if (!mediaList.length) return '';
 
       return `
-        <div class="review-media-strip" aria-label="Customer shared media">
+        <ul class="review-media-strip">
           ${mediaList.map((item, idx) => {
             const safeSrc = escapeHtml(item.src);
             if (!safeSrc) return '';
 
             if (item.type === 'video') {
               return `
-                <figure class="review-media-item" data-media-index="${idx}" data-preview-type="video" data-preview-src="${safeSrc}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
-                  <video src="${safeSrc}" preload="metadata" playsinline muted></video>
-                  <span class="review-media-open-indicator">⤢</span>
-                  <span class="review-media-type">ভিডিও</span>
-                </figure>
+                <li class="review-media-item-shell">
+                  <button type="button" class="review-media-item" data-media-index="${idx}" data-preview-type="video" data-preview-src="${safeSrc}" aria-label="ভিডিও বড় করে দেখুন">
+                    <video src="${safeSrc}" preload="metadata" playsinline muted></video>
+                    <span class="review-media-open-indicator">⤢</span>
+                    <span class="review-media-type">ভিডিও</span>
+                  </button>
+                </li>
               `;
             }
 
             return `
-              <figure class="review-media-item" data-media-index="${idx}" data-preview-type="image" data-preview-src="${safeSrc}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
-                <img src="${safeSrc}" alt="Customer work media ${idx + 1}" loading="lazy" decoding="async">
-                <span class="review-media-open-indicator">⤢</span>
-                <span class="review-media-type">ছবি</span>
-              </figure>
+              <li class="review-media-item-shell">
+                <button type="button" class="review-media-item" data-media-index="${idx}" data-preview-type="image" data-preview-src="${safeSrc}" aria-label="ছবি বড় করে দেখুন">
+                  <img src="${safeSrc}" alt="Customer work media ${idx + 1}" loading="lazy" decoding="async">
+                  <span class="review-media-open-indicator">⤢</span>
+                  <span class="review-media-type">ছবি</span>
+                </button>
+              </li>
             `;
           }).join('')}
-        </div>
+        </ul>
       `;
     }
 
@@ -1165,26 +1169,6 @@ export function initHomePage() {
         openReviewMediaPreview(items, startIndex, title);
       });
 
-      grid.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-
-        const mediaItem = event.target.closest('.review-media-item');
-        if (!mediaItem || !grid.contains(mediaItem)) return;
-
-        event.preventDefault();
-        const strip = mediaItem.closest('.review-media-strip');
-        if (!strip) return;
-
-        const { items, nodes } = getPreviewItemsFromStrip(strip);
-        if (!items.length) return;
-
-        const startIndex = Math.max(0, nodes.indexOf(mediaItem));
-        const card = mediaItem.closest('.review-card');
-        const title = card?.querySelector('.reviewer-name')?.textContent?.trim() || 'রিভিউ মিডিয়া';
-
-        openReviewMediaPreview(items, startIndex, title);
-      });
-
       overlay.addEventListener('click', event => {
         if (event.target === overlay) closeReviewMediaPreview();
       });
@@ -1228,8 +1212,9 @@ export function initHomePage() {
                 ${reviewDateMarkup}
               </p>
             </div>
-            <div class="reviewer-rating" aria-label="${rating} out of 5 stars">
-              <span class="reviewer-stars">${stars}</span>
+            <div class="reviewer-rating">
+              <span class="visually-hidden">${rating} out of 5 stars</span>
+              <span class="reviewer-stars" aria-hidden="true">${stars}</span>
             </div>
           </div>
           <p class="reviewer-comment">${escapeHtml(review.comment)}</p>
@@ -1477,33 +1462,37 @@ export function initHomePage() {
             if (fileKind === 'image') {
               const src = createReviewUploadObjectUrl(file);
               return `
-                <figure class="review-media-preview-card" data-preview-type="image" data-preview-src="${src}" role="button" tabindex="0" aria-label="ছবি বড় করে দেখুন">
+                <article class="review-media-preview-card">
+                  <button type="button" class="review-media-preview-trigger" data-preview-type="image" data-preview-src="${src}" aria-label="ছবি বড় করে দেখুন">
+                    <img src="${src}" alt="${safeName}" loading="eager" decoding="async">
+                    <span class="review-media-preview-badge">ছবি</span>
+                    <span class="review-media-preview-name">${safeName}</span>
+                  </button>
                   <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ছবি রিমুভ করুন">✕</button>
-                  <img src="${src}" alt="${safeName}" loading="eager" decoding="async">
-                  <span class="review-media-preview-badge">ছবি</span>
-                  <figcaption class="review-media-preview-name">${safeName}</figcaption>
-                </figure>
+                </article>
               `;
             }
 
             if (fileKind === 'video') {
               const src = createReviewUploadObjectUrl(file);
               return `
-                <figure class="review-media-preview-card" data-preview-type="video" data-preview-src="${src}" role="button" tabindex="0" aria-label="ভিডিও বড় করে দেখুন">
+                <article class="review-media-preview-card">
+                  <button type="button" class="review-media-preview-trigger" data-preview-type="video" data-preview-src="${src}" aria-label="ভিডিও বড় করে দেখুন">
+                    <video src="${src}" controls muted playsinline preload="auto"></video>
+                    <span class="review-media-preview-badge">ভিডিও</span>
+                    <span class="review-media-preview-name">${safeName}</span>
+                  </button>
                   <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ভিডিও রিমুভ করুন">✕</button>
-                  <video src="${src}" controls muted playsinline preload="auto"></video>
-                  <span class="review-media-preview-badge">ভিডিও</span>
-                  <figcaption class="review-media-preview-name">${safeName}</figcaption>
-                </figure>
+                </article>
               `;
             }
 
             return `
-              <figure class="review-media-preview-card">
+              <article class="review-media-preview-card">
                 <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="এই ফাইল রিমুভ করুন">✕</button>
                 <div class="review-file-preview-empty">Preview unavailable</div>
-                <figcaption class="review-media-preview-name">${safeName}</figcaption>
-              </figure>
+                <p class="review-media-preview-name">${safeName}</p>
+              </article>
             `;
           }).join('');
         }
@@ -1548,19 +1537,19 @@ export function initHomePage() {
       if (!mediaPreviewGridEl) return;
 
       const openFromMediaCard = sourceEl => {
-        const cards = Array.from(mediaPreviewGridEl.querySelectorAll('.review-media-preview-card[data-preview-src]'));
-        if (!cards.length) return;
+        const triggers = Array.from(mediaPreviewGridEl.querySelectorAll('.review-media-preview-trigger[data-preview-src]'));
+        if (!triggers.length) return;
 
-        const items = cards
-          .map(card => ({
-            type: card.dataset.previewType === 'video' ? 'video' : 'image',
-            src: String(card.dataset.previewSrc || '').trim()
+        const items = triggers
+          .map(trigger => ({
+            type: trigger.dataset.previewType === 'video' ? 'video' : 'image',
+            src: String(trigger.dataset.previewSrc || '').trim()
           }))
           .filter(item => item.src);
 
         if (!items.length) return;
 
-        const startIndex = Math.max(0, cards.indexOf(sourceEl));
+        const startIndex = Math.max(0, triggers.indexOf(sourceEl));
         openReviewMediaPreview(items, startIndex, 'আপনার আপলোড করা মিডিয়া');
       };
 
@@ -1572,20 +1561,9 @@ export function initHomePage() {
           return;
         }
 
-        const card = event.target.closest('.review-media-preview-card[data-preview-src]');
-        if (!card || !mediaPreviewGridEl.contains(card)) return;
-        openFromMediaCard(card);
-      });
-
-      mediaPreviewGridEl.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        if (event.target.closest('.review-media-preview-remove')) return;
-
-        const card = event.target.closest('.review-media-preview-card[data-preview-src]');
-        if (!card || !mediaPreviewGridEl.contains(card)) return;
-
-        event.preventDefault();
-        openFromMediaCard(card);
+        const trigger = event.target.closest('.review-media-preview-trigger[data-preview-src]');
+        if (!trigger || !mediaPreviewGridEl.contains(trigger)) return;
+        openFromMediaCard(trigger);
       });
     }
 
@@ -1605,19 +1583,19 @@ export function initHomePage() {
           return;
         }
 
-        const cards = Array.from(mediaGrid.querySelectorAll('.review-confirm-media-thumb[data-preview-src]'));
-        if (!cards.length) return;
+        const triggers = Array.from(mediaGrid.querySelectorAll('.review-confirm-media-thumb[data-preview-src]'));
+        if (!triggers.length) return;
 
-        const items = cards
-          .map(card => ({
-            type: card.dataset.previewType === 'video' ? 'video' : 'image',
-            src: String(card.dataset.previewSrc || '').trim()
+        const items = triggers
+          .map(trigger => ({
+            type: trigger.dataset.previewType === 'video' ? 'video' : 'image',
+            src: String(trigger.dataset.previewSrc || '').trim()
           }))
           .filter(item => item.src);
 
         if (!items.length) return;
 
-        const startIndex = Math.max(0, cards.indexOf(sourceEl));
+        const startIndex = Math.max(0, triggers.indexOf(sourceEl));
         openReviewMediaPreview(items, startIndex, 'কাজের ছবি/ভিডিও');
       };
 
@@ -1627,15 +1605,6 @@ export function initHomePage() {
         openFromConfirmThumb(thumb);
       });
 
-      summaryEl.addEventListener('keydown', event => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-
-        const thumb = event.target.closest('.review-confirm-media-thumb[data-preview-src]');
-        if (!thumb || !summaryEl.contains(thumb)) return;
-
-        event.preventDefault();
-        openFromConfirmThumb(thumb);
-      });
     }
 
     async function handleReviewSubmit(event) {
