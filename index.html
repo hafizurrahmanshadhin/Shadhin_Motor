@@ -394,12 +394,20 @@
 
       <article class="about-owner-card reveal reveal-delay-1">
         <div class="about-owner-head">
-          <img
-            src="assets/images/about/owner.jpeg"
-            alt="স্বাধীন মটরের মালিকের placeholder ছবি"
-            class="about-owner-photo"
-            loading="lazy"
-            decoding="async">
+          <button
+            type="button"
+            class="about-owner-photo-btn"
+            data-team-preview-src="assets/images/about/owner.jpeg"
+            data-team-preview-name="প্রতিষ্ঠাতা ও প্রধান কারিগর"
+            data-team-preview-role="Owner & Workshop Lead"
+            aria-label="প্রতিষ্ঠাতা ও প্রধান কারিগর এর ছবি বড় করে দেখুন">
+            <img
+              src="assets/images/about/owner.jpeg"
+              alt="স্বাধীন মটরের মালিকের ছবি"
+              class="about-owner-photo"
+              loading="lazy"
+              decoding="async">
+          </button>
           <div class="about-owner-head-copy">
             <div class="about-owner-kicker">Owner & Workshop Lead</div>
             <h3 class="about-owner-name">প্রতিষ্ঠাতা ও প্রধান কারিগর</h3>
@@ -453,16 +461,15 @@
       </p>
     </div>
 
-    <div class="about-team-slider reveal">
-      <div class="about-team-grid" id="aboutTeamGrid" aria-live="polite"></div>
-      <div class="about-team-pagination" aria-label="কর্মচারী দলের পেজ নেভিগেশন">
-        <button type="button" class="about-team-page-btn" id="aboutTeamPrevBtn" aria-label="আগের ৩ জন কর্মচারী দেখুন">
-          ← আগের
-        </button>
-        <span class="about-team-page-meta" id="aboutTeamPageMeta" aria-live="polite">পৃষ্ঠা ১ / ১</span>
-        <button type="button" class="about-team-page-btn" id="aboutTeamNextBtn" aria-label="পরের ৩ জন কর্মচারী দেখুন">
-          পরের →
-        </button>
+    <div class="about-team-slider reveal" id="aboutTeamSlider">
+      <div class="about-team-marquee-shell">
+        <div class="about-team-marquee-viewport" id="aboutTeamMarqueeViewport">
+          <div class="about-team-marquee-track" id="aboutTeamGrid" aria-live="off"></div>
+        </div>
+      </div>
+      <div class="about-team-auto-meta" role="group" aria-label="কর্মচারী স্লাইড স্ট্যাটাস">
+        <span class="about-team-auto-label">লাইভ স্ক্রল চলছে</span>
+        <span class="about-team-auto-hint">ছবিতে ক্লিক করলে বড় প্রিভিউ দেখতে পারবেন</span>
       </div>
     </div>
 

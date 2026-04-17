@@ -2022,7 +2022,7 @@
       }
     }
 
-    const ABOUT_TEAM_PAGE_SIZE = 3;
+    const ABOUT_TEAM_MOTION_SPEED = 34;
     const ABOUT_TEAM_FALLBACK_IMAGE = 'assets/images/about/employee-1.jpeg';
     const ABOUT_TEAM_MEMBERS = [
       {
@@ -2105,21 +2105,90 @@
     ];
 
     const aboutTeamState = {
-      page: 1,
-      totalPages: 1
+      motionRaf: 0,
+      motionLastTs: 0,
+      motionOffset: 0,
+      motionCycle: 0,
+      pauseReasons: new Set(),
+      resizeTick: 0
     };
 
-    function updateAboutTeamPaginationMeta() {
-      const prevBtn = document.getElementById('aboutTeamPrevBtn');
-      const nextBtn = document.getElementById('aboutTeamNextBtn');
-      const meta = document.getElementById('aboutTeamPageMeta');
+    function updateAboutTeamPauseState() {
+      const paused = aboutTeamState.pauseReasons.size > 0;
+      document.getElementById('aboutTeamSlider')?.classList.toggle('is-paused', paused);
+      return paused;
+    }
 
-      if (meta) {
-        meta.textContent = `পৃষ্ঠা ${aboutTeamState.page} / ${aboutTeamState.totalPages}`;
+    function setAboutTeamPaused(reason, paused) {
+      if (!reason) return;
+      if (paused) aboutTeamState.pauseReasons.add(reason);
+      else aboutTeamState.pauseReasons.delete(reason);
+      updateAboutTeamPauseState();
+    }
+
+    function destroyAboutTeamMotion() {
+      cancelAnimationFrame(aboutTeamState.motionRaf);
+      aboutTeamState.motionRaf = 0;
+      aboutTeamState.motionLastTs = 0;
+    }
+
+    function normalizeAboutTeamOffset(offset) {
+      if (!aboutTeamState.motionCycle) return 0;
+
+      let nextOffset = offset % aboutTeamState.motionCycle;
+      if (nextOffset < 0) nextOffset += aboutTeamState.motionCycle;
+      return nextOffset;
+    }
+
+    function applyAboutTeamOffset() {
+      const track = document.getElementById('aboutTeamGrid');
+      if (!track) return;
+
+      track.style.transform = `translate3d(${-aboutTeamState.motionOffset}px, 0, 0)`;
+    }
+
+    function startAboutTeamMotion() {
+      if (!aboutTeamState.motionCycle || aboutTeamState.motionRaf) return;
+
+      const step = (timestamp) => {
+        if (!aboutTeamState.motionLastTs) aboutTeamState.motionLastTs = timestamp;
+        const delta = (timestamp - aboutTeamState.motionLastTs) / 1000;
+        aboutTeamState.motionLastTs = timestamp;
+
+        if (aboutTeamState.pauseReasons.size === 0) {
+          aboutTeamState.motionOffset = normalizeAboutTeamOffset(
+            aboutTeamState.motionOffset + (ABOUT_TEAM_MOTION_SPEED * delta)
+          );
+          applyAboutTeamOffset();
+        }
+
+        aboutTeamState.motionRaf = requestAnimationFrame(step);
+      };
+
+      aboutTeamState.motionRaf = requestAnimationFrame(step);
+    }
+
+    function syncAboutTeamMarquee() {
+      const track = document.getElementById('aboutTeamGrid');
+      destroyAboutTeamMotion();
+      if (!track) return;
+
+      const groups = track.querySelectorAll('.about-team-marquee-group');
+      if (groups.length < 2 || ABOUT_TEAM_MEMBERS.length < 2) {
+        aboutTeamState.motionCycle = 0;
+        aboutTeamState.motionOffset = 0;
+        applyAboutTeamOffset();
+        return;
       }
 
-      if (prevBtn) prevBtn.disabled = aboutTeamState.page <= 1;
-      if (nextBtn) nextBtn.disabled = aboutTeamState.page >= aboutTeamState.totalPages;
+      const computedStyle = getComputedStyle(track);
+      const gap = parseFloat(computedStyle.gap || computedStyle.columnGap || 12) || 12;
+      const groupWidth = groups[0].scrollWidth;
+      aboutTeamState.motionCycle = groupWidth + gap;
+      aboutTeamState.motionOffset = normalizeAboutTeamOffset(aboutTeamState.motionOffset);
+
+      applyAboutTeamOffset();
+      startAboutTeamMotion();
     }
 
     function bindAboutTeamCardImageFallbacks(root = document) {
@@ -2133,64 +2202,59 @@
       });
     }
 
+    function buildAboutTeamCard(member) {
+      const safeName = escapeHtml(member.name);
+      const safeRole = escapeHtml(member.role);
+      const safeDuty = escapeHtml(member.duty);
+      const safeExp = escapeHtml(member.exp);
+      const safeImage = escapeHtml(member.image || ABOUT_TEAM_FALLBACK_IMAGE);
+
+      return `
+        <article class="about-team-card">
+          <div class="about-team-top">
+            <button
+              type="button"
+              class="about-team-photo-btn"
+              data-team-preview-src="${safeImage}"
+              data-team-preview-name="${safeName}"
+              data-team-preview-role="${safeRole}"
+              aria-label="${safeName} এর ছবি বড় করে দেখুন">
+              <img
+                src="${safeImage}"
+                alt="কর্মচারীর ছবি: ${safeName}"
+                class="about-team-photo"
+                loading="lazy"
+                decoding="async">
+            </button>
+            <div class="about-team-headline">
+              <h4 class="about-team-name">${safeName}</h4>
+              <p class="about-team-role">${safeRole}</p>
+            </div>
+          </div>
+          <p class="about-team-duty">${safeDuty}</p>
+          <span class="about-team-exp">অভিজ্ঞতা: ${safeExp}</span>
+        </article>
+      `;
+    }
+
     function renderAboutTeamCards() {
-      const grid = document.getElementById('aboutTeamGrid');
-      if (!grid) return;
+      const track = document.getElementById('aboutTeamGrid');
+      if (!track) return;
 
-      const startIdx = (aboutTeamState.page - 1) * ABOUT_TEAM_PAGE_SIZE;
-      const pageMembers = ABOUT_TEAM_MEMBERS.slice(startIdx, startIdx + ABOUT_TEAM_PAGE_SIZE);
-
-      if (!pageMembers.length) {
-        grid.innerHTML = '<div class="about-team-empty">এই মুহূর্তে কোনো কর্মচারী তথ্য দেখানো যাচ্ছে না।</div>';
-        updateAboutTeamPaginationMeta();
+      if (!ABOUT_TEAM_MEMBERS.length) {
+        track.innerHTML = '<div class="about-team-empty">এই মুহূর্তে কোনো কর্মচারী তথ্য দেখানো যাচ্ছে না।</div>';
+        destroyAboutTeamMotion();
         return;
       }
 
-      grid.innerHTML = pageMembers.map(member => {
-        const safeName = escapeHtml(member.name);
-        const safeRole = escapeHtml(member.role);
-        const safeDuty = escapeHtml(member.duty);
-        const safeExp = escapeHtml(member.exp);
-        const safeImage = escapeHtml(member.image || ABOUT_TEAM_FALLBACK_IMAGE);
+      const primaryGroup = `<div class="about-team-marquee-group">${ABOUT_TEAM_MEMBERS.map(member => buildAboutTeamCard(member)).join('')}</div>`;
+      const duplicateGroup = ABOUT_TEAM_MEMBERS.length > 1
+        ? `<div class="about-team-marquee-group" aria-hidden="true">${ABOUT_TEAM_MEMBERS.map(member => buildAboutTeamCard(member)).join('')}</div>`
+        : '';
 
-        return `
-          <article class="about-team-card">
-            <div class="about-team-top">
-              <button
-                type="button"
-                class="about-team-photo-btn"
-                data-team-preview-src="${safeImage}"
-                data-team-preview-name="${safeName}"
-                data-team-preview-role="${safeRole}"
-                aria-label="${safeName} এর ছবি বড় করে দেখুন">
-                <img
-                  src="${safeImage}"
-                  alt="কর্মচারীর ছবি: ${safeName}"
-                  class="about-team-photo"
-                  loading="lazy"
-                  decoding="async">
-              </button>
-              <div class="about-team-headline">
-                <h4 class="about-team-name">${safeName}</h4>
-                <p class="about-team-role">${safeRole}</p>
-              </div>
-            </div>
-            <p class="about-team-duty">${safeDuty}</p>
-            <span class="about-team-exp">অভিজ্ঞতা: ${safeExp}</span>
-          </article>
-        `;
-      }).join('');
-
-      bindAboutTeamCardImageFallbacks(grid);
-      updateAboutTeamPaginationMeta();
-    }
-
-    function goToAboutTeamPage(pageNumber) {
-      const nextPage = Math.max(1, Math.min(aboutTeamState.totalPages, pageNumber));
-      if (nextPage === aboutTeamState.page) return;
-
-      aboutTeamState.page = nextPage;
-      renderAboutTeamCards();
+      track.innerHTML = `${primaryGroup}${duplicateGroup}`;
+      bindAboutTeamCardImageFallbacks(track);
+      syncAboutTeamMarquee();
     }
 
     function openAboutTeamPreview(imageSrc, name, role, triggerEl = null) {
@@ -2219,6 +2283,7 @@
       nameEl.textContent = previewName;
       roleEl.textContent = previewRole;
 
+      setAboutTeamPaused('preview', true);
       overlay.classList.add('open');
       overlay.setAttribute('aria-hidden', 'false');
       syncBodyScrollLockState();
@@ -2233,28 +2298,20 @@
       overlay.setAttribute('aria-hidden', 'true');
       syncBodyScrollLockState();
       restoreFocus(modalFocusState.aboutTeamPreviewTrigger);
+      setAboutTeamPaused('preview', false);
     }
 
     function initAboutTeamModule() {
-      const grid = document.getElementById('aboutTeamGrid');
-      if (!grid) return;
+      const track = document.getElementById('aboutTeamGrid');
+      const slider = document.getElementById('aboutTeamSlider');
+      if (!track || !slider) return;
 
-      aboutTeamState.page = 1;
-      aboutTeamState.totalPages = Math.max(1, Math.ceil(ABOUT_TEAM_MEMBERS.length / ABOUT_TEAM_PAGE_SIZE));
-
+      aboutTeamState.pauseReasons.clear();
       renderAboutTeamCards();
 
-      document.getElementById('aboutTeamPrevBtn')?.addEventListener('click', () => {
-        goToAboutTeamPage(aboutTeamState.page - 1);
-      });
-
-      document.getElementById('aboutTeamNextBtn')?.addEventListener('click', () => {
-        goToAboutTeamPage(aboutTeamState.page + 1);
-      });
-
-      grid.addEventListener('click', event => {
+      track.addEventListener('click', event => {
         const trigger = event.target.closest('[data-team-preview-src]');
-        if (!trigger || !grid.contains(trigger)) return;
+        if (!trigger || !track.contains(trigger)) return;
 
         openAboutTeamPreview(
           trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
@@ -2264,11 +2321,11 @@
         );
       });
 
-      grid.addEventListener('keydown', event => {
+      track.addEventListener('keydown', event => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
 
         const trigger = event.target.closest('[data-team-preview-src]');
-        if (!trigger || !grid.contains(trigger)) return;
+        if (!trigger || !track.contains(trigger)) return;
 
         event.preventDefault();
         openAboutTeamPreview(
@@ -2285,6 +2342,46 @@
       });
 
       document.getElementById('aboutTeamPreviewCloseBtn')?.addEventListener('click', closeAboutTeamPreview);
+
+      const ownerPreviewTrigger = document.querySelector('.about-owner-photo-btn[data-team-preview-src]');
+      ownerPreviewTrigger?.addEventListener('click', () => {
+        openAboutTeamPreview(
+          ownerPreviewTrigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+          ownerPreviewTrigger.dataset.teamPreviewName || 'প্রতিষ্ঠাতা ও প্রধান কারিগর',
+          ownerPreviewTrigger.dataset.teamPreviewRole || 'Owner & Workshop Lead',
+          ownerPreviewTrigger
+        );
+      });
+
+      slider.addEventListener('mouseenter', () => setAboutTeamPaused('hover', true));
+      slider.addEventListener('mouseleave', () => setAboutTeamPaused('hover', false));
+      slider.addEventListener('focusin', () => setAboutTeamPaused('focus', true));
+      slider.addEventListener('focusout', event => {
+        const nextTarget = event.relatedTarget;
+        if (nextTarget instanceof Node && slider.contains(nextTarget)) return;
+        setAboutTeamPaused('focus', false);
+      });
+
+      const releasePointerPause = () => setAboutTeamPaused('pointer', false);
+      track.addEventListener('pointerdown', () => setAboutTeamPaused('pointer', true));
+      track.addEventListener('pointerup', releasePointerPause);
+      track.addEventListener('pointercancel', releasePointerPause);
+      track.addEventListener('lostpointercapture', releasePointerPause);
+
+      document.addEventListener('visibilitychange', () => {
+        setAboutTeamPaused('hidden', document.hidden);
+      });
+
+      window.addEventListener('resize', () => {
+        cancelAnimationFrame(aboutTeamState.resizeTick);
+        aboutTeamState.resizeTick = requestAnimationFrame(syncAboutTeamMarquee);
+      });
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(syncAboutTeamMarquee);
+      }
+
+      setAboutTeamPaused('hidden', document.hidden);
     }
 
     document.addEventListener('keydown', e => {
