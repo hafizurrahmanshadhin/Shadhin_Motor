@@ -53,6 +53,15 @@
       overscroll-behavior: none;
     }
 
+    /* Keep media fluid on narrow screens to prevent accidental horizontal overflow. */
+    :where(img, svg, video, canvas, iframe) {
+      max-width: 100%;
+    }
+
+    :where(img, svg, video, canvas) {
+      height: auto;
+    }
+
     .skip-link {
       position: fixed;
       top: 10px;
@@ -5019,14 +5028,14 @@
 }
 
 .floating-cta-btn {
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 17px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
@@ -5274,85 +5283,85 @@
       }
 
   .contact-grid {
-    grid-template-columns: 1fr;
-  }
+      grid-template-columns: 1fr;
+    }
 
-  .samples-toolbar-actions {
-    width: 100%;
-    justify-content: space-between;
-  }
+    .samples-toolbar-actions {
+      width: 100%;
+      justify-content: space-between;
+    }
 
-  .samples-view-all-btn {
-    width: 100%;
-    justify-content: center;
-  }
+    .samples-view-all-btn {
+      width: 100%;
+      justify-content: center;
+    }
 
-  .floating-cta {
-    right: 12px;
-    bottom: 16px;
-  }
+    .floating-cta {
+      right: 12px;
+      bottom: 16px;
+    }
 
-  .floating-cta-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 15px;
-  }
+    .floating-cta-btn {
+      width: 44px;
+      height: 44px;
+      font-size: 18px;
+    }
 
-  .confirm-modal {
-    padding: 28px 20px 22px;
-  }
+    .confirm-modal {
+      padding: 28px 20px 22px;
+    }
 
-  .confirm-modal-highlights {
-    grid-template-columns: 1fr;
-  }
+    .confirm-modal-highlights {
+      grid-template-columns: 1fr;
+    }
 
-  .confirm-modal-actions {
-    flex-direction: column;
-  }
+    .confirm-modal-actions {
+      flex-direction: column;
+    }
 
-  .confirm-modal-select-btn,
-  .confirm-modal-submit-btn {
-    width: 100%;
-  }
+    .confirm-modal-select-btn,
+    .confirm-modal-submit-btn {
+      width: 100%;
+    }
 
-  .footer-top {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
 
-  .footer-bottom {
-    flex-direction: column;
-    gap: 12px;
-    text-align: center;
-  }
+    .footer-bottom {
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
+    }
 
-  .footer-copyright {
-    padding-left: 0;
-  }
+    .footer-copyright {
+      padding-left: 0;
+    }
 
-  .footer-credit {
-    margin-right: 0;
-    white-space: normal;
-    text-align: center;
-  }
+    .footer-credit {
+      margin-right: 0;
+      white-space: normal;
+      text-align: center;
+    }
 
-  .footer-social-links {
-    margin-inline: 0;
-    justify-content: center;
-  }
+    .footer-social-links {
+      margin-inline: 0;
+      justify-content: center;
+    }
 
-  .footer-social-links .footer-social-link {
-    padding: 8px 12px 8px 8px;
-  }
+    .footer-social-links .footer-social-link {
+      padding: 8px 12px 8px 8px;
+    }
 
-  .footer-social-text {
-    font-size: 11px;
-  }
+    .footer-social-text {
+      font-size: 11px;
+    }
 
-  .form-row {
-    grid-template-columns: 1fr;
+    .form-row {
+      grid-template-columns: 1fr;
+    }
   }
-}
 
     @media (min-width: 901px) and (max-width: 1200px) {
       .gallery-item {
@@ -5744,6 +5753,12 @@
       .form-group textarea {
         resize: none;
       }
+
+      .floating-cta-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+      }
     }
 
     @media (max-width: 640px) {
@@ -5892,9 +5907,43 @@
       }
 
       .floating-cta-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 14px;
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      #navbar,
+      #hero,
+      section,
+      footer {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+
+      .hero-title {
+        font-size: clamp(28px, 12vw, 36px);
+      }
+
+      .hero-subtitle {
+        font-size: 15px;
+      }
+
+      .gallery-item {
+        flex-basis: 176px;
+        width: 176px;
+        height: 152px;
+      }
+
+      .samples-toolbar-actions,
+      .gallery-toolbar-meta {
+        gap: 8px;
+      }
+
+      .floating-cta {
+        right: 10px;
+        bottom: 12px;
       }
     }
 

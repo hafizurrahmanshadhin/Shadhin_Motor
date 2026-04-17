@@ -59,16 +59,40 @@ function normalizeFilter(value) {
   return ['all', 'rexine', 'leather'].includes(value) ? value : 'all';
 }
 
+function sanitizeColor(value, fallback) {
+  const color = String(value || '').trim();
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color)) {
+    return color;
+  }
+
+  return fallback;
+}
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => {
+    if (char === '&') return '&amp;';
+    if (char === '<') return '&lt;';
+    if (char === '>') return '&gt;';
+    if (char === '"') return '&quot;';
+    return '&#39;';
+  });
+}
+
+function escapeAttr(value) {
+  return escapeHTML(value).replace(/`/g, '&#96;');
+}
+
 function normalizeSampleItem(sample, index) {
   const material = normalizeSampleMaterial(sample.material);
   const fallbackPrefix = material === 'rexine' ? 'RX' : 'LT';
+  const fallbackHex = material === 'rexine' ? '#3d2010' : '#3b1f0a';
   return {
     ...sample,
     id: String(sample.id || `${fallbackPrefix}-${String(index + 1).padStart(3, '0')}`),
     name: sample.name || `${material === 'rexine' ? 'রেক্সিন' : 'লেদার'} স্যাম্পল`,
     material,
     color: sample.color || 'রং উল্লেখ নেই',
-    hex: sample.hex || (material === 'rexine' ? '#3d2010' : '#3b1f0a'),
+    hex: sanitizeColor(sample.hex, fallbackHex),
     available: sample.available !== false,
     img: typeof sample.img === 'string' ? sample.img.trim() : '',
     note: typeof sample.note === 'string' ? sample.note.trim() : '',
@@ -184,12 +208,18 @@ function renderSamplesCatalog() {
 }
 
 function sampleCard(sample) {
+  const safeId = escapeHTML(sample.id);
+  const safeName = escapeHTML(sample.name);
+  const safeColor = escapeHTML(sample.color);
+  const safeHex = sanitizeColor(sample.hex, sample.material === 'rexine' ? '#3d2010' : '#3b1f0a');
+  const safeIdAttr = escapeAttr(sample.id);
+  const safeAriaLabel = escapeAttr(`${sample.id} ${sample.name}`);
   const matTag = sample.material === 'rexine'
     ? '<span class="sample-card-material-tag tag-rexine">রেক্সিন</span>'
     : '<span class="sample-card-material-tag tag-leather">লেদার</span>';
 
   const swatchContent = sample.img
-    ? `<img src="${sample.img}" alt="${sample.name}" loading="lazy" decoding="async">
+    ? `<img src="${escapeAttr(sample.img)}" alt="${escapeAttr(sample.name)}" loading="lazy" decoding="async">
        <span class="swatch-no-img">${sample.material === 'rexine' ? '🪡' : '🧥'}</span>`
     : `<span class="swatch-no-img">${sample.material === 'rexine' ? '🪡' : '🧥'}</span>`;
 
@@ -198,27 +228,27 @@ function sampleCard(sample) {
     : '';
 
   const cardAttrs = sample.available
-    ? `data-sample-id="${sample.id}" tabindex="0" aria-label="${sample.id} ${sample.name}"`
+    ? `data-sample-id="${safeIdAttr}" tabindex="0" aria-label="${safeAriaLabel}"`
     : 'aria-disabled="true"';
 
   return `<article class="sample-card ${sample.available ? '' : 'out-of-stock'}" ${cardAttrs}>
-    <div class="sample-card-swatch" style="background-color: ${sample.hex};">
+    <div class="sample-card-swatch" style="background-color: ${safeHex};">
       ${swatchContent}
       ${featuredBadge}
       ${!sample.available ? '<div class="sample-card-stock-badge">স্টক নেই</div>' : ''}
     </div>
     <div class="sample-card-body">
       <div class="sample-card-id">
-        <span>${sample.id}</span>
+        <span>${safeId}</span>
         ${matTag}
       </div>
-      <div class="sample-card-name">${sample.name}</div>
+      <div class="sample-card-name">${safeName}</div>
       <div class="sample-card-color-row">
-        <div class="sample-card-color-dot" style="background:${sample.hex}"></div>
-        <span class="sample-card-color-name">${sample.color}</span>
+        <div class="sample-card-color-dot" style="background:${safeHex}"></div>
+        <span class="sample-card-color-name">${safeColor}</span>
       </div>
-      ${sample.note ? `<p class="sample-card-note">${sample.note}</p>` : ''}
-      <button type="button" class="sample-card-order-btn" data-order-sample-id="${sample.id}" ${sample.available ? '' : 'disabled'}>
+      ${sample.note ? `<p class="sample-card-note">${escapeHTML(sample.note)}</p>` : ''}
+      <button type="button" class="sample-card-order-btn" data-order-sample-id="${safeIdAttr}" ${sample.available ? '' : 'disabled'}>
         ${sample.available ? 'অর্ডার শুরু করুন' : 'স্টক নেই'}
       </button>
     </div>

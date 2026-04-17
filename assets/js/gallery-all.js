@@ -64,6 +64,20 @@
       return ['all', 'car', 'bike', 'repair'].includes(value) ? value : 'all';
     }
 
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => {
+        if (char === '&') return '&amp;';
+        if (char === '<') return '&lt;';
+        if (char === '>') return '&gt;';
+        if (char === '"') return '&quot;';
+        return '&#39;';
+      });
+    }
+
+    function escapeAttr(value) {
+      return escapeHTML(value).replace(/`/g, '&#96;');
+    }
+
     function normalizeModels(item) {
       const fromArray = Array.isArray(item.models) ? item.models : [];
       const fromStrings = [item.model, item.vehicleModel]
@@ -136,7 +150,7 @@
       }
 
       select.innerHTML = ['<option value="">সব মডেল</option>', ...models.map(model =>
-        `<option value="${model.replace(/"/g, '&quot;')}">${model}</option>`)].join('');
+        `<option value="${escapeAttr(model)}">${escapeHTML(model)}</option>`)].join('');
       select.value = currentModel;
     }
 
@@ -268,25 +282,29 @@
       const catIcon = CAT_ICONS[item.cat] || '📷';
       const groupCount = galleryGroupCountMap.get(getGroupKey(item)) || 1;
       const groupBadge = groupCount > 1 ? `<div class="gallery-card-group-badge">${groupCount} ছবি</div>` : '';
+      const safeCatLabel = escapeHTML(catLabel);
+      const safeTitle = escapeHTML(item.title);
+      const safeDesc = escapeHTML(item.desc || 'ডিটেইল দেখতে ক্লিক করুন');
+      const safeAriaLabel = escapeAttr(`${catLabel}: ${item.title}`);
       const modelPills = Array.isArray(item.models) && item.models.length
-        ? `<div class="gallery-card-models">${item.models.map(model => `<span class="gallery-card-model-pill">${model}</span>`).join('')}</div>`
+        ? `<div class="gallery-card-models">${item.models.map(model => `<span class="gallery-card-model-pill">${escapeHTML(model)}</span>`).join('')}</div>`
         : '';
       const imageHtml = item.img
-        ? `<img class="gallery-card-img" src="${item.img}" alt="${item.title}" loading="lazy" decoding="async">`
+        ? `<img class="gallery-card-img" src="${escapeAttr(item.img)}" alt="${escapeAttr(item.title)}" loading="lazy" decoding="async">`
         : '';
 
-      return `<article class="gallery-card" data-cat="${item.cat}" data-gallery-index="${idx}" role="button" tabindex="0" aria-label="${catLabel}: ${item.title}">
+      return `<article class="gallery-card" data-cat="${item.cat}" data-gallery-index="${idx}" role="button" tabindex="0" aria-label="${safeAriaLabel}">
         ${imageHtml}
         ${groupBadge}
         <div class="gallery-card-placeholder">
           <span class="gallery-card-placeholder-icon">${catIcon}</span>
-          <span class="gallery-card-placeholder-label">${catLabel}</span>
+          <span class="gallery-card-placeholder-label">${safeCatLabel}</span>
         </div>
         <div class="gallery-card-overlay">
-          <div class="gallery-card-cat">${catLabel}</div>
-          <h3 class="gallery-card-title">${item.title}</h3>
+          <div class="gallery-card-cat">${safeCatLabel}</div>
+          <h3 class="gallery-card-title">${safeTitle}</h3>
           ${modelPills}
-          <p class="gallery-card-desc">${item.desc || 'ডিটেইল দেখতে ক্লিক করুন'}</p>
+          <p class="gallery-card-desc">${safeDesc}</p>
         </div>
       </article>`;
     }
@@ -336,20 +354,20 @@
 
       const wrap = document.getElementById('lightboxImgWrap');
       if (item.img) {
-        wrap.innerHTML = `<img src="${item.img}" alt="${item.title}">`;
+        wrap.innerHTML = `<img src="${escapeAttr(item.img)}" alt="${escapeAttr(item.title)}">`;
         const image = wrap.querySelector('img');
         if (image) {
           image.addEventListener('error', () => {
             wrap.innerHTML = `<div class="lightbox-placeholder-full">
           <span>${CAT_ICONS[item.cat] || '📷'}</span>
-          <small style="font-size:14px;color:var(--cream-dim)">${item.title}</small>
+          <small style="font-size:14px;color:var(--cream-dim)">${escapeHTML(item.title)}</small>
         </div>`;
           }, { once: true });
         }
       } else {
         wrap.innerHTML = `<div class="lightbox-placeholder-full">
           <span>${CAT_ICONS[item.cat] || '📷'}</span>
-          <small style="font-size:14px;color:var(--cream-dim)">${item.title}</small>
+          <small style="font-size:14px;color:var(--cream-dim)">${escapeHTML(item.title)}</small>
         </div>`;
       }
     }

@@ -439,3 +439,30 @@
     flex: 1 1 100%;
   }
 }
+
+@media (max-width: 360px) {
+  .samples-catalog-shell {
+    padding-inline: 8px;
+  }
+
+  .samples-catalog-topbar {
+    padding: 14px 0 12px;
+  }
+
+  .samples-catalog-panel {
+    padding: 12px;
+  }
+
+  .samples-catalog-hero-note strong {
+    font-size: 16px;
+  }
+
+  .samples-catalog-grid .sample-card-swatch {
+    height: 176px;
+  }
+
+  .samples-catalog-order-link,
+  .samples-catalog-reset-btn {
+    min-height: 44px;
+  }
+}

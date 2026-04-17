@@ -42,6 +42,15 @@
       overflow-x: hidden;
     }
 
+    /* Keep media fluid on narrow screens to avoid horizontal overflow. */
+    :where(img, svg, video, canvas, iframe) {
+      max-width: 100%;
+    }
+
+    :where(img, svg, video, canvas) {
+      height: auto;
+    }
+
     body::before {
       content: '';
       position: fixed;
@@ -1332,6 +1341,40 @@
 
       .gallery-card {
         height: 230px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .page-shell {
+        padding-inline: 8px;
+      }
+
+      .topbar {
+        padding: 14px 0 12px;
+      }
+
+      .hero-title {
+        font-size: clamp(28px, 12vw, 34px);
+      }
+
+      .catalog-panel {
+        padding: 12px;
+      }
+
+      .filter-btn {
+        flex-basis: 100%;
+      }
+
+      .floating-cta {
+        right: 10px;
+        bottom: 12px;
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .floating-cta-btn {
+        width: 44px;
+        height: 44px;
       }
     }
 
