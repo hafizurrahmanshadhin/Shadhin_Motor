@@ -5002,14 +5002,14 @@
 }
 
 .floating-cta-btn {
-  width: 48px;
-  height: 48px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-size: 21px;
+  font-size: 16px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -5173,9 +5173,9 @@
   }
 
   .floating-cta-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 19px;
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
   }
 
   .confirm-modal {
@@ -5768,9 +5768,9 @@
       }
 
       .floating-cta-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 17px;
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
       }
     }
 

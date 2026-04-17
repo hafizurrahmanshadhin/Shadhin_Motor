@@ -28,9 +28,9 @@
   align-items: center;
   justify-content: center;
   gap: 0;
-  width: 56px;
-  height: 56px;
-  padding: 0 17px;
+  width: 46px;
+  height: 46px;
+  padding: 0 13px;
   border: 1px solid var(--a11y-panel-border);
   border-radius: 999px;
   background: linear-gradient(140deg, #1f150a, #0f0b06);
@@ -53,21 +53,21 @@
 .a11y-tools-toggle:hover,
 .a11y-tools-toggle:focus-visible,
 .a11y-tools.open .a11y-tools-toggle {
-  width: min(218px, calc(100vw - 24px));
-  gap: 10px;
+  width: min(194px, calc(100vw - 24px));
+  gap: 8px;
   justify-content: flex-start;
-  padding: 0 16px;
+  padding: 0 13px;
   border-color: rgba(245, 215, 142, 0.72);
   box-shadow: 0 14px 32px rgba(0, 0, 0, 0.42);
 }
 
 .a11y-tools-toggle-icon {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 22px;
+  flex: 0 0 18px;
 }
 
 .a11y-tools-toggle-icon svg {
@@ -94,7 +94,7 @@
 .a11y-tools-toggle:hover .a11y-tools-toggle-text,
 .a11y-tools-toggle:focus-visible .a11y-tools-toggle-text,
 .a11y-tools.open .a11y-tools-toggle-text {
-  max-width: 160px;
+  max-width: 150px;
   opacity: 1;
   transform: translateX(0);
 }
@@ -222,7 +222,7 @@ body.a11y-high-contrast :where(a, button, input, select, textarea, [role='button
   .a11y-tools-toggle:hover,
   .a11y-tools-toggle:focus-visible,
 .a11y-tools.open .a11y-tools-toggle {
-    width: min(210px, calc(100vw - 20px));
+    width: min(186px, calc(100vw - 20px));
   }
 
   .a11y-tools-panel {
