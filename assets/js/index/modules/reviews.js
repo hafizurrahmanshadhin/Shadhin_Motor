@@ -217,6 +217,12 @@ function showToast(title, message, duration = 4000) {
 }
 
 export function initHomeReviews() {
+  const uiTextRoot = document.getElementById('homeReviewsUiText');
+
+  function getUiText(key) {
+    const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
+    return value || '';
+  }
 
   const reviewState = {
     cards: [],
@@ -255,7 +261,6 @@ export function initHomeReviews() {
 
   const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
   const REVIEW_VIDEO_EXT_RE = /\.(3gp|avi|m4v|mkv|mov|mp4|ogg|ogv|webm)$/i;
-  const uiTextRoot = document.getElementById('homeReviewsUiText');
 
   function escapeHTML(value = '') {
     return String(value ?? '').replace(/[&<>"']/g, char => {
@@ -269,11 +274,6 @@ export function initHomeReviews() {
 
   function escapeAttr(value = '') {
     return escapeHTML(value).replace(/`/g, '&#96;');
-  }
-
-  function getUiText(key) {
-    const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
-    return value || '';
   }
 
   function formatText(template, tokens = {}) {
