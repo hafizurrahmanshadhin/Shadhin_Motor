@@ -426,7 +426,7 @@
   }
 
   .service-tag {
-    margin-top: 16px;
+    margin-top: auto;
     padding: 6px 10px;
     font-size: 12px;
   }
@@ -976,7 +976,7 @@
   }
 
   body.home-page .service-tag {
-    margin-top: 14px;
+    margin-top: auto;
     padding: 6px 10px;
     font-size: 13px;
   }
