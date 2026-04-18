@@ -278,11 +278,11 @@
   }
 
   .stat-num {
-    font-size: 28px;
+    font-size: 36px;
   }
 
   .stat-label {
-    font-size: 11px;
+    font-size: 16px;
     letter-spacing: 0.6px;
   }
 }
