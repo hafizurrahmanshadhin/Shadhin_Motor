@@ -1,4 +1,5 @@
 import { buildRelativeUrl, cleanLeadingIcon, syncPressedState } from '../../shared/page-helpers.js';
+import { getElementText, getImageSource } from '../../shared/dom-helpers.js';
 
 function openDialog(dialog) {
   if (!dialog) return;
@@ -134,6 +135,22 @@ function syncBodyScrollLockState() {
   }
 
   unlockBodyScroll(root, body);
+}
+
+function getGalleryModelList(shell, trigger) {
+  const card = trigger?.closest('.gallery-item, .gallery-card');
+  const visibleModels = Array.from(card?.querySelectorAll('.gallery-card-model-pill') || [])
+    .map(node => node.textContent?.trim() || '')
+    .filter(Boolean);
+
+  if (visibleModels.length) {
+    return visibleModels;
+  }
+
+  return String(shell?.dataset.models || trigger?.dataset.galleryModels || '')
+    .split('|')
+    .map(value => value.trim())
+    .filter(Boolean);
 }
 
 export function initHomeGallery() {
@@ -465,19 +482,17 @@ export function initHomeGallery() {
 
   function getTriggerData(trigger) {
     const card = trigger.closest('.gallery-item, .gallery-card');
-    const label = card?.querySelector('.gallery-overlay-cat, .gallery-card-cat')?.textContent?.trim()
-      || getFilterLabel(trigger.dataset.galleryCat || 'all');
-    const icon = card?.querySelector('.gallery-item-placeholder-icon, .gallery-card-placeholder-icon')?.textContent?.trim()
-      || '';
+    const shell = trigger.closest('.gallery-item-shell, .gallery-card-item');
+    const cat = shell?.dataset.cat || card?.dataset.cat || trigger.dataset.galleryCat || 'all';
 
     return {
-      cat: trigger.dataset.galleryCat || 'car',
-      label,
-      icon,
-      title: trigger.dataset.galleryTitle || lightboxTitleDefault,
-      img: trigger.dataset.galleryImg || '',
-      desc: trigger.dataset.galleryDesc || '',
-      models: (trigger.dataset.galleryModels || '').split('|').filter(Boolean)
+      cat,
+      label: getElementText(card, '.gallery-overlay-cat, .gallery-card-cat', getFilterLabel(cat)),
+      icon: getElementText(card, '.gallery-item-placeholder-icon, .gallery-card-placeholder-icon', ''),
+      title: getElementText(card, '.gallery-overlay-title, .gallery-card-title', trigger.dataset.galleryTitle || lightboxTitleDefault),
+      img: getImageSource(card, '.gallery-item-img, .gallery-card-img', trigger.dataset.galleryImg || ''),
+      desc: getElementText(card, '.gallery-overlay-desc, .gallery-card-desc', trigger.dataset.galleryDesc || ''),
+      models: getGalleryModelList(shell, trigger)
     };
   }
 

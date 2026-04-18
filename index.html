@@ -195,39 +195,7 @@
   <nav id="navbar" aria-label="Primary navigation">
     <a href="#hero" class="nav-logo" aria-label="Shadhin Motor হোম সেকশনে যান">
       <div class="nav-logo-icon">
-        <!-- Shadhin Motor seat cover logo -->
-        <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46" aria-hidden="true" focusable="false">
-          <!-- Seat back body -->
-          <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
-            stroke-width="1.6" />
-          <!-- Diamond quilting pattern — row 1 -->
-          <polygon points="18,8  21.5,11.5  18,15  14.5,11.5" fill="none" stroke="#e8a832" stroke-width="1"
-            opacity="0.7" />
-          <polygon points="28,8  31.5,11.5  28,15  24.5,11.5" fill="none" stroke="#e8a832" stroke-width="1"
-            opacity="0.7" />
-          <!-- Diamond quilting pattern — row 2 -->
-          <polygon points="18,16 21.5,19.5 18,23  14.5,19.5" fill="none" stroke="#e8a832" stroke-width="1"
-            opacity="0.7" />
-          <polygon points="28,16 31.5,19.5 28,23  24.5,19.5" fill="none" stroke="#e8a832" stroke-width="1"
-            opacity="0.7" />
-          <!-- Centre stitch dots between diamonds -->
-          <circle cx="23" cy="11.5" r="1" fill="#e8a832" opacity="0.5" />
-          <circle cx="23" cy="19.5" r="1" fill="#e8a832" opacity="0.5" />
-          <!-- Armrest pegs -->
-          <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
-          <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
-          <!-- Seat cushion -->
-          <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(200,134,10,0.1)" stroke="#e8a832"
-            stroke-width="1.6" />
-          <!-- Horizontal stitching on cushion -->
-          <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#e8a832" stroke-width="0.9" stroke-dasharray="3,2.5"
-            opacity="0.6" />
-          <!-- Connector lines back-to-cushion -->
-          <line x1="9" y1="30" x2="5" y2="32" stroke="#c8860a" stroke-width="1.4" />
-          <line x1="37" y1="30" x2="41" y2="32" stroke="#c8860a" stroke-width="1.4" />
-          <!-- Gold accent bar at top of seat back -->
-          <rect x="13" y="2" width="20" height="2" rx="1" fill="#e8a832" opacity="0.6" />
-        </svg>
+        <img class="nav-logo-mark" src="assets/images/logo-mark.svg" alt="" width="46" height="46" decoding="async">
       </div>
       <div class="nav-logo-text">
         <span class="nav-logo-main">Shadhin <em>Motor</em></span>
@@ -1441,7 +1409,7 @@
         </div>
       </div>
       <div class="reveal reveal-delay-15">
-        <form class="order-form" id="orderForm" novalidate>
+        <form class="order-form" id="orderForm" method="post" accept-charset="UTF-8" novalidate>
           <!-- Selected sample strip -->
           <div id="formSampleStrip" class="form-sample-strip">
             <div class="form-sample-strip-row">
@@ -1458,7 +1426,7 @@
                 পরিবর্তন করুন</button>
             </div>
           </div>
-          <input type="hidden" id="selectedSampleId">
+          <input type="hidden" id="selectedSampleId" name="selectedSampleId">
           <div class="form-row">
             <div class="form-group">
               <label for="custName">আপনার নাম *</label>
@@ -1559,7 +1527,7 @@
         আপনার ছবি/ভিডিওসহ রিভিউ submit করুন। Dashboard থেকে approve করার পর selected review homepage-এ show হবে।
       </p>
 
-      <form id="reviewSubmitForm" class="review-submit-form" novalidate>
+      <form id="reviewSubmitForm" class="review-submit-form" method="post" accept-charset="UTF-8" enctype="multipart/form-data" novalidate>
         <div class="review-submit-grid">
           <div class="form-group">
             <label for="reviewUserName">আপনার নাম</label>
@@ -1668,22 +1636,7 @@
       <div class="footer-brand">
         <a href="#hero" class="nav-logo footer-logo-link" aria-label="Shadhin Motor হোম সেকশনে যান">
           <div class="nav-logo-icon">
-            <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46" aria-hidden="true" focusable="false">
-              <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832" stroke-width="1.6" />
-              <polygon points="18,8 21.5,11.5 18,15 14.5,11.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
-              <polygon points="28,8 31.5,11.5 28,15 24.5,11.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
-              <polygon points="18,16 21.5,19.5 18,23 14.5,19.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
-              <polygon points="28,16 31.5,19.5 28,23 24.5,19.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
-              <circle cx="23" cy="11.5" r="1" fill="#e8a832" opacity="0.5" />
-              <circle cx="23" cy="19.5" r="1" fill="#e8a832" opacity="0.5" />
-              <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
-              <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
-              <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(200,134,10,0.1)" stroke="#e8a832" stroke-width="1.6" />
-              <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#e8a832" stroke-width="0.9" stroke-dasharray="3,2.5" opacity="0.6" />
-              <line x1="9" y1="30" x2="5" y2="32" stroke="#c8860a" stroke-width="1.4" />
-              <line x1="37" y1="30" x2="41" y2="32" stroke="#c8860a" stroke-width="1.4" />
-              <rect x="13" y="2" width="20" height="2" rx="1" fill="#e8a832" opacity="0.6" />
-            </svg>
+            <img class="nav-logo-mark" src="assets/images/logo-mark.svg" alt="" width="46" height="46" decoding="async">
           </div>
           <div class="nav-logo-text">
             <span class="nav-logo-main">Shadhin <em>Motor</em></span>

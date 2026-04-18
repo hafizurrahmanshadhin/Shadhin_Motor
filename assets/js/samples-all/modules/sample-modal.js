@@ -1,4 +1,9 @@
 import { buildRelativeUrl } from '../../shared/page-helpers.js';
+import {
+  getElementText,
+  getImageSource,
+  getInlineStyleValue
+} from '../../shared/dom-helpers.js';
 
 const FOCUSABLE_SELECTOR = [
   'a[href]',
@@ -56,6 +61,12 @@ function sanitizeColor(value, fallback) {
   return fallback;
 }
 
+function normalizeSampleMaterial(value) {
+  const material = String(value || '').trim().toLowerCase();
+  if (material.includes('leather') || material.includes('লেদার')) return 'leather';
+  return 'rexine';
+}
+
 export function createSamplesCatalogModal({ grid, getUiText }) {
   const modalOverlay = document.getElementById('sampleModal');
   const orderBtn = document.getElementById('sampleModalOrderBtn');
@@ -65,26 +76,45 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   let lastSampleTrigger = null;
   let keepTriggerFocusOnClose = false;
 
+  const getSampleIdFromCard = card => {
+    if (!(card instanceof HTMLElement)) return '';
+    return getElementText(card, '.sample-card-id span:first-child', card.dataset.sampleId || '');
+  };
+
   const getSampleFromCard = card => {
     if (!(card instanceof HTMLElement)) return null;
-    const material = card.dataset.material === 'leather' ? 'leather' : 'rexine';
+    const materialLabel = getElementText(card, '.sample-card-material-tag', card.dataset.material || '');
+    const material = normalizeSampleMaterial(materialLabel || card.dataset.material || '');
     const fallbackHex = material === 'rexine' ? '#3d2010' : '#3b1f0a';
+    const orderButton = card.querySelector('.sample-card-order-btn');
+    const isUnavailable = card.classList.contains('out-of-stock')
+      || Boolean(orderButton?.disabled)
+      || getElementText(card, '.sample-card-stock-badge', '').includes('স্টক')
+      || card.dataset.available === 'false';
 
     return {
-      id: card.dataset.sampleId || '',
-      name: card.dataset.sampleName || '',
+      id: getSampleIdFromCard(card),
+      name: getElementText(card, '.sample-card-name', card.dataset.sampleName || ''),
       material,
-      color: card.dataset.color || '',
-      hex: sanitizeColor(card.dataset.hex, fallbackHex),
-      available: card.dataset.available !== 'false',
-      note: card.dataset.note || '',
-      img: card.dataset.img || '',
-      swatchFallback: card.querySelector('.swatch-no-img')?.textContent?.trim() || ''
+      color: getElementText(card, '.sample-card-color-name', card.dataset.color || ''),
+      hex: sanitizeColor(
+        getInlineStyleValue(card, '.sample-card-color-dot', 'background', '')
+          || getInlineStyleValue(card, '.sample-card-color-dot', 'background-color', '')
+          || getInlineStyleValue(card, '.sample-card-swatch', 'background-color', '')
+          || getInlineStyleValue(card, '.sample-card-swatch', 'background', '')
+          || card.dataset.hex,
+        fallbackHex
+      ),
+      available: !isUnavailable,
+      note: getElementText(card, '.sample-card-note', card.dataset.note || ''),
+      img: getImageSource(card, '.sample-card-swatch img', card.dataset.img || ''),
+      swatchFallback: getElementText(card, '.swatch-no-img', '')
     };
   };
 
   const findSampleById = sampleId => {
-    const card = grid.querySelector(`.sample-card[data-sample-id="${CSS.escape(sampleId)}"]`);
+    const card = grid.querySelector(`.sample-card[data-sample-id="${CSS.escape(sampleId)}"]`)
+      || Array.from(grid.querySelectorAll('.sample-card')).find(entry => getSampleIdFromCard(entry) === sampleId);
     return card ? getSampleFromCard(card) : null;
   };
 
@@ -176,27 +206,30 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   });
 
   grid.addEventListener('click', event => {
-    const orderButton = event.target.closest('[data-order-sample-id]');
+    const orderButton = event.target.closest('.sample-card-order-btn');
     if (orderButton) {
       event.stopPropagation();
-      orderSample(orderButton.dataset.orderSampleId);
+      const sampleId = getSampleFromCard(orderButton.closest('.sample-card'))?.id || orderButton.dataset.orderSampleId;
+      if (sampleId) orderSample(sampleId);
       return;
     }
 
-    const previewTrigger = event.target.closest('.sample-card-preview[data-preview-sample-id]');
+    const previewTrigger = event.target.closest('a.sample-card-preview, button.sample-card-preview');
     if (!previewTrigger || !grid.contains(previewTrigger)) return;
     event.preventDefault();
-    openSampleModal(previewTrigger.dataset.previewSampleId, previewTrigger);
+    const sampleId = getSampleFromCard(previewTrigger.closest('.sample-card'))?.id || previewTrigger.dataset.previewSampleId;
+    if (sampleId) openSampleModal(sampleId, previewTrigger);
   });
 
   grid.addEventListener('keydown', event => {
     if (event.key !== ' ') return;
 
-    const previewTrigger = event.target.closest('.sample-card-preview[data-preview-sample-id]');
+    const previewTrigger = event.target.closest('a.sample-card-preview, button.sample-card-preview');
     if (!previewTrigger || !grid.contains(previewTrigger)) return;
 
     event.preventDefault();
-    openSampleModal(previewTrigger.dataset.previewSampleId, previewTrigger);
+    const sampleId = getSampleFromCard(previewTrigger.closest('.sample-card'))?.id || previewTrigger.dataset.previewSampleId;
+    if (sampleId) openSampleModal(sampleId, previewTrigger);
   });
 
   document.getElementById('sampleModalCloseBtn')?.addEventListener('click', closeSampleModal);

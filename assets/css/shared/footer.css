@@ -1,4 +1,4 @@
-footer {
+#sharedFooter {
   background: #080603;
   border-top: 1px solid rgba(200, 134, 10, 0.1);
   padding-top: 60px;
@@ -7,7 +7,7 @@ footer {
   padding-left: var(--page-edge);
 }
 
-#footer-location {
+#sharedFooter #footer-location {
   scroll-margin-top: 110px;
 }
 
