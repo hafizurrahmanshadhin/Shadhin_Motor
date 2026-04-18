@@ -46,7 +46,7 @@ footer {
   line-height: 1.7;
 }
 
-.footer-col h4 {
+.footer-col :is(h3, h4) {
   font-family: var(--font-ui);
   font-size: 12px;
   font-weight: 600;
@@ -107,13 +107,18 @@ footer {
 
 .footer-col ul a {
   color: var(--cream-dim);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: rgba(245, 215, 142, 0.45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
   font-size: 14px;
-  transition: color 0.3s;
+  transition: color 0.3s, text-decoration-color 0.3s;
 }
 
-.footer-col ul a:hover {
+.footer-col ul a:hover,
+.footer-col ul a:focus-visible {
   color: var(--gold);
+  text-decoration-color: currentColor;
 }
 
 .footer-bottom {
@@ -137,6 +142,7 @@ footer {
   white-space: nowrap;
   text-align: right;
   overflow-wrap: anywhere;
+  color: rgba(245, 234, 216, 0.88);
 }
 
 .footer-social-links {
@@ -242,7 +248,10 @@ footer {
 
 .footer-bottom a {
   color: var(--gold);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {

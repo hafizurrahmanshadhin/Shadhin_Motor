@@ -260,7 +260,7 @@
   color: var(--gold-light);
 }
 
-.about-exp-card h4 {
+.about-exp-card :is(h3, h4) {
   font-family: var(--font-ui);
   font-size: 18px;
   color: var(--cream);
@@ -581,7 +581,7 @@
   min-width: 0;
 }
 
-.about-team-preview-copy h4 {
+.about-team-preview-copy :is(h3, h4) {
   font-family: var(--font-ui);
   font-size: 24px;
   color: var(--cream);
@@ -693,7 +693,7 @@
     max-height: 52dvh;
   }
 
-  .about-team-preview-copy h4 {
+  .about-team-preview-copy :is(h3, h4) {
     font-size: 21px;
   }
 

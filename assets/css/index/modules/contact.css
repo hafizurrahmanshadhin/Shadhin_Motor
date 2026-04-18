@@ -34,7 +34,7 @@
   font-size: 18px;
 }
 
-.contact-item-text h4 {
+.contact-item-text :is(h3, h4) {
   font-family: var(--font-ui);
   font-size: 14px;
   font-weight: 600;
@@ -54,7 +54,10 @@
 
 .contact-item-text a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
 }
 
 .contact-item-text a:hover {

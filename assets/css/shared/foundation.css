@@ -12,7 +12,7 @@
   --leather: #6b3b1f;
   --white: #ffffff;
   --shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-  --font-ui: 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', 'Segoe UI', 'Vrinda', sans-serif;
+  --font-ui: 'Noto Sans Bengali', 'Nirmala UI', 'Segoe UI', 'Vrinda', sans-serif;
   --font-brand: 'Playfair Display', Georgia, serif;
   --font-accent: 'Josefin Sans', 'Noto Sans Bengali', sans-serif;
   --page-edge: clamp(16px, 4vw, 60px);

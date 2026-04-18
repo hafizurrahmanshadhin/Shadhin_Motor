@@ -2,3 +2,20 @@ body.home-page section {
   padding: var(--section-block) var(--page-edge);
   scroll-margin-top: 110px;
 }
+
+body.home-page #about,
+body.home-page #gallery,
+body.home-page #samples,
+body.home-page #process,
+body.home-page #vehicles,
+body.home-page #local-seo,
+body.home-page #reviews,
+body.home-page #contact,
+body.home-page footer {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}
+
+html[data-enhanced="true"] #reviewsGrid:not(.reviews-grid--enhanced) .review-card:nth-child(n + 4) {
+  display: none;
+}

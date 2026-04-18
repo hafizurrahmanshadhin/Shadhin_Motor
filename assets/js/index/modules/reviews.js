@@ -612,9 +612,9 @@ export function initHomeReviews() {
     if (!ratings.length) {
       if (avgEl) avgEl.textContent = '0.0';
       if (countEl) countEl.textContent = '0';
-      if (starsFillEl) starsFillEl.style.width = '0%';
+      if (starsFillEl) starsFillEl.style.setProperty('--reviews-fill-width', '0%');
       reviewsSection.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
-        row.querySelector('.reviews-breakdown-fill')?.style.setProperty('width', '0%');
+        row.querySelector('.reviews-breakdown-fill')?.style.setProperty('--reviews-fill-width', '0%');
         const countTextEl = row.querySelector('.reviews-breakdown-count');
         if (countTextEl) countTextEl.textContent = '0';
       });
@@ -626,13 +626,18 @@ export function initHomeReviews() {
 
     if (avgEl) avgEl.textContent = roundedAverage.toFixed(1);
     if (countEl) countEl.textContent = String(total);
-    if (starsFillEl) starsFillEl.style.width = `${Math.max(0, Math.min(100, (roundedAverage / 5) * 100))}%`;
+    if (starsFillEl) {
+      starsFillEl.style.setProperty(
+        '--reviews-fill-width',
+        `${Math.max(0, Math.min(100, (roundedAverage / 5) * 100))}%`
+      );
+    }
 
     reviewsSection.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
       const stars = Number(row.dataset.stars || '0');
       const count = ratings.filter(score => score === stars).length;
       const width = total ? `${(count / total) * 100}%` : '0%';
-      row.querySelector('.reviews-breakdown-fill')?.style.setProperty('width', width);
+      row.querySelector('.reviews-breakdown-fill')?.style.setProperty('--reviews-fill-width', width);
       const countTextEl = row.querySelector('.reviews-breakdown-count');
       if (countTextEl) countTextEl.textContent = String(count);
     });
@@ -1526,6 +1531,7 @@ export function initHomeReviews() {
   function initReviewsModule() {
     reviewState.cards = Array.from(reviewsSection.querySelectorAll('.review-card[data-review-score]'));
     reviewState.perPage = getReviewsPerPage();
+    document.getElementById('reviewsGrid')?.classList.add('reviews-grid--enhanced');
 
     initReviewsPaginationEvents();
     initReviewCardInteractions();

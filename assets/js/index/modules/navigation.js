@@ -5,6 +5,10 @@ export function initHomeNavigation() {
   const navLinks = Array.from(navLinksContainer?.querySelectorAll('a[href^="#"]') || []);
   const trackedSections = Array.from(document.querySelectorAll('main section[id]'))
     .filter(section => navLinks.some(link => link.getAttribute('href') === `#${section.id}`));
+  const trackedSectionStates = new Map();
+  let navHeight = navbar?.offsetHeight || 0;
+  let measurementFrame = 0;
+  let sectionObserver = null;
 
   function updateNavToggleButtonState(isOpen) {
     if (!hamburgerBtn) return;
@@ -25,22 +29,77 @@ export function initHomeNavigation() {
     });
   }
 
-  function updateActiveNavLink() {
+  function updateNavbarState() {
     if (navbar) {
       navbar.classList.toggle('scrolled', window.scrollY > 60);
     }
+  }
 
-    const navHeight = navbar?.offsetHeight || 0;
-    const scrollMark = window.scrollY + navHeight + 120;
-    let activeId = '';
+  function updateActiveNavLink() {
+    const visibleSections = Array.from(trackedSectionStates.entries())
+      .filter(([, state]) => state.isIntersecting)
+      .sort((left, right) => {
+        return Math.abs(left[1].top) - Math.abs(right[1].top);
+      });
 
-    trackedSections.forEach(section => {
-      if (scrollMark >= section.offsetTop) {
-        activeId = `#${section.id}`;
-      }
+    if (visibleSections.length) {
+      setActiveNavLink(visibleSections[0][0]);
+      return;
+    }
+
+    const isNearTop = window.scrollY < 40;
+    if (isNearTop) {
+      setActiveNavLink('');
+      return;
+    }
+
+    const lastSection = trackedSections.at(-1);
+    const isNearPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 32;
+    if (isNearPageBottom && lastSection) {
+      setActiveNavLink(`#${lastSection.id}`);
+    }
+  }
+
+  function buildSectionObserver() {
+    navHeight = navbar?.offsetHeight || 0;
+
+    if (sectionObserver) {
+      sectionObserver.disconnect();
+      sectionObserver = null;
+    }
+
+    trackedSectionStates.clear();
+
+    if (!trackedSections.length || typeof IntersectionObserver !== 'function') {
+      updateActiveNavLink();
+      return;
+    }
+
+    sectionObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        trackedSectionStates.set(`#${entry.target.id}`, {
+          isIntersecting: entry.isIntersecting,
+          top: entry.boundingClientRect.top
+        });
+      });
+
+      updateActiveNavLink();
+    }, {
+      rootMargin: `-${navHeight + 110}px 0px -55% 0px`,
+      threshold: [0, 0.15, 0.35, 0.6, 0.85]
     });
 
-    setActiveNavLink(activeId);
+    trackedSections.forEach(section => sectionObserver?.observe(section));
+  }
+
+  function requestMeasurements() {
+    if (measurementFrame) return;
+
+    measurementFrame = window.requestAnimationFrame(() => {
+      measurementFrame = 0;
+      buildSectionObserver();
+      updateActiveNavLink();
+    });
   }
 
   function toggleNav(forceOpen) {
@@ -54,9 +113,18 @@ export function initHomeNavigation() {
     updateNavToggleButtonState(nextState);
   }
 
-  window.addEventListener('scroll', updateActiveNavLink);
-  window.addEventListener('load', updateActiveNavLink);
-  window.addEventListener('hashchange', updateActiveNavLink);
+  buildSectionObserver();
+  window.addEventListener('scroll', updateNavbarState, { passive: true });
+  window.addEventListener('load', requestMeasurements);
+  window.addEventListener('resize', requestMeasurements);
+  window.addEventListener('hashchange', requestMeasurements);
+
+  if (typeof ResizeObserver === 'function') {
+    const resizeObserver = new ResizeObserver(() => requestMeasurements());
+    if (navbar) resizeObserver.observe(navbar);
+  }
+
+  updateNavbarState();
   updateActiveNavLink();
 
   if (hamburgerBtn) {

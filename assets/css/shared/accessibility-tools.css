@@ -49,7 +49,6 @@
   white-space: nowrap;
   position: relative;
   isolation: isolate;
-  animation: a11y-toggle-breathe 3.6s ease-in-out infinite;
   transition:
     width 0.24s ease,
     gap 0.24s ease,
@@ -227,17 +226,6 @@
 
   50% {
     transform: translateY(-5px);
-  }
-}
-
-@keyframes a11y-toggle-breathe {
-  0%,
-  100% {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  }
-
-  50% {
-    box-shadow: 0 13px 30px rgba(0, 0, 0, 0.45);
   }
 }
 

@@ -25,7 +25,6 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-  animation: cta-btn-breathe 3.6s ease-in-out infinite;
 }
 
 .floating-cta-btn:hover {
@@ -67,13 +66,11 @@
 .floating-cta-btn.wa {
   background: #25d366;
   color: #0a1f13;
-  animation-delay: 0.15s;
 }
 
 .floating-cta-btn.call {
   background: var(--gold);
   color: var(--bg-deep);
-  animation-delay: 0.7s;
 }
 
 .floating-cta-btn.call::after {
@@ -88,17 +85,6 @@
 
   50% {
     transform: translateY(-6px);
-  }
-}
-
-@keyframes cta-btn-breathe {
-  0%,
-  100% {
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-  }
-
-  50% {
-    box-shadow: 0 17px 38px rgba(0, 0, 0, 0.48);
   }
 }
 
