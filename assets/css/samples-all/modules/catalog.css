@@ -1,0 +1,224 @@
+.samples-catalog-panel {
+  padding: 26px;
+  border: 1px solid rgba(200, 134, 10, 0.12);
+  background: linear-gradient(180deg, rgba(29, 18, 8, 0.94), rgba(14, 10, 4, 0.98));
+  box-shadow: var(--shadow);
+}
+
+.samples-catalog-toolbar {
+  margin-bottom: 20px;
+}
+
+.samples-catalog-toolbar > *,
+.samples-catalog-search-row > * {
+  min-width: 0;
+}
+
+.samples-catalog-toolbar-side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.samples-catalog-count-info {
+  font-family: var(--font-accent);
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  color: var(--cream-dim);
+}
+
+.samples-catalog-count-info output {
+  display: inline;
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.samples-catalog-count-info :is(strong, output) {
+  color: var(--gold);
+}
+
+.samples-catalog-order-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 18px;
+  border: 1px solid rgba(200, 134, 10, 0.24);
+  background: linear-gradient(135deg, rgba(200, 134, 10, 0.12), rgba(200, 134, 10, 0.05));
+  color: var(--gold-pale);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.samples-catalog-order-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: 0 14px 34px rgba(200, 134, 10, 0.16);
+}
+
+.samples-catalog-search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.sample-search-wrap,
+.samples-catalog-search-wrap {
+  position: relative;
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.sample-search {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px 12px 44px;
+  border: 1px solid rgba(200, 134, 10, 0.22);
+  background: rgba(37, 26, 10, 0.72);
+  color: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.sample-search:focus {
+  border-color: var(--gold);
+  background: rgba(37, 26, 10, 0.92);
+}
+
+.sample-search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  opacity: 0.8;
+  pointer-events: none;
+  font-size: 14px;
+}
+
+.samples-catalog-reset-btn {
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(200, 134, 10, 0.25);
+  background: transparent;
+  color: var(--cream-dim);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.samples-catalog-reset-btn:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(200, 134, 10, 0.08);
+}
+
+.samples-catalog-helper {
+  max-width: 760px;
+  margin-bottom: 26px;
+  color: var(--cream-dim);
+  font-size: 14px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.samples-catalog-count-info {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media (max-width: 900px) {
+  .samples-catalog-panel {
+    padding: 18px;
+  }
+
+  .samples-catalog-toolbar-side,
+  .samples-catalog-search-row {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .samples-catalog-order-link,
+  .samples-catalog-reset-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1440px) {
+  .samples-catalog-panel {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
+  .samples-catalog-toolbar-side,
+  .samples-catalog-search-row {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1180px) {
+  .samples-catalog-toolbar-side,
+  .samples-catalog-search-row {
+    width: 100%;
+  }
+
+  .samples-catalog-toolbar-side {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .samples-catalog-count-info {
+    width: 100%;
+    line-height: 1.6;
+  }
+
+  .sample-search-wrap,
+  .samples-catalog-search-wrap {
+    flex: 1 1 100%;
+  }
+
+  .samples-catalog-order-link,
+  .samples-catalog-reset-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .samples-catalog-panel {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .samples-catalog-helper {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 360px) {
+  .samples-catalog-panel {
+    padding: 12px;
+  }
+
+  .samples-catalog-order-link,
+  .samples-catalog-reset-btn {
+    min-height: 44px;
+  }
+}

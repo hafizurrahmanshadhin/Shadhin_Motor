@@ -1,0 +1,247 @@
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gallery-card-item {
+  list-style: none;
+}
+
+.gallery-card {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--bg-card);
+  border: 1px solid rgba(200, 134, 10, 0.1);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22);
+  transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+}
+
+.gallery-card:hover,
+.gallery-card:focus-within {
+  transform: translateY(-8px);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.32);
+  border-color: rgba(200, 134, 10, 0.3);
+}
+
+.gallery-card-trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.gallery-card-trigger:focus {
+  outline: none;
+}
+
+.gallery-card:focus-within {
+  border-color: var(--gold-light);
+  box-shadow: 0 0 0 3px rgba(232, 168, 50, 0.55), 0 24px 56px rgba(0, 0, 0, 0.32);
+}
+
+.gallery-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: 4;
+}
+
+.gallery-card[data-cat='car']::after {
+  background: var(--gold);
+}
+
+.gallery-card[data-cat='bike']::after {
+  background: #5ba4db;
+}
+
+.gallery-card[data-cat='repair']::after {
+  background: #e05c4a;
+}
+
+.gallery-card:hover::after,
+.gallery-card:focus-within::after {
+  transform: scaleX(1);
+}
+
+.gallery-card-group-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  padding: 6px 10px;
+  border: 1px solid rgba(200, 134, 10, 0.24);
+  background: rgba(14, 10, 4, 0.78);
+  color: var(--gold-pale);
+  font-size: 11px;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+}
+
+.gallery-card-img,
+.gallery-card-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.gallery-card-img {
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+
+.gallery-card:hover .gallery-card-img,
+.gallery-card:focus-within .gallery-card-img {
+  transform: scale(1.06);
+}
+
+.gallery-card-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.gallery-card-placeholder-icon {
+  font-size: 42px;
+  opacity: 0.55;
+}
+
+.gallery-card-placeholder-label {
+  font-size: 12px;
+  font-family: var(--font-accent);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.gallery-card[data-cat='car'] .gallery-card-placeholder {
+  background: linear-gradient(145deg, #2f1e0c, #5d3914);
+}
+
+.gallery-card[data-cat='bike'] .gallery-card-placeholder {
+  background: linear-gradient(145deg, #0b1921, #14364b);
+}
+
+.gallery-card[data-cat='repair'] .gallery-card-placeholder {
+  background: linear-gradient(145deg, #221014, #4a171d);
+}
+
+.gallery-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px;
+  background: linear-gradient(to top, rgba(8, 4, 2, 0.94) 0%, rgba(8, 4, 2, 0.2) 55%, transparent 100%);
+}
+
+.gallery-card-cat {
+  font-family: var(--font-accent);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.gallery-card[data-cat='car'] .gallery-card-cat {
+  color: var(--gold);
+}
+
+.gallery-card[data-cat='bike'] .gallery-card-cat {
+  color: #7ec8f0;
+}
+
+.gallery-card[data-cat='repair'] .gallery-card-cat {
+  color: #e07070;
+}
+
+.gallery-card-title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.28;
+  font-weight: 700;
+  color: var(--cream);
+}
+
+.gallery-card-desc {
+  margin-top: 8px;
+  color: var(--cream-dim);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.gallery-card-models {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.gallery-card-model-pill {
+  padding: 4px 10px;
+  border: 1px solid rgba(200, 134, 10, 0.18);
+  background: rgba(200, 134, 10, 0.08);
+  color: var(--gold-pale);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.gallery-empty {
+  padding: 70px 24px;
+  text-align: center;
+  color: var(--cream-dim);
+  border: 1px solid rgba(200, 134, 10, 0.12);
+  background: rgba(24, 16, 7, 0.8);
+}
+
+.gallery-empty-icon {
+  display: block;
+  font-size: 52px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-card {
+    height: 300px;
+  }
+}
+
+@media (min-width: 2200px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .gallery-card {
+    height: 260px;
+  }
+}
+
+@media (max-width: 420px) {
+  .gallery-card {
+    height: 230px;
+  }
+}

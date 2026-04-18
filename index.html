@@ -12,8 +12,6 @@
   <meta name="keywords"
     content="ঢাকায় সিট কভার, কার সিট কভার ঢাকা, মোটরসাইকেল সিট কভার ঢাকা, রেক্সিন সিট কভার, চামড়ার সিট কভার, Shadhin Motor, car seat cover Dhaka, motorcycle seat cover Dhaka">
   <meta name="author" content="Shadhin Motor">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="theme-color" content="#0e0a04">
   <meta name="geo.region" content="BD">
   <meta name="geo.placename" content="Dhaka, Bangladesh">
@@ -185,9 +183,9 @@
       ]
     }
   </script>
-    <link rel="stylesheet" href="assets/css/fonts.css">
-  <link rel="stylesheet" href="assets/css/index.css">
-  <link rel="stylesheet" href="assets/css/accessibility-tools.css">
+    <link rel="stylesheet" href="assets/css/shared/fonts.css">
+  <link rel="stylesheet" href="assets/css/index/page.css">
+  <link rel="stylesheet" href="assets/css/shared/accessibility-tools.css">
 </head>
 
 <body>
@@ -254,7 +252,9 @@
       id="hamburger"
       aria-controls="navLinks"
       aria-expanded="false"
-      aria-label="মেনু খুলুন">
+      aria-label="মেনু খুলুন"
+      data-open-label="মেনু খুলুন"
+      data-close-label="মেনু বন্ধ করুন">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -466,18 +466,32 @@
     <div class="about-team-slider reveal" id="aboutTeamSlider">
       <div class="about-team-marquee-shell">
         <div class="about-team-marquee-viewport" id="aboutTeamMarqueeViewport">
-          <div class="about-team-marquee-track" id="aboutTeamGrid" aria-live="off"></div>
+          <div class="about-team-marquee-track" id="aboutTeamGrid" aria-live="off">
+            <div class="about-team-marquee-group">
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-1.jpeg" data-team-preview-name="মোঃ রায়হান ইসলাম" data-team-preview-role="মাস্টার কাটিং কারিগর" aria-label="মোঃ রায়হান ইসলাম এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-1.jpeg" alt="কর্মচারীর ছবি: মোঃ রায়হান ইসলাম" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ রায়হান ইসলাম</h4><p class="about-team-role">মাস্টার কাটিং কারিগর</p></div></div><p class="about-team-duty">গাড়ির seat frame অনুযায়ী pattern prepare করে accuracy বজায় রেখে material cut করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ১২+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-2.jpeg" data-team-preview-name="মোঃ সাগর হোসেন" data-team-preview-role="স্টিচিং ও ডিজাইন স্পেশালিস্ট" aria-label="মোঃ সাগর হোসেন এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-2.jpeg" alt="কর্মচারীর ছবি: মোঃ সাগর হোসেন" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ সাগর হোসেন</h4><p class="about-team-role">স্টিচিং ও ডিজাইন স্পেশালিস্ট</p></div></div><p class="about-team-duty">panel join, thread matching এবং design line detailing step-by-step সম্পন্ন করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৯+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-3.jpeg" data-team-preview-name="মোঃ নাঈম আহমেদ" data-team-preview-role="ফিটিং ও ফিনিশিং টেকনিশিয়ান" aria-label="মোঃ নাঈম আহমেদ এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-3.jpeg" alt="কর্মচারীর ছবি: মোঃ নাঈম আহমেদ" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ নাঈম আহমেদ</h4><p class="about-team-role">ফিটিং ও ফিনিশিং টেকনিশিয়ান</p></div></div><p class="about-team-duty">final stretch, edge alignment এবং wrinkle-free fitting নিশ্চিত করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৮+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-4.jpeg" data-team-preview-name="মোঃ তানভীর রহমান" data-team-preview-role="গ্রাহক সাপোর্ট ও ডেলিভারি সহকারী" aria-label="মোঃ তানভীর রহমান এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-4.jpeg" alt="কর্মচারীর ছবি: মোঃ তানভীর রহমান" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ তানভীর রহমান</h4><p class="about-team-role">গ্রাহক সাপোর্ট ও ডেলিভারি সহকারী</p></div></div><p class="about-team-duty">order follow-up, delivery coordination এবং after-service support দেখেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৬+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-5.jpeg" data-team-preview-name="মোঃ রাকিব হাসান" data-team-preview-role="ফোম শেইপিং কারিগর" aria-label="মোঃ রাকিব হাসান এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-5.jpeg" alt="কর্মচারীর ছবি: মোঃ রাকিব হাসান" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ রাকিব হাসান</h4><p class="about-team-role">ফোম শেইপিং কারিগর</p></div></div><p class="about-team-duty">seat cushion contour অনুযায়ী foam shaping ও edge balancing করে comfort level বাড়ান।</p><span class="about-team-exp">অভিজ্ঞতা: ৭+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-6.jpeg" data-team-preview-name="মোঃ জাহিদ মিয়া" data-team-preview-role="কাটিং সহকারী" aria-label="মোঃ জাহিদ মিয়া এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-6.jpeg" alt="কর্মচারীর ছবি: মোঃ জাহিদ মিয়া" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ জাহিদ মিয়া</h4><p class="about-team-role">কাটিং সহকারী</p></div></div><p class="about-team-duty">master cutter-এর নির্দেশনায় precision marking ও pre-cut preparation সম্পন্ন করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৫+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-7.jpeg" data-team-preview-name="মোঃ ফারুক খান" data-team-preview-role="সেলাই মেশিন অপারেটর" aria-label="মোঃ ফারুক খান এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-7.jpeg" alt="কর্মচারীর ছবি: মোঃ ফারুক খান" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ ফারুক খান</h4><p class="about-team-role">সেলাই মেশিন অপারেটর</p></div></div><p class="about-team-duty">heavy stitch machine-এ consistent seam depth বজায় রেখে daily production complete করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৬+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-8.jpeg" data-team-preview-name="মোঃ মানিক সরকার" data-team-preview-role="সাইড প্যানেল ফিটিং সহকারী" aria-label="মোঃ মানিক সরকার এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-8.jpeg" alt="কর্মচারীর ছবি: মোঃ মানিক সরকার" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ মানিক সরকার</h4><p class="about-team-role">সাইড প্যানেল ফিটিং সহকারী</p></div></div><p class="about-team-duty">door panel cover, side fitting ও corner locking carefully সেটআপ করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৪+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-9.jpeg" data-team-preview-name="মোঃ আল-আমিন" data-team-preview-role="ফাইনাল ক্লিনিং এক্সিকিউটিভ" aria-label="মোঃ আল-আমিন এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-9.jpeg" alt="কর্মচারীর ছবি: মোঃ আল-আমিন" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ আল-আমিন</h4><p class="about-team-role">ফাইনাল ক্লিনিং এক্সিকিউটিভ</p></div></div><p class="about-team-duty">delivery-এর আগে loose thread cleanup, surface finishing এবং shine balance maintain করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৫+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-10.jpeg" data-team-preview-name="মোঃ হৃদয় ইসলাম" data-team-preview-role="কোয়ালিটি চেক সহকারী" aria-label="মোঃ হৃদয় ইসলাম এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-10.jpeg" alt="কর্মচারীর ছবি: মোঃ হৃদয় ইসলাম" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ হৃদয় ইসলাম</h4><p class="about-team-role">কোয়ালিটি চেক সহকারী</p></div></div><p class="about-team-duty">stitch line, fitting tension এবং customer spec অনুযায়ী final quality checklist সম্পন্ন করেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৪+ বছর</span></article>
+              <article class="about-team-card"><div class="about-team-top"><button type="button" class="about-team-photo-btn" data-team-preview-src="assets/images/about/employee-11.jpeg" data-team-preview-name="মোঃ সাব্বির আহমেদ" data-team-preview-role="ইনস্টলেশন ও ডেলিভারি টেক" aria-label="মোঃ সাব্বির আহমেদ এর ছবি বড় করে দেখুন"><img src="assets/images/about/employee-11.jpeg" alt="কর্মচারীর ছবি: মোঃ সাব্বির আহমেদ" class="about-team-photo" loading="lazy" decoding="async"></button><div class="about-team-headline"><h4 class="about-team-name">মোঃ সাব্বির আহমেদ</h4><p class="about-team-role">ইনস্টলেশন ও ডেলিভারি টেক</p></div></div><p class="about-team-duty">on-spot fitment adjustment, customer handover briefing এবং basic care instruction দেন।</p><span class="about-team-exp">অভিজ্ঞতা: ৫+ বছর</span></article>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <dialog class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-labelledby="aboutTeamPreviewName" aria-modal="true">
+    <dialog class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-labelledby="aboutTeamPreviewName" aria-modal="true" data-default-name="শাধিন মোটর টিম" data-default-role="টিম মেম্বার" data-preview-alt-suffix="বড় প্রিভিউ">
       <figure class="about-team-preview-dialog">
         <img src="assets/images/about/employee-1.jpeg" alt="শাধিন মোটর টিম - বড় প্রিভিউ" id="aboutTeamPreviewImage" class="about-team-preview-image" loading="eager" decoding="async">
         <figcaption class="about-team-preview-footer">
           <div class="about-team-preview-copy">
             <h4 id="aboutTeamPreviewName">শাধিন মোটর টিম</h4>
-            <p id="aboutTeamPreviewRole"></p>
+            <p id="aboutTeamPreviewRole">টিম মেম্বার</p>
           </div>
           <button type="button" class="about-team-preview-close" id="aboutTeamPreviewCloseBtn" aria-label="প্রিভিউ বন্ধ করুন">✕</button>
         </figcaption>
@@ -505,14 +519,40 @@
       </div>
       <div class="gallery-toolbar-meta">
         <div class="gallery-count-info">
-          মোট <strong id="galleryTotalCount">0</strong> টি ডিজাইন · hover / drag করুন
+          মোট <strong id="galleryTotalCount">17</strong> টি ডিজাইন · hover / drag করুন
         </div>
-        <a href="gallery-all.html?cat=all" id="galleryViewAllBtn" class="btn-secondary gallery-view-all">সব দেখুন</a>
+        <a href="gallery-all.html" id="galleryViewAllBtn" class="btn-secondary gallery-view-all">সব দেখুন</a>
       </div>
     </div>
 
     <ul class="gallery-grid" id="galleryGrid">
-      <!-- Dynamically rendered by JS -->
+      <li class="gallery-marquee-shell-item">
+        <div class="gallery-marquee-shell">
+          <div class="gallery-marquee-viewport">
+            <div class="gallery-marquee-track" id="galleryMarqueeTrack">
+              <ul class="gallery-marquee-group" role="list">
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 01 কার সিট কভার ডিজাইন প্রাইভেট কার toyota corolla axio/fielder"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="0" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 01" data-gallery-img="assets/images/cars/1.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Corolla Axio/Fielder" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 01"><img class="gallery-item-img" src="assets/images/cars/1.jpeg" alt="প্রাইভেট কার ডিজাইন 01" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 01</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 02 কার সিট কভার ডিজাইন প্রাইভেট কার toyota aqua hybrid"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="1" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 02" data-gallery-img="assets/images/cars/2.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Aqua Hybrid" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 02"><img class="gallery-item-img" src="assets/images/cars/2.jpeg" alt="প্রাইভেট কার ডিজাইন 02" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 02</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 03 কার সিট কভার ডিজাইন প্রাইভেট কার toyota allion"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="2" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 03" data-gallery-img="assets/images/cars/3.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Allion" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 03"><img class="gallery-item-img" src="assets/images/cars/3.jpeg" alt="প্রাইভেট কার ডিজাইন 03" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 03</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 04 কার সিট কভার ডিজাইন প্রাইভেট কার toyota corolla axio/fielder"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="3" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 04" data-gallery-img="assets/images/cars/4.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Corolla Axio/Fielder" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 04"><img class="gallery-item-img" src="assets/images/cars/4.jpeg" alt="প্রাইভেট কার ডিজাইন 04" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 04</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 05 কার সিট কভার ডিজাইন প্রাইভেট কার toyota premio"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="4" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 05" data-gallery-img="assets/images/cars/5.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Premio" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 05"><img class="gallery-item-img" src="assets/images/cars/5.jpeg" alt="প্রাইভেট কার ডিজাইন 05" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 05</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 06 কার সিট কভার ডিজাইন প্রাইভেট কার toyota corolla axio/fielder"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="5" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 06" data-gallery-img="assets/images/cars/6.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Corolla Axio/Fielder" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 06"><img class="gallery-item-img" src="assets/images/cars/6.jpeg" alt="প্রাইভেট কার ডিজাইন 06" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 06</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 07 কার সিট কভার ডিজাইন প্রাইভেট কার toyota noah"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="6" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 07" data-gallery-img="assets/images/cars/7.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Noah" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 07"><img class="gallery-item-img" src="assets/images/cars/7.jpeg" alt="প্রাইভেট কার ডিজাইন 07" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 07</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 08 কার সিট কভার ডিজাইন প্রাইভেট কার toyota aqua hybrid"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="7" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 08" data-gallery-img="assets/images/cars/8.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Aqua Hybrid" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 08"><img class="gallery-item-img" src="assets/images/cars/8.jpeg" alt="প্রাইভেট কার ডিজাইন 08" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 08</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 09 কার সিট কভার ডিজাইন প্রাইভেট কার toyota corolla"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="8" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 09" data-gallery-img="assets/images/cars/9.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Corolla" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 09"><img class="gallery-item-img" src="assets/images/cars/9.jpeg" alt="প্রাইভেট কার ডিজাইন 09" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 09</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="car" data-search="প্রাইভেট কার ডিজাইন 10 কার সিট কভার ডিজাইন প্রাইভেট কার toyota allion"><article class="gallery-item" data-cat="car"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="9" data-gallery-cat="car" data-gallery-title="প্রাইভেট কার ডিজাইন 10" data-gallery-img="assets/images/cars/10.jpeg" data-gallery-desc="কার সিট কভার ডিজাইন" data-gallery-models="Toyota Allion" aria-label="প্রাইভেট কার: প্রাইভেট কার ডিজাইন 10"><img class="gallery-item-img" src="assets/images/cars/10.jpeg" alt="প্রাইভেট কার ডিজাইন 10" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🚗</span><span class="gallery-item-placeholder-label">প্রাইভেট কার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">প্রাইভেট কার</div><h3 class="gallery-overlay-title">প্রাইভেট কার ডিজাইন 10</h3><div class="gallery-overlay-desc">কার সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="bike" data-search="মোটরসাইকেল ডিজাইন 01 মোটরসাইকেল সিট কভার ডিজাইন মোটরসাইকেল yamaha r15"><article class="gallery-item" data-cat="bike"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="10" data-gallery-cat="bike" data-gallery-title="মোটরসাইকেল ডিজাইন 01" data-gallery-img="assets/images/bikes/11.jpeg" data-gallery-desc="মোটরসাইকেল সিট কভার ডিজাইন" data-gallery-models="Yamaha R15" aria-label="মোটরসাইকেল: মোটরসাইকেল ডিজাইন 01"><img class="gallery-item-img" src="assets/images/bikes/11.jpeg" alt="মোটরসাইকেল ডিজাইন 01" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🏍️</span><span class="gallery-item-placeholder-label">মোটরসাইকেল</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">মোটরসাইকেল</div><h3 class="gallery-overlay-title">মোটরসাইকেল ডিজাইন 01</h3><div class="gallery-overlay-desc">মোটরসাইকেল সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="bike" data-search="মোটরসাইকেল ডিজাইন 02 মোটরসাইকেল সিট কভার ডিজাইন মোটরসাইকেল bajaj pulsar"><article class="gallery-item" data-cat="bike"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="11" data-gallery-cat="bike" data-gallery-title="মোটরসাইকেল ডিজাইন 02" data-gallery-img="assets/images/bikes/12.jpeg" data-gallery-desc="মোটরসাইকেল সিট কভার ডিজাইন" data-gallery-models="Bajaj Pulsar" aria-label="মোটরসাইকেল: মোটরসাইকেল ডিজাইন 02"><img class="gallery-item-img" src="assets/images/bikes/12.jpeg" alt="মোটরসাইকেল ডিজাইন 02" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🏍️</span><span class="gallery-item-placeholder-label">মোটরসাইকেল</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">মোটরসাইকেল</div><h3 class="gallery-overlay-title">মোটরসাইকেল ডিজাইন 02</h3><div class="gallery-overlay-desc">মোটরসাইকেল সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="bike" data-search="মোটরসাইকেল ডিজাইন 03 মোটরসাইকেল সিট কভার ডিজাইন মোটরসাইকেল honda hornet"><article class="gallery-item" data-cat="bike"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="12" data-gallery-cat="bike" data-gallery-title="মোটরসাইকেল ডিজাইন 03" data-gallery-img="assets/images/bikes/13.jpeg" data-gallery-desc="মোটরসাইকেল সিট কভার ডিজাইন" data-gallery-models="Honda Hornet" aria-label="মোটরসাইকেল: মোটরসাইকেল ডিজাইন 03"><img class="gallery-item-img" src="assets/images/bikes/13.jpeg" alt="মোটরসাইকেল ডিজাইন 03" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🏍️</span><span class="gallery-item-placeholder-label">মোটরসাইকেল</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">মোটরসাইকেল</div><h3 class="gallery-overlay-title">মোটরসাইকেল ডিজাইন 03</h3><div class="gallery-overlay-desc">মোটরসাইকেল সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="bike" data-search="মোটরসাইকেল ডিজাইন 04 মোটরসাইকেল সিট কভার ডিজাইন মোটরসাইকেল suzuki gixxer"><article class="gallery-item" data-cat="bike"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="13" data-gallery-cat="bike" data-gallery-title="মোটরসাইকেল ডিজাইন 04" data-gallery-img="assets/images/bikes/14.jpeg" data-gallery-desc="মোটরসাইকেল সিট কভার ডিজাইন" data-gallery-models="Suzuki Gixxer" aria-label="মোটরসাইকেল: মোটরসাইকেল ডিজাইন 04"><img class="gallery-item-img" src="assets/images/bikes/14.jpeg" alt="মোটরসাইকেল ডিজাইন 04" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🏍️</span><span class="gallery-item-placeholder-label">মোটরসাইকেল</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">মোটরসাইকেল</div><h3 class="gallery-overlay-title">মোটরসাইকেল ডিজাইন 04</h3><div class="gallery-overlay-desc">মোটরসাইকেল সিট কভার ডিজাইন</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="repair" data-search="রিপেয়ার ডিজাইন 01 রিপেয়ার ও রিফিনিশ কাজ রিপেয়ার সিট রিপেয়ার"><article class="gallery-item" data-cat="repair"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="14" data-gallery-cat="repair" data-gallery-title="রিপেয়ার ডিজাইন 01" data-gallery-img="assets/images/others/15.jpeg" data-gallery-desc="রিপেয়ার ও রিফিনিশ কাজ" data-gallery-models="সিট রিপেয়ার" aria-label="রিপেয়ার: রিপেয়ার ডিজাইন 01"><img class="gallery-item-img" src="assets/images/others/15.jpeg" alt="রিপেয়ার ডিজাইন 01" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🔧</span><span class="gallery-item-placeholder-label">রিপেয়ার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">রিপেয়ার</div><h3 class="gallery-overlay-title">রিপেয়ার ডিজাইন 01</h3><div class="gallery-overlay-desc">রিপেয়ার ও রিফিনিশ কাজ</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="repair" data-search="রিপেয়ার ডিজাইন 02 রিপেয়ার ও রিফিনিশ কাজ রিপেয়ার ড্যাশবোর্ড রিফিনিশ"><article class="gallery-item" data-cat="repair"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="15" data-gallery-cat="repair" data-gallery-title="রিপেয়ার ডিজাইন 02" data-gallery-img="assets/images/others/16.jpeg" data-gallery-desc="রিপেয়ার ও রিফিনিশ কাজ" data-gallery-models="ড্যাশবোর্ড রিফিনিশ" aria-label="রিপেয়ার: রিপেয়ার ডিজাইন 02"><img class="gallery-item-img" src="assets/images/others/16.jpeg" alt="রিপেয়ার ডিজাইন 02" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🔧</span><span class="gallery-item-placeholder-label">রিপেয়ার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">রিপেয়ার</div><h3 class="gallery-overlay-title">রিপেয়ার ডিজাইন 02</h3><div class="gallery-overlay-desc">রিপেয়ার ও রিফিনিশ কাজ</div></div></a></article></li>
+                <li class="gallery-item-shell" data-cat="repair" data-search="রিপেয়ার ডিজাইন 03 রিপেয়ার ও রিফিনিশ কাজ রিপেয়ার হোম ফিটিং"><article class="gallery-item" data-cat="repair"><a class="gallery-item-trigger" href="#lightboxOverlay" data-idx="16" data-gallery-cat="repair" data-gallery-title="রিপেয়ার ডিজাইন 03" data-gallery-img="assets/images/others/17.jpeg" data-gallery-desc="রিপেয়ার ও রিফিনিশ কাজ" data-gallery-models="হোম ফিটিং" aria-label="রিপেয়ার: রিপেয়ার ডিজাইন 03"><img class="gallery-item-img" src="assets/images/others/17.jpeg" alt="রিপেয়ার ডিজাইন 03" loading="lazy" decoding="async"><div class="gallery-item-placeholder"><span class="gallery-item-placeholder-icon">🔧</span><span class="gallery-item-placeholder-label">রিপেয়ার</span></div><div class="gallery-overlay"><div class="gallery-overlay-zoom">🔍</div><div class="gallery-overlay-cat">রিপেয়ার</div><h3 class="gallery-overlay-title">রিপেয়ার ডিজাইন 03</h3><div class="gallery-overlay-desc">রিপেয়ার ও রিফিনিশ কাজ</div></div></a></article></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </li>
     </ul>
   </section>
 
@@ -574,7 +614,7 @@
         <button class="sample-filter-btn" type="button" data-sample-filter="leather" aria-pressed="false">🧥 লেদার</button>
       </div>
       <div class="samples-toolbar-actions">
-        <div class="samples-count-info" id="samplesCountInfo">হোমপেজে ১০টি বাছাই করা স্যাম্পল</div>
+        <div class="samples-count-info" id="samplesCountInfo">হোমপেজে বাছাই করা ৯টি স্যাম্পল</div>
         <a href="samples-all.html" id="samplesViewAllBtn" class="samples-view-all-btn">
           সব স্যাম্পল দেখুন
           <span>↗</span>
@@ -584,11 +624,15 @@
 
     <!-- Sample cards grid -->
     <ul class="samples-grid" id="samplesGrid">
-      <!-- Rendered by JS -->
-      <li class="samples-loading-state">
-        <span class="samples-loading-icon">⏳</span>
-        স্যাম্পল লোড হচ্ছে...
-      </li>
+      <li class="sample-card-item" data-material="rexine"><article class="sample-card " data-sample-id="RX-001" data-sample-name="ডায়মন্ড কোয়িল্ট" data-material="rexine" data-color="কালো" data-hex="#1a1a1a" data-available="true" data-note="সবচেয়ে জনপ্রিয় ডিজাইন। টেকসই ও পরিষ্কার করা সহজ।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="RX-001" aria-label="RX-001 ডায়মন্ড কোয়িল্ট"><div class="sample-card-swatch" style="background-color: #1a1a1a;"><span class="swatch-no-img">🪡</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>RX-001</span><span class="sample-card-material-tag tag-rexine">রেক্সিন</span></div><h3 class="sample-card-name">ডায়মন্ড কোয়িল্ট</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#1a1a1a"></div><span class="sample-card-color-name">কালো</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="RX-001">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="rexine"><article class="sample-card " data-sample-id="RX-002" data-sample-name="স্ট্রাইপ প্যাটার্ন" data-material="rexine" data-color="বাদামি-কালো" data-hex="#3d2010" data-available="true" data-note="ক্লাসিক স্ট্রাইপ ডিজাইন, দীর্ঘস্থায়ী।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="RX-002" aria-label="RX-002 স্ট্রাইপ প্যাটার্ন"><div class="sample-card-swatch" style="background-color: #3d2010;"><span class="swatch-no-img">🪡</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>RX-002</span><span class="sample-card-material-tag tag-rexine">রেক্সিন</span></div><h3 class="sample-card-name">স্ট্রাইপ প্যাটার্ন</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#3d2010"></div><span class="sample-card-color-name">বাদামি-কালো</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="RX-002">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="rexine"><article class="sample-card " data-sample-id="RX-003" data-sample-name="প্লেইন ম্যাট" data-material="rexine" data-color="নেভি ব্লু" data-hex="#1a2a4a" data-available="true" data-note="সিম্পল ও এলিগেন্ট। অফিসের গাড়ির জন্য উপযুক্ত।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="RX-003" aria-label="RX-003 প্লেইন ম্যাট"><div class="sample-card-swatch" style="background-color: #1a2a4a;"><span class="swatch-no-img">🪡</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>RX-003</span><span class="sample-card-material-tag tag-rexine">রেক্সিন</span></div><h3 class="sample-card-name">প্লেইন ম্যাট</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#1a2a4a"></div><span class="sample-card-color-name">নেভি ব্লু</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="RX-003">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="rexine"><article class="sample-card " data-sample-id="RX-004" data-sample-name="হানিকম্ব টেক্সচার" data-material="rexine" data-color="ধূসর" data-hex="#4a4a4a" data-available="true" data-note="হেক্সাগোনাল প্যাটার্ন, স্পোর্টি লুক।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="RX-004" aria-label="RX-004 হানিকম্ব টেক্সচার"><div class="sample-card-swatch" style="background-color: #4a4a4a;"><span class="swatch-no-img">🪡</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>RX-004</span><span class="sample-card-material-tag tag-rexine">রেক্সিন</span></div><h3 class="sample-card-name">হানিকম্ব টেক্সচার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#4a4a4a"></div><span class="sample-card-color-name">ধূসর</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="RX-004">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="rexine"><article class="sample-card " data-sample-id="RX-005" data-sample-name="ক্লাসিক পাঞ্চ" data-material="rexine" data-color="লাল-কালো" data-hex="#6b0f0f" data-available="true" data-note="পাঞ্চড ডিজাইন, বায়ু চলাচল ভালো।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="RX-005" aria-label="RX-005 ক্লাসিক পাঞ্চ"><div class="sample-card-swatch" style="background-color: #6b0f0f;"><span class="swatch-no-img">🪡</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>RX-005</span><span class="sample-card-material-tag tag-rexine">রেক্সিন</span></div><h3 class="sample-card-name">ক্লাসিক পাঞ্চ</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#6b0f0f"></div><span class="sample-card-color-name">লাল-কালো</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="RX-005">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="leather"><article class="sample-card " data-sample-id="LT-001" data-sample-name="স্মুথ ফুল লেদার" data-material="leather" data-color="কালো" data-hex="#0d0d0d" data-available="true" data-note="খাঁটি নরম লেদার। প্রিমিয়াম গাড়ির জন্য পারফেক্ট।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="LT-001" aria-label="LT-001 স্মুথ ফুল লেদার"><div class="sample-card-swatch" style="background-color: #0d0d0d;"><span class="swatch-no-img">🧥</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>LT-001</span><span class="sample-card-material-tag tag-leather">লেদার</span></div><h3 class="sample-card-name">স্মুথ ফুল লেদার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#0d0d0d"></div><span class="sample-card-color-name">কালো</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="LT-001">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="leather"><article class="sample-card " data-sample-id="LT-002" data-sample-name="টেক্সচার্ড লেদার" data-material="leather" data-color="গাঢ় বাদামি" data-hex="#3b1f0a" data-available="true" data-note="টেক্সচার্ড ফিনিশ, দীর্ঘস্থায়ী ও স্ক্র্যাচ-রেজিস্ট্যান্ট।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="LT-002" aria-label="LT-002 টেক্সচার্ড লেদার"><div class="sample-card-swatch" style="background-color: #3b1f0a;"><span class="swatch-no-img">🧥</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>LT-002</span><span class="sample-card-material-tag tag-leather">লেদার</span></div><h3 class="sample-card-name">টেক্সচার্ড লেদার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#3b1f0a"></div><span class="sample-card-color-name">গাঢ় বাদামি</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="LT-002">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="leather"><article class="sample-card " data-sample-id="LT-003" data-sample-name="পার্ফোরেটেড লেদার" data-material="leather" data-color="ধূসর" data-hex="#5a5a5a" data-available="true" data-note="ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="LT-003" aria-label="LT-003 পার্ফোরেটেড লেদার"><div class="sample-card-swatch" style="background-color: #5a5a5a;"><span class="swatch-no-img">🧥</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>LT-003</span><span class="sample-card-material-tag tag-leather">লেদার</span></div><h3 class="sample-card-name">পার্ফোরেটেড লেদার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#5a5a5a"></div><span class="sample-card-color-name">ধূসর</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="LT-003">+ অর্ডারে যোগ করুন</button></article></li>
+      <li class="sample-card-item" data-material="leather"><article class="sample-card " data-sample-id="LT-004" data-sample-name="নাপা সফট লেদার" data-material="leather" data-color="আইভরি ক্রিম" data-hex="#e8dbc8" data-available="true" data-note="অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="LT-004" aria-label="LT-004 নাপা সফট লেদার"><div class="sample-card-swatch" style="background-color: #e8dbc8;"><span class="swatch-no-img">🧥</span><div class="sample-card-selected-badge">✓</div></div><div class="sample-card-body"><div class="sample-card-id"><span>LT-004</span><span class="sample-card-material-tag tag-leather">লেদার</span></div><h3 class="sample-card-name">নাপা সফট লেদার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#e8dbc8"></div><span class="sample-card-color-name">আইভরি ক্রিম</span></div></div></a><button type="button" class="sample-card-order-btn" data-select-sample-id="LT-004">+ অর্ডারে যোগ করুন</button></article></li>
     </ul>
   </section>
 
@@ -802,33 +846,33 @@
         </div>
 
         <p class="reviews-summary-meta">
-          মোট <strong id="reviewsCount">0</strong>টি ভেরিফায়েড রিভিউ
+          মোট <strong id="reviewsCount">6</strong>টি ভেরিফায়েড রিভিউ
         </p>
 
         <div class="reviews-breakdown" id="reviewsBreakdown">
           <div class="reviews-breakdown-row" data-stars="5">
             <span class="reviews-breakdown-label">5★</span>
-            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
-            <strong class="reviews-breakdown-count">0</strong>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill" style="width: 83.3333%;"></span></div>
+            <strong class="reviews-breakdown-count">5</strong>
           </div>
           <div class="reviews-breakdown-row" data-stars="4">
             <span class="reviews-breakdown-label">4★</span>
-            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
-            <strong class="reviews-breakdown-count">0</strong>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill" style="width: 16.6667%;"></span></div>
+            <strong class="reviews-breakdown-count">1</strong>
           </div>
           <div class="reviews-breakdown-row" data-stars="3">
             <span class="reviews-breakdown-label">3★</span>
-            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill" style="width: 0%;"></span></div>
             <strong class="reviews-breakdown-count">0</strong>
           </div>
           <div class="reviews-breakdown-row" data-stars="2">
             <span class="reviews-breakdown-label">2★</span>
-            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill" style="width: 0%;"></span></div>
             <strong class="reviews-breakdown-count">0</strong>
           </div>
           <div class="reviews-breakdown-row" data-stars="1">
             <span class="reviews-breakdown-label">1★</span>
-            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill"></span></div>
+            <div class="reviews-breakdown-bar"><span class="reviews-breakdown-fill" style="width: 0%;"></span></div>
             <strong class="reviews-breakdown-count">0</strong>
           </div>
         </div>
@@ -843,7 +887,7 @@
 
       <div class="reviews-rail">
         <div class="reviews-rail-head reveal">
-          <p class="reviews-rail-meta" id="reviewsDisplayMeta">মোট 0টি রিভিউ থেকে 0টি দেখানো হচ্ছে</p>
+          <p class="reviews-rail-meta" id="reviewsDisplayMeta">মোট 6টি রিভিউ থেকে 1-6টি দেখানো হচ্ছে</p>
           <button type="button" class="btn-secondary reviews-submit-trigger reviews-submit-trigger-top"
             id="openReviewModalBtnTop">
             রিভিউ দিন
@@ -1252,7 +1296,75 @@
   </main>
 
   <!-- FOOTER -->
-  <footer id="sharedFooter"></footer>
+  <footer id="sharedFooter">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="nav-logo footer-logo-link" aria-label="Shadhin Motor হোম সেকশনে যান">
+          <div class="nav-logo-icon">
+            <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46" aria-hidden="true" focusable="false">
+              <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(200,134,10,0.1)" stroke="#e8a832" stroke-width="1.6" />
+              <polygon points="18,8 21.5,11.5 18,15 14.5,11.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+              <polygon points="28,8 31.5,11.5 28,15 24.5,11.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+              <polygon points="18,16 21.5,19.5 18,23 14.5,19.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+              <polygon points="28,16 31.5,19.5 28,23 24.5,19.5" fill="none" stroke="#e8a832" stroke-width="1" opacity="0.7" />
+              <circle cx="23" cy="11.5" r="1" fill="#e8a832" opacity="0.5" />
+              <circle cx="23" cy="19.5" r="1" fill="#e8a832" opacity="0.5" />
+              <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+              <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#c8860a" stroke-width="1.4" />
+              <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(200,134,10,0.1)" stroke="#e8a832" stroke-width="1.6" />
+              <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#e8a832" stroke-width="0.9" stroke-dasharray="3,2.5" opacity="0.6" />
+              <line x1="9" y1="30" x2="5" y2="32" stroke="#c8860a" stroke-width="1.4" />
+              <line x1="37" y1="30" x2="41" y2="32" stroke="#c8860a" stroke-width="1.4" />
+              <rect x="13" y="2" width="20" height="2" rx="1" fill="#e8a832" opacity="0.6" />
+            </svg>
+          </div>
+          <div class="nav-logo-text">
+            <span class="nav-logo-main">Shadhin <em>Motor</em></span>
+            <span class="nav-logo-sub">Seat Cover Specialist</span>
+          </div>
+        </a>
+        <p>প্রাইভেট কার ও মোটরসাইকেলের সিট কভারে আমরা বিশেষজ্ঞ। উচ্চমানের রেক্সিন ও চামড়া ব্যবহার করে কাস্টম ডিজাইনে তৈরি করা হয়।</p>
+      </div>
+      <div class="footer-col footer-location" id="footer-location">
+        <h4>লোকেশন</h4>
+        <div class="footer-location-card">
+          <address class="footer-location-address">আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে), মোহাম্মদপুর, ঢাকা-১২০৭</address>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Ali+and+Nur+Real+Estate+Ltd+Mohammadpur+Dhaka" target="_blank" rel="noopener noreferrer" class="footer-map-link" id="footer-location-map" aria-label="Google Map এ লোকেশন দেখুন">📍 Google Map এ লোকেশন দেখুন</a>
+          <p class="footer-location-note">রাস্তা খুঁজে পেতে Map খুলে Navigation চালু করুন।</p>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>সার্ভিস</h4>
+        <ul>
+          <li><a href="#services">নতুন সিট কভার</a></li>
+          <li><a href="#services">সিট কভার রিপেয়ার</a></li>
+          <li><a href="#services">কাস্টম ডিজাইন</a></li>
+          <li><a href="#services">মোটরসাইকেল সিট</a></li>
+          <li><a href="#services">হোম সার্ভিস</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>যোগাযোগ</h4>
+        <ul>
+          <li><a href="#contact">অর্ডার দিন</a></li>
+          <li><a href="#samples">রেক্সিন ও লেদার স্যাম্পল দেখুন</a></li>
+          <li><a href="#gallery">কাজের স্যাম্পল দেখুন</a></li>
+          <li><a href="#about">দোকান ও টিম সম্পর্কে জানুন</a></li>
+          <li><a href="#reviews">গ্রাহকের রিভিউ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">© ২০২৬ স্বাধীন মটর।</span>
+      <nav class="footer-social-links" aria-label="Social links">
+        <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" class="footer-social-link social-facebook" aria-label="Facebook"><span class="footer-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M13.5 8.5V7.2c0-.6.5-1.1 1.1-1.1H16V3h-2.2A3.8 3.8 0 0 0 10 6.8v1.7H8v3h2V21h3.5v-9.5H16l.4-3h-2.9Z"/></svg></span><span class="footer-social-text">Facebook</span></a>
+        <a href="https://wa.me/8801911387254" target="_blank" rel="noopener noreferrer" class="footer-social-link social-whatsapp" aria-label="WhatsApp"><span class="footer-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M20.4 3.6A10 10 0 0 0 4.2 16.1L3 21l5-1.3a10 10 0 1 0 12.4-16.1Zm-8.4 16a8 8 0 0 1-4-.9l-.3-.2-2.9.8.8-2.8-.2-.3a8 8 0 1 1 6.6 3.4Zm4.4-5.7c-.2-.1-1.5-.7-1.7-.8-.2-.1-.3-.1-.4.1l-.5.8c-.1.1-.2.2-.4.1-.2-.1-.8-.3-1.5-.9a5.7 5.7 0 0 1-1-1.3c-.1-.2 0-.3.1-.4l.4-.5.2-.3c.1-.1 0-.2 0-.3l-.8-1.8c-.1-.2-.2-.2-.4-.2h-.3c-.1 0-.3 0-.5.2-.2.2-.7.7-.7 1.8 0 1 .8 2.1.9 2.2.1.2 1.5 2.4 3.8 3.3.5.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.4-.3Z"/></svg></span><span class="footer-social-text">WhatsApp</span></a>
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="footer-social-link social-youtube" aria-label="YouTube"><span class="footer-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2c-1.8-.5-7.6-.5-7.6-.5s-5.8 0-7.6.5a2.8 2.8 0 0 0-2 2C2 9 2 12 2 12s0 3 .4 4.8a2.8 2.8 0 0 0 2 2c1.8.5 7.6.5 7.6.5s5.8 0 7.6-.5a2.8 2.8 0 0 0 2-2C22 15 22 12 22 12s0-3-.4-4.8ZM10 15.4V8.6l6 3.4-6 3.4Z"/></svg></span><span class="footer-social-text">YouTube</span></a>
+        <a href="tel:+8801911387254" class="footer-social-link social-phone" aria-label="Phone"><span class="footer-social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false"><path d="M6.6 10.8a15.7 15.7 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.5 2.5.7 3.8.7.5 0 .8.4.8.9V20c0 .5-.4.9-.8.9C10.2 20.9 3 13.8 3 4.8c0-.5.4-.8.9-.8H7c.5 0 .9.3.9.8 0 1.3.2 2.6.7 3.8.1.4 0 .8-.3 1.1l-1.7 1.9Z"/></svg></span><span class="footer-social-text">01911387254</span></a>
+      </nav>
+      <span class="footer-credit">Designed for <a href="#hero">স্বাধীন মটর</a></span>
+    </div>
+  </footer>
 
   <!-- TOAST -->
   <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
@@ -1260,10 +1372,165 @@
     <div id="toastMsg"></div>
   </div>
 
-  <div id="sharedFloatingCta"></div>
+  <div id="sharedFloatingCta">
+    <nav class="floating-cta" aria-label="Quick contact actions">
+      <a class="floating-cta-btn wa" href="https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp এ মেসেজ করুন" title="WhatsApp">💬</a>
+      <a class="floating-cta-btn call" href="tel:+8801911387254" aria-label="ফোন কল করুন" title="Call">📞</a>
+    </nav>
+  </div>
 
-  <script type="module" src="assets/js/accessibility-tools.js"></script>
-  <script type="module" src="assets/js/index.js"></script>
+  <div id="homeSamplesUiText" hidden>
+    <span data-key="countAllTemplate">হোমপেজে বাছাই করা {count}টি স্যাম্পল</span>
+    <span data-key="countFilteredTemplate">{label} থেকে {count}টি বাছাই করা স্যাম্পল</span>
+    <span data-key="buttonSelectedLabel">✓ নির্বাচিত</span>
+    <span data-key="buttonDefaultLabel">+ অর্ডারে যোগ করুন</span>
+    <span data-key="buttonUnavailableLabel">স্টক নেই</span>
+    <span data-key="materialRexineShort">রেক্সিন</span>
+    <span data-key="materialLeatherShort">লেদার</span>
+    <span data-key="materialRexineLong">রেক্সিন (Rexine)</span>
+    <span data-key="materialLeatherLong">চামড়া (Leather)</span>
+    <span data-key="modalIdPrefix">Sample ID:</span>
+    <span data-key="modalStockAvailableLabel">✅ উপলব্ধ</span>
+    <span data-key="modalStockUnavailableLabel">❌ স্টক নেই</span>
+    <span data-key="modalOrderAvailableLabel">✅ এই স্যাম্পল নির্বাচন করুন</span>
+    <span data-key="modalOrderSelectedLabel">✓ ইতোমধ্যে নির্বাচিত — অর্ডারে যান</span>
+    <span data-key="modalOrderUnavailableLabel">❌ স্টক নেই</span>
+    <span data-key="modalPreviewAlt">স্যাম্পল প্রিভিউ</span>
+    <span data-key="toastSampleSelectedTitle">✅ স্যাম্পল নির্বাচিত!</span>
+    <span data-key="toastSampleSelectedMessage">{sampleId} — {sampleName} নির্বাচন হয়েছে। এখন অর্ডার ফর্ম পূরণ করুন।</span>
+    <span data-key="toastChooseSampleTitle">🪡 একটি স্যাম্পল বেছে নিন</span>
+    <span data-key="toastChooseSampleMessage">Sample ID নির্বাচন করলে আমরা ডিজাইন, রং ও মূল্যের বিষয়ে আরও দ্রুত সাহায্য করতে পারব।</span>
+    <span data-key="toastIncompleteTitle">⚠️ অপূর্ণ তথ্য</span>
+    <span data-key="toastIncompleteMessage">নাম, ফোন, গাড়ির ধরন ও সার্ভিস অবশ্যই পূরণ করুন।</span>
+    <span data-key="toastOrderSuccessTitle">✅ অর্ডার সফল!</span>
+    <span data-key="toastOrderSuccessMessage">আপনার অর্ডার অনুরোধ নেওয়া হয়েছে। আমরা শীঘ্রই যোগাযোগ করব।</span>
+    <span data-key="confirmSelectedBadge">স্যাম্পল নির্বাচন করা হয়েছে</span>
+    <span data-key="confirmSelectedTitle">নির্বাচিত Sample ID সহ অর্ডার জমা দিতে চান?</span>
+    <span data-key="confirmSelectedCopy">আপনার অর্ডারের সঙ্গে {sampleId} স্যাম্পলটি যুক্ত থাকবে। confirm করলে অর্ডার জমা হয়ে যাবে, পরে আমরা এই স্যাম্পল অনুযায়ী যোগাযোগ করব।</span>
+    <span data-key="confirmSelectedPrimaryMeta">{material} · {color}</span>
+    <span data-key="confirmSelectedSecondaryTitle">জমা দেওয়ার আগে</span>
+    <span data-key="confirmSelectedSecondaryCopy">ফর্ম বা স্যাম্পল বদলাতে চাইলে এখন ফিরে গিয়ে আবার দেখে নিতে পারেন।</span>
+    <span data-key="confirmSelectedSecondaryBtn">✏️ আরেকবার দেখে নেই</span>
+    <span data-key="confirmSelectedPrimaryBtn">✅ হ্যাঁ, অর্ডার জমা দিন</span>
+    <span data-key="confirmUnselectedBadge">স্যাম্পল এখনো বাছাই করা হয়নি</span>
+    <span data-key="confirmUnselectedTitle">Sample ID ছাড়া অর্ডার জমা দিতে চান?</span>
+    <span data-key="confirmUnselectedCopy">আপনি চাইলে এখনই ফর্ম জমা দিতে পারেন। তবে একটি স্যাম্পল বেছে নিলে আমরা রং, ফিনিশ ও মেটেরিয়াল আরও দ্রুত এবং নির্ভুলভাবে বুঝে নিতে পারব।</span>
+    <span data-key="confirmUnselectedPrimaryTitle">স্যাম্পল বেছে নিলে</span>
+    <span data-key="confirmUnselectedPrimaryCopy">দ্রুত মূল্য ও ডিজাইন ম্যাচ করা সহজ হবে</span>
+    <span data-key="confirmUnselectedSecondaryTitle">স্যাম্পল ছাড়া দিলেও</span>
+    <span data-key="confirmUnselectedSecondaryCopy">অর্ডার যাবে, পরে আমরা কথা বলে বিস্তারিত নেব</span>
+    <span data-key="confirmUnselectedSecondaryBtn">🪡 আগে স্যাম্পল বেছে নেব</span>
+    <span data-key="confirmUnselectedPrimaryBtn">✅ স্যাম্পল ছাড়া অর্ডার জমা দিন</span>
+  </div>
+
+  <div id="homeReviewsUiText" hidden>
+    <span data-key="approvedEmptyMessage">এখনও approved রিভিউ পাওয়া যায়নি।</span>
+    <span data-key="displayMetaTemplate">মোট {total}টি রিভিউ থেকে {from}-{to}টি দেখানো হচ্ছে</span>
+    <span data-key="previewTitleDefault">রিভিউ মিডিয়া</span>
+    <span data-key="previewEmptyMessage">কোনো preview item পাওয়া যায়নি।</span>
+    <span data-key="previewCounterEmpty">0 / 0</span>
+    <span data-key="profilePreviewTitle">প্রোফাইল ছবি</span>
+    <span data-key="uploadMediaPreviewTitle">আপনার আপলোড করা মিডিয়া</span>
+    <span data-key="workMediaPreviewTitle">কাজের ছবি/ভিডিও</span>
+    <span data-key="previewProfileExpandLabel">প্রোফাইল ছবি বড় করে দেখুন</span>
+    <span data-key="previewImageExpandLabel">ছবি বড় করে দেখুন</span>
+    <span data-key="previewVideoExpandLabel">ভিডিও বড় করে দেখুন</span>
+    <span data-key="previewImageRemoveLabel">এই ছবি রিমুভ করুন</span>
+    <span data-key="previewVideoRemoveLabel">এই ভিডিও রিমুভ করুন</span>
+    <span data-key="previewFileRemoveLabel">এই ফাইল রিমুভ করুন</span>
+    <span data-key="removeActionLabel">রিমুভ</span>
+    <span data-key="avatarPreviewInvalid">এই ফাইল প্রোফাইল preview হিসেবে দেখানো যাবে না।</span>
+    <span data-key="avatarPreviewEmpty">প্রোফাইল ছবি নির্বাচন করলে এখানে preview দেখা যাবে।</span>
+    <span data-key="mediaPreviewEmpty">কাজের ছবি/ভিডিও নির্বাচন করলে এখানে preview দেখা যাবে।</span>
+    <span data-key="fileMetaEmpty">এখনও কোনো file নির্বাচন করা হয়নি।</span>
+    <span data-key="fileMetaTemplate">প্রোফাইল: {avatar} | মিডিয়া: {media}</span>
+    <span data-key="mediaCountOnlyTemplate">{count}টি</span>
+    <span data-key="mediaCountWithNamesTemplate">{count}টি ({names}{extra})</span>
+    <span data-key="mediaExtraCountTemplate"> +{count}টি</span>
+    <span data-key="previewKindImage">ছবি</span>
+    <span data-key="previewKindVideo">ভিডিও</span>
+    <span data-key="previewUnavailable">Preview unavailable</span>
+    <span data-key="confirmAvatarNone">দেওয়া হয়নি</span>
+    <span data-key="confirmMediaNone">দেওয়া হয়নি</span>
+    <span data-key="confirmMediaTotalTemplate">মোট {count}টি</span>
+    <span data-key="confirmSummaryNameLabel">আপনার নাম</span>
+    <span data-key="confirmSummaryWorkLabel">গাড়ি/কাজের তথ্য</span>
+    <span data-key="confirmSummaryRatingLabel">রেটিং</span>
+    <span data-key="confirmSummaryAvatarLabel">প্রোফাইল ছবি</span>
+    <span data-key="confirmSummaryMediaLabel">কাজের ছবি/ভিডিও</span>
+    <span data-key="confirmSummaryCommentLabel">রিভিউ টেক্সট</span>
+    <span data-key="submitLoadingLabel">সাবমিট হচ্ছে...</span>
+    <span data-key="submitDefaultLabel">রিভিউ সাবমিট করুন</span>
+    <span data-key="confirmSubmitLoadingLabel">সাবমিট হচ্ছে...</span>
+    <span data-key="confirmSubmitDefaultLabel">হ্যাঁ, সাবমিট করুন</span>
+    <span data-key="successTitle">✅ রিভিউ জমা হয়েছে</span>
+    <span data-key="successMessage">ধন্যবাদ। আপনার রিভিউ অনুরোধ নেওয়া হয়েছে। পরে আপনি Blade বা backend flow অনুযায়ী এটা dynamic করতে পারবেন।</span>
+    <span data-key="errorTitle">⚠️ রিভিউ জমা হয়নি</span>
+    <span data-key="submitErrorMessage">রিভিউ submit করা যায়নি। আবার চেষ্টা করুন।</span>
+    <span data-key="incompleteTitle">⚠️ অপূর্ণ তথ্য</span>
+    <span data-key="incompleteMessage">নাম, কাজের তথ্য ও রিভিউ লিখতে হবে।</span>
+    <span data-key="invalidRatingTitle">⚠️ ভুল রেটিং</span>
+    <span data-key="invalidRatingMessage">রেটিং শুধু ১, ২, ৩, ৪ বা ৫ হতে পারবে।</span>
+    <span data-key="invalidAvatarTitle">⚠️ ভুল প্রোফাইল ফাইল</span>
+    <span data-key="invalidAvatarMessage">প্রোফাইল হিসেবে image file দিন।</span>
+    <span data-key="avatarSizeTitle">⚠️ প্রোফাইল ফাইল বড়</span>
+    <span data-key="avatarSizeMessage">Profile photo 2MB এর মধ্যে দিন।</span>
+    <span data-key="mediaLimitTitle">⚠️ অতিরিক্ত ফাইল</span>
+    <span data-key="mediaLimitMessage">সর্বোচ্চ ৬টি image/video দেয়া যাবে।</span>
+  </div>
+
+  <aside
+    class="a11y-tools"
+    aria-label="সহজ ব্যবহার সহায়তা"
+    data-feature-status-template="{label} {state} হয়েছে"
+    data-feature-on-label="চালু"
+    data-feature-off-label="বন্ধ"
+    data-target-missing-message="টার্গেট সেকশন পাওয়া যায়নি"
+    data-target-found-message="প্রয়োজনীয় সেকশনে নিয়ে যাওয়া হয়েছে"
+    data-read-unsupported-message="এই ব্রাউজারে পেজ শুনানোর সুবিধা নেই"
+    data-read-empty-message="শুনানোর মতো কনটেন্ট পাওয়া যায়নি"
+    data-read-start-message="পেজ শুনানো শুরু হয়েছে"
+    data-read-end-message="পেজ শুনানো শেষ হয়েছে"
+    data-read-error-message="দুঃখিত, পেজ শুনানো যায়নি"
+    data-stop-message="শুনানো বন্ধ করা হয়েছে"
+    data-reset-message="সব সেটিং ডিফল্টে নেওয়া হয়েছে"
+    data-ready-message="সহায়তা টুল প্রস্তুত। প্রয়োজনমতো অপশন চালু করুন।">
+    <button type="button" class="a11y-tools-toggle" aria-expanded="false">
+      <span class="a11y-tools-toggle-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="M4 7h8"></path>
+          <path d="M15 7h5"></path>
+          <circle cx="13" cy="7" r="2"></circle>
+          <path d="M4 12h3"></path>
+          <path d="M10 12h10"></path>
+          <circle cx="8" cy="12" r="2"></circle>
+          <path d="M4 17h11"></path>
+          <path d="M18 17h2"></path>
+          <circle cx="17" cy="17" r="2"></circle>
+        </svg>
+      </span>
+      <span class="a11y-tools-toggle-text">সহজ ব্যবহার সহায়তা</span>
+    </button>
+    <div class="a11y-tools-panel" aria-hidden="true">
+      <h2 class="a11y-tools-title">সবাইয়ের জন্য সহজ ব্যবহার</h2>
+      <p class="a11y-tools-copy">যাদের পড়তে কষ্ট হয়, কম দেখতে পান, বা সহজে ব্যবহার করতে চান - এখানে প্রয়োজনীয় সেটিং চালু করুন।</p>
+      <div class="a11y-tools-grid">
+        <button type="button" class="a11y-tools-action" data-a11y-action="largeText" aria-pressed="false">বড় লেখা</button>
+        <button type="button" class="a11y-tools-action" data-a11y-action="highContrast" aria-pressed="false">উচ্চ কনট্রাস্ট</button>
+        <button type="button" class="a11y-tools-action" data-a11y-action="easyRead" aria-pressed="false">সহজ পাঠ মোড</button>
+        <button type="button" class="a11y-tools-action" data-a11y-action="gotoContact" aria-pressed="false">অর্ডার সেকশনে যান</button>
+        <button type="button" class="a11y-tools-action" data-a11y-action="readAloud" aria-pressed="false">পেজ শুনুন</button>
+        <button type="button" class="a11y-tools-action" data-a11y-action="stopRead" aria-pressed="false">শুনানো বন্ধ</button>
+        <a class="a11y-tools-link" href="tel:+8801911387254">কল করুন</a>
+        <a class="a11y-tools-link" href="https://wa.me/8801911387254?text=Assalamu%20Alaikum%20Shadhin%20Motor%2C%20ami%20seat%20cover%20service%20niye%20kotha%20bolte%20chai." target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <button type="button" class="a11y-tools-action a11y-tools-action-wide" data-a11y-action="reset" aria-pressed="false">সব ডিফল্টে নিন</button>
+      </div>
+      <div class="a11y-tools-status" role="status" aria-live="polite" aria-atomic="true"></div>
+    </div>
+  </aside>
+
+  <script type="module" src="assets/js/shared/accessibility-tools.js"></script>
+  <script type="module" src="assets/js/index/page.js"></script>
 </body>
 
 </html>

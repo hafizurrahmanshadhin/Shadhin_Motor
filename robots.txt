@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# Replace your live domain in the sitemap URL after deployment.
-Sitemap: https://your-domain.com/sitemap.xml

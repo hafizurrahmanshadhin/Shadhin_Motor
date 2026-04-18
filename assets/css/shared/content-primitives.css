@@ -1,0 +1,113 @@
+.section-header {
+  margin-bottom: var(--section-header-gap);
+}
+
+.section-lead {
+  margin-top: 14px;
+  font-size: 18px;
+  color: var(--cream-dim);
+  max-width: 720px;
+  line-height: 1.8;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  text-transform: none;
+  color: var(--gold);
+}
+
+.section-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-ui);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1.15;
+}
+
+.section-title span {
+  color: var(--gold-light);
+}
+
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--gold);
+  color: var(--bg-deep);
+  padding: 16px 36px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: none;
+  transition: all 0.3s;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255, 255, 255, 0.15) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+}
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(200, 134, 10, 0.4);
+}
+
+.btn-primary:hover::before {
+  transform: translateX(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(200, 134, 10, 0.5);
+  color: var(--gold);
+  padding: 16px 36px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: none;
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background: rgba(200, 134, 10, 0.1);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 420px) {
+  .section-title {
+    font-size: clamp(26px, 9vw, 34px);
+  }
+}

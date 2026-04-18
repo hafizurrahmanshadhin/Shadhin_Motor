@@ -1,0 +1,4 @@
+section {
+  padding: var(--section-block) var(--page-edge);
+  scroll-margin-top: 110px;
+}

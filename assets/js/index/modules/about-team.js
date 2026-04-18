@@ -1,0 +1,394 @@
+const ABOUT_TEAM_MOTION_SPEED = 34;
+const ABOUT_TEAM_FALLBACK_IMAGE = 'assets/images/about/employee-1.jpeg';
+
+export function initHomeAboutTeam({
+  openDialog,
+  closeDialog,
+  focusWithoutScroll,
+  restoreFocus,
+  captureViewportPosition,
+  scheduleViewportRestore,
+  syncBodyScrollLockState
+}) {
+  const slider = document.getElementById('aboutTeamSlider');
+  const track = document.getElementById('aboutTeamGrid');
+  const viewport = document.getElementById('aboutTeamMarqueeViewport');
+
+  if (!slider || !track || !viewport) {
+    return {
+      closeAboutTeamPreview() {}
+    };
+  }
+
+  const state = {
+    motionRaf: 0,
+    motionLastTs: 0,
+    motionOffset: 0,
+    motionCycle: 0,
+    pauseReasons: new Set(),
+    resizeTick: 0,
+    dragging: false,
+    dragMoved: false,
+    pointerDown: false,
+    pointerId: null,
+    dragStartX: 0,
+    dragStartOffset: 0,
+    suppressClick: false
+  };
+
+  let previewTrigger = null;
+  let previewViewport = null;
+  let previewShouldKeepFocusPause = false;
+
+  function isFocusVisible(target) {
+    if (!(target instanceof HTMLElement)) return false;
+
+    try {
+      return target.matches(':focus-visible');
+    } catch {
+      return false;
+    }
+  }
+
+  function updatePauseState() {
+    slider.classList.toggle('is-paused', state.pauseReasons.size > 0);
+  }
+
+  function setPaused(reason, paused) {
+    if (!reason) return;
+    if (paused) state.pauseReasons.add(reason);
+    else state.pauseReasons.delete(reason);
+    updatePauseState();
+  }
+
+  function destroyMotion() {
+    cancelAnimationFrame(state.motionRaf);
+    state.motionRaf = 0;
+    state.motionLastTs = 0;
+  }
+
+  function normalizeOffset(offset) {
+    if (!state.motionCycle) return 0;
+
+    let nextOffset = offset % state.motionCycle;
+    if (nextOffset < 0) nextOffset += state.motionCycle;
+    return nextOffset;
+  }
+
+  function applyOffset() {
+    track.style.transform = `translate3d(${-state.motionOffset}px, 0, 0)`;
+  }
+
+  function startMotion() {
+    if (!state.motionCycle || state.motionRaf) return;
+
+    const step = timestamp => {
+      if (!state.motionLastTs) state.motionLastTs = timestamp;
+      const delta = (timestamp - state.motionLastTs) / 1000;
+      state.motionLastTs = timestamp;
+
+      if (state.pauseReasons.size === 0) {
+        state.motionOffset = normalizeOffset(state.motionOffset + (ABOUT_TEAM_MOTION_SPEED * delta));
+        applyOffset();
+      }
+
+      state.motionRaf = requestAnimationFrame(step);
+    };
+
+    state.motionRaf = requestAnimationFrame(step);
+  }
+
+  function bindDragInteractions() {
+    const shell = slider.querySelector('.about-team-marquee-shell');
+    if (!shell) return;
+
+    const endDrag = event => {
+      const hadDrag = state.dragging && state.dragMoved;
+
+      if (event && state.dragging && viewport.hasPointerCapture && viewport.hasPointerCapture(event.pointerId)) {
+        viewport.releasePointerCapture(event.pointerId);
+      }
+
+      state.pointerDown = false;
+      state.pointerId = null;
+
+      if (state.dragging) {
+        state.dragging = false;
+        shell.classList.remove('is-dragging');
+      }
+
+      if (hadDrag) {
+        state.suppressClick = true;
+        window.setTimeout(() => {
+          state.suppressClick = false;
+        }, 220);
+      }
+
+      state.dragMoved = false;
+      setPaused('pointer', false);
+    };
+
+    viewport.onpointerdown = event => {
+      if (event.pointerType !== 'mouse' || event.button !== 0 || !state.motionCycle) return;
+
+      state.pointerDown = true;
+      state.pointerId = event.pointerId;
+      state.dragging = false;
+      state.dragMoved = false;
+      state.dragStartX = event.clientX;
+      state.dragStartOffset = state.motionOffset;
+      setPaused('pointer', true);
+    };
+
+    viewport.onpointermove = event => {
+      if (!state.pointerDown || event.pointerId !== state.pointerId || !state.motionCycle) return;
+      const deltaX = event.clientX - state.dragStartX;
+
+      if (!state.dragging) {
+        if (Math.abs(deltaX) <= 6) return;
+        state.dragging = true;
+        state.dragMoved = true;
+        shell.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      }
+
+      event.preventDefault();
+      state.motionOffset = normalizeOffset(state.dragStartOffset - deltaX);
+      applyOffset();
+    };
+
+    viewport.onpointerup = event => endDrag(event);
+    viewport.onpointercancel = event => endDrag(event);
+    viewport.onlostpointercapture = event => endDrag(event);
+    viewport.ondragstart = () => false;
+  }
+
+  function bindImageFallbacks(root = document) {
+    root.querySelectorAll('.about-team-photo').forEach(img => {
+      if (img.dataset.aboutTeamFallbackBound === 'true') return;
+      img.dataset.aboutTeamFallbackBound = 'true';
+
+      img.addEventListener('error', () => {
+        if (img.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
+        img.src = ABOUT_TEAM_FALLBACK_IMAGE;
+      }, { once: true });
+    });
+  }
+
+  function prepareCloneGroup(group) {
+    if (!(group instanceof HTMLElement)) return;
+
+    group.dataset.marqueeClone = 'true';
+    group.setAttribute('aria-hidden', 'true');
+
+    group.querySelectorAll('a, button, input, select, textarea, [tabindex]').forEach(node => {
+      if (node instanceof HTMLElement) node.tabIndex = -1;
+    });
+  }
+
+  function ensureLoopGroups() {
+    const baseGroup = track.querySelector('.about-team-marquee-group:not([data-marquee-clone="true"])');
+    if (!(baseGroup instanceof HTMLElement)) return [];
+
+    track.querySelectorAll('.about-team-marquee-group[data-marquee-clone="true"]').forEach(group => {
+      group.remove();
+    });
+
+    const computedStyle = getComputedStyle(track);
+    const gap = parseFloat(computedStyle.gap || computedStyle.columnGap || 12) || 12;
+    const baseWidth = baseGroup.scrollWidth || 0;
+    const viewportWidth = viewport.clientWidth || slider.clientWidth || baseWidth || 0;
+    const cycleWidth = baseWidth > 0 ? baseWidth + gap : 0;
+    const requiredGroups = cycleWidth > 0
+      ? Math.max(2, Math.ceil(viewportWidth / cycleWidth) + 2)
+      : 2;
+
+    const groups = [baseGroup];
+
+    for (let index = 1; index < requiredGroups; index += 1) {
+      const clone = baseGroup.cloneNode(true);
+      prepareCloneGroup(clone);
+      track.append(clone);
+      groups.push(clone);
+    }
+
+    bindImageFallbacks(track);
+    return groups;
+  }
+
+  function syncMarquee() {
+    const groups = ensureLoopGroups();
+    destroyMotion();
+
+    if (groups.length < 2) {
+      state.motionCycle = 0;
+      state.motionOffset = 0;
+      applyOffset();
+      return;
+    }
+
+    const computedStyle = getComputedStyle(track);
+    const gap = parseFloat(computedStyle.gap || computedStyle.columnGap || 12) || 12;
+    const groupWidth = groups[0]?.scrollWidth || 0;
+
+    if (groupWidth <= 0) {
+      state.motionCycle = 0;
+      state.motionOffset = 0;
+      applyOffset();
+      return;
+    }
+
+    state.motionCycle = groupWidth + gap;
+    state.motionOffset = normalizeOffset(state.motionOffset);
+    applyOffset();
+    startMotion();
+  }
+
+  function openAboutTeamPreview(imageSrc, name, role, triggerEl = null) {
+    const overlay = document.getElementById('aboutTeamPreviewOverlay');
+    const image = document.getElementById('aboutTeamPreviewImage');
+    const nameEl = document.getElementById('aboutTeamPreviewName');
+    const roleEl = document.getElementById('aboutTeamPreviewRole');
+
+    if (!overlay || !image || !nameEl || !roleEl) return;
+
+    previewTrigger = triggerEl instanceof HTMLElement
+      ? triggerEl
+      : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+    previewViewport = captureViewportPosition();
+    previewShouldKeepFocusPause = isFocusVisible(previewTrigger);
+
+    const defaultName = overlay.dataset.defaultName || nameEl.textContent || '';
+    const defaultRole = overlay.dataset.defaultRole || roleEl.textContent || '';
+    const previewAltSuffix = overlay.dataset.previewAltSuffix || image.dataset.previewAltSuffix || '';
+
+    image.src = imageSrc || ABOUT_TEAM_FALLBACK_IMAGE;
+    image.alt = [name || defaultName, previewAltSuffix].filter(Boolean).join(' - ');
+    image.onerror = () => {
+      if (image.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
+      image.src = ABOUT_TEAM_FALLBACK_IMAGE;
+    };
+
+    nameEl.textContent = name || defaultName;
+    roleEl.textContent = role || defaultRole;
+
+    setPaused('preview', true);
+    openDialog(overlay);
+    syncBodyScrollLockState();
+    focusWithoutScroll(document.getElementById('aboutTeamPreviewCloseBtn'));
+    scheduleViewportRestore(previewViewport);
+  }
+
+  function closeAboutTeamPreview() {
+    const overlay = document.getElementById('aboutTeamPreviewOverlay');
+    if (!overlay) return;
+
+    const viewportState = previewViewport || captureViewportPosition();
+    const triggerToRestore = previewTrigger;
+    const keepFocusPause = previewShouldKeepFocusPause;
+
+    closeDialog(overlay);
+    syncBodyScrollLockState();
+    restoreFocus(triggerToRestore);
+    scheduleViewportRestore(viewportState);
+    previewTrigger = null;
+    previewViewport = null;
+    setPaused('preview', false);
+
+    requestAnimationFrame(() => {
+      if (!keepFocusPause && triggerToRestore instanceof HTMLElement) {
+        triggerToRestore.blur();
+        setPaused('focus', false);
+        return;
+      }
+
+      setPaused('focus', document.activeElement instanceof Node && slider.contains(document.activeElement));
+    });
+  }
+
+  bindImageFallbacks(document);
+  bindDragInteractions();
+  syncMarquee();
+
+  track.addEventListener('click', event => {
+    if (state.suppressClick) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    const trigger = event.target.closest('[data-team-preview-src]');
+    if (!trigger || !track.contains(trigger)) return;
+
+    openAboutTeamPreview(
+      trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+      trigger.dataset.teamPreviewName || '',
+      trigger.dataset.teamPreviewRole || '',
+      trigger
+    );
+  });
+
+  track.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    const trigger = event.target.closest('[data-team-preview-src]');
+    if (!trigger || !track.contains(trigger)) return;
+
+    event.preventDefault();
+    openAboutTeamPreview(
+      trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+      trigger.dataset.teamPreviewName || '',
+      trigger.dataset.teamPreviewRole || '',
+      trigger
+    );
+  });
+
+  const previewOverlay = document.getElementById('aboutTeamPreviewOverlay');
+  previewOverlay?.addEventListener('click', event => {
+    if (event.target === previewOverlay) closeAboutTeamPreview();
+  });
+  previewOverlay?.addEventListener('cancel', event => {
+    event.preventDefault();
+    closeAboutTeamPreview();
+  });
+
+  document.getElementById('aboutTeamPreviewCloseBtn')?.addEventListener('click', closeAboutTeamPreview);
+
+  const ownerPreviewTrigger = document.querySelector('.about-owner-photo-btn[data-team-preview-src]');
+  ownerPreviewTrigger?.addEventListener('click', () => {
+    openAboutTeamPreview(
+      ownerPreviewTrigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+      ownerPreviewTrigger.dataset.teamPreviewName || 'প্রতিষ্ঠাতা ও প্রধান কারিগর',
+      ownerPreviewTrigger.dataset.teamPreviewRole || 'Owner & Workshop Lead',
+      ownerPreviewTrigger
+    );
+  });
+
+  slider.addEventListener('mouseenter', () => setPaused('hover', true));
+  slider.addEventListener('mouseleave', () => setPaused('hover', false));
+  slider.addEventListener('focusin', () => setPaused('focus', true));
+  slider.addEventListener('focusout', event => {
+    const nextTarget = event.relatedTarget;
+    if (nextTarget instanceof Node && slider.contains(nextTarget)) return;
+    setPaused('focus', false);
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    setPaused('hidden', document.hidden);
+  });
+
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(state.resizeTick);
+    state.resizeTick = requestAnimationFrame(syncMarquee);
+  });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncMarquee);
+  }
+
+  setPaused('hidden', document.hidden);
+
+  return {
+    closeAboutTeamPreview
+  };
+}
