@@ -39,7 +39,7 @@ footer {
 }
 
 .footer-brand p {
-  max-width: 280px;
+  max-width: fit-content;
   margin-top: 4px;
   font-size: 14px;
   color: var(--cream-dim);
@@ -135,6 +135,7 @@ footer {
 
 .footer-copyright {
   padding-left: clamp(42px, 4vw, 56px);
+  font-size: 16px;
 }
 
 .footer-credit {
@@ -143,6 +144,7 @@ footer {
   text-align: right;
   overflow-wrap: anywhere;
   color: rgba(245, 234, 216, 0.88);
+  font-size: 16px;
 }
 
 .footer-social-links {

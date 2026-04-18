@@ -57,7 +57,7 @@
 
 .service-title {
   font-family: var(--font-ui);
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--cream);
   margin-bottom: 12px;
@@ -65,7 +65,7 @@
 }
 
 .service-desc {
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.7;
   color: var(--cream-dim);
 }

@@ -28,7 +28,7 @@
 
 .samples-count-info {
   font-family: var(--font-accent);
-  font-size: 11px;
+  font-size: 16px;
   letter-spacing: 1.2px;
   color: var(--cream-dim);
 }
@@ -545,7 +545,7 @@
 
     .samples-section-lead {
       margin-top: 14px;
-      font-size: 15px;
+      font-size: 18px;
       color: var(--cream-dim);
       max-width: 560px;
       line-height: 1.7;

@@ -4,9 +4,9 @@
 
 .section-lead {
   margin-top: 14px;
-  font-size: 18px;
+  font-size: 21px;
   color: var(--cream-dim);
-  max-width: 720px;
+  max-width: fit-content;
   line-height: 1.8;
 }
 

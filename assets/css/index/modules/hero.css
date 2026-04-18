@@ -112,7 +112,7 @@
 }
 
 .hero-subtitle {
-  max-width: 500px;
+  max-width: fit-content;
   margin-bottom: 48px;
   font-size: 20px;
   line-height: 1.7;

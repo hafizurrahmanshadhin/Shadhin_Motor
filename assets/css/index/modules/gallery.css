@@ -50,7 +50,7 @@
 
     .gallery-count-info {
       font-family: var(--font-accent);
-      font-size: 11px;
+      font-size: 16px;
       letter-spacing: 1.4px;
       color: var(--cream-dim);
     }
