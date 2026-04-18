@@ -161,15 +161,16 @@
 
 .a11y-tools-title {
   margin: 0 0 6px;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.3;
 }
 
 .a11y-tools-copy {
   margin: 0 0 10px;
   color: #e6d8bb;
-  font-size: 13px;
+  font-size: 16px;
   line-height: 1.45;
+  text-align: justify;
 }
 
 .a11y-tools-grid {
@@ -187,7 +188,7 @@
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   line-height: 1.3;
 }

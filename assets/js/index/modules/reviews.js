@@ -79,6 +79,11 @@ function restoreViewportPosition(viewport) {
 
   const restoreX = Number.isFinite(viewport.x) ? viewport.x : 0;
   const restoreY = Number.isFinite(viewport.y) ? viewport.y : 0;
+  const currentX = window.scrollX || window.pageXOffset || 0;
+  const currentY = window.scrollY || window.pageYOffset || 0;
+
+  if (Math.abs(currentX - restoreX) < 1 && Math.abs(currentY - restoreY) < 1) return;
+
   const root = document.documentElement;
   const scrollRoot = document.scrollingElement || document.documentElement || document.body;
   const previousRootBehavior = root?.style.scrollBehavior || '';
@@ -111,47 +116,23 @@ function restoreViewportPosition(viewport) {
 }
 
 function lockBodyScroll(root, body) {
+  if (!root || !body) return;
+
   body.classList.add('body-scroll-locked');
-
-  if (body.dataset.scrollLockActive !== 'true') {
-    const viewport = captureViewportPosition();
-    body.dataset.scrollLockActive = 'true';
-    body.dataset.scrollLockX = String(viewport.x);
-    body.dataset.scrollLockY = String(viewport.y);
-    body.dataset.scrollLockGap = String(Math.max(0, window.innerWidth - root.clientWidth));
-  }
-
-  const restoreY = Number.parseInt(body.dataset.scrollLockY || '0', 10) || 0;
-  const scrollbarGap = Number.parseInt(body.dataset.scrollLockGap || '0', 10) || 0;
-
-  body.style.overflow = 'hidden';
-  body.style.position = 'fixed';
-  body.style.top = `-${restoreY}px`;
-  body.style.left = '0';
-  body.style.right = '0';
-  body.style.width = '100%';
-
-  if (scrollbarGap > 0) {
-    body.style.paddingRight = `${scrollbarGap}px`;
-    return;
-  }
-
-  body.style.removeProperty('padding-right');
+  body.dataset.scrollLockActive = 'true';
+  root.style.overflowY = 'hidden';
 }
 
-function unlockBodyScroll(body) {
+function unlockBodyScroll(root, body) {
+  if (!root || !body) return;
+
   body.classList.remove('body-scroll-locked');
   body.style.removeProperty('overflow');
+  root.style.removeProperty('overflow-y');
 
   if (body.dataset.scrollLockActive !== 'true') return;
 
-  const restoreX = Number.parseInt(body.dataset.scrollLockX || '0', 10) || 0;
-  const restoreY = Number.parseInt(body.dataset.scrollLockY || '0', 10) || 0;
-
   delete body.dataset.scrollLockActive;
-  delete body.dataset.scrollLockX;
-  delete body.dataset.scrollLockY;
-  delete body.dataset.scrollLockGap;
 
   body.style.removeProperty('position');
   body.style.removeProperty('top');
@@ -159,8 +140,6 @@ function unlockBodyScroll(body) {
   body.style.removeProperty('right');
   body.style.removeProperty('width');
   body.style.removeProperty('padding-right');
-
-  window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
 }
 
 function syncBodyScrollLockState() {
@@ -177,7 +156,7 @@ function syncBodyScrollLockState() {
     return;
   }
 
-  unlockBodyScroll(body);
+  unlockBodyScroll(root, body);
 }
 
 function observeRevealElements(root = document) {
