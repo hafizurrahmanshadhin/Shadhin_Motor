@@ -218,316 +218,6 @@ function showToast(title, message, duration = 4000) {
 
 export function initHomeReviews() {
   const uiTextRoot = document.getElementById('homeReviewsUiText');
-  const STATIC_REVIEW_CARD_CONFIG = [
-    {
-      avatarSrc: 'assets/images/about/employee-1.jpeg',
-      avatarAlt: 'রাশেদ করিমের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/cars/1.jpeg',
-          thumbSrc: 'assets/images/cars/1.jpeg',
-          label: 'সিট ফিটিংয়ের ফ্রন্ট ভিউ'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/cars/2.jpeg',
-          thumbSrc: 'assets/images/cars/2.jpeg',
-          label: 'ফিনিশিংয়ের ক্লোজআপ'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/cars/3.jpeg',
-          frameSources: [
-            'assets/images/cars/3.jpeg',
-            'assets/images/cars/4.jpeg',
-            'assets/images/cars/5.jpeg'
-          ],
-          label: 'কাজের ছোট ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-2.jpeg',
-      avatarAlt: 'নাফিসা আহমেদের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/cars/6.jpeg',
-          thumbSrc: 'assets/images/cars/6.jpeg',
-          label: 'প্রিমিও সিটের সাইড ভিউ'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/cars/7.jpeg',
-          thumbSrc: 'assets/images/cars/7.jpeg',
-          label: 'হেডরেস্ট ও স্টিচিং'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/cars/8.jpeg',
-          frameSources: [
-            'assets/images/cars/8.jpeg',
-            'assets/images/cars/9.jpeg',
-            'assets/images/cars/10.jpeg'
-          ],
-          label: 'ফুল কেবিন ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-3.jpeg',
-      avatarAlt: 'মাসুদ হোসেনের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/bikes/11.jpeg',
-          thumbSrc: 'assets/images/bikes/11.jpeg',
-          label: 'বাইকের সিট প্রোফাইল'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/bikes/12.jpeg',
-          thumbSrc: 'assets/images/bikes/12.jpeg',
-          label: 'সিট কভারের স্টিচিং'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/bikes/13.jpeg',
-          frameSources: [
-            'assets/images/bikes/12.jpeg',
-            'assets/images/bikes/13.jpeg',
-            'assets/images/bikes/14.jpeg'
-          ],
-          label: 'বাইকের সিট ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-4.jpeg',
-      avatarAlt: 'সাইফ রহমানের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/cars/4.jpeg',
-          thumbSrc: 'assets/images/cars/4.jpeg',
-          label: 'রিপেয়ার করা সিট'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/cars/10.jpeg',
-          thumbSrc: 'assets/images/cars/10.jpeg',
-          label: 'রিপেয়ার পরের ফুল লুক'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/cars/6.jpeg',
-          frameSources: [
-            'assets/images/cars/1.jpeg',
-            'assets/images/cars/6.jpeg',
-            'assets/images/cars/8.jpeg'
-          ],
-          label: 'রিপেয়ার ও ফিনিশিং ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-5.jpeg',
-      avatarAlt: 'ফারজানা নূরের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/others/15.jpeg',
-          thumbSrc: 'assets/images/others/15.jpeg',
-          label: 'ফ্যামিলি কার সিট কভার'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/others/16.jpeg',
-          thumbSrc: 'assets/images/others/16.jpeg',
-          label: 'সিট ডিজাইনের ডিটেইল'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/others/17.jpeg',
-          frameSources: [
-            'assets/images/others/15.jpeg',
-            'assets/images/others/16.jpeg',
-            'assets/images/others/17.jpeg'
-          ],
-          label: 'ইন্টেরিয়র ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-6.jpeg',
-      avatarAlt: 'তানভীর আলমের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/bikes/13.jpeg',
-          thumbSrc: 'assets/images/bikes/13.jpeg',
-          label: 'স্যাম্পল-ম্যাচ করা সিট'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/bikes/14.jpeg',
-          thumbSrc: 'assets/images/bikes/14.jpeg',
-          label: 'ফাইনাল ফিটিংয়ের ভিউ'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/bikes/11.jpeg',
-          frameSources: [
-            'assets/images/bikes/11.jpeg',
-            'assets/images/bikes/13.jpeg',
-            'assets/images/bikes/14.jpeg'
-          ],
-          label: 'বাইক সিট ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-7.jpeg',
-      avatarAlt: 'মেহেদী হাসানের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/cars/5.jpeg',
-          thumbSrc: 'assets/images/cars/5.jpeg',
-          label: 'রিয়ার সিটের ফিনিশিং'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/cars/9.jpeg',
-          thumbSrc: 'assets/images/cars/9.jpeg',
-          label: 'কাস্টম কালার কম্বিনেশন'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/cars/7.jpeg',
-          frameSources: [
-            'assets/images/cars/5.jpeg',
-            'assets/images/cars/7.jpeg',
-            'assets/images/cars/9.jpeg'
-          ],
-          label: 'ইনস্টলেশনের ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-8.jpeg',
-      avatarAlt: 'সাবিহা সুলতানার প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/others/16.jpeg',
-          thumbSrc: 'assets/images/others/16.jpeg',
-          label: 'ডুয়াল-টোন কভার ডিজাইন'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/others/17.jpeg',
-          thumbSrc: 'assets/images/others/17.jpeg',
-          label: 'ইন্টেরিয়র ফিনিশিং ডিটেইল'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/others/15.jpeg',
-          frameSources: [
-            'assets/images/others/15.jpeg',
-            'assets/images/others/16.jpeg',
-            'assets/images/others/17.jpeg'
-          ],
-          label: 'ক্যাবিন লুক ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-9.jpeg',
-      avatarAlt: 'আরিফুল ইসলামের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/bikes/11.jpeg',
-          thumbSrc: 'assets/images/bikes/11.jpeg',
-          label: 'গ্রিপ প্যাটার্নের ক্লোজআপ'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/bikes/14.jpeg',
-          thumbSrc: 'assets/images/bikes/14.jpeg',
-          label: 'ফাইনাল বাইক সিট লুক'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/bikes/12.jpeg',
-          frameSources: [
-            'assets/images/bikes/11.jpeg',
-            'assets/images/bikes/12.jpeg',
-            'assets/images/bikes/13.jpeg'
-          ],
-          label: 'বাইক সিট গ্রিপ ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-10.jpeg',
-      avatarAlt: 'জয়নাব আক্তারের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/cars/8.jpeg',
-          thumbSrc: 'assets/images/cars/8.jpeg',
-          label: 'প্রিমিয়াম সিট কভারের টপ ভিউ'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/cars/10.jpeg',
-          thumbSrc: 'assets/images/cars/10.jpeg',
-          label: 'ফুল কেবিন ফিটিং'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/cars/6.jpeg',
-          frameSources: [
-            'assets/images/cars/6.jpeg',
-            'assets/images/cars/8.jpeg',
-            'assets/images/cars/10.jpeg'
-          ],
-          label: 'কেবিন ওয়াকথ্রু ভিডিও প্রিভিউ'
-        }
-      ]
-    },
-    {
-      avatarSrc: 'assets/images/about/employee-11.jpeg',
-      avatarAlt: 'রুবেল খানের প্রোফাইল ছবি',
-      items: [
-        {
-          type: 'image',
-          src: 'assets/images/cars/1.jpeg',
-          thumbSrc: 'assets/images/cars/1.jpeg',
-          label: 'ফ্যামিলি ভ্যানের ফ্রন্ট সিট'
-        },
-        {
-          type: 'image',
-          src: 'assets/images/cars/6.jpeg',
-          thumbSrc: 'assets/images/cars/6.jpeg',
-          label: 'ব্যাক সিট কভার ডিটেইল'
-        },
-        {
-          type: 'video',
-          posterSrc: 'assets/images/others/15.jpeg',
-          frameSources: [
-            'assets/images/cars/1.jpeg',
-            'assets/images/cars/6.jpeg',
-            'assets/images/others/15.jpeg'
-          ],
-          label: 'ফ্যামিলি ভেহিকল ভিডিও প্রিভিউ'
-        }
-      ]
-    }
-  ];
 
   function getUiText(key) {
     const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
@@ -558,7 +248,7 @@ export function initHomeReviews() {
   const reviewUploadPreviewState = {
     objectUrls: []
   };
-  const staticReviewVideoState = {
+  const reviewMediaVideoState = {
     cache: new Map(),
     objectUrls: []
   };
@@ -633,7 +323,7 @@ export function initHomeReviews() {
     return objectUrl;
   }
 
-  function loadStaticReviewImage(src) {
+  function loadReviewImageSource(src) {
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.decoding = 'async';
@@ -643,7 +333,7 @@ export function initHomeReviews() {
     });
   }
 
-  function drawStaticReviewFrame(context, image, width, height) {
+  function drawReviewVideoFrame(context, image, width, height) {
     const imageRatio = image.width / image.height;
     const canvasRatio = width / height;
     let drawWidth = width;
@@ -665,10 +355,10 @@ export function initHomeReviews() {
     context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
   }
 
-  async function buildStaticReviewVideoClip(frameSources) {
+  async function buildReviewVideoClipFromFrames(frameSources) {
     const cacheKey = frameSources.join('|');
-    if (staticReviewVideoState.cache.has(cacheKey)) {
-      return staticReviewVideoState.cache.get(cacheKey);
+    if (reviewMediaVideoState.cache.has(cacheKey)) {
+      return reviewMediaVideoState.cache.get(cacheKey);
     }
 
     if (
@@ -692,7 +382,7 @@ export function initHomeReviews() {
       throw new Error('No supported video recording format was found.');
     }
 
-    const frames = await Promise.all(frameSources.map(loadStaticReviewImage));
+    const frames = await Promise.all(frameSources.map(loadReviewImageSource));
     const canvas = document.createElement('canvas');
     canvas.width = 960;
     canvas.height = 720;
@@ -720,8 +410,8 @@ export function initHomeReviews() {
 
         const blob = new Blob(chunks, { type: mimeType });
         const objectUrl = URL.createObjectURL(blob);
-        staticReviewVideoState.objectUrls.push(objectUrl);
-        staticReviewVideoState.cache.set(cacheKey, objectUrl);
+        reviewMediaVideoState.objectUrls.push(objectUrl);
+        reviewMediaVideoState.cache.set(cacheKey, objectUrl);
         resolve(objectUrl);
       }, { once: true });
 
@@ -734,7 +424,7 @@ export function initHomeReviews() {
 
     for (let frameIndex = 0; frameIndex < frames.length * 2; frameIndex += 1) {
       const frame = frames[frameIndex % frames.length];
-      drawStaticReviewFrame(context, frame, canvas.width, canvas.height);
+      drawReviewVideoFrame(context, frame, canvas.width, canvas.height);
       // Keep the clip short and light while still feeling like a real video preview.
       // 260ms per frame gives enough motion without bloating the output blob.
       await new Promise(resolve => window.setTimeout(resolve, 260));
@@ -744,97 +434,47 @@ export function initHomeReviews() {
     return recordPromise;
   }
 
-  function createStaticReviewMediaStrip(config, reviewerName) {
-    const list = document.createElement('ul');
-    list.className = 'review-media-strip';
-    list.setAttribute('aria-label', `${reviewerName} এর শেয়ার করা কাজের ছবি ও ভিডিও`);
-
-    config.items.forEach((item, index) => {
-      const shell = document.createElement('li');
-      shell.className = 'review-media-item-shell';
-
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'review-media-item';
-      button.dataset.reviewMediaIndex = String(index);
-      button.dataset.reviewMediaType = item.type;
-      button.dataset.reviewMediaLabel = item.label;
-      button.setAttribute('aria-label', `${reviewerName}: ${item.label} ${item.type === 'video' ? 'ভিডিও' : 'ছবি'} খুলুন`);
-
-      if (item.type === 'video') {
-        button.dataset.reviewMediaPoster = item.posterSrc;
-        button.dataset.reviewVideoFrames = item.frameSources.join('|');
-      } else {
-        button.dataset.reviewMediaSrc = item.src;
-      }
-
-      const thumbnail = document.createElement('img');
-      thumbnail.src = item.type === 'video' ? item.posterSrc : item.thumbSrc;
-      thumbnail.alt = item.label;
-      thumbnail.loading = 'lazy';
-      thumbnail.decoding = 'async';
-
-      const openIndicator = document.createElement('span');
-      openIndicator.className = 'review-media-open-indicator';
-      openIndicator.setAttribute('aria-hidden', 'true');
-      openIndicator.textContent = item.type === 'video' ? '▶' : '⤢';
-
-      const typeBadge = document.createElement('span');
-      typeBadge.className = 'review-media-type';
-      typeBadge.textContent = item.type === 'video' ? 'ভিডিও' : 'ছবি';
-
-      button.append(thumbnail, openIndicator, typeBadge);
-      shell.append(button);
-      list.append(shell);
-    });
-
-    return list;
+  function getReviewMediaThumbnailSource(trigger) {
+    const image = trigger.querySelector('img');
+    if (!(image instanceof HTMLImageElement)) return '';
+    return image.currentSrc || image.src || '';
   }
 
-  function enhanceStaticReviewCards() {
-    const cards = Array.from(document.querySelectorAll('#reviewsGrid .review-card[data-review-score]'));
+  function getReviewMediaPosterSource(trigger) {
+    const explicitPoster = String(trigger.dataset.reviewMediaPoster || '').trim();
+    if (explicitPoster) return explicitPoster;
 
-    cards.forEach((card, index) => {
-      const config = STATIC_REVIEW_CARD_CONFIG[index];
-      if (!config) return;
+    const video = trigger.querySelector('video');
+    if (video instanceof HTMLVideoElement && video.poster) {
+      return video.poster;
+    }
 
-      const reviewerName = card.querySelector('.reviewer-name')?.textContent?.trim() || 'গ্রাহক';
-      const avatarImage = card.querySelector('.review-avatar');
-      if (avatarImage instanceof HTMLImageElement) {
-        avatarImage.src = config.avatarSrc;
-        avatarImage.alt = config.avatarAlt;
-
-        if (!avatarImage.closest('.review-avatar-trigger')) {
-          const trigger = document.createElement('button');
-          trigger.type = 'button';
-          trigger.className = 'review-avatar-trigger';
-          trigger.dataset.reviewAvatarSrc = config.avatarSrc;
-          trigger.dataset.reviewAvatarTitle = `${reviewerName} - প্রোফাইল ছবি`;
-          trigger.setAttribute('aria-label', `${reviewerName} এর প্রোফাইল ছবি বড় করে দেখুন`);
-          avatarImage.replaceWith(trigger);
-          trigger.append(avatarImage);
-        }
-      }
-
-      if (!card.querySelector('.review-media-strip') && config.items.length) {
-        card.append(createStaticReviewMediaStrip(config, reviewerName));
-      }
-    });
+    return getReviewMediaThumbnailSource(trigger);
   }
 
-  async function resolveStaticReviewMediaItem(trigger) {
+  async function resolveReviewMediaItem(trigger) {
     const type = trigger.dataset.reviewMediaType === 'video' ? 'video' : 'image';
     const label = trigger.dataset.reviewMediaLabel || getUiText('previewTitleDefault');
+    const source = String(trigger.dataset.reviewMediaSrc || '').trim() || getReviewMediaThumbnailSource(trigger);
 
     if (type === 'video') {
+      if (source) {
+        return {
+          type: 'video',
+          src: source,
+          poster: getReviewMediaPosterSource(trigger),
+          title: label
+        };
+      }
+
       const frameSources = String(trigger.dataset.reviewVideoFrames || '')
         .split('|')
         .map(value => value.trim())
         .filter(Boolean);
-      const posterSrc = String(trigger.dataset.reviewMediaPoster || '').trim();
+      const posterSrc = getReviewMediaPosterSource(trigger);
 
       try {
-        const videoSrc = await buildStaticReviewVideoClip(frameSources);
+        const videoSrc = await buildReviewVideoClipFromFrames(frameSources);
         return {
           type: 'video',
           src: videoSrc,
@@ -852,19 +492,19 @@ export function initHomeReviews() {
 
     return {
       type: 'image',
-      src: String(trigger.dataset.reviewMediaSrc || '').trim(),
+      src: source,
       title: label
     };
   }
 
-  async function openStaticReviewMediaGallery(trigger) {
+  async function openReviewCardMediaGallery(trigger) {
     const card = trigger.closest('.review-card');
     if (!card) return;
 
     const triggers = Array.from(card.querySelectorAll('.review-media-item[data-review-media-type]'));
     if (!triggers.length) return;
 
-    const items = (await Promise.all(triggers.map(resolveStaticReviewMediaItem))).filter(item => item.src);
+    const items = (await Promise.all(triggers.map(resolveReviewMediaItem))).filter(item => item.src);
     if (!items.length) {
       showToast('মিডিয়া পাওয়া যায়নি', 'এই রিভিউর জন্য কোনো মিডিয়া প্রিভিউ প্রস্তুত করা যায়নি।');
       return;
@@ -875,28 +515,30 @@ export function initHomeReviews() {
     openReviewMediaPreview(items, Math.min(startIndex, items.length - 1), `${reviewerName} - কাজের মিডিয়া`, trigger, { restoreFocusOnClose: false });
   }
 
-  function openStaticReviewAvatarPreview(trigger) {
-    const src = String(trigger.dataset.reviewAvatarSrc || '').trim();
+  function openReviewCardAvatarPreview(trigger) {
+    const image = trigger.querySelector('.review-avatar');
+    const fallbackSrc = image instanceof HTMLImageElement ? (image.currentSrc || image.src || '') : '';
+    const src = String(trigger.dataset.reviewAvatarSrc || fallbackSrc).trim();
     if (!src) return;
 
     const title = String(trigger.dataset.reviewAvatarTitle || getUiText('profilePreviewTitle')).trim();
     openReviewMediaPreview([{ type: 'image', src, title }], 0, title, trigger, { restoreFocusOnClose: false });
   }
 
-  function initStaticReviewCardInteractions() {
+  function initReviewCardInteractions() {
     const grid = document.getElementById('reviewsGrid');
     if (!grid) return;
 
     grid.addEventListener('click', async event => {
-      const avatarTrigger = event.target.closest('.review-avatar-trigger[data-review-avatar-src]');
+      const avatarTrigger = event.target.closest('.review-avatar-trigger');
       if (avatarTrigger && grid.contains(avatarTrigger)) {
-        openStaticReviewAvatarPreview(avatarTrigger);
+        openReviewCardAvatarPreview(avatarTrigger);
         return;
       }
 
       const mediaTrigger = event.target.closest('.review-media-item[data-review-media-type]');
       if (!mediaTrigger || !grid.contains(mediaTrigger)) return;
-      await openStaticReviewMediaGallery(mediaTrigger);
+      await openReviewCardMediaGallery(mediaTrigger);
     });
   }
 
@@ -1623,9 +1265,8 @@ export function initHomeReviews() {
     reviewState.cards = Array.from(document.querySelectorAll('#reviewsGrid .review-card[data-review-score]'));
     reviewState.perPage = getReviewsPerPage();
 
-    enhanceStaticReviewCards();
     initReviewsPaginationEvents();
-    initStaticReviewCardInteractions();
+    initReviewCardInteractions();
     initReviewSubmissionModal();
     initReviewMediaPreviewEvents();
     renderReviewsPage();
@@ -1645,7 +1286,7 @@ export function initHomeReviews() {
   window.addEventListener('resize', syncBodyScrollLockState);
   window.addEventListener('orientationchange', syncBodyScrollLockState);
   window.addEventListener('beforeunload', () => {
-    releaseUrls(staticReviewVideoState.objectUrls);
+    releaseUrls(reviewMediaVideoState.objectUrls);
   });
   syncBodyScrollLockState();
   initReviewsModule();
