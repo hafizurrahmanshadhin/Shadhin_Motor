@@ -506,7 +506,10 @@ export function initHomeReviews() {
 
     const items = (await Promise.all(triggers.map(resolveReviewMediaItem))).filter(item => item.src);
     if (!items.length) {
-      showToast('মিডিয়া পাওয়া যায়নি', 'এই রিভিউর জন্য কোনো মিডিয়া প্রিভিউ প্রস্তুত করা যায়নি।');
+      showToast(
+        getUiText('missingMediaTitle'),
+        getUiText('missingMediaMessage')
+      );
       return;
     }
 

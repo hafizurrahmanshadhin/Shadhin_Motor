@@ -186,7 +186,7 @@
   <link rel="stylesheet" href="assets/css/index/page.css">
 </head>
 
-<body>
+<body class="home-page">
   <a class="skip-link" href="#main-content">মূল কনটেন্টে যান</a>
 
   <!-- NAVBAR -->
@@ -483,7 +483,7 @@
       </div>
     </div>
 
-    <dialog class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-labelledby="aboutTeamPreviewName" aria-modal="true" data-default-name="শাধিন মোটর টিম" data-default-role="টিম মেম্বার" data-preview-alt-suffix="বড় প্রিভিউ">
+    <dialog class="about-team-preview-overlay" id="aboutTeamPreviewOverlay" aria-labelledby="aboutTeamPreviewName" aria-modal="true" data-default-name="শাধিন মোটর টিম" data-default-role="টিম মেম্বার" data-preview-alt-suffix="বড় প্রিভিউ" data-fallback-image="assets/images/about/employee-1.jpeg">
       <figure class="about-team-preview-dialog">
         <img src="assets/images/about/employee-1.jpeg" alt="শাধিন মোটর টিম - বড় প্রিভিউ" id="aboutTeamPreviewImage" class="about-team-preview-image" loading="eager" decoding="async">
         <figcaption class="about-team-preview-footer">
@@ -1794,6 +1794,8 @@
     <span data-key="displayMetaTemplate">মোট {total}টি রিভিউ থেকে {from}-{to}টি দেখানো হচ্ছে</span>
     <span data-key="previewTitleDefault">রিভিউ মিডিয়া</span>
     <span data-key="previewEmptyMessage">কোনো preview item পাওয়া যায়নি।</span>
+    <span data-key="missingMediaTitle">মিডিয়া পাওয়া যায়নি</span>
+    <span data-key="missingMediaMessage">এই রিভিউর জন্য কোনো মিডিয়া প্রিভিউ প্রস্তুত করা যায়নি।</span>
     <span data-key="previewCounterEmpty">0 / 0</span>
     <span data-key="profilePreviewTitle">প্রোফাইল ছবি</span>
     <span data-key="uploadMediaPreviewTitle">আপনার আপলোড করা মিডিয়া</span>

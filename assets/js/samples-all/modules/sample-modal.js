@@ -1,3 +1,5 @@
+import { buildRelativeUrl } from '../../shared/page-helpers.js';
+
 const FOCUSABLE_SELECTOR = [
   'a[href]',
   'button:not([disabled])',
@@ -47,6 +49,7 @@ function sanitizeColor(value, fallback) {
 export function createSamplesCatalogModal({ grid, getUiText }) {
   const modalOverlay = document.getElementById('sampleModal');
   const orderBtn = document.getElementById('sampleModalOrderBtn');
+  const orderLink = document.querySelector('.samples-catalog-order-link');
 
   let modalSample = null;
   let lastSampleTrigger = null;
@@ -77,7 +80,12 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   const orderSample = sampleId => {
     const sample = findSampleById(sampleId);
     if (!sample || !sample.available) return;
-    window.location.href = `index.html?sample=${encodeURIComponent(sampleId)}#contact`;
+
+    const sampleParamKey = orderLink?.dataset.orderSampleParam?.trim() || 'sample';
+    const targetUrl = orderLink?.getAttribute('href') || window.location.href;
+    window.location.assign(buildRelativeUrl(targetUrl, {
+      [sampleParamKey]: sampleId
+    }));
   };
 
   const openSampleModal = (id, triggerEl = null) => {

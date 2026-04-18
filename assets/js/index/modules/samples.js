@@ -1,3 +1,5 @@
+import { buildRelativeUrl, cleanLeadingIcon, syncPressedState } from '../../shared/page-helpers.js';
+
 function sanitizeColor(value, fallback) {
   const color = String(value || '').trim();
   if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color)) {
@@ -5,18 +7,6 @@ function sanitizeColor(value, fallback) {
   }
 
   return fallback;
-}
-
-function cleanLeadingIcon(text = '') {
-  return String(text || '').replace(/^[^\u0980-\u09FFA-Za-z0-9]+/u, '').trim();
-}
-
-function syncPressedState(buttons, isActive) {
-  buttons.forEach(button => {
-    const active = Boolean(isActive(button));
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
 }
 
 function openDialog(dialog) {
@@ -302,9 +292,13 @@ export function initHomeSamples() {
     }
 
     if (viewAllBtn) {
-      viewAllBtn.href = currentFilter === 'all'
-        ? 'samples-all.html'
-        : `samples-all.html?material=${encodeURIComponent(currentFilter)}`;
+      if (!viewAllBtn.dataset.baseHref) {
+        viewAllBtn.dataset.baseHref = viewAllBtn.getAttribute('href') || '';
+      }
+
+      viewAllBtn.href = buildRelativeUrl(viewAllBtn.dataset.baseHref || window.location.href, {
+        material: currentFilter === 'all' ? '' : currentFilter
+      });
     }
   }
 

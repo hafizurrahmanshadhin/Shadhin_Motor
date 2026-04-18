@@ -1,14 +1,4 @@
-function cleanLeadingIcon(text = '') {
-  return String(text || '').replace(/^[^\u0980-\u09FFA-Za-z0-9]+/u, '').trim();
-}
-
-function syncPressedState(buttons, isActive) {
-  buttons.forEach(button => {
-    const active = Boolean(isActive(button));
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-}
+import { buildRelativeUrl, cleanLeadingIcon, syncPressedState } from '../../shared/page-helpers.js';
 
 function openDialog(dialog) {
   if (!dialog) return;
@@ -248,9 +238,14 @@ export function initHomeGallery() {
   function updateGalleryViewAllLink() {
     const viewAllBtn = document.getElementById('galleryViewAllBtn');
     if (!viewAllBtn) return;
-    viewAllBtn.href = galleryFilter === 'all'
-      ? 'gallery-all.html'
-      : `gallery-all.html?cat=${encodeURIComponent(galleryFilter)}`;
+
+    if (!viewAllBtn.dataset.baseHref) {
+      viewAllBtn.dataset.baseHref = viewAllBtn.getAttribute('href') || '';
+    }
+
+    viewAllBtn.href = buildRelativeUrl(viewAllBtn.dataset.baseHref || window.location.href, {
+      cat: galleryFilter === 'all' ? '' : galleryFilter
+    });
   }
 
   function applyFilter() {

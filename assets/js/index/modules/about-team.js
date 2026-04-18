@@ -1,5 +1,4 @@
 const ABOUT_TEAM_MOTION_SPEED = 34;
-const ABOUT_TEAM_FALLBACK_IMAGE = 'assets/images/about/employee-1.jpeg';
 
 function openDialog(dialog) {
   if (!dialog) return;
@@ -171,12 +170,17 @@ export function initHomeAboutTeam() {
   const slider = document.getElementById('aboutTeamSlider');
   const track = document.getElementById('aboutTeamGrid');
   const viewport = document.getElementById('aboutTeamMarqueeViewport');
+  const previewOverlay = document.getElementById('aboutTeamPreviewOverlay');
 
   if (!slider || !track || !viewport) {
     return {
       closeAboutTeamPreview() {}
     };
   }
+
+  const fallbackImage = previewOverlay?.dataset.fallbackImage?.trim()
+    || track.querySelector('.about-team-photo')?.getAttribute('src')?.trim()
+    || '';
 
   const state = {
     motionRaf: 0,
@@ -327,8 +331,8 @@ export function initHomeAboutTeam() {
       img.dataset.aboutTeamFallbackBound = 'true';
 
       img.addEventListener('error', () => {
-        if (img.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
-        img.src = ABOUT_TEAM_FALLBACK_IMAGE;
+        if (!fallbackImage || img.src.includes(fallbackImage)) return;
+        img.src = fallbackImage;
       }, { once: true });
     });
   }
@@ -403,7 +407,7 @@ export function initHomeAboutTeam() {
   }
 
   function openAboutTeamPreview(imageSrc, name, role, triggerEl = null) {
-    const overlay = document.getElementById('aboutTeamPreviewOverlay');
+    const overlay = previewOverlay;
     const image = document.getElementById('aboutTeamPreviewImage');
     const nameEl = document.getElementById('aboutTeamPreviewName');
     const roleEl = document.getElementById('aboutTeamPreviewRole');
@@ -420,11 +424,11 @@ export function initHomeAboutTeam() {
     const defaultRole = overlay.dataset.defaultRole || roleEl.textContent || '';
     const previewAltSuffix = overlay.dataset.previewAltSuffix || image.dataset.previewAltSuffix || '';
 
-    image.src = imageSrc || ABOUT_TEAM_FALLBACK_IMAGE;
+    image.src = imageSrc || fallbackImage;
     image.alt = [name || defaultName, previewAltSuffix].filter(Boolean).join(' - ');
     image.onerror = () => {
-      if (image.src.includes(ABOUT_TEAM_FALLBACK_IMAGE)) return;
-      image.src = ABOUT_TEAM_FALLBACK_IMAGE;
+      if (!fallbackImage || image.src.includes(fallbackImage)) return;
+      image.src = fallbackImage;
     };
 
     nameEl.textContent = name || defaultName;
@@ -479,7 +483,7 @@ export function initHomeAboutTeam() {
     if (!trigger || !track.contains(trigger)) return;
 
     openAboutTeamPreview(
-      trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+      trigger.dataset.teamPreviewSrc || fallbackImage,
       trigger.dataset.teamPreviewName || '',
       trigger.dataset.teamPreviewRole || '',
       trigger
@@ -494,14 +498,12 @@ export function initHomeAboutTeam() {
 
     event.preventDefault();
     openAboutTeamPreview(
-      trigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
+      trigger.dataset.teamPreviewSrc || fallbackImage,
       trigger.dataset.teamPreviewName || '',
       trigger.dataset.teamPreviewRole || '',
       trigger
     );
   });
-
-  const previewOverlay = document.getElementById('aboutTeamPreviewOverlay');
   previewOverlay?.addEventListener('click', event => {
     if (event.target === previewOverlay) closeAboutTeamPreview();
   });
@@ -515,9 +517,9 @@ export function initHomeAboutTeam() {
   const ownerPreviewTrigger = document.querySelector('.about-owner-photo-btn[data-team-preview-src]');
   ownerPreviewTrigger?.addEventListener('click', () => {
     openAboutTeamPreview(
-      ownerPreviewTrigger.dataset.teamPreviewSrc || ABOUT_TEAM_FALLBACK_IMAGE,
-      ownerPreviewTrigger.dataset.teamPreviewName || 'প্রতিষ্ঠাতা ও প্রধান কারিগর',
-      ownerPreviewTrigger.dataset.teamPreviewRole || 'Owner & Workshop Lead',
+      ownerPreviewTrigger.dataset.teamPreviewSrc || fallbackImage,
+      ownerPreviewTrigger.dataset.teamPreviewName || '',
+      ownerPreviewTrigger.dataset.teamPreviewRole || '',
       ownerPreviewTrigger
     );
   });
