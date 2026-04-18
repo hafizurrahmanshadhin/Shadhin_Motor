@@ -35,6 +35,16 @@ function closeDialogModal(dialog) {
   }
 }
 
+function isFocusVisible(target) {
+  if (!(target instanceof HTMLElement)) return false;
+
+  try {
+    return target.matches(':focus-visible');
+  } catch {
+    return false;
+  }
+}
+
 export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel }) {
   const overlay = document.getElementById('lightboxOverlay');
   const titleEl = document.getElementById('lightboxTitle');
@@ -49,6 +59,7 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
   let lightboxItems = [];
   let lightboxIdx = 0;
   let lastLightboxTrigger = null;
+  let keepTriggerFocusOnClose = false;
 
   const getTriggerData = trigger => {
     const card = trigger.closest('.gallery-card, .gallery-item');
@@ -122,6 +133,7 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
     lightboxItems = scopedItems.length ? scopedItems : visibleTriggers;
     lightboxIdx = Math.max(0, lightboxItems.indexOf(trigger));
     lastLightboxTrigger = trigger;
+    keepTriggerFocusOnClose = isFocusVisible(lastLightboxTrigger);
     render();
     openDialogModal(overlay);
 
@@ -134,7 +146,14 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
     if (event && event.target !== overlay) return;
 
     closeDialogModal(overlay);
-    if (lastLightboxTrigger) lastLightboxTrigger.focus();
+    if (lastLightboxTrigger instanceof HTMLElement && lastLightboxTrigger.isConnected) {
+      lastLightboxTrigger.focus();
+      if (!keepTriggerFocusOnClose) {
+        requestAnimationFrame(() => {
+          lastLightboxTrigger.blur();
+        });
+      }
+    }
   };
 
   const navigate = direction => {

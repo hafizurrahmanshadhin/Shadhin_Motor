@@ -87,15 +87,6 @@ function restoreViewportPosition(viewport) {
   });
 }
 
-function scheduleViewportRestore(viewport) {
-  if (!viewport) return;
-
-  requestAnimationFrame(() => {
-    restoreViewportPosition(viewport);
-    requestAnimationFrame(() => restoreViewportPosition(viewport));
-  });
-}
-
 function lockBodyScroll(root, body) {
   body.classList.add('body-scroll-locked');
 
@@ -439,7 +430,6 @@ export function initHomeAboutTeam() {
     openDialog(overlay);
     syncBodyScrollLockState();
     focusWithoutScroll(document.getElementById('aboutTeamPreviewCloseBtn'));
-    scheduleViewportRestore(previewViewport);
   }
 
   function closeAboutTeamPreview() {
@@ -453,7 +443,7 @@ export function initHomeAboutTeam() {
     closeDialog(overlay);
     syncBodyScrollLockState();
     restoreFocus(triggerToRestore);
-    scheduleViewportRestore(viewportState);
+    restoreViewportPosition(viewportState);
     previewTrigger = null;
     previewViewport = null;
     setPaused('preview', false);

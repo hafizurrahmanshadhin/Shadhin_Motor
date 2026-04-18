@@ -1,3 +1,5 @@
+import { hasServerFormAction, submitFormNative } from '../../shared/page-helpers.js';
+
 const FOCUSABLE_SELECTOR = [
   'a[href]',
   'button:not([disabled])',
@@ -53,6 +55,16 @@ function restoreFocus(target) {
   focusWithoutScroll(target);
 }
 
+function isFocusVisible(target) {
+  if (!(target instanceof HTMLElement)) return false;
+
+  try {
+    return target.matches(':focus-visible');
+  } catch {
+    return false;
+  }
+}
+
 function captureViewportPosition() {
   const scrollRoot = document.scrollingElement || document.documentElement || document.body;
 
@@ -95,15 +107,6 @@ function restoreViewportPosition(viewport) {
     if (scrollRoot instanceof HTMLElement) {
       scrollRoot.style.scrollBehavior = previousScrollRootBehavior;
     }
-  });
-}
-
-function scheduleViewportRestore(viewport) {
-  if (!viewport) return;
-
-  requestAnimationFrame(() => {
-    restoreViewportPosition(viewport);
-    requestAnimationFrame(() => restoreViewportPosition(viewport));
   });
 }
 
@@ -219,6 +222,7 @@ function showToast(title, message, duration = 4000) {
 export function initHomeReviews() {
   const reviewsSection = document.getElementById('reviews');
   const uiTextRoot = document.getElementById('homeReviewsUiText');
+  const reviewSubmitForm = document.getElementById('reviewSubmitForm');
 
   if (!reviewsSection) return;
 
@@ -240,7 +244,8 @@ export function initHomeReviews() {
     title: getUiText('previewTitleDefault'),
     trigger: null,
     viewport: null,
-    restoreFocusOnClose: true
+    restoreFocusOnClose: true,
+    keepFocusOnClose: false
   };
 
   const reviewUploadFormState = {
@@ -249,10 +254,6 @@ export function initHomeReviews() {
   };
 
   const reviewUploadPreviewState = {
-    objectUrls: []
-  };
-  const reviewMediaVideoState = {
-    cache: new Map(),
     objectUrls: []
   };
 
@@ -264,7 +265,8 @@ export function initHomeReviews() {
 
   const modalState = {
     reviewSubmitTrigger: null,
-    reviewSubmitViewport: null
+    reviewSubmitViewport: null,
+    reviewSubmitKeepFocus: false
   };
 
   const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
@@ -336,117 +338,6 @@ export function initHomeReviews() {
     return objectUrl;
   }
 
-  function loadReviewImageSource(src) {
-    return new Promise((resolve, reject) => {
-      const image = new Image();
-      image.decoding = 'async';
-      image.onload = () => resolve(image);
-      image.onerror = () => reject(new Error(`Failed to load image: ${src}`));
-      image.src = src;
-    });
-  }
-
-  function drawReviewVideoFrame(context, image, width, height) {
-    const imageRatio = image.width / image.height;
-    const canvasRatio = width / height;
-    let drawWidth = width;
-    let drawHeight = height;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    if (imageRatio > canvasRatio) {
-      drawHeight = height;
-      drawWidth = height * imageRatio;
-      offsetX = (width - drawWidth) / 2;
-    } else {
-      drawWidth = width;
-      drawHeight = width / imageRatio;
-      offsetY = (height - drawHeight) / 2;
-    }
-
-    context.clearRect(0, 0, width, height);
-    context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
-  }
-
-  async function buildReviewVideoClipFromFrames(frameSources) {
-    const cacheKey = frameSources.join('|');
-    if (reviewMediaVideoState.cache.has(cacheKey)) {
-      return reviewMediaVideoState.cache.get(cacheKey);
-    }
-
-    if (
-      typeof MediaRecorder === 'undefined'
-      || typeof HTMLCanvasElement === 'undefined'
-      || typeof HTMLCanvasElement.prototype.captureStream !== 'function'
-    ) {
-      throw new Error('Video preview is not supported in this browser.');
-    }
-
-    const mimeCandidates = [
-      'video/webm;codecs=vp9',
-      'video/webm;codecs=vp8',
-      'video/webm'
-    ];
-    const mimeType = typeof MediaRecorder.isTypeSupported === 'function'
-      ? mimeCandidates.find(type => MediaRecorder.isTypeSupported(type))
-      : mimeCandidates[mimeCandidates.length - 1];
-
-    if (!mimeType) {
-      throw new Error('No supported video recording format was found.');
-    }
-
-    const frames = await Promise.all(frameSources.map(loadReviewImageSource));
-    const canvas = document.createElement('canvas');
-    canvas.width = 960;
-    canvas.height = 720;
-    const context = canvas.getContext('2d');
-    if (!context) {
-      throw new Error('Canvas rendering is unavailable.');
-    }
-
-    const stream = canvas.captureStream(8);
-    const recorder = new MediaRecorder(stream, { mimeType });
-    const chunks = [];
-
-    recorder.addEventListener('dataavailable', event => {
-      if (event.data && event.data.size > 0) {
-        chunks.push(event.data);
-      }
-    });
-
-    const recordPromise = new Promise((resolve, reject) => {
-      recorder.addEventListener('stop', () => {
-        if (!chunks.length) {
-          reject(new Error('Video recording returned no data.'));
-          return;
-        }
-
-        const blob = new Blob(chunks, { type: mimeType });
-        const objectUrl = URL.createObjectURL(blob);
-        reviewMediaVideoState.objectUrls.push(objectUrl);
-        reviewMediaVideoState.cache.set(cacheKey, objectUrl);
-        resolve(objectUrl);
-      }, { once: true });
-
-      recorder.addEventListener('error', event => {
-        reject(event.error || new Error('Video recording failed.'));
-      }, { once: true });
-    });
-
-    recorder.start();
-
-    for (let frameIndex = 0; frameIndex < frames.length * 2; frameIndex += 1) {
-      const frame = frames[frameIndex % frames.length];
-      drawReviewVideoFrame(context, frame, canvas.width, canvas.height);
-      // Keep the clip short and light while still feeling like a real video preview.
-      // 260ms per frame gives enough motion without bloating the output blob.
-      await new Promise(resolve => window.setTimeout(resolve, 260));
-    }
-
-    recorder.stop();
-    return recordPromise;
-  }
-
   function getReviewMediaThumbnailSource(trigger) {
     const image = trigger.querySelector('img');
     if (!(image instanceof HTMLImageElement)) return '';
@@ -465,7 +356,7 @@ export function initHomeReviews() {
     return getReviewMediaThumbnailSource(trigger);
   }
 
-  async function resolveReviewMediaItem(trigger) {
+  function resolveReviewMediaItem(trigger) {
     const type = trigger.dataset.reviewMediaType === 'video' ? 'video' : 'image';
     const label = trigger.dataset.reviewMediaLabel || getUiText('previewTitleDefault');
     const source = String(trigger.dataset.reviewMediaSrc || '').trim() || getReviewMediaThumbnailSource(trigger);
@@ -480,27 +371,11 @@ export function initHomeReviews() {
         };
       }
 
-      const frameSources = String(trigger.dataset.reviewVideoFrames || '')
-        .split('|')
-        .map(value => value.trim())
-        .filter(Boolean);
-      const posterSrc = getReviewMediaPosterSource(trigger);
-
-      try {
-        const videoSrc = await buildReviewVideoClipFromFrames(frameSources);
-        return {
-          type: 'video',
-          src: videoSrc,
-          poster: posterSrc,
-          title: label
-        };
-      } catch {
-        return {
-          type: 'image',
-          src: posterSrc,
-          title: label
-        };
-      }
+      return {
+        type: 'image',
+        src: getReviewMediaPosterSource(trigger),
+        title: label
+      };
     }
 
     return {
@@ -510,14 +385,16 @@ export function initHomeReviews() {
     };
   }
 
-  async function openReviewCardMediaGallery(trigger) {
+  function openReviewCardMediaGallery(trigger) {
     const card = trigger.closest('.review-card');
     if (!card) return;
 
     const triggers = Array.from(card.querySelectorAll('.review-media-item[data-review-media-type]'));
     if (!triggers.length) return;
 
-    const items = (await Promise.all(triggers.map(resolveReviewMediaItem))).filter(item => item.src);
+    const items = triggers
+      .map(resolveReviewMediaItem)
+      .filter(item => item.src);
     if (!items.length) {
       showToast(
         getUiText('missingMediaTitle'),
@@ -545,7 +422,7 @@ export function initHomeReviews() {
     const grid = document.getElementById('reviewsGrid');
     if (!grid) return;
 
-    grid.addEventListener('click', async event => {
+    grid.addEventListener('click', event => {
       const avatarTrigger = event.target.closest('.review-avatar-trigger');
       if (avatarTrigger && grid.contains(avatarTrigger)) {
         openReviewCardAvatarPreview(avatarTrigger);
@@ -554,7 +431,7 @@ export function initHomeReviews() {
 
       const mediaTrigger = event.target.closest('.review-media-item[data-review-media-type]');
       if (!mediaTrigger || !grid.contains(mediaTrigger)) return;
-      await openReviewCardMediaGallery(mediaTrigger);
+      openReviewCardMediaGallery(mediaTrigger);
     });
   }
 
@@ -750,12 +627,12 @@ export function initHomeReviews() {
     reviewPreviewState.trigger = triggerEl instanceof HTMLElement ? triggerEl : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
     reviewPreviewState.viewport = captureViewportPosition();
     reviewPreviewState.restoreFocusOnClose = options.restoreFocusOnClose !== false;
+    reviewPreviewState.keepFocusOnClose = options.keepFocusOnClose === true || isFocusVisible(reviewPreviewState.trigger);
 
     renderReviewMediaPreview();
     openOverlayDialog(overlay);
     syncBodyScrollLockState();
     focusWithoutScroll(document.getElementById('reviewPreviewClose'));
-    scheduleViewportRestore(reviewPreviewState.viewport);
   }
 
   function closeReviewMediaPreview() {
@@ -764,20 +641,26 @@ export function initHomeReviews() {
 
     const viewportState = reviewPreviewState.viewport || captureViewportPosition();
     const triggerToRestore = reviewPreviewState.restoreFocusOnClose ? reviewPreviewState.trigger : null;
+    const keepFocus = reviewPreviewState.keepFocusOnClose;
 
     closeOverlayDialog(overlay);
     syncBodyScrollLockState();
     restoreViewportPosition(viewportState);
     if (triggerToRestore instanceof HTMLElement && triggerToRestore.isConnected) {
       restoreFocus(triggerToRestore);
+      if (!keepFocus) {
+        requestAnimationFrame(() => {
+          triggerToRestore.blur();
+        });
+      }
     }
-    scheduleViewportRestore(viewportState);
     reviewPreviewState.items = [];
     reviewPreviewState.index = 0;
     reviewPreviewState.title = getUiText('previewTitleDefault');
     reviewPreviewState.trigger = null;
     reviewPreviewState.viewport = null;
     reviewPreviewState.restoreFocusOnClose = true;
+    reviewPreviewState.keepFocusOnClose = false;
   }
 
   function renderReviewMediaPreview() {
@@ -1194,7 +1077,7 @@ export function initHomeReviews() {
 
   async function finalizeReviewSubmitFromConfirm() {
     const payload = reviewSubmitConfirmState.pendingPayload;
-    const form = document.getElementById('reviewSubmitForm');
+    const form = reviewSubmitForm;
     const submitBtn = form?.querySelector('.review-submit-primary-btn');
     const confirmSubmitBtn = document.getElementById('reviewSubmitConfirmSubmitBtn');
 
@@ -1211,6 +1094,12 @@ export function initHomeReviews() {
     }
 
     try {
+      if (hasServerFormAction(form)) {
+        closeReviewSubmitConfirm();
+        submitFormNative(form);
+        return;
+      }
+
       if (form) form.reset();
       reviewUploadFormState.avatarFile = null;
       reviewUploadFormState.mediaFiles = [];
@@ -1247,26 +1136,37 @@ export function initHomeReviews() {
     modalState.reviewSubmitTrigger = document.activeElement instanceof HTMLElement
       ? document.activeElement
       : null;
+    modalState.reviewSubmitKeepFocus = isFocusVisible(modalState.reviewSubmitTrigger);
     modalState.reviewSubmitViewport = captureViewportPosition();
     openOverlayDialog(modal);
     syncBodyScrollLockState();
     updateReviewFileMeta();
     focusFirstIn(modal);
-    scheduleViewportRestore(modalState.reviewSubmitViewport);
   }
 
   function closeReviewModal() {
     const modal = document.getElementById('reviewSubmitModal');
     if (!modal) return;
     const viewportState = modalState.reviewSubmitViewport || captureViewportPosition();
+    const triggerToRestore = modalState.reviewSubmitTrigger;
+    const keepFocus = modalState.reviewSubmitKeepFocus;
     closeOverlayDialog(modal);
     closeReviewSubmitConfirm();
     closeReviewMediaPreview();
     releaseUrls(reviewUploadPreviewState.objectUrls);
     syncBodyScrollLockState();
-    restoreFocus(modalState.reviewSubmitTrigger);
-    scheduleViewportRestore(viewportState);
+    restoreViewportPosition(viewportState);
+    if (triggerToRestore instanceof HTMLElement && triggerToRestore.isConnected) {
+      restoreFocus(triggerToRestore);
+      if (!keepFocus) {
+        requestAnimationFrame(() => {
+          triggerToRestore.blur();
+        });
+      }
+    }
+    modalState.reviewSubmitTrigger = null;
     modalState.reviewSubmitViewport = null;
+    modalState.reviewSubmitKeepFocus = false;
   }
 
   function clearReviewAvatarSelection() {
@@ -1418,7 +1318,7 @@ export function initHomeReviews() {
     const confirmOverlay = document.getElementById('reviewSubmitConfirmOverlay');
     const avatarInput = document.getElementById('reviewUserAvatar');
     const mediaInput = document.getElementById('reviewUserMedia');
-    const form = document.getElementById('reviewSubmitForm');
+    const form = reviewSubmitForm;
 
     openBtns.forEach(btn => btn.addEventListener('click', openReviewModal));
     document.getElementById('closeReviewModalBtn')?.addEventListener('click', closeReviewModal);
@@ -1555,7 +1455,7 @@ export function initHomeReviews() {
   window.addEventListener('resize', syncBodyScrollLockState);
   window.addEventListener('orientationchange', syncBodyScrollLockState);
   window.addEventListener('beforeunload', () => {
-    releaseUrls(reviewMediaVideoState.objectUrls);
+    releaseUrls(reviewUploadPreviewState.objectUrls);
   });
   syncBodyScrollLockState();
   initReviewsModule();

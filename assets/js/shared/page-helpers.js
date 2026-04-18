@@ -39,3 +39,19 @@ export function buildRelativeUrl(target, state = {}) {
 export function replaceUrlState(target, state = {}) {
   history.replaceState(null, '', buildRelativeUrl(target, state));
 }
+
+export function hasServerFormAction(form) {
+  if (!(form instanceof HTMLFormElement)) return false;
+
+  const actionAttr = String(form.getAttribute('action') || '').trim();
+  if (!actionAttr || actionAttr === '#') return false;
+
+  return true;
+}
+
+export function submitFormNative(form) {
+  if (!(form instanceof HTMLFormElement)) return false;
+
+  HTMLFormElement.prototype.submit.call(form);
+  return true;
+}

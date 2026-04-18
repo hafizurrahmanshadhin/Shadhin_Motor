@@ -87,15 +87,6 @@ function restoreViewportPosition(viewport) {
   });
 }
 
-function scheduleViewportRestore(viewport) {
-  if (!viewport) return;
-
-  requestAnimationFrame(() => {
-    restoreViewportPosition(viewport);
-    requestAnimationFrame(() => restoreViewportPosition(viewport));
-  });
-}
-
 function lockBodyScroll(root, body) {
   body.classList.add('body-scroll-locked');
 
@@ -562,7 +553,6 @@ export function initHomeGallery() {
     openDialog(overlay);
     syncBodyScrollLockState();
     focusWithoutScroll(document.getElementById('lightboxCloseBtn'));
-    scheduleViewportRestore(lightboxViewport);
   }
 
   function closeLightbox(event) {
@@ -577,7 +567,7 @@ export function initHomeGallery() {
     closeDialog(overlay);
     syncBodyScrollLockState();
     restoreFocus(triggerToRestore);
-    scheduleViewportRestore(viewportState);
+    restoreViewportPosition(viewportState);
     lightboxShouldKeepFocus = false;
     lightboxViewport = null;
 

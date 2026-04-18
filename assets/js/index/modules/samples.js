@@ -1,4 +1,10 @@
-import { buildRelativeUrl, cleanLeadingIcon, syncPressedState } from '../../shared/page-helpers.js';
+import {
+  buildRelativeUrl,
+  cleanLeadingIcon,
+  hasServerFormAction,
+  submitFormNative,
+  syncPressedState
+} from '../../shared/page-helpers.js';
 
 function sanitizeColor(value, fallback) {
   const color = String(value || '').trim();
@@ -93,15 +99,6 @@ function restoreViewportPosition(viewport) {
     if (scrollRoot instanceof HTMLElement) {
       scrollRoot.style.scrollBehavior = previousScrollRootBehavior;
     }
-  });
-}
-
-function scheduleViewportRestore(viewport) {
-  if (!viewport) return;
-
-  requestAnimationFrame(() => {
-    restoreViewportPosition(viewport);
-    requestAnimationFrame(() => restoreViewportPosition(viewport));
   });
 }
 
@@ -212,7 +209,10 @@ export function initHomeSamples() {
   let modalSample = null;
   let sampleModalTrigger = null;
   let sampleModalViewport = null;
+  let sampleModalShouldKeepFocus = false;
   let sampleConfirmViewport = null;
+  let sampleConfirmShouldKeepFocus = false;
+  const orderForm = document.getElementById('orderForm');
 
   const uiTextRoot = document.getElementById('homeSamplesUiText');
   const sampleParamKey = samplesSection.dataset.sampleParam || 'sample';
@@ -231,6 +231,16 @@ export function initHomeSamples() {
     return String(template || '').replace(/\{(\w+)\}/g, (_, key) => {
       return Object.prototype.hasOwnProperty.call(tokens, key) ? String(tokens[key] ?? '') : '';
     });
+  }
+
+  function isFocusVisible(target) {
+    if (!(target instanceof HTMLElement)) return false;
+
+    try {
+      return target.matches(':focus-visible');
+    } catch {
+      return false;
+    }
   }
 
   function getSampleItems() {
@@ -418,6 +428,7 @@ export function initHomeSamples() {
       ? triggerEl
       : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
     sampleModalViewport = captureViewportPosition();
+    sampleModalShouldKeepFocus = isFocusVisible(sampleModalTrigger);
 
     document.getElementById('sampleModalId').textContent = `${getUiText('modalIdPrefix')} ${sample.id}`;
     document.getElementById('sampleModalIdVal').textContent = sample.id;
@@ -469,7 +480,6 @@ export function initHomeSamples() {
     openDialog(modalOverlay);
     syncBodyScrollLockState();
     focusWithoutScroll(document.getElementById('sampleModalCloseBtn'));
-    scheduleViewportRestore(sampleModalViewport);
   }
 
   function closeSampleModal(restoreViewport = true) {
@@ -481,8 +491,14 @@ export function initHomeSamples() {
     closeDialog(modalOverlay);
     syncBodyScrollLockState();
     restoreFocus(sampleModalTrigger);
-    if (restoreViewport) scheduleViewportRestore(viewportState);
+    if (restoreViewport) restoreViewportPosition(viewportState);
+    if (!sampleModalShouldKeepFocus && sampleModalTrigger instanceof HTMLElement) {
+      requestAnimationFrame(() => {
+        sampleModalTrigger.blur();
+      });
+    }
     sampleModalViewport = null;
+    sampleModalShouldKeepFocus = false;
   }
 
   function selectSample(sampleId) {
@@ -531,6 +547,7 @@ export function initHomeSamples() {
       ? document.activeElement
       : null;
     sampleConfirmViewport = captureViewportPosition();
+    sampleConfirmShouldKeepFocus = isFocusVisible(orderConfirmState.lastTrigger);
 
     if (selectedSample) {
       orderConfirmState.secondaryAction = 'edit-order';
@@ -565,7 +582,6 @@ export function initHomeSamples() {
     openDialog(modal);
     syncBodyScrollLockState();
     focusWithoutScroll(primaryBtn);
-    scheduleViewportRestore(sampleConfirmViewport);
   }
 
   function closeSampleConfirmModal(restoreViewport = true) {
@@ -577,8 +593,14 @@ export function initHomeSamples() {
     closeDialog(modal);
     syncBodyScrollLockState();
     restoreFocus(orderConfirmState.lastTrigger);
-    if (restoreViewport) scheduleViewportRestore(viewportState);
+    if (restoreViewport) restoreViewportPosition(viewportState);
+    if (!sampleConfirmShouldKeepFocus && orderConfirmState.lastTrigger instanceof HTMLElement) {
+      requestAnimationFrame(() => {
+        orderConfirmState.lastTrigger.blur();
+      });
+    }
     sampleConfirmViewport = null;
+    sampleConfirmShouldKeepFocus = false;
   }
 
   function goChooseSample() {
@@ -621,6 +643,11 @@ export function initHomeSamples() {
 
     if (!skipSampleConfirmation) {
       openSampleConfirmModal();
+      return;
+    }
+
+    if (hasServerFormAction(orderForm)) {
+      submitFormNative(orderForm);
       return;
     }
 
@@ -705,7 +732,7 @@ export function initHomeSamples() {
   });
   document.getElementById('selectedSampleClearBtn')?.addEventListener('click', clearSelectedSample);
   document.getElementById('formSampleClearBtn')?.addEventListener('click', clearSelectedSample);
-  document.getElementById('orderForm')?.addEventListener('submit', event => {
+  orderForm?.addEventListener('submit', event => {
     event.preventDefault();
     submitOrder();
   });

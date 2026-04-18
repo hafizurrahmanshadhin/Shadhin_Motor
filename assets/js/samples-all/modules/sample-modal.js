@@ -37,6 +37,16 @@ function closeDialogModal(dialog) {
   }
 }
 
+function isFocusVisible(target) {
+  if (!(target instanceof HTMLElement)) return false;
+
+  try {
+    return target.matches(':focus-visible');
+  } catch {
+    return false;
+  }
+}
+
 function sanitizeColor(value, fallback) {
   const color = String(value || '').trim();
   if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color)) {
@@ -53,6 +63,7 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
 
   let modalSample = null;
   let lastSampleTrigger = null;
+  let keepTriggerFocusOnClose = false;
 
   const getSampleFromCard = card => {
     if (!(card instanceof HTMLElement)) return null;
@@ -96,6 +107,7 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
     lastSampleTrigger = triggerEl instanceof HTMLElement
       ? triggerEl
       : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+    keepTriggerFocusOnClose = isFocusVisible(lastSampleTrigger);
 
     document.getElementById('sampleModalId').textContent = `${getUiText('modalIdPrefix')} ${sample.id}`;
     document.getElementById('sampleModalIdVal').textContent = sample.id;
@@ -147,7 +159,14 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   const closeSampleModal = () => {
     if (!modalOverlay) return;
     closeDialogModal(modalOverlay);
-    if (lastSampleTrigger) lastSampleTrigger.focus();
+    if (lastSampleTrigger instanceof HTMLElement && lastSampleTrigger.isConnected) {
+      lastSampleTrigger.focus();
+      if (!keepTriggerFocusOnClose) {
+        requestAnimationFrame(() => {
+          lastSampleTrigger.blur();
+        });
+      }
+    }
   };
 
   grid.querySelectorAll('.sample-card-swatch img').forEach(imageEl => {
