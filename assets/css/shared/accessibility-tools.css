@@ -20,7 +20,7 @@
   z-index: 1550;
   width: auto;
   max-width: calc(100vw - 24px);
-  font-family: 'Noto Sans Bengali', 'Hind Siliguri', 'Nirmala UI', 'Segoe UI', sans-serif;
+  font-family: 'Noto Sans Bengali', 'Nirmala UI', 'Segoe UI', sans-serif;
   animation: a11y-fab-float 5.2s ease-in-out infinite;
   will-change: transform;
 }
