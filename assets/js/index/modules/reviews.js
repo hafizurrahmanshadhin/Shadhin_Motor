@@ -218,6 +218,316 @@ function showToast(title, message, duration = 4000) {
 
 export function initHomeReviews() {
   const uiTextRoot = document.getElementById('homeReviewsUiText');
+  const STATIC_REVIEW_CARD_CONFIG = [
+    {
+      avatarSrc: 'assets/images/about/employee-1.jpeg',
+      avatarAlt: 'রাশেদ করিমের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/cars/1.jpeg',
+          thumbSrc: 'assets/images/cars/1.jpeg',
+          label: 'সিট ফিটিংয়ের ফ্রন্ট ভিউ'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/cars/2.jpeg',
+          thumbSrc: 'assets/images/cars/2.jpeg',
+          label: 'ফিনিশিংয়ের ক্লোজআপ'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/cars/3.jpeg',
+          frameSources: [
+            'assets/images/cars/3.jpeg',
+            'assets/images/cars/4.jpeg',
+            'assets/images/cars/5.jpeg'
+          ],
+          label: 'কাজের ছোট ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-2.jpeg',
+      avatarAlt: 'নাফিসা আহমেদের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/cars/6.jpeg',
+          thumbSrc: 'assets/images/cars/6.jpeg',
+          label: 'প্রিমিও সিটের সাইড ভিউ'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/cars/7.jpeg',
+          thumbSrc: 'assets/images/cars/7.jpeg',
+          label: 'হেডরেস্ট ও স্টিচিং'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/cars/8.jpeg',
+          frameSources: [
+            'assets/images/cars/8.jpeg',
+            'assets/images/cars/9.jpeg',
+            'assets/images/cars/10.jpeg'
+          ],
+          label: 'ফুল কেবিন ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-3.jpeg',
+      avatarAlt: 'মাসুদ হোসেনের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/bikes/11.jpeg',
+          thumbSrc: 'assets/images/bikes/11.jpeg',
+          label: 'বাইকের সিট প্রোফাইল'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/bikes/12.jpeg',
+          thumbSrc: 'assets/images/bikes/12.jpeg',
+          label: 'সিট কভারের স্টিচিং'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/bikes/13.jpeg',
+          frameSources: [
+            'assets/images/bikes/12.jpeg',
+            'assets/images/bikes/13.jpeg',
+            'assets/images/bikes/14.jpeg'
+          ],
+          label: 'বাইকের সিট ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-4.jpeg',
+      avatarAlt: 'সাইফ রহমানের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/cars/4.jpeg',
+          thumbSrc: 'assets/images/cars/4.jpeg',
+          label: 'রিপেয়ার করা সিট'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/cars/10.jpeg',
+          thumbSrc: 'assets/images/cars/10.jpeg',
+          label: 'রিপেয়ার পরের ফুল লুক'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/cars/6.jpeg',
+          frameSources: [
+            'assets/images/cars/1.jpeg',
+            'assets/images/cars/6.jpeg',
+            'assets/images/cars/8.jpeg'
+          ],
+          label: 'রিপেয়ার ও ফিনিশিং ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-5.jpeg',
+      avatarAlt: 'ফারজানা নূরের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/others/15.jpeg',
+          thumbSrc: 'assets/images/others/15.jpeg',
+          label: 'ফ্যামিলি কার সিট কভার'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/others/16.jpeg',
+          thumbSrc: 'assets/images/others/16.jpeg',
+          label: 'সিট ডিজাইনের ডিটেইল'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/others/17.jpeg',
+          frameSources: [
+            'assets/images/others/15.jpeg',
+            'assets/images/others/16.jpeg',
+            'assets/images/others/17.jpeg'
+          ],
+          label: 'ইন্টেরিয়র ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-6.jpeg',
+      avatarAlt: 'তানভীর আলমের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/bikes/13.jpeg',
+          thumbSrc: 'assets/images/bikes/13.jpeg',
+          label: 'স্যাম্পল-ম্যাচ করা সিট'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/bikes/14.jpeg',
+          thumbSrc: 'assets/images/bikes/14.jpeg',
+          label: 'ফাইনাল ফিটিংয়ের ভিউ'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/bikes/11.jpeg',
+          frameSources: [
+            'assets/images/bikes/11.jpeg',
+            'assets/images/bikes/13.jpeg',
+            'assets/images/bikes/14.jpeg'
+          ],
+          label: 'বাইক সিট ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-7.jpeg',
+      avatarAlt: 'মেহেদী হাসানের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/cars/5.jpeg',
+          thumbSrc: 'assets/images/cars/5.jpeg',
+          label: 'রিয়ার সিটের ফিনিশিং'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/cars/9.jpeg',
+          thumbSrc: 'assets/images/cars/9.jpeg',
+          label: 'কাস্টম কালার কম্বিনেশন'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/cars/7.jpeg',
+          frameSources: [
+            'assets/images/cars/5.jpeg',
+            'assets/images/cars/7.jpeg',
+            'assets/images/cars/9.jpeg'
+          ],
+          label: 'ইনস্টলেশনের ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-8.jpeg',
+      avatarAlt: 'সাবিহা সুলতানার প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/others/16.jpeg',
+          thumbSrc: 'assets/images/others/16.jpeg',
+          label: 'ডুয়াল-টোন কভার ডিজাইন'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/others/17.jpeg',
+          thumbSrc: 'assets/images/others/17.jpeg',
+          label: 'ইন্টেরিয়র ফিনিশিং ডিটেইল'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/others/15.jpeg',
+          frameSources: [
+            'assets/images/others/15.jpeg',
+            'assets/images/others/16.jpeg',
+            'assets/images/others/17.jpeg'
+          ],
+          label: 'ক্যাবিন লুক ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-9.jpeg',
+      avatarAlt: 'আরিফুল ইসলামের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/bikes/11.jpeg',
+          thumbSrc: 'assets/images/bikes/11.jpeg',
+          label: 'গ্রিপ প্যাটার্নের ক্লোজআপ'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/bikes/14.jpeg',
+          thumbSrc: 'assets/images/bikes/14.jpeg',
+          label: 'ফাইনাল বাইক সিট লুক'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/bikes/12.jpeg',
+          frameSources: [
+            'assets/images/bikes/11.jpeg',
+            'assets/images/bikes/12.jpeg',
+            'assets/images/bikes/13.jpeg'
+          ],
+          label: 'বাইক সিট গ্রিপ ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-10.jpeg',
+      avatarAlt: 'জয়নাব আক্তারের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/cars/8.jpeg',
+          thumbSrc: 'assets/images/cars/8.jpeg',
+          label: 'প্রিমিয়াম সিট কভারের টপ ভিউ'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/cars/10.jpeg',
+          thumbSrc: 'assets/images/cars/10.jpeg',
+          label: 'ফুল কেবিন ফিটিং'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/cars/6.jpeg',
+          frameSources: [
+            'assets/images/cars/6.jpeg',
+            'assets/images/cars/8.jpeg',
+            'assets/images/cars/10.jpeg'
+          ],
+          label: 'কেবিন ওয়াকথ্রু ভিডিও প্রিভিউ'
+        }
+      ]
+    },
+    {
+      avatarSrc: 'assets/images/about/employee-11.jpeg',
+      avatarAlt: 'রুবেল খানের প্রোফাইল ছবি',
+      items: [
+        {
+          type: 'image',
+          src: 'assets/images/cars/1.jpeg',
+          thumbSrc: 'assets/images/cars/1.jpeg',
+          label: 'ফ্যামিলি ভ্যানের ফ্রন্ট সিট'
+        },
+        {
+          type: 'image',
+          src: 'assets/images/cars/6.jpeg',
+          thumbSrc: 'assets/images/cars/6.jpeg',
+          label: 'ব্যাক সিট কভার ডিটেইল'
+        },
+        {
+          type: 'video',
+          posterSrc: 'assets/images/others/15.jpeg',
+          frameSources: [
+            'assets/images/cars/1.jpeg',
+            'assets/images/cars/6.jpeg',
+            'assets/images/others/15.jpeg'
+          ],
+          label: 'ফ্যামিলি ভেহিকল ভিডিও প্রিভিউ'
+        }
+      ]
+    }
+  ];
 
   function getUiText(key) {
     const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
@@ -227,7 +537,7 @@ export function initHomeReviews() {
   const reviewState = {
     cards: [],
     page: 1,
-    perPage: 6,
+    perPage: 3,
     resizeTick: 0
   };
 
@@ -236,7 +546,8 @@ export function initHomeReviews() {
     index: 0,
     title: getUiText('previewTitleDefault'),
     trigger: null,
-    viewport: null
+    viewport: null,
+    restoreFocusOnClose: true
   };
 
   const reviewUploadFormState = {
@@ -245,6 +556,10 @@ export function initHomeReviews() {
   };
 
   const reviewUploadPreviewState = {
+    objectUrls: []
+  };
+  const staticReviewVideoState = {
+    cache: new Map(),
     objectUrls: []
   };
 
@@ -318,6 +633,273 @@ export function initHomeReviews() {
     return objectUrl;
   }
 
+  function loadStaticReviewImage(src) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.decoding = 'async';
+      image.onload = () => resolve(image);
+      image.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+      image.src = src;
+    });
+  }
+
+  function drawStaticReviewFrame(context, image, width, height) {
+    const imageRatio = image.width / image.height;
+    const canvasRatio = width / height;
+    let drawWidth = width;
+    let drawHeight = height;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    if (imageRatio > canvasRatio) {
+      drawHeight = height;
+      drawWidth = height * imageRatio;
+      offsetX = (width - drawWidth) / 2;
+    } else {
+      drawWidth = width;
+      drawHeight = width / imageRatio;
+      offsetY = (height - drawHeight) / 2;
+    }
+
+    context.clearRect(0, 0, width, height);
+    context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
+  }
+
+  async function buildStaticReviewVideoClip(frameSources) {
+    const cacheKey = frameSources.join('|');
+    if (staticReviewVideoState.cache.has(cacheKey)) {
+      return staticReviewVideoState.cache.get(cacheKey);
+    }
+
+    if (
+      typeof MediaRecorder === 'undefined'
+      || typeof HTMLCanvasElement === 'undefined'
+      || typeof HTMLCanvasElement.prototype.captureStream !== 'function'
+    ) {
+      throw new Error('Video preview is not supported in this browser.');
+    }
+
+    const mimeCandidates = [
+      'video/webm;codecs=vp9',
+      'video/webm;codecs=vp8',
+      'video/webm'
+    ];
+    const mimeType = typeof MediaRecorder.isTypeSupported === 'function'
+      ? mimeCandidates.find(type => MediaRecorder.isTypeSupported(type))
+      : mimeCandidates[mimeCandidates.length - 1];
+
+    if (!mimeType) {
+      throw new Error('No supported video recording format was found.');
+    }
+
+    const frames = await Promise.all(frameSources.map(loadStaticReviewImage));
+    const canvas = document.createElement('canvas');
+    canvas.width = 960;
+    canvas.height = 720;
+    const context = canvas.getContext('2d');
+    if (!context) {
+      throw new Error('Canvas rendering is unavailable.');
+    }
+
+    const stream = canvas.captureStream(8);
+    const recorder = new MediaRecorder(stream, { mimeType });
+    const chunks = [];
+
+    recorder.addEventListener('dataavailable', event => {
+      if (event.data && event.data.size > 0) {
+        chunks.push(event.data);
+      }
+    });
+
+    const recordPromise = new Promise((resolve, reject) => {
+      recorder.addEventListener('stop', () => {
+        if (!chunks.length) {
+          reject(new Error('Video recording returned no data.'));
+          return;
+        }
+
+        const blob = new Blob(chunks, { type: mimeType });
+        const objectUrl = URL.createObjectURL(blob);
+        staticReviewVideoState.objectUrls.push(objectUrl);
+        staticReviewVideoState.cache.set(cacheKey, objectUrl);
+        resolve(objectUrl);
+      }, { once: true });
+
+      recorder.addEventListener('error', event => {
+        reject(event.error || new Error('Video recording failed.'));
+      }, { once: true });
+    });
+
+    recorder.start();
+
+    for (let frameIndex = 0; frameIndex < frames.length * 2; frameIndex += 1) {
+      const frame = frames[frameIndex % frames.length];
+      drawStaticReviewFrame(context, frame, canvas.width, canvas.height);
+      // Keep the clip short and light while still feeling like a real video preview.
+      // 260ms per frame gives enough motion without bloating the output blob.
+      await new Promise(resolve => window.setTimeout(resolve, 260));
+    }
+
+    recorder.stop();
+    return recordPromise;
+  }
+
+  function createStaticReviewMediaStrip(config, reviewerName) {
+    const list = document.createElement('ul');
+    list.className = 'review-media-strip';
+    list.setAttribute('aria-label', `${reviewerName} এর শেয়ার করা কাজের ছবি ও ভিডিও`);
+
+    config.items.forEach((item, index) => {
+      const shell = document.createElement('li');
+      shell.className = 'review-media-item-shell';
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'review-media-item';
+      button.dataset.reviewMediaIndex = String(index);
+      button.dataset.reviewMediaType = item.type;
+      button.dataset.reviewMediaLabel = item.label;
+      button.setAttribute('aria-label', `${reviewerName}: ${item.label} ${item.type === 'video' ? 'ভিডিও' : 'ছবি'} খুলুন`);
+
+      if (item.type === 'video') {
+        button.dataset.reviewMediaPoster = item.posterSrc;
+        button.dataset.reviewVideoFrames = item.frameSources.join('|');
+      } else {
+        button.dataset.reviewMediaSrc = item.src;
+      }
+
+      const thumbnail = document.createElement('img');
+      thumbnail.src = item.type === 'video' ? item.posterSrc : item.thumbSrc;
+      thumbnail.alt = item.label;
+      thumbnail.loading = 'lazy';
+      thumbnail.decoding = 'async';
+
+      const openIndicator = document.createElement('span');
+      openIndicator.className = 'review-media-open-indicator';
+      openIndicator.setAttribute('aria-hidden', 'true');
+      openIndicator.textContent = item.type === 'video' ? '▶' : '⤢';
+
+      const typeBadge = document.createElement('span');
+      typeBadge.className = 'review-media-type';
+      typeBadge.textContent = item.type === 'video' ? 'ভিডিও' : 'ছবি';
+
+      button.append(thumbnail, openIndicator, typeBadge);
+      shell.append(button);
+      list.append(shell);
+    });
+
+    return list;
+  }
+
+  function enhanceStaticReviewCards() {
+    const cards = Array.from(document.querySelectorAll('#reviewsGrid .review-card[data-review-score]'));
+
+    cards.forEach((card, index) => {
+      const config = STATIC_REVIEW_CARD_CONFIG[index];
+      if (!config) return;
+
+      const reviewerName = card.querySelector('.reviewer-name')?.textContent?.trim() || 'গ্রাহক';
+      const avatarImage = card.querySelector('.review-avatar');
+      if (avatarImage instanceof HTMLImageElement) {
+        avatarImage.src = config.avatarSrc;
+        avatarImage.alt = config.avatarAlt;
+
+        if (!avatarImage.closest('.review-avatar-trigger')) {
+          const trigger = document.createElement('button');
+          trigger.type = 'button';
+          trigger.className = 'review-avatar-trigger';
+          trigger.dataset.reviewAvatarSrc = config.avatarSrc;
+          trigger.dataset.reviewAvatarTitle = `${reviewerName} - প্রোফাইল ছবি`;
+          trigger.setAttribute('aria-label', `${reviewerName} এর প্রোফাইল ছবি বড় করে দেখুন`);
+          avatarImage.replaceWith(trigger);
+          trigger.append(avatarImage);
+        }
+      }
+
+      if (!card.querySelector('.review-media-strip') && config.items.length) {
+        card.append(createStaticReviewMediaStrip(config, reviewerName));
+      }
+    });
+  }
+
+  async function resolveStaticReviewMediaItem(trigger) {
+    const type = trigger.dataset.reviewMediaType === 'video' ? 'video' : 'image';
+    const label = trigger.dataset.reviewMediaLabel || getUiText('previewTitleDefault');
+
+    if (type === 'video') {
+      const frameSources = String(trigger.dataset.reviewVideoFrames || '')
+        .split('|')
+        .map(value => value.trim())
+        .filter(Boolean);
+      const posterSrc = String(trigger.dataset.reviewMediaPoster || '').trim();
+
+      try {
+        const videoSrc = await buildStaticReviewVideoClip(frameSources);
+        return {
+          type: 'video',
+          src: videoSrc,
+          poster: posterSrc,
+          title: label
+        };
+      } catch {
+        return {
+          type: 'image',
+          src: posterSrc,
+          title: label
+        };
+      }
+    }
+
+    return {
+      type: 'image',
+      src: String(trigger.dataset.reviewMediaSrc || '').trim(),
+      title: label
+    };
+  }
+
+  async function openStaticReviewMediaGallery(trigger) {
+    const card = trigger.closest('.review-card');
+    if (!card) return;
+
+    const triggers = Array.from(card.querySelectorAll('.review-media-item[data-review-media-type]'));
+    if (!triggers.length) return;
+
+    const items = (await Promise.all(triggers.map(resolveStaticReviewMediaItem))).filter(item => item.src);
+    if (!items.length) {
+      showToast('মিডিয়া পাওয়া যায়নি', 'এই রিভিউর জন্য কোনো মিডিয়া প্রিভিউ প্রস্তুত করা যায়নি।');
+      return;
+    }
+
+    const startIndex = Math.max(0, triggers.indexOf(trigger));
+    const reviewerName = card.querySelector('.reviewer-name')?.textContent?.trim() || getUiText('previewTitleDefault');
+    openReviewMediaPreview(items, Math.min(startIndex, items.length - 1), `${reviewerName} - কাজের মিডিয়া`, trigger, { restoreFocusOnClose: false });
+  }
+
+  function openStaticReviewAvatarPreview(trigger) {
+    const src = String(trigger.dataset.reviewAvatarSrc || '').trim();
+    if (!src) return;
+
+    const title = String(trigger.dataset.reviewAvatarTitle || getUiText('profilePreviewTitle')).trim();
+    openReviewMediaPreview([{ type: 'image', src, title }], 0, title, trigger, { restoreFocusOnClose: false });
+  }
+
+  function initStaticReviewCardInteractions() {
+    const grid = document.getElementById('reviewsGrid');
+    if (!grid) return;
+
+    grid.addEventListener('click', async event => {
+      const avatarTrigger = event.target.closest('.review-avatar-trigger[data-review-avatar-src]');
+      if (avatarTrigger && grid.contains(avatarTrigger)) {
+        openStaticReviewAvatarPreview(avatarTrigger);
+        return;
+      }
+
+      const mediaTrigger = event.target.closest('.review-media-item[data-review-media-type]');
+      if (!mediaTrigger || !grid.contains(mediaTrigger)) return;
+      await openStaticReviewMediaGallery(mediaTrigger);
+    });
+  }
+
   function formatReviewMediaMetaLabel(mediaFiles) {
     if (!mediaFiles.length) return getUiText('confirmMediaNone');
 
@@ -338,9 +920,9 @@ export function initHomeReviews() {
   }
 
   function getReviewsPerPage() {
-    if (window.innerWidth <= 640) return 2;
-    if (window.innerWidth <= 1100) return 4;
-    return 6;
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 1100) return 2;
+    return 3;
   }
 
   function buildPageTokens(totalPages, currentPage) {
@@ -465,15 +1047,17 @@ export function initHomeReviews() {
     mediaInput.files = dt.files;
   }
 
-  function openReviewMediaPreview(items, startIndex = 0, title = getUiText('previewTitleDefault'), triggerEl = null) {
+  function openReviewMediaPreview(items, startIndex = 0, title = getUiText('previewTitleDefault'), triggerEl = null, options = {}) {
     const overlay = document.getElementById('reviewMediaPreviewOverlay');
-    if (!overlay || !items.length) return;
+    const previewItems = items.filter(item => item?.src);
+    if (!overlay || !previewItems.length) return;
 
-    reviewPreviewState.items = items.filter(item => item?.src);
+    reviewPreviewState.items = previewItems;
     reviewPreviewState.index = Math.max(0, Math.min(startIndex, reviewPreviewState.items.length - 1));
     reviewPreviewState.title = title;
     reviewPreviewState.trigger = triggerEl instanceof HTMLElement ? triggerEl : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
     reviewPreviewState.viewport = captureViewportPosition();
+    reviewPreviewState.restoreFocusOnClose = options.restoreFocusOnClose !== false;
 
     renderReviewMediaPreview();
     openOverlayDialog(overlay);
@@ -487,14 +1071,21 @@ export function initHomeReviews() {
     if (!overlay) return;
 
     const viewportState = reviewPreviewState.viewport || captureViewportPosition();
+    const triggerToRestore = reviewPreviewState.restoreFocusOnClose ? reviewPreviewState.trigger : null;
 
     closeOverlayDialog(overlay);
     syncBodyScrollLockState();
-    restoreFocus(reviewPreviewState.trigger);
+    restoreViewportPosition(viewportState);
+    if (triggerToRestore instanceof HTMLElement && triggerToRestore.isConnected) {
+      restoreFocus(triggerToRestore);
+    }
     scheduleViewportRestore(viewportState);
     reviewPreviewState.items = [];
     reviewPreviewState.index = 0;
+    reviewPreviewState.title = getUiText('previewTitleDefault');
+    reviewPreviewState.trigger = null;
     reviewPreviewState.viewport = null;
+    reviewPreviewState.restoreFocusOnClose = true;
   }
 
   function renderReviewMediaPreview() {
@@ -1032,7 +1623,9 @@ export function initHomeReviews() {
     reviewState.cards = Array.from(document.querySelectorAll('#reviewsGrid .review-card[data-review-score]'));
     reviewState.perPage = getReviewsPerPage();
 
+    enhanceStaticReviewCards();
     initReviewsPaginationEvents();
+    initStaticReviewCardInteractions();
     initReviewSubmissionModal();
     initReviewMediaPreviewEvents();
     renderReviewsPage();
@@ -1051,6 +1644,9 @@ export function initHomeReviews() {
   window.addEventListener('pageshow', syncBodyScrollLockState);
   window.addEventListener('resize', syncBodyScrollLockState);
   window.addEventListener('orientationchange', syncBodyScrollLockState);
+  window.addEventListener('beforeunload', () => {
+    releaseUrls(staticReviewVideoState.objectUrls);
+  });
   syncBodyScrollLockState();
   initReviewsModule();
 }
