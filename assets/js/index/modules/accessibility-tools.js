@@ -1,5 +1,5 @@
-// Shared accessibility helper injected across all public pages.
-// This module is intentionally standalone so pages can opt in with one script tag.
+// Home-page accessibility helper.
+// Kept standalone so this page owns its own toolbar behavior.
 const FOCUSABLE_SELECTOR = 'button, a[href], [tabindex]:not([tabindex="-1"])';
 
 const state = {

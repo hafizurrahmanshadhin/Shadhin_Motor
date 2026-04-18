@@ -1,5 +1,39 @@
-import { closeDialogModal, openDialogModal } from '../../shared/core/dialog-helpers.js';
-import { FOCUSABLE_SELECTOR } from '../../shared/core/dom-helpers.js';
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])'
+].join(', ');
+
+function openDialogModal(dialog) {
+  if (!dialog) return;
+
+  try {
+    if (typeof dialog.showModal === 'function' && !dialog.open) {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
+    }
+  } catch {
+    dialog.setAttribute('open', '');
+  }
+
+  dialog.classList.add('open');
+}
+
+function closeDialogModal(dialog) {
+  if (!dialog) return;
+
+  dialog.classList.remove('open');
+
+  if (typeof dialog.close === 'function' && dialog.open) {
+    dialog.close();
+  } else {
+    dialog.removeAttribute('open');
+  }
+}
 
 export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel }) {
   const overlay = document.getElementById('lightboxOverlay');

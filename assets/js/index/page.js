@@ -1,5 +1,3 @@
-import { createOverlayRuntime } from '../shared/core/overlay-runtime.js';
-import { createRevealObserver } from '../shared/core/reveal-observer.js';
 import { initHomeLocalSeo } from './modules/local-seo.js';
 import { initHomeNavigation } from './modules/navigation.js';
 import { initHomeAboutTeam } from './modules/about-team.js';
@@ -7,13 +5,29 @@ import { initHomeGallery } from './modules/gallery.js';
 import { initHomeSamples } from './modules/samples.js';
 import { initHomeReviews } from './modules/reviews.js';
 
-export function initHomePage() {
-  const overlayRuntime = createOverlayRuntime();
-  const { observeRevealElements } = createRevealObserver();
+function observePageRevealElements(root = document) {
+  if (typeof IntersectionObserver !== 'function') {
+    root.querySelectorAll('.reveal').forEach(element => {
+      element.classList.add('visible');
+    });
+    return;
+  }
 
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  root.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+}
+
+export function initHomePage() {
   initHomeNavigation();
   initHomeLocalSeo();
-  observeRevealElements();
+  observePageRevealElements();
 
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
@@ -25,53 +39,10 @@ export function initHomePage() {
     }
   });
 
-  window.addEventListener('pageshow', overlayRuntime.syncBodyScrollLockState);
-  window.addEventListener('resize', overlayRuntime.syncBodyScrollLockState);
-  window.addEventListener('orientationchange', overlayRuntime.syncBodyScrollLockState);
-  overlayRuntime.syncBodyScrollLockState();
-
-  initHomeAboutTeam({
-    openDialog: overlayRuntime.openDialog,
-    closeDialog: overlayRuntime.closeDialog,
-    focusWithoutScroll: overlayRuntime.focusWithoutScroll,
-    restoreFocus: overlayRuntime.restoreFocus,
-    captureViewportPosition: overlayRuntime.captureViewportPosition,
-    scheduleViewportRestore: overlayRuntime.scheduleViewportRestore,
-    syncBodyScrollLockState: overlayRuntime.syncBodyScrollLockState
-  });
-
-  initHomeGallery({
-    openDialog: overlayRuntime.openDialog,
-    closeDialog: overlayRuntime.closeDialog,
-    focusWithoutScroll: overlayRuntime.focusWithoutScroll,
-    restoreFocus: overlayRuntime.restoreFocus,
-    captureViewportPosition: overlayRuntime.captureViewportPosition,
-    scheduleViewportRestore: overlayRuntime.scheduleViewportRestore,
-    syncBodyScrollLockState: overlayRuntime.syncBodyScrollLockState
-  });
-
-  initHomeSamples({
-    openDialog: overlayRuntime.openDialog,
-    closeDialog: overlayRuntime.closeDialog,
-    focusWithoutScroll: overlayRuntime.focusWithoutScroll,
-    restoreFocus: overlayRuntime.restoreFocus,
-    captureViewportPosition: overlayRuntime.captureViewportPosition,
-    scheduleViewportRestore: overlayRuntime.scheduleViewportRestore,
-    syncBodyScrollLockState: overlayRuntime.syncBodyScrollLockState,
-    showToast: overlayRuntime.showToast
-  });
-
-  initHomeReviews({
-    openOverlayDialog: overlayRuntime.openDialog,
-    closeOverlayDialog: overlayRuntime.closeDialog,
-    focusFirstIn: overlayRuntime.focusFirstIn,
-    restoreFocus: overlayRuntime.restoreFocus,
-    captureViewportPosition: overlayRuntime.captureViewportPosition,
-    scheduleViewportRestore: overlayRuntime.scheduleViewportRestore,
-    syncBodyScrollLockState: overlayRuntime.syncBodyScrollLockState,
-    observeRevealElements,
-    showToast: overlayRuntime.showToast
-  });
+  initHomeAboutTeam();
+  initHomeGallery();
+  initHomeSamples();
+  initHomeReviews();
 }
 
 initHomePage();

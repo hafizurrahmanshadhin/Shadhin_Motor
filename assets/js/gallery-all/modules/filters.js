@@ -1,7 +1,31 @@
-import { replaceCatalogQuery, syncPressedState } from '../../shared/core/catalog-helpers.js';
-
 function cleanLeadingIcon(text = '') {
   return String(text || '').replace(/^[^\u0980-\u09FFA-Za-z0-9]+/u, '').trim();
+}
+
+function replaceCatalogQuery(basePath, state = {}) {
+  const params = new URLSearchParams();
+
+  Object.entries(state).forEach(([key, rawValue]) => {
+    if (rawValue === null || rawValue === undefined) return;
+
+    const value = typeof rawValue === 'string'
+      ? rawValue.trim()
+      : String(rawValue).trim();
+
+    if (!value) return;
+    params.set(key, value);
+  });
+
+  const query = params.toString();
+  history.replaceState(null, '', query ? `${basePath}?${query}` : basePath);
+}
+
+function syncPressedState(buttons, isActive) {
+  buttons.forEach(button => {
+    const active = Boolean(isActive(button));
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
 }
 
 function normalizeGalleryFilter(value) {

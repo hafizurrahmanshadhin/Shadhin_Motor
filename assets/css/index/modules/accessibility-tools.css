@@ -1,6 +1,6 @@
 /*
-  Shared accessibility toolbar styles.
-  Applied on all public pages via accessibility-tools.js.
+  Home-page accessibility toolbar styles.
+  Scoped as a page-local asset for isolated maintenance.
 */
 :root {
   --a11y-panel-bg: #0f0b06;

@@ -1,15 +1,173 @@
 const ABOUT_TEAM_MOTION_SPEED = 34;
 const ABOUT_TEAM_FALLBACK_IMAGE = 'assets/images/about/employee-1.jpeg';
 
-export function initHomeAboutTeam({
-  openDialog,
-  closeDialog,
-  focusWithoutScroll,
-  restoreFocus,
-  captureViewportPosition,
-  scheduleViewportRestore,
-  syncBodyScrollLockState
-}) {
+function openDialog(dialog) {
+  if (!dialog) return;
+
+  try {
+    if (typeof dialog.showModal === 'function' && !dialog.open) {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
+    }
+  } catch {
+    dialog.setAttribute('open', '');
+  }
+
+  dialog.classList.add('open');
+}
+
+function closeDialog(dialog) {
+  if (!dialog) return;
+
+  dialog.classList.remove('open');
+
+  if (typeof dialog.close === 'function' && dialog.open) {
+    dialog.close();
+  } else {
+    dialog.removeAttribute('open');
+  }
+}
+
+function focusWithoutScroll(target) {
+  if (!(target instanceof HTMLElement) || typeof target.focus !== 'function') return;
+
+  try {
+    target.focus({ preventScroll: true });
+  } catch {
+    target.focus();
+  }
+}
+
+function restoreFocus(target) {
+  focusWithoutScroll(target);
+}
+
+function captureViewportPosition() {
+  const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+
+  return {
+    x: scrollRoot?.scrollLeft || window.scrollX || window.pageXOffset || 0,
+    y: scrollRoot?.scrollTop || window.scrollY || window.pageYOffset || 0
+  };
+}
+
+function restoreViewportPosition(viewport) {
+  if (!viewport) return;
+
+  const restoreX = Number.isFinite(viewport.x) ? viewport.x : 0;
+  const restoreY = Number.isFinite(viewport.y) ? viewport.y : 0;
+  const root = document.documentElement;
+  const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+  const previousRootBehavior = root?.style.scrollBehavior || '';
+  const previousScrollRootBehavior = scrollRoot instanceof HTMLElement ? scrollRoot.style.scrollBehavior : '';
+
+  if (root) {
+    root.style.scrollBehavior = 'auto';
+  }
+
+  if (scrollRoot instanceof HTMLElement) {
+    scrollRoot.style.scrollBehavior = 'auto';
+  }
+
+  if (scrollRoot) {
+    scrollRoot.scrollLeft = restoreX;
+    scrollRoot.scrollTop = restoreY;
+  }
+
+  window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
+
+  requestAnimationFrame(() => {
+    if (root) {
+      root.style.scrollBehavior = previousRootBehavior;
+    }
+
+    if (scrollRoot instanceof HTMLElement) {
+      scrollRoot.style.scrollBehavior = previousScrollRootBehavior;
+    }
+  });
+}
+
+function scheduleViewportRestore(viewport) {
+  if (!viewport) return;
+
+  requestAnimationFrame(() => {
+    restoreViewportPosition(viewport);
+    requestAnimationFrame(() => restoreViewportPosition(viewport));
+  });
+}
+
+function lockBodyScroll(root, body) {
+  body.classList.add('body-scroll-locked');
+
+  if (body.dataset.scrollLockActive !== 'true') {
+    const viewport = captureViewportPosition();
+    body.dataset.scrollLockActive = 'true';
+    body.dataset.scrollLockX = String(viewport.x);
+    body.dataset.scrollLockY = String(viewport.y);
+    body.dataset.scrollLockGap = String(Math.max(0, window.innerWidth - root.clientWidth));
+  }
+
+  const restoreY = Number.parseInt(body.dataset.scrollLockY || '0', 10) || 0;
+  const scrollbarGap = Number.parseInt(body.dataset.scrollLockGap || '0', 10) || 0;
+
+  body.style.overflow = 'hidden';
+  body.style.position = 'fixed';
+  body.style.top = `-${restoreY}px`;
+  body.style.left = '0';
+  body.style.right = '0';
+  body.style.width = '100%';
+
+  if (scrollbarGap > 0) {
+    body.style.paddingRight = `${scrollbarGap}px`;
+    return;
+  }
+
+  body.style.removeProperty('padding-right');
+}
+
+function unlockBodyScroll(body) {
+  body.classList.remove('body-scroll-locked');
+  body.style.removeProperty('overflow');
+
+  if (body.dataset.scrollLockActive !== 'true') return;
+
+  const restoreX = Number.parseInt(body.dataset.scrollLockX || '0', 10) || 0;
+  const restoreY = Number.parseInt(body.dataset.scrollLockY || '0', 10) || 0;
+
+  delete body.dataset.scrollLockActive;
+  delete body.dataset.scrollLockX;
+  delete body.dataset.scrollLockY;
+  delete body.dataset.scrollLockGap;
+
+  body.style.removeProperty('position');
+  body.style.removeProperty('top');
+  body.style.removeProperty('left');
+  body.style.removeProperty('right');
+  body.style.removeProperty('width');
+  body.style.removeProperty('padding-right');
+
+  window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
+}
+
+function syncBodyScrollLockState() {
+  const root = document.documentElement;
+  const body = document.body;
+  const shouldLock = Array.from(document.querySelectorAll('dialog')).some(dialog => {
+    return dialog.open || dialog.classList.contains('open');
+  });
+
+  if (!root || !body) return;
+
+  if (shouldLock) {
+    lockBodyScroll(root, body);
+    return;
+  }
+
+  unlockBodyScroll(body);
+}
+
+export function initHomeAboutTeam() {
   const slider = document.getElementById('aboutTeamSlider');
   const track = document.getElementById('aboutTeamGrid');
   const viewport = document.getElementById('aboutTeamMarqueeViewport');
@@ -386,6 +544,10 @@ export function initHomeAboutTeam({
     document.fonts.ready.then(syncMarquee);
   }
 
+  window.addEventListener('pageshow', syncBodyScrollLockState);
+  window.addEventListener('resize', syncBodyScrollLockState);
+  window.addEventListener('orientationchange', syncBodyScrollLockState);
+  syncBodyScrollLockState();
   setPaused('hidden', document.hidden);
 
   return {

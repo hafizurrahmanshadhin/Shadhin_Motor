@@ -1,46 +1,222 @@
-import { FOCUSABLE_SELECTOR } from '../../shared/core/dom-helpers.js';
+const FOCUSABLE_SELECTOR = [
+  'a[href]',
+  'button:not([disabled])',
+  'input:not([disabled])',
+  'select:not([disabled])',
+  'textarea:not([disabled])',
+  '[tabindex]:not([tabindex="-1"])'
+].join(', ');
 
-export function initHomeReviews({
-  openOverlayDialog: openOverlayDialogFn,
-  closeOverlayDialog: closeOverlayDialogFn,
-  focusFirstIn: focusFirstInFn,
-  restoreFocus: restoreFocusFn,
-  captureViewportPosition: captureViewportPositionFn,
-  scheduleViewportRestore: scheduleViewportRestoreFn,
-  syncBodyScrollLockState: syncBodyScrollLockStateFn,
-  observeRevealElements: observeRevealElementsFn,
-  showToast: showToastFn
-} = {}) {
-  function focusWithoutScroll(target) {
-    if (!(target instanceof HTMLElement)) return;
-    if (typeof target.focus !== 'function') return;
+function openOverlayDialog(dialog) {
+  if (!dialog) return;
 
-    try {
-      target.focus({ preventScroll: true });
-    } catch {
-      target.focus();
+  try {
+    if (typeof dialog.showModal === 'function' && !dialog.open) {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
     }
+  } catch {
+    dialog.setAttribute('open', '');
   }
 
-  const openOverlayDialog = typeof openOverlayDialogFn === 'function' ? openOverlayDialogFn : () => {};
-  const closeOverlayDialog = typeof closeOverlayDialogFn === 'function' ? closeOverlayDialogFn : () => {};
-  const focusFirstIn = typeof focusFirstInFn === 'function'
-    ? focusFirstInFn
-    : container => focusWithoutScroll(container?.querySelector(FOCUSABLE_SELECTOR) || null);
-  const restoreFocus = typeof restoreFocusFn === 'function' ? restoreFocusFn : focusWithoutScroll;
-  const captureViewportPosition = typeof captureViewportPositionFn === 'function'
-    ? captureViewportPositionFn
-    : () => ({ x: window.scrollX || 0, y: window.scrollY || 0 });
-  const scheduleViewportRestore = typeof scheduleViewportRestoreFn === 'function'
-    ? scheduleViewportRestoreFn
-    : () => {};
-  const syncBodyScrollLockState = typeof syncBodyScrollLockStateFn === 'function'
-    ? syncBodyScrollLockStateFn
-    : () => {};
-  const observeRevealElements = typeof observeRevealElementsFn === 'function'
-    ? observeRevealElementsFn
-    : () => {};
-  const showToast = typeof showToastFn === 'function' ? showToastFn : () => {};
+  dialog.classList.add('open');
+}
+
+function closeOverlayDialog(dialog) {
+  if (!dialog) return;
+
+  dialog.classList.remove('open');
+
+  if (typeof dialog.close === 'function' && dialog.open) {
+    dialog.close();
+  } else {
+    dialog.removeAttribute('open');
+  }
+}
+
+function focusWithoutScroll(target) {
+  if (!(target instanceof HTMLElement) || typeof target.focus !== 'function') return;
+
+  try {
+    target.focus({ preventScroll: true });
+  } catch {
+    target.focus();
+  }
+}
+
+function focusFirstIn(container) {
+  focusWithoutScroll(container?.querySelector(FOCUSABLE_SELECTOR) || null);
+}
+
+function restoreFocus(target) {
+  focusWithoutScroll(target);
+}
+
+function captureViewportPosition() {
+  const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+
+  return {
+    x: scrollRoot?.scrollLeft || window.scrollX || window.pageXOffset || 0,
+    y: scrollRoot?.scrollTop || window.scrollY || window.pageYOffset || 0
+  };
+}
+
+function restoreViewportPosition(viewport) {
+  if (!viewport) return;
+
+  const restoreX = Number.isFinite(viewport.x) ? viewport.x : 0;
+  const restoreY = Number.isFinite(viewport.y) ? viewport.y : 0;
+  const root = document.documentElement;
+  const scrollRoot = document.scrollingElement || document.documentElement || document.body;
+  const previousRootBehavior = root?.style.scrollBehavior || '';
+  const previousScrollRootBehavior = scrollRoot instanceof HTMLElement ? scrollRoot.style.scrollBehavior : '';
+
+  if (root) {
+    root.style.scrollBehavior = 'auto';
+  }
+
+  if (scrollRoot instanceof HTMLElement) {
+    scrollRoot.style.scrollBehavior = 'auto';
+  }
+
+  if (scrollRoot) {
+    scrollRoot.scrollLeft = restoreX;
+    scrollRoot.scrollTop = restoreY;
+  }
+
+  window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
+
+  requestAnimationFrame(() => {
+    if (root) {
+      root.style.scrollBehavior = previousRootBehavior;
+    }
+
+    if (scrollRoot instanceof HTMLElement) {
+      scrollRoot.style.scrollBehavior = previousScrollRootBehavior;
+    }
+  });
+}
+
+function scheduleViewportRestore(viewport) {
+  if (!viewport) return;
+
+  requestAnimationFrame(() => {
+    restoreViewportPosition(viewport);
+    requestAnimationFrame(() => restoreViewportPosition(viewport));
+  });
+}
+
+function lockBodyScroll(root, body) {
+  body.classList.add('body-scroll-locked');
+
+  if (body.dataset.scrollLockActive !== 'true') {
+    const viewport = captureViewportPosition();
+    body.dataset.scrollLockActive = 'true';
+    body.dataset.scrollLockX = String(viewport.x);
+    body.dataset.scrollLockY = String(viewport.y);
+    body.dataset.scrollLockGap = String(Math.max(0, window.innerWidth - root.clientWidth));
+  }
+
+  const restoreY = Number.parseInt(body.dataset.scrollLockY || '0', 10) || 0;
+  const scrollbarGap = Number.parseInt(body.dataset.scrollLockGap || '0', 10) || 0;
+
+  body.style.overflow = 'hidden';
+  body.style.position = 'fixed';
+  body.style.top = `-${restoreY}px`;
+  body.style.left = '0';
+  body.style.right = '0';
+  body.style.width = '100%';
+
+  if (scrollbarGap > 0) {
+    body.style.paddingRight = `${scrollbarGap}px`;
+    return;
+  }
+
+  body.style.removeProperty('padding-right');
+}
+
+function unlockBodyScroll(body) {
+  body.classList.remove('body-scroll-locked');
+  body.style.removeProperty('overflow');
+
+  if (body.dataset.scrollLockActive !== 'true') return;
+
+  const restoreX = Number.parseInt(body.dataset.scrollLockX || '0', 10) || 0;
+  const restoreY = Number.parseInt(body.dataset.scrollLockY || '0', 10) || 0;
+
+  delete body.dataset.scrollLockActive;
+  delete body.dataset.scrollLockX;
+  delete body.dataset.scrollLockY;
+  delete body.dataset.scrollLockGap;
+
+  body.style.removeProperty('position');
+  body.style.removeProperty('top');
+  body.style.removeProperty('left');
+  body.style.removeProperty('right');
+  body.style.removeProperty('width');
+  body.style.removeProperty('padding-right');
+
+  window.scrollTo({ left: restoreX, top: restoreY, behavior: 'auto' });
+}
+
+function syncBodyScrollLockState() {
+  const root = document.documentElement;
+  const body = document.body;
+  const shouldLock = Array.from(document.querySelectorAll('dialog')).some(dialog => {
+    return dialog.open || dialog.classList.contains('open');
+  });
+
+  if (!root || !body) return;
+
+  if (shouldLock) {
+    lockBodyScroll(root, body);
+    return;
+  }
+
+  unlockBodyScroll(body);
+}
+
+function observeRevealElements(root = document) {
+  if (typeof IntersectionObserver !== 'function') {
+    root.querySelectorAll('.reveal').forEach(element => {
+      element.classList.add('visible');
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  root.querySelectorAll('.reveal').forEach(element => observer.observe(element));
+}
+
+function showToast(title, message, duration = 4000) {
+  const toastEl = document.getElementById('toast');
+  const titleEl = document.getElementById('toastTitle');
+  const messageEl = document.getElementById('toastMsg');
+
+  if (!toastEl || !titleEl || !messageEl) return;
+
+  window.clearTimeout(Number(toastEl.dataset.toastTimer || '0'));
+
+  titleEl.textContent = title;
+  messageEl.textContent = message;
+  toastEl.classList.add('show');
+
+  const toastTimer = window.setTimeout(() => {
+    toastEl.classList.remove('show');
+  }, duration);
+
+  toastEl.dataset.toastTimer = String(toastTimer);
+}
+
+export function initHomeReviews() {
 
   const reviewState = {
     cards: [],
@@ -872,5 +1048,9 @@ export function initHomeReviews({
     });
   }
 
+  window.addEventListener('pageshow', syncBodyScrollLockState);
+  window.addEventListener('resize', syncBodyScrollLockState);
+  window.addEventListener('orientationchange', syncBodyScrollLockState);
+  syncBodyScrollLockState();
   initReviewsModule();
 }
