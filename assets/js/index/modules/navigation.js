@@ -2,8 +2,8 @@ export function initHomeNavigation() {
   const navbar = document.getElementById('navbar');
   const navLinksContainer = document.getElementById('navLinks');
   const hamburgerBtn = document.getElementById('hamburger');
-  const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
-  const trackedSections = Array.from(document.querySelectorAll('section[id]'))
+  const navLinks = Array.from(navLinksContainer?.querySelectorAll('a[href^="#"]') || []);
+  const trackedSections = Array.from(document.querySelectorAll('main section[id]'))
     .filter(section => navLinks.some(link => link.getAttribute('href') === `#${section.id}`));
 
   function updateNavToggleButtonState(isOpen) {
@@ -63,7 +63,7 @@ export function initHomeNavigation() {
     hamburgerBtn.addEventListener('click', () => toggleNav());
   }
 
-  document.querySelectorAll('.nav-links a').forEach(anchor => {
+  navLinks.forEach(anchor => {
     anchor.addEventListener('click', () => {
       toggleNav(false);
 

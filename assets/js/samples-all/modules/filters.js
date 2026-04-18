@@ -17,6 +17,11 @@ export function createSamplesCatalogFilters({
 
   const getItems = () => Array.from(grid.querySelectorAll('.sample-card-item'));
   const getVisibleItems = () => getItems().filter(item => !item.hidden);
+  const getItemSearchText = item => {
+    const explicitSearch = String(item.dataset.search || '').trim();
+    const fallbackSearch = item.textContent || '';
+    return (explicitSearch || fallbackSearch).toLowerCase();
+  };
 
   const getFilterLabel = filterValue => {
     const button = filterButtons.find(item => item.dataset.filter === filterValue);
@@ -40,7 +45,7 @@ export function createSamplesCatalogFilters({
 
     getItems().forEach(item => {
       const matchesFilter = currentFilter === 'all' || item.dataset.material === currentFilter;
-      const matchesSearch = !query || (item.dataset.search || '').includes(query);
+      const matchesSearch = !query || getItemSearchText(item).includes(query);
       item.hidden = !(matchesFilter && matchesSearch);
     });
 

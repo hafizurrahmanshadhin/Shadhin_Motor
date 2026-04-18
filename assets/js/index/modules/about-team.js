@@ -167,12 +167,13 @@ function syncBodyScrollLockState() {
 }
 
 export function initHomeAboutTeam() {
+  const aboutSection = document.getElementById('about');
   const slider = document.getElementById('aboutTeamSlider');
   const track = document.getElementById('aboutTeamGrid');
   const viewport = document.getElementById('aboutTeamMarqueeViewport');
   const previewOverlay = document.getElementById('aboutTeamPreviewOverlay');
 
-  if (!slider || !track || !viewport) {
+  if (!aboutSection || !slider || !track || !viewport) {
     return {
       closeAboutTeamPreview() {}
     };
@@ -442,7 +443,7 @@ export function initHomeAboutTeam() {
   }
 
   function closeAboutTeamPreview() {
-    const overlay = document.getElementById('aboutTeamPreviewOverlay');
+    const overlay = previewOverlay;
     if (!overlay) return;
 
     const viewportState = previewViewport || captureViewportPosition();
@@ -468,7 +469,7 @@ export function initHomeAboutTeam() {
     });
   }
 
-  bindImageFallbacks(document);
+  bindImageFallbacks(aboutSection);
   bindDragInteractions();
   syncMarquee();
 
@@ -514,7 +515,7 @@ export function initHomeAboutTeam() {
 
   document.getElementById('aboutTeamPreviewCloseBtn')?.addEventListener('click', closeAboutTeamPreview);
 
-  const ownerPreviewTrigger = document.querySelector('.about-owner-photo-btn[data-team-preview-src]');
+  const ownerPreviewTrigger = aboutSection.querySelector('.about-owner-photo-btn[data-team-preview-src]');
   ownerPreviewTrigger?.addEventListener('click', () => {
     openAboutTeamPreview(
       ownerPreviewTrigger.dataset.teamPreviewSrc || fallbackImage,

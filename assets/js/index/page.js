@@ -25,6 +25,8 @@ function observePageRevealElements(root = document) {
 }
 
 export function initHomePage() {
+  if (!document.body?.classList.contains('home-page')) return;
+
   initHomeNavigation();
   initHomeLocalSeo();
   observePageRevealElements();
@@ -45,4 +47,6 @@ export function initHomePage() {
   initHomeReviews();
 }
 
-initHomePage();
+if (document.body?.classList.contains('home-page')) {
+  initHomePage();
+}

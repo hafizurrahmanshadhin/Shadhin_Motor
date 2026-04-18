@@ -49,7 +49,7 @@ function sanitizeColor(value, fallback) {
 export function createSamplesCatalogModal({ grid, getUiText }) {
   const modalOverlay = document.getElementById('sampleModal');
   const orderBtn = document.getElementById('sampleModalOrderBtn');
-  const orderLink = document.querySelector('.samples-catalog-order-link');
+  const orderLink = grid.closest('.samples-catalog-panel')?.querySelector('.samples-catalog-order-link');
 
   let modalSample = null;
   let lastSampleTrigger = null;
@@ -191,5 +191,11 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   orderBtn?.addEventListener('click', () => {
     if (!modalSample) return;
     orderSample(modalSample.id);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (!modalOverlay?.classList.contains('open')) return;
+    closeSampleModal();
   });
 }

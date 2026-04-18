@@ -167,11 +167,14 @@ function syncBodyScrollLockState() {
 }
 
 export function initHomeGallery() {
+  const gallerySection = document.getElementById('gallery');
   const galleryGrid = document.getElementById('galleryGrid');
   const track = document.getElementById('galleryMarqueeTrack');
-  const filterButtons = Array.from(document.querySelectorAll('[data-gallery-filter]'));
+  const filterButtons = Array.from(gallerySection?.querySelectorAll('[data-gallery-filter]') || []);
+  const lightboxOverlay = document.getElementById('lightboxOverlay');
+  const lightboxTitleDefault = document.getElementById('lightboxTitle')?.textContent?.trim() || '';
 
-  if (!galleryGrid || !track) {
+  if (!gallerySection || !galleryGrid || !track) {
     return {
       closeLightbox() {}
     };
@@ -231,12 +234,12 @@ export function initHomeGallery() {
   }
 
   function updateGalleryCount(total) {
-    const countEl = document.getElementById('galleryTotalCount');
+    const countEl = gallerySection.querySelector('#galleryTotalCount');
     if (countEl) countEl.textContent = String(total);
   }
 
   function updateGalleryViewAllLink() {
-    const viewAllBtn = document.getElementById('galleryViewAllBtn');
+    const viewAllBtn = gallerySection.querySelector('#galleryViewAllBtn');
     if (!viewAllBtn) return;
 
     if (!viewAllBtn.dataset.baseHref) {
@@ -501,7 +504,7 @@ export function initHomeGallery() {
       cat: trigger.dataset.galleryCat || 'car',
       label,
       icon,
-      title: trigger.dataset.galleryTitle || document.getElementById('lightboxTitle')?.textContent?.trim() || '',
+      title: trigger.dataset.galleryTitle || lightboxTitleDefault,
       img: trigger.dataset.galleryImg || '',
       desc: trigger.dataset.galleryDesc || '',
       models: (trigger.dataset.galleryModels || '').split('|').filter(Boolean)
@@ -547,7 +550,7 @@ export function initHomeGallery() {
     const idx = visibleTriggers.indexOf(sourceTrigger);
     if (idx === -1) return;
 
-    const overlay = document.getElementById('lightboxOverlay');
+    const overlay = lightboxOverlay;
     if (!overlay) return;
 
     lastLightboxTrigger = sourceTrigger;
@@ -563,7 +566,7 @@ export function initHomeGallery() {
   }
 
   function closeLightbox(event) {
-    const overlay = document.getElementById('lightboxOverlay');
+    const overlay = lightboxOverlay;
     if (!overlay) return;
     if (event && event.target !== overlay) return;
 
@@ -638,7 +641,6 @@ export function initHomeGallery() {
     openLightbox(trigger);
   });
 
-  const lightboxOverlay = document.getElementById('lightboxOverlay');
   lightboxOverlay?.addEventListener('click', event => {
     if (event.target === lightboxOverlay) closeLightbox(event);
   });

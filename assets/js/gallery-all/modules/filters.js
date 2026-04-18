@@ -17,6 +17,37 @@ export function createGalleryCatalogFilters({
   let currentModel = '';
   let currentSearch = '';
 
+  const normalizeModelValue = value => String(value || '').trim().toLowerCase();
+  const getItemSearchText = item => {
+    const explicitSearch = String(item.dataset.search || '').trim();
+    const fallbackSearch = item.textContent || '';
+    return (explicitSearch || fallbackSearch).toLowerCase();
+  };
+  const getItemModelList = item => {
+    const explicitModels = String(item.dataset.models || '')
+      .split('|')
+      .map(value => normalizeModelValue(value))
+      .filter(Boolean);
+
+    if (explicitModels.length) {
+      return explicitModels;
+    }
+
+    return Array.from(item.querySelectorAll('.gallery-card-model-pill'))
+      .map(node => normalizeModelValue(node.textContent || ''))
+      .filter(Boolean);
+  };
+  const resolveModelValue = value => {
+    const normalizedValue = normalizeModelValue(value);
+    if (!normalizedValue) return '';
+
+    const matchedOption = Array.from(modelSelect.options).find(option => {
+      return normalizeModelValue(option.value) === normalizedValue;
+    });
+
+    return matchedOption?.value || '';
+  };
+
   const getItems = () => Array.from(grid.querySelectorAll('.gallery-card-item'));
 
   const getFilterLabel = filterValue => {
@@ -46,17 +77,18 @@ export function createGalleryCatalogFilters({
 
   const applyFilters = () => {
     const query = currentSearch.trim().toLowerCase();
+    const normalizedModel = resolveModelValue(currentModel);
 
     getItems().forEach(item => {
       const matchesFilter = currentFilter === 'all' || item.dataset.cat === currentFilter;
-      const modelList = (item.dataset.models || '').split('|').filter(Boolean);
-      const matchesModel = !currentModel || modelList.includes(currentModel);
-      const matchesSearch = !query || (item.dataset.search || '').includes(query);
+      const modelList = getItemModelList(item);
+      const matchesModel = !normalizedModel || modelList.includes(normalizeModelValue(normalizedModel));
+      const matchesSearch = !query || getItemSearchText(item).includes(query);
       item.hidden = !(matchesFilter && matchesModel && matchesSearch);
     });
 
     syncPressedState(filterButtons, button => button.dataset.filter === currentFilter);
-    modelSelect.value = currentModel;
+    modelSelect.value = normalizedModel;
     searchInput.value = currentSearch;
     updateSummary();
     syncQueryParams();
@@ -70,7 +102,7 @@ export function createGalleryCatalogFilters({
   });
 
   modelSelect.addEventListener('change', event => {
-    currentModel = event.target.value;
+    currentModel = resolveModelValue(event.target.value);
     applyFilters();
   });
 
@@ -88,7 +120,7 @@ export function createGalleryCatalogFilters({
 
   const initFromSearchParams = params => {
     currentFilter = normalizeGalleryFilter(params.get('cat') || 'all');
-    currentModel = params.get('model') || '';
+    currentModel = resolveModelValue(params.get('model') || '');
     currentSearch = params.get('q') || '';
     applyFilters();
   };

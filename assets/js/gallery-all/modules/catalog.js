@@ -3,12 +3,13 @@ import { createGalleryLightbox } from './lightbox.js';
 
 export function initGalleryCatalogPage() {
   const grid = document.getElementById('galleryPageGrid');
-  const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
+  const panel = grid?.closest('.catalog-panel');
+  const filterButtons = Array.from(panel?.querySelectorAll('.filter-btn') || []);
   const modelSelect = document.getElementById('catalogModelSelect');
   const searchInput = document.getElementById('catalogSearchInput');
   const resetBtn = document.getElementById('catalogResetBtn');
 
-  if (!grid || !modelSelect || !searchInput || !resetBtn) return;
+  if (!panel || !grid || !modelSelect || !searchInput || !resetBtn) return;
 
   const filters = createGalleryCatalogFilters({
     grid,

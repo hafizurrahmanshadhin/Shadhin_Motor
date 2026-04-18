@@ -1,5 +1,8 @@
 export function initHomeLocalSeo() {
-  const faqItems = Array.from(document.querySelectorAll('.faq-item'));
+  const section = document.getElementById('local-seo');
+  if (!section) return;
+
+  const faqItems = Array.from(section.querySelectorAll('.faq-item'));
 
   faqItems.forEach(item => {
     item.addEventListener('toggle', () => {

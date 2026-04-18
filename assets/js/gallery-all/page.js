@@ -1,3 +1,5 @@
 import { initGalleryCatalogPage } from './modules/catalog.js';
 
-initGalleryCatalogPage();
+if (document.body?.classList.contains('gallery-catalog-page')) {
+  initGalleryCatalogPage();
+}

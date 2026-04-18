@@ -217,7 +217,10 @@ function showToast(title, message, duration = 4000) {
 }
 
 export function initHomeReviews() {
+  const reviewsSection = document.getElementById('reviews');
   const uiTextRoot = document.getElementById('homeReviewsUiText');
+
+  if (!reviewsSection) return;
 
   function getUiText(key) {
     const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
@@ -267,20 +270,6 @@ export function initHomeReviews() {
   const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
   const REVIEW_VIDEO_EXT_RE = /\.(3gp|avi|m4v|mkv|mov|mp4|ogg|ogv|webm)$/i;
 
-  function escapeHTML(value = '') {
-    return String(value ?? '').replace(/[&<>"']/g, char => {
-      if (char === '&') return '&amp;';
-      if (char === '<') return '&lt;';
-      if (char === '>') return '&gt;';
-      if (char === '"') return '&quot;';
-      return '&#39;';
-    });
-  }
-
-  function escapeAttr(value = '') {
-    return escapeHTML(value).replace(/`/g, '&#96;');
-  }
-
   function formatText(template, tokens = {}) {
     return String(template || '').replace(/\{(\w+)\}/g, (_, key) => {
       return Object.prototype.hasOwnProperty.call(tokens, key) ? String(tokens[key] ?? '') : '';
@@ -306,6 +295,30 @@ export function initHomeReviews() {
     if (size >= 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(2)} MB`;
     if (size >= 1024) return `${Math.round(size / 1024)} KB`;
     return `${size} B`;
+  }
+
+  function createNode(tagName, { className = '', text = '', dataset = {}, attrs = {} } = {}) {
+    const node = document.createElement(tagName);
+
+    if (className) {
+      node.className = className;
+    }
+
+    if (text) {
+      node.textContent = text;
+    }
+
+    Object.entries(dataset).forEach(([key, value]) => {
+      if (value == null) return;
+      node.dataset[key] = String(value);
+    });
+
+    Object.entries(attrs).forEach(([key, value]) => {
+      if (value == null || value === false) return;
+      node.setAttribute(key, value === true ? '' : String(value));
+    });
+
+    return node;
   }
 
   function releaseUrls(listRef) {
@@ -600,7 +613,7 @@ export function initHomeReviews() {
       if (avgEl) avgEl.textContent = '0.0';
       if (countEl) countEl.textContent = '0';
       if (starsFillEl) starsFillEl.style.width = '0%';
-      document.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
+      reviewsSection.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
         row.querySelector('.reviews-breakdown-fill')?.style.setProperty('width', '0%');
         const countTextEl = row.querySelector('.reviews-breakdown-count');
         if (countTextEl) countTextEl.textContent = '0';
@@ -615,7 +628,7 @@ export function initHomeReviews() {
     if (countEl) countEl.textContent = String(total);
     if (starsFillEl) starsFillEl.style.width = `${Math.max(0, Math.min(100, (roundedAverage / 5) * 100))}%`;
 
-    document.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
+    reviewsSection.querySelectorAll('.reviews-breakdown-row[data-stars]').forEach(row => {
       const stars = Number(row.dataset.stars || '0');
       const count = ratings.filter(score => score === stars).length;
       const width = total ? `${(count / total) * 100}%` : '0%';
@@ -646,21 +659,51 @@ export function initHomeReviews() {
 
     if (totalPages <= 1) {
       paginationEl.classList.add('is-hidden');
-      paginationEl.innerHTML = '';
+      paginationEl.replaceChildren();
       return;
     }
 
     paginationEl.classList.remove('is-hidden');
     const tokens = buildPageTokens(totalPages, reviewState.page);
+    const controls = [];
 
-    paginationEl.innerHTML = `
-      <button type="button" class="reviews-page-btn" data-action="prev" ${reviewState.page <= 1 ? 'disabled' : ''}>‹</button>
-      ${tokens.map(token => {
-        if (token === 'ellipsis') return '<span class="reviews-page-ellipsis">…</span>';
-        return `<button type="button" class="reviews-page-btn ${token === reviewState.page ? 'active' : ''}" data-page="${token}">${token}</button>`;
-      }).join('')}
-      <button type="button" class="reviews-page-btn" data-action="next" ${reviewState.page >= totalPages ? 'disabled' : ''}>›</button>
-    `;
+    const prevBtn = document.createElement('button');
+    prevBtn.type = 'button';
+    prevBtn.className = 'reviews-page-btn';
+    prevBtn.dataset.action = 'prev';
+    prevBtn.textContent = '‹';
+    prevBtn.disabled = reviewState.page <= 1;
+    controls.push(prevBtn);
+
+    tokens.forEach(token => {
+      if (token === 'ellipsis') {
+        const ellipsis = document.createElement('span');
+        ellipsis.className = 'reviews-page-ellipsis';
+        ellipsis.textContent = '…';
+        controls.push(ellipsis);
+        return;
+      }
+
+      const pageBtn = document.createElement('button');
+      pageBtn.type = 'button';
+      pageBtn.className = 'reviews-page-btn';
+      pageBtn.dataset.page = String(token);
+      pageBtn.textContent = String(token);
+      if (token === reviewState.page) {
+        pageBtn.classList.add('active');
+      }
+      controls.push(pageBtn);
+    });
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'reviews-page-btn';
+    nextBtn.dataset.action = 'next';
+    nextBtn.textContent = '›';
+    nextBtn.disabled = reviewState.page >= totalPages;
+    controls.push(nextBtn);
+
+    paginationEl.replaceChildren(...controls);
   }
 
   function renderReviewsPage() {
@@ -680,7 +723,6 @@ export function initHomeReviews() {
     updateReviewsSummary(reviewState.cards);
     updateReviewsDisplayMeta(total, total ? start + 1 : 0, total ? Math.min(end, total) : 0);
     renderReviewsPagination(totalPages);
-    observeRevealElements(document.getElementById('reviewsGrid'));
   }
 
   function syncReviewMediaInputFromState() {
@@ -741,7 +783,10 @@ export function initHomeReviews() {
 
     const current = reviewPreviewState.items[reviewPreviewState.index];
     if (!current) {
-      wrap.innerHTML = `<div class="review-preview-empty">${getUiText('previewEmptyMessage')}</div>`;
+      const emptyState = document.createElement('div');
+      emptyState.className = 'review-preview-empty';
+      emptyState.textContent = getUiText('previewEmptyMessage');
+      wrap.replaceChildren(emptyState);
       titleEl.textContent = getUiText('previewTitleDefault');
       counterEl.textContent = getUiText('previewCounterEmpty');
       return;
@@ -751,11 +796,20 @@ export function initHomeReviews() {
     counterEl.textContent = `${reviewPreviewState.index + 1} / ${reviewPreviewState.items.length}`;
 
     if (current.type === 'video') {
-      wrap.innerHTML = `<video id="reviewPreviewVideo" src="${current.src}" controls playsinline preload="metadata"></video>`;
+      const video = document.createElement('video');
+      video.id = 'reviewPreviewVideo';
+      video.src = current.src;
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      wrap.replaceChildren(video);
       return;
     }
 
-    wrap.innerHTML = `<img src="${current.src}" alt="${escapeHTML(reviewPreviewState.title || getUiText('previewTitleDefault'))}">`;
+    const image = document.createElement('img');
+    image.src = current.src;
+    image.alt = reviewPreviewState.title || getUiText('previewTitleDefault');
+    wrap.replaceChildren(image);
   }
 
   function reviewPreviewNav(direction) {
@@ -775,68 +829,149 @@ export function initHomeReviews() {
     const avatarFile = reviewUploadFormState.avatarFile;
     const mediaFiles = reviewUploadFormState.mediaFiles;
 
+    const createEmptyState = message => {
+      return createNode('div', {
+        className: 'review-file-preview-empty',
+        text: message
+      });
+    };
+
+    const createRemoveButton = ({ className, text = '✕', ariaLabel = '', dataset = {} }) => {
+      return createNode('button', {
+        className,
+        text,
+        dataset,
+        attrs: {
+          type: 'button',
+          'aria-label': ariaLabel || null
+        }
+      });
+    };
+
     if (avatarFile && getReviewFileKind(avatarFile) === 'image') {
       const avatarUrl = createPreviewUrl(avatarFile, reviewUploadPreviewState.objectUrls);
-      avatarPreviewEl.innerHTML = `
-        <div class="review-file-preview-content">
-          <button type="button" class="review-upload-preview-trigger" data-preview-type="image" data-preview-src="${avatarUrl}" aria-label="${escapeAttr(getUiText('previewProfileExpandLabel'))}">
-            <img src="${avatarUrl}" alt="${escapeAttr(avatarFile.name)}" loading="eager" decoding="async">
-          </button>
-          <div class="review-file-preview-note-row">
-            <p class="review-file-preview-note">${escapeHTML(avatarFile.name)}</p>
-            <button type="button" class="review-upload-file-remove" data-remove-avatar="1">${escapeHTML(getUiText('removeActionLabel'))}</button>
-          </div>
-        </div>
-      `;
+      const content = createNode('div', { className: 'review-file-preview-content' });
+      const previewTrigger = createNode('button', {
+        className: 'review-upload-preview-trigger',
+        dataset: {
+          previewType: 'image',
+          previewSrc: avatarUrl
+        },
+        attrs: {
+          type: 'button',
+          'aria-label': getUiText('previewProfileExpandLabel')
+        }
+      });
+      const previewImage = document.createElement('img');
+      previewImage.src = avatarUrl;
+      previewImage.alt = avatarFile.name;
+      previewImage.loading = 'eager';
+      previewImage.decoding = 'async';
+      previewTrigger.append(previewImage);
+
+      const noteRow = createNode('div', { className: 'review-file-preview-note-row' });
+      noteRow.append(
+        createNode('p', {
+          className: 'review-file-preview-note',
+          text: avatarFile.name
+        }),
+        createRemoveButton({
+          className: 'review-upload-file-remove',
+          text: getUiText('removeActionLabel'),
+          dataset: { removeAvatar: '1' }
+        })
+      );
+
+      content.append(previewTrigger, noteRow);
+      avatarPreviewEl.replaceChildren(content);
     } else if (avatarFile) {
-      avatarPreviewEl.innerHTML = `<div class="review-file-preview-empty">${getUiText('avatarPreviewInvalid')}</div>`;
+      avatarPreviewEl.replaceChildren(createEmptyState(getUiText('avatarPreviewInvalid')));
     } else {
-      avatarPreviewEl.innerHTML = `<div class="review-file-preview-empty">${getUiText('avatarPreviewEmpty')}</div>`;
+      avatarPreviewEl.replaceChildren(createEmptyState(getUiText('avatarPreviewEmpty')));
     }
 
     if (!mediaFiles.length) {
-      mediaPreviewGridEl.innerHTML = `<div class="review-file-preview-empty">${getUiText('mediaPreviewEmpty')}</div>`;
+      mediaPreviewGridEl.replaceChildren(createEmptyState(getUiText('mediaPreviewEmpty')));
     } else {
-      mediaPreviewGridEl.innerHTML = mediaFiles.map((file, idx) => {
-        const safeName = escapeHTML(file.name);
+      const previewCards = mediaFiles.map((file, idx) => {
         const fileKind = getReviewFileKind(file);
+        const previewCard = createNode('article', { className: 'review-media-preview-card' });
 
-        if (fileKind === 'image') {
+        if (fileKind === 'image' || fileKind === 'video') {
           const src = createPreviewUrl(file, reviewUploadPreviewState.objectUrls);
-          return `
-            <article class="review-media-preview-card">
-              <button type="button" class="review-media-preview-trigger" data-preview-type="image" data-preview-src="${src}" aria-label="${escapeAttr(getUiText('previewImageExpandLabel'))}">
-                <img src="${src}" alt="${safeName}" loading="eager" decoding="async">
-                <span class="review-media-preview-badge">${escapeHTML(getUiText('previewKindImage'))}</span>
-                <span class="review-media-preview-name">${safeName}</span>
-              </button>
-              <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="${escapeAttr(getUiText('previewImageRemoveLabel'))}">✕</button>
-            </article>
-          `;
+          const trigger = createNode('button', {
+            className: 'review-media-preview-trigger',
+            dataset: {
+              previewType: fileKind,
+              previewSrc: src
+            },
+            attrs: {
+              type: 'button',
+              'aria-label': fileKind === 'image'
+                ? getUiText('previewImageExpandLabel')
+                : getUiText('previewVideoExpandLabel')
+            }
+          });
+
+          if (fileKind === 'image') {
+            const image = document.createElement('img');
+            image.src = src;
+            image.alt = file.name;
+            image.loading = 'eager';
+            image.decoding = 'async';
+            trigger.append(image);
+          } else {
+            const video = document.createElement('video');
+            video.src = src;
+            video.controls = true;
+            video.muted = true;
+            video.playsInline = true;
+            video.preload = 'auto';
+            trigger.append(video);
+          }
+
+          trigger.append(
+            createNode('span', {
+              className: 'review-media-preview-badge',
+              text: fileKind === 'image'
+                ? getUiText('previewKindImage')
+                : getUiText('previewKindVideo')
+            }),
+            createNode('span', {
+              className: 'review-media-preview-name',
+              text: file.name
+            })
+          );
+
+          previewCard.append(
+            trigger,
+            createRemoveButton({
+              className: 'review-media-preview-remove',
+              ariaLabel: fileKind === 'image'
+                ? getUiText('previewImageRemoveLabel')
+                : getUiText('previewVideoRemoveLabel'),
+              dataset: { removeMediaIndex: idx }
+            })
+          );
+          return previewCard;
         }
 
-        if (fileKind === 'video') {
-          const src = createPreviewUrl(file, reviewUploadPreviewState.objectUrls);
-          return `
-            <article class="review-media-preview-card">
-              <button type="button" class="review-media-preview-trigger" data-preview-type="video" data-preview-src="${src}" aria-label="${escapeAttr(getUiText('previewVideoExpandLabel'))}">
-                <video src="${src}" controls muted playsinline preload="auto"></video>
-                <span class="review-media-preview-badge">${escapeHTML(getUiText('previewKindVideo'))}</span>
-                <span class="review-media-preview-name">${safeName}</span>
-              </button>
-              <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="${escapeAttr(getUiText('previewVideoRemoveLabel'))}">✕</button>
-            </article>
-          `;
-        }
+        previewCard.append(
+          createRemoveButton({
+            className: 'review-media-preview-remove',
+            ariaLabel: getUiText('previewFileRemoveLabel'),
+            dataset: { removeMediaIndex: idx }
+          }),
+          createEmptyState(getUiText('previewUnavailable')),
+          createNode('p', {
+            className: 'review-media-preview-name',
+            text: file.name
+          })
+        );
+        return previewCard;
+      });
 
-        return `
-          <article class="review-media-preview-card">
-            <button type="button" class="review-media-preview-remove" data-remove-media-index="${idx}" aria-label="${escapeAttr(getUiText('previewFileRemoveLabel'))}">✕</button>
-            <div class="review-file-preview-empty">${escapeHTML(getUiText('previewUnavailable'))}</div>
-            <p class="review-media-preview-name">${safeName}</p>
-          </article>
-        `;
-      }).join('');
+      mediaPreviewGridEl.replaceChildren(...previewCards);
     }
 
     if (!avatarFile && !mediaFiles.length) {
@@ -875,53 +1010,177 @@ export function initHomeReviews() {
       ? `${payload.comment.slice(0, 210)}...`
       : payload.comment;
 
-    const avatarMarkup = payload.avatarFile && getReviewFileKind(payload.avatarFile) === 'image'
-      ? (() => {
-        const src = createPreviewUrl(payload.avatarFile, reviewSubmitConfirmState.previewUrls);
-        return `<button type="button" class="review-confirm-media-thumb review-confirm-avatar-thumb" data-preview-type="image" data-preview-src="${src}" aria-label="${escapeAttr(getUiText('previewProfileExpandLabel'))}"><img src="${src}" alt="${escapeHTML(payload.avatarFile.name)}" loading="eager" decoding="async"></button><p class="review-confirm-file-name">${escapeHTML(payload.avatarFile.name)} • ${formatReviewFileSize(payload.avatarFile.size)}</p>`;
-      })()
-      : `<p class="review-confirm-file-name">${escapeHTML(getUiText('confirmAvatarNone'))}</p>`;
+    const createSummaryItem = (label, valueNode, className) => {
+      const item = createNode('div', { className });
+      item.append(
+        createNode('span', {
+          className: 'review-confirm-item-label',
+          text: label
+        }),
+        valueNode
+      );
+      return item;
+    };
 
-    const mediaMarkup = payload.mediaFiles.length
-      ? `<div class="review-confirm-media-grid">${payload.mediaFiles.map(file => {
+    const createValueNode = ({ text = '', className = 'review-confirm-item-value review-confirm-media-wrap' } = {}) => {
+      return createNode('div', { className, text });
+    };
+
+    const createCaption = text => createNode('p', {
+      className: 'review-confirm-file-name',
+      text
+    });
+
+    const avatarValue = createValueNode();
+    if (payload.avatarFile && getReviewFileKind(payload.avatarFile) === 'image') {
+      const src = createPreviewUrl(payload.avatarFile, reviewSubmitConfirmState.previewUrls);
+      const thumb = createNode('button', {
+        className: 'review-confirm-media-thumb review-confirm-avatar-thumb',
+        dataset: {
+          previewType: 'image',
+          previewSrc: src
+        },
+        attrs: {
+          type: 'button',
+          'aria-label': getUiText('previewProfileExpandLabel')
+        }
+      });
+      const thumbImage = document.createElement('img');
+      thumbImage.src = src;
+      thumbImage.alt = payload.avatarFile.name;
+      thumbImage.loading = 'eager';
+      thumbImage.decoding = 'async';
+      thumb.append(thumbImage);
+      avatarValue.append(
+        thumb,
+        createCaption(`${payload.avatarFile.name} • ${formatReviewFileSize(payload.avatarFile.size)}`)
+      );
+    } else {
+      avatarValue.append(createCaption(getUiText('confirmAvatarNone')));
+    }
+
+    const mediaValue = createValueNode();
+    if (payload.mediaFiles.length) {
+      const mediaGrid = createNode('div', { className: 'review-confirm-media-grid' });
+
+      payload.mediaFiles.forEach(file => {
         const src = createPreviewUrl(file, reviewSubmitConfirmState.previewUrls);
         const kind = getReviewFileKind(file);
-        if (kind === 'video') {
-          return `<button type="button" class="review-confirm-media-thumb review-confirm-media-video" data-preview-type="video" data-preview-src="${src}" aria-label="${escapeAttr(getUiText('previewVideoExpandLabel'))}"><video src="${src}" muted playsinline preload="metadata"></video><span class="review-confirm-media-kind">${escapeHTML(getUiText('previewKindVideo'))}</span><span class="review-confirm-media-caption">${escapeHTML(file.name)} • ${formatReviewFileSize(file.size)}</span></button>`;
-        }
-        if (kind === 'image') {
-          return `<button type="button" class="review-confirm-media-thumb review-confirm-media-image" data-preview-type="image" data-preview-src="${src}" aria-label="${escapeAttr(getUiText('previewImageExpandLabel'))}"><img src="${src}" alt="${escapeHTML(file.name)}" loading="eager" decoding="async"><span class="review-confirm-media-kind">${escapeHTML(getUiText('previewKindImage'))}</span><span class="review-confirm-media-caption">${escapeHTML(file.name)} • ${formatReviewFileSize(file.size)}</span></button>`;
-        }
-        return `<figure class="review-confirm-media-thumb review-confirm-media-unknown"><div class="review-confirm-media-unknown-body">${escapeHTML(getUiText('previewUnavailable'))}</div><figcaption>${escapeHTML(file.name)} • ${formatReviewFileSize(file.size)}</figcaption></figure>`;
-      }).join('')}</div><p class="review-confirm-file-name">${escapeHTML(formatText(getUiText('confirmMediaTotalTemplate'), { count: payload.mediaFiles.length }))}</p>`
-      : `<p class="review-confirm-file-name">${escapeHTML(getUiText('confirmMediaNone'))}</p>`;
 
-    summaryEl.innerHTML = `
-      <div class="review-confirm-item review-confirm-item-meta">
-        <span class="review-confirm-item-label">${escapeHTML(getUiText('confirmSummaryNameLabel'))}</span>
-        <div class="review-confirm-item-value">${escapeHTML(payload.name)}</div>
-      </div>
-      <div class="review-confirm-item review-confirm-item-meta">
-        <span class="review-confirm-item-label">${escapeHTML(getUiText('confirmSummaryWorkLabel'))}</span>
-        <div class="review-confirm-item-value">${escapeHTML(payload.workInfo)}</div>
-      </div>
-      <div class="review-confirm-item review-confirm-item-meta">
-        <span class="review-confirm-item-label">${escapeHTML(getUiText('confirmSummaryRatingLabel'))}</span>
-        <div class="review-confirm-item-value">${payload.rating}★</div>
-      </div>
-      <div class="review-confirm-item review-confirm-item-media">
-        <span class="review-confirm-item-label">${escapeHTML(getUiText('confirmSummaryAvatarLabel'))}</span>
-        <div class="review-confirm-item-value review-confirm-media-wrap">${avatarMarkup}</div>
-      </div>
-      <div class="review-confirm-item review-confirm-item-media">
-        <span class="review-confirm-item-label">${escapeHTML(getUiText('confirmSummaryMediaLabel'))}</span>
-        <div class="review-confirm-item-value review-confirm-media-wrap">${mediaMarkup}</div>
-      </div>
-      <div class="review-confirm-item review-confirm-comment">
-        <span class="review-confirm-item-label">${escapeHTML(getUiText('confirmSummaryCommentLabel'))}</span>
-        <div class="review-confirm-item-value">${escapeHTML(commentPreview)}</div>
-      </div>
-    `;
+        if (kind === 'video' || kind === 'image') {
+          const thumb = createNode('button', {
+            className: `review-confirm-media-thumb ${kind === 'video' ? 'review-confirm-media-video' : 'review-confirm-media-image'}`,
+            dataset: {
+              previewType: kind,
+              previewSrc: src
+            },
+            attrs: {
+              type: 'button',
+              'aria-label': kind === 'video'
+                ? getUiText('previewVideoExpandLabel')
+                : getUiText('previewImageExpandLabel')
+            }
+          });
+
+          if (kind === 'video') {
+            const video = document.createElement('video');
+            video.src = src;
+            video.muted = true;
+            video.playsInline = true;
+            video.preload = 'metadata';
+            thumb.append(video);
+          } else {
+            const image = document.createElement('img');
+            image.src = src;
+            image.alt = file.name;
+            image.loading = 'eager';
+            image.decoding = 'async';
+            thumb.append(image);
+          }
+
+          thumb.append(
+            createNode('span', {
+              className: 'review-confirm-media-kind',
+              text: kind === 'video'
+                ? getUiText('previewKindVideo')
+                : getUiText('previewKindImage')
+            }),
+            createNode('span', {
+              className: 'review-confirm-media-caption',
+              text: `${file.name} • ${formatReviewFileSize(file.size)}`
+            })
+          );
+          mediaGrid.append(thumb);
+          return;
+        }
+
+        const unknownFigure = createNode('figure', {
+          className: 'review-confirm-media-thumb review-confirm-media-unknown'
+        });
+        unknownFigure.append(
+          createNode('div', {
+            className: 'review-confirm-media-unknown-body',
+            text: getUiText('previewUnavailable')
+          }),
+          createNode('figcaption', {
+            text: `${file.name} • ${formatReviewFileSize(file.size)}`
+          })
+        );
+        mediaGrid.append(unknownFigure);
+      });
+
+      mediaValue.append(
+        mediaGrid,
+        createCaption(formatText(getUiText('confirmMediaTotalTemplate'), { count: payload.mediaFiles.length }))
+      );
+    } else {
+      mediaValue.append(createCaption(getUiText('confirmMediaNone')));
+    }
+
+    summaryEl.replaceChildren(
+      createSummaryItem(
+        getUiText('confirmSummaryNameLabel'),
+        createValueNode({
+          className: 'review-confirm-item-value',
+          text: payload.name
+        }),
+        'review-confirm-item review-confirm-item-meta'
+      ),
+      createSummaryItem(
+        getUiText('confirmSummaryWorkLabel'),
+        createValueNode({
+          className: 'review-confirm-item-value',
+          text: payload.workInfo
+        }),
+        'review-confirm-item review-confirm-item-meta'
+      ),
+      createSummaryItem(
+        getUiText('confirmSummaryRatingLabel'),
+        createValueNode({
+          className: 'review-confirm-item-value',
+          text: `${payload.rating}★`
+        }),
+        'review-confirm-item review-confirm-item-meta'
+      ),
+      createSummaryItem(
+        getUiText('confirmSummaryAvatarLabel'),
+        avatarValue,
+        'review-confirm-item review-confirm-item-media'
+      ),
+      createSummaryItem(
+        getUiText('confirmSummaryMediaLabel'),
+        mediaValue,
+        'review-confirm-item review-confirm-item-media'
+      ),
+      createSummaryItem(
+        getUiText('confirmSummaryCommentLabel'),
+        createValueNode({
+          className: 'review-confirm-item-value',
+          text: commentPreview
+        }),
+        'review-confirm-item review-confirm-comment'
+      )
+    );
 
     reviewSubmitConfirmState.pendingPayload = payload;
     openOverlayDialog(overlay);
@@ -1213,7 +1472,7 @@ export function initHomeReviews() {
     document.getElementById('reviewPreviewNext')?.addEventListener('click', () => reviewPreviewNav(1));
     document.getElementById('reviewPreviewClose')?.addEventListener('click', closeReviewMediaPreview);
     document.getElementById('reviewPreviewFullscreenBtn')?.addEventListener('click', async () => {
-      const media = document.querySelector('#reviewPreviewMediaWrap img, #reviewPreviewMediaWrap video');
+      const media = document.getElementById('reviewPreviewMediaWrap')?.querySelector('img, video');
       if (!(media instanceof HTMLElement)) return;
 
       try {
@@ -1265,7 +1524,7 @@ export function initHomeReviews() {
   }
 
   function initReviewsModule() {
-    reviewState.cards = Array.from(document.querySelectorAll('#reviewsGrid .review-card[data-review-score]'));
+    reviewState.cards = Array.from(reviewsSection.querySelectorAll('.review-card[data-review-score]'));
     reviewState.perPage = getReviewsPerPage();
 
     initReviewsPaginationEvents();
@@ -1273,6 +1532,7 @@ export function initHomeReviews() {
     initReviewSubmissionModal();
     initReviewMediaPreviewEvents();
     renderReviewsPage();
+    observeRevealElements(document.getElementById('reviewsGrid'));
 
     window.addEventListener('resize', () => {
       window.clearTimeout(reviewState.resizeTick);

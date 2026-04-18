@@ -196,10 +196,11 @@ function showToast(title, message, duration = 4000) {
 }
 
 export function initHomeSamples() {
+  const samplesSection = document.getElementById('samples');
   const grid = document.getElementById('samplesGrid');
-  const filterButtons = Array.from(document.querySelectorAll('[data-sample-filter]'));
+  const filterButtons = Array.from(samplesSection?.querySelectorAll('[data-sample-filter]') || []);
 
-  if (!grid) {
+  if (!samplesSection || !grid) {
     return {
       closeSampleConfirmModal() {},
       closeSampleModal() {}
@@ -214,6 +215,7 @@ export function initHomeSamples() {
   let sampleConfirmViewport = null;
 
   const uiTextRoot = document.getElementById('homeSamplesUiText');
+  const sampleParamKey = samplesSection.dataset.sampleParam || 'sample';
 
   const orderConfirmState = {
     secondaryAction: 'choose-sample',
@@ -279,8 +281,8 @@ export function initHomeSamples() {
 
   function updateSamplesOverview() {
     const visibleTotal = getVisibleSampleItems().length;
-    const countEl = document.getElementById('samplesCountInfo');
-    const viewAllBtn = document.getElementById('samplesViewAllBtn');
+    const countEl = samplesSection.querySelector('#samplesCountInfo');
+    const viewAllBtn = samplesSection.querySelector('#samplesViewAllBtn');
 
     if (countEl) {
       countEl.textContent = currentFilter === 'all'
@@ -332,8 +334,8 @@ export function initHomeSamples() {
 
   function clearPendingSampleParams() {
     const url = new URL(window.location.href);
-    if (!url.searchParams.has('sample')) return;
-    url.searchParams.delete('sample');
+    if (!url.searchParams.has(sampleParamKey)) return;
+    url.searchParams.delete(sampleParamKey);
     const nextQuery = url.searchParams.toString();
     history.replaceState(null, '', `${url.pathname}${nextQuery ? `?${nextQuery}` : ''}${url.hash}`);
   }
@@ -393,7 +395,7 @@ export function initHomeSamples() {
 
   function applyPendingSampleSelection() {
     const params = new URLSearchParams(window.location.search);
-    const pendingId = params.get('sample') || '';
+    const pendingId = params.get(sampleParamKey) || '';
     if (!pendingId) return;
 
     clearPendingSampleParams();

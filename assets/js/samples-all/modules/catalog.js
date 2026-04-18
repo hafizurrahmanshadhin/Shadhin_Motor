@@ -3,12 +3,13 @@ import { createSamplesCatalogModal } from './sample-modal.js';
 
 export function initSamplesCatalogPage() {
   const grid = document.getElementById('samplesCatalogGrid');
-  const filterButtons = Array.from(document.querySelectorAll('.sample-filter-btn[data-filter]'));
+  const panel = grid?.closest('.samples-catalog-panel');
+  const filterButtons = Array.from(panel?.querySelectorAll('.sample-filter-btn[data-filter]') || []);
   const searchInput = document.getElementById('samplesCatalogSearchInput');
   const resetBtn = document.getElementById('samplesCatalogResetBtn');
   const uiTextRoot = document.getElementById('samplesCatalogUiText');
 
-  if (!grid || !searchInput || !resetBtn) return;
+  if (!panel || !grid || !searchInput || !resetBtn) return;
 
   const getUiText = key => {
     const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();

@@ -1,3 +1,5 @@
 import { initSamplesCatalogPage } from './modules/catalog.js';
 
-initSamplesCatalogPage();
+if (document.body?.classList.contains('samples-catalog-page')) {
+  initSamplesCatalogPage();
+}

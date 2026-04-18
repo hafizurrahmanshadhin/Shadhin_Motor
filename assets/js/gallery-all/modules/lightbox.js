@@ -44,6 +44,7 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
   const prevBtn = document.getElementById('lightboxPrevBtn');
   const nextBtn = document.getElementById('lightboxNextBtn');
   const closeBtn = document.getElementById('lightboxCloseBtn');
+  const defaultTitle = titleEl?.textContent?.trim() || '';
 
   let lightboxItems = [];
   let lightboxIdx = 0;
@@ -60,7 +61,7 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
       cat: trigger.dataset.galleryCat || 'car',
       label,
       icon,
-      title: trigger.dataset.galleryTitle || titleEl?.textContent?.trim() || '',
+      title: trigger.dataset.galleryTitle || defaultTitle,
       img: trigger.dataset.galleryImg || '',
       group: trigger.dataset.galleryGroup || ''
     };
@@ -174,5 +175,6 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
     if (!overlay?.classList.contains('open')) return;
     if (event.key === 'ArrowRight') navigate(1);
     if (event.key === 'ArrowLeft') navigate(-1);
+    if (event.key === 'Escape') close();
   });
 }
