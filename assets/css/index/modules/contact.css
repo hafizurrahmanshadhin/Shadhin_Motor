@@ -54,15 +54,12 @@
 
 .contact-item-text a {
   color: inherit;
-  text-decoration: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.16em;
+  text-decoration: none;
 }
 
 .contact-item-text a:hover {
   color: var(--gold-pale);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .contact-item-text time {

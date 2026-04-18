@@ -24,6 +24,7 @@
 
 .footer-logo-link {
   display: inline-flex;
+  align-items: flex-start;
   margin-bottom: 16px;
 }
 
@@ -31,11 +32,14 @@
   display: block;
   margin-bottom: 4px;
   font-size: 28px;
+  line-height: 1.05;
 }
 
 .footer-brand .nav-logo-sub {
   display: block;
-  margin-bottom: 20px;
+  margin-top: 2px;
+  margin-bottom: 0;
+  line-height: 1.1;
 }
 
 .footer-brand p {
@@ -48,9 +52,9 @@
 
 .footer-col :is(h3, h4) {
   font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
   text-transform: none;
   color: var(--gold);
   margin-bottom: 20px;
@@ -107,18 +111,15 @@
 
 .footer-col ul a {
   color: var(--cream-dim);
-  text-decoration: underline;
-  text-decoration-color: rgba(245, 215, 142, 0.45);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  font-size: 14px;
-  transition: color 0.3s, text-decoration-color 0.3s;
+  text-decoration: none;
+  font-size: 16px;
+  line-height: 1.55;
+  transition: color 0.3s;
 }
 
 .footer-col ul a:hover,
 .footer-col ul a:focus-visible {
   color: var(--gold);
-  text-decoration-color: currentColor;
 }
 
 .footer-bottom {
@@ -248,12 +249,29 @@
   transform: scale(1.06);
 }
 
-.footer-bottom a {
+.footer-credit a {
+  display: inline-block;
   color: var(--gold);
-  text-decoration: underline;
-  text-decoration-color: currentColor;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
+  text-decoration: none;
+  padding: 2px 8px;
+  border-radius: 999px;
+  transition: color 0.24s ease, background 0.24s ease, box-shadow 0.24s ease, transform 0.24s ease;
+}
+
+.footer-credit a:hover,
+.footer-credit a:focus-visible {
+  color: var(--bg-deep);
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  box-shadow: 0 10px 22px rgba(200, 134, 10, 0.28);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.footer-social-links .footer-social-link,
+.footer-social-links .footer-social-link:hover,
+.footer-social-links .footer-social-link:focus-visible {
+  text-decoration: none;
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
