@@ -188,7 +188,7 @@
 .about-owner-kicker {
   display: inline-block;
   font-family: var(--font-accent);
-  font-size: 11px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 1.6px;
   text-transform: uppercase;
@@ -199,9 +199,14 @@
 .about-owner-name {
   margin-bottom: 0;
 }
+.about-owner-card {
+  display: flex;
+  flex-direction: column;
+}
 
 .about-owner-meta {
-  margin-top: 20px;
+  margin-top: auto;
+  padding-top: 20px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
@@ -216,7 +221,7 @@
 }
 
 .about-owner-meta span {
-  font-size: 11px;
+  font-size: 16px;
   color: var(--cream-dim);
   letter-spacing: 0.2px;
 }
@@ -487,7 +492,7 @@
   background: rgba(200, 134, 10, 0.12);
   border: 1px solid rgba(200, 134, 10, 0.24);
   color: var(--gold-light);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.2px;
 }

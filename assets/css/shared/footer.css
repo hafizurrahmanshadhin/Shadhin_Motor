@@ -41,7 +41,7 @@ footer {
 .footer-brand p {
   max-width: fit-content;
   margin-top: 4px;
-  font-size: 14px;
+  font-size: 18px;
   color: var(--cream-dim);
   line-height: 1.7;
 }
@@ -63,7 +63,7 @@ footer {
 }
 
 .footer-location-address {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--cream);
   line-height: 1.7;
   margin-bottom: 12px;
@@ -93,7 +93,7 @@ footer {
 
 .footer-location-note {
   margin-top: 10px;
-  font-size: 12px;
+  font-size: 16px;
   color: var(--cream-dim);
   line-height: 1.6;
 }
