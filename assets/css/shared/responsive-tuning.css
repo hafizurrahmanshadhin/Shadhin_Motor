@@ -1,0 +1,1218 @@
+/*
+  Shared responsive overrides applied after page-level modules.
+  This keeps wide desktop layouts readable, tightens low-height laptops,
+  and reduces dense card/form sizing on smaller phones.
+*/
+
+:root {
+  --layout-max: 1380px;
+}
+
+@media (min-width: 901px) {
+  body.home-page #navbar,
+  body.home-page section,
+  #sharedFooter,
+  .samples-catalog-shell,
+  .gallery-catalog-page .page-shell {
+    padding-inline: max(var(--page-edge), calc((100vw - var(--layout-max)) / 2));
+  }
+
+  .section-lead,
+  .gallery-catalog-page .hero-copy,
+  .samples-catalog-lead,
+  .footer-brand p {
+    max-width: min(100%, 68ch);
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1440px) {
+  :root {
+    --section-block: 84px;
+    --section-header-gap: 52px;
+  }
+
+  body.home-page section {
+    scroll-margin-top: 94px;
+  }
+
+  body.home-page #navbar {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .nav-links {
+    gap: 14px;
+  }
+
+  .nav-links a {
+    font-size: 15px;
+  }
+
+  .nav-cta {
+    padding: 8px 12px;
+  }
+
+  .section-label {
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 18px;
+  }
+
+  .section-label::before {
+    width: 32px;
+  }
+
+  .section-title {
+    font-size: clamp(30px, 3.5vw, 46px);
+  }
+
+  .section-lead {
+    font-size: 18px;
+    line-height: 1.72;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 14px 26px;
+  }
+
+  .service-card {
+    padding: 40px 28px;
+  }
+
+  .service-title {
+    font-size: 22px;
+  }
+
+  .service-desc {
+    font-size: 16px;
+  }
+
+  .about-story-card,
+  .about-owner-card {
+    padding: 28px 24px;
+  }
+
+  .about-story-card h3,
+  .about-owner-name,
+  .about-team-head h3 {
+    font-size: 24px;
+  }
+
+  .about-story-card p,
+  .about-owner-desc,
+  .about-team-head p {
+    font-size: 16px;
+    line-height: 1.72;
+  }
+
+  .about-team-card {
+    flex-basis: clamp(280px, 28vw, 360px);
+    width: clamp(280px, 28vw, 360px);
+  }
+
+  #vehicles {
+    gap: 36px;
+  }
+
+  .vehicles-info p {
+    margin-bottom: 24px;
+    font-size: 16px;
+  }
+
+  .vehicle-list li {
+    padding: 14px 16px;
+  }
+
+  .local-seo-copy {
+    padding: 30px 28px;
+  }
+
+  .faq-question {
+    padding: 20px 68px 20px 20px;
+  }
+
+  .reviews-layout {
+    gap: 20px;
+  }
+
+  .reviews-summary {
+    top: 84px;
+    padding: 24px 20px;
+  }
+
+  .review-card {
+    padding: 18px 16px;
+  }
+
+  .contact-grid {
+    gap: 34px;
+  }
+
+  .contact-item-text p,
+  .contact-item-text address {
+    font-size: 18px;
+  }
+
+  .footer-top {
+    gap: 38px 28px;
+  }
+
+  .gallery-catalog-page .hero {
+    padding: 46px 0 22px;
+  }
+
+  .gallery-catalog-page .hero-label {
+    font-size: 18px;
+  }
+
+  .gallery-catalog-page .hero-copy {
+    font-size: 16px;
+    line-height: 1.72;
+  }
+
+  .samples-catalog-main {
+    padding: 40px 0 58px;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 820px) {
+  :root {
+    --section-block: 70px;
+    --section-header-gap: 40px;
+  }
+
+  body.home-page section {
+    scroll-margin-top: 86px;
+  }
+
+  body.home-page #navbar {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+  }
+
+  .nav-cta {
+    padding: 8px 10px;
+  }
+
+  .section-label {
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.12;
+  }
+
+  .section-lead {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .service-card {
+    padding: 32px 24px;
+  }
+
+  .service-icon {
+    margin-bottom: 18px;
+    font-size: 32px;
+  }
+
+  .service-num {
+    top: 18px;
+    right: 20px;
+    font-size: 42px;
+  }
+
+  .about-team-card {
+    min-height: 196px;
+  }
+
+  .local-seo-copy {
+    padding: 26px 24px;
+  }
+
+  .reviews-score-value {
+    font-size: clamp(46px, 5vw, 56px);
+  }
+
+  .footer-top {
+    gap: 28px 24px;
+    margin-bottom: 36px;
+  }
+
+  .footer-brand p,
+  .footer-location-address,
+  .footer-location-note {
+    font-size: 15px;
+  }
+
+  .footer-col ul a {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 900px) {
+  .section-label {
+    gap: 10px;
+    font-size: 16px;
+  }
+
+  .section-label::before {
+    width: 28px;
+  }
+
+  .section-lead {
+    max-width: 100%;
+    font-size: 17px;
+    line-height: 1.72;
+  }
+
+  .services-grid {
+    gap: 12px;
+  }
+
+  .service-card {
+    padding: 34px 22px;
+  }
+
+  .service-title {
+    font-size: 22px;
+  }
+
+  .service-desc {
+    font-size: 16px;
+  }
+
+  .service-tag {
+    font-size: 13px;
+    letter-spacing: 1.2px;
+  }
+
+  #vehicles {
+    gap: 28px;
+  }
+
+  .vehicles-info p {
+    margin-bottom: 22px;
+    font-size: 16px;
+  }
+
+  .vehicles-visual {
+    gap: 10px;
+  }
+
+  .local-seo-copy {
+    padding: 24px 20px;
+  }
+
+  .local-seo-copy h3,
+  .faq-question-text {
+    font-size: 19px;
+  }
+
+  .local-seo-copy p,
+  .faq-answer {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .process-steps::before {
+    display: none;
+  }
+
+  .step {
+    padding: 30px 20px 24px;
+    border-right: none;
+    border-bottom: 1px solid rgba(200, 134, 10, 0.1);
+  }
+
+  .step:last-child {
+    border-bottom: none;
+  }
+
+  .contact-grid {
+    gap: 28px;
+  }
+
+  .contact-item-text p,
+  .contact-item-text address {
+    font-size: 18px;
+  }
+
+  .reviews-layout {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --section-block: 60px;
+    --section-header-gap: 36px;
+  }
+
+  .section-label {
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  .section-label::before {
+    width: 22px;
+  }
+
+  .section-title {
+    font-size: clamp(26px, 8vw, 34px);
+  }
+
+  .section-lead {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 18px;
+  }
+
+  .service-card {
+    padding: 30px 18px;
+  }
+
+  .service-icon {
+    margin-bottom: 18px;
+    font-size: 32px;
+  }
+
+  .service-num {
+    top: 18px;
+    right: 18px;
+    font-size: 38px;
+  }
+
+  .service-title {
+    font-size: 20px;
+  }
+
+  .service-desc {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .service-tag {
+    margin-top: 16px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  #vehicles {
+    gap: 22px;
+  }
+
+  .vehicles-info p {
+    margin-bottom: 20px;
+    font-size: 15px;
+  }
+
+  .vehicle-list li {
+    padding: 14px 14px;
+    font-size: 14px;
+  }
+
+  .vehicles-visual {
+    grid-template-columns: 1fr;
+  }
+
+  .v-card {
+    padding: 24px 16px;
+  }
+
+  .v-card h3 {
+    font-size: 17px;
+  }
+
+  .v-card p {
+    font-size: 13px;
+  }
+
+  .local-seo-copy {
+    padding: 20px 16px;
+  }
+
+  .local-seo-copy h3 {
+    font-size: 20px;
+  }
+
+  .local-seo-copy p,
+  .faq-answer {
+    font-size: 14px;
+  }
+
+  .service-area-tag {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .faq-list {
+    gap: 12px;
+  }
+
+  .faq-question {
+    gap: 12px;
+    padding: 16px 56px 16px 16px;
+  }
+
+  .faq-question::after {
+    right: 16px;
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
+
+  .faq-index {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .faq-question-text {
+    font-size: 16px;
+  }
+
+  .faq-answer {
+    padding: 0 16px 16px 16px;
+  }
+
+  .process-steps {
+    gap: 10px;
+  }
+
+  .step {
+    padding: 24px 16px 20px;
+  }
+
+  .step-num {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+  .step-title {
+    font-size: 16px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+  }
+
+  .contact-item {
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .contact-item-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .contact-item-text :is(h3, h4) {
+    font-size: 20px;
+  }
+
+  .contact-item-text p,
+  .contact-item-text address {
+    font-size: 16px;
+  }
+
+  .form-group label {
+    font-size: 15px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 13px 14px;
+    font-size: 16px;
+  }
+
+  .footer-top {
+    gap: 28px;
+  }
+
+  .footer-col :is(h3, h4) {
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+
+  .footer-col ul a {
+    font-size: 15px;
+  }
+
+  .gallery-catalog-page .hero-label {
+    font-size: 16px;
+  }
+
+  .gallery-catalog-page .hero-label::before {
+    width: 28px;
+  }
+
+  .samples-catalog-hero-note {
+    padding: 14px 16px;
+  }
+
+  .samples-catalog-hero-note strong {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --section-block: 56px;
+    --section-header-gap: 32px;
+  }
+
+  .section-lead {
+    font-size: 14px;
+  }
+
+  .service-card {
+    padding: 28px 16px;
+  }
+
+  .about-story-card,
+  .about-owner-card,
+  .about-exp-card,
+  .about-team-card {
+    padding: 18px 16px;
+  }
+
+  .about-story-card p,
+  .about-owner-desc,
+  .about-team-head p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .about-highlights li,
+  .about-owner-meta span,
+  .about-team-exp {
+    font-size: 14px;
+  }
+
+  .about-exp-number {
+    font-size: 28px;
+  }
+
+  .footer-brand .nav-logo-main {
+    font-size: 24px;
+  }
+
+  .footer-brand p,
+  .footer-location-address,
+  .footer-location-note {
+    font-size: 14px;
+  }
+
+  .footer-col ul a {
+    font-size: 14px;
+  }
+
+  .reviews-summary,
+  .review-card {
+    padding: 18px 14px;
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1599px) {
+  :root {
+    --layout-max: 1320px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .process-steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .samples-grid,
+  .samples-catalog-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .reviews-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1366px) {
+  :root {
+    --layout-max: 1280px;
+    --section-block: 76px;
+    --section-header-gap: 44px;
+  }
+
+  body.home-page #navbar {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .nav-logo-main {
+    font-size: 18px;
+  }
+
+  .nav-logo-sub {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+  }
+
+  .nav-cta {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  #hero {
+    min-height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    row-gap: 20px;
+    padding-top: 104px;
+    padding-bottom: 52px;
+  }
+
+  .hero-content {
+    max-width: 760px;
+  }
+
+  .hero-badge {
+    margin-bottom: 18px;
+    padding: 7px 15px;
+    font-size: 13px;
+  }
+
+  .hero-title {
+    font-size: clamp(40px, 4.8vw, 56px);
+    margin-bottom: 10px;
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+    margin-bottom: 26px;
+    font-size: 16px;
+    line-height: 1.62;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    padding: 13px 22px;
+    font-size: 13px;
+  }
+
+  .hero-right {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+    animation: none;
+  }
+
+  .stat-card {
+    min-width: 0;
+    padding: 14px 16px;
+  }
+
+  .stat-num {
+    font-size: 28px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .process-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .samples-grid,
+  .samples-catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .reviews-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-card {
+    height: 288px;
+  }
+
+  .sample-card-swatch {
+    height: 172px;
+  }
+
+  .gallery-catalog-page .topbar,
+  .samples-catalog-topbar {
+    gap: 14px;
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .gallery-catalog-page .hero {
+    padding-top: 38px;
+  }
+
+  .samples-catalog-main {
+    padding-top: 34px;
+    padding-bottom: 50px;
+  }
+}
+
+@media (min-width: 901px) and (max-height: 820px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .process-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .samples-grid,
+  .samples-catalog-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .reviews-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-card {
+    height: 276px;
+  }
+
+  .sample-card-swatch {
+    height: 164px;
+  }
+
+  .gallery-marquee-viewport {
+    padding-top: 22px;
+    padding-bottom: 24px;
+  }
+
+  .gallery-item {
+    height: 220px;
+  }
+
+  .review-submit-modal {
+    max-height: calc(100vh - 16px);
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1366px) {
+  body.home-page .nav-logo-main {
+    font-size: 21px;
+  }
+
+  body.home-page .nav-logo-sub {
+    font-size: 11px;
+    letter-spacing: 2.3px;
+  }
+
+  body.home-page .nav-links {
+    gap: 14px;
+  }
+
+  body.home-page .nav-links a {
+    font-size: 16px;
+  }
+
+  body.home-page .nav-cta {
+    padding: 9px 14px;
+    font-size: 15px;
+  }
+
+  body.home-page #samples .section-label {
+    font-size: 21px;
+  }
+
+  body.home-page #samples .section-title {
+    font-size: clamp(40px, 4.3vw, 54px);
+  }
+
+  body.home-page #samples .section-lead,
+  body.home-page .samples-section-lead {
+    font-size: 19px;
+    line-height: 1.75;
+  }
+
+  body.home-page #hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    row-gap: 0;
+    padding-top: 106px;
+    padding-bottom: 58px;
+  }
+
+  body.home-page .hero-content {
+    max-width: min(62%, 720px);
+  }
+
+  body.home-page .hero-subtitle {
+    max-width: 540px;
+    margin-bottom: 26px;
+  }
+
+  body.home-page .hero-right {
+    position: absolute;
+    right: var(--page-edge);
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: auto;
+  }
+
+  body.home-page .stat-card {
+    min-width: 164px;
+    padding: 14px 16px;
+  }
+
+  body.home-page .stat-num {
+    font-size: 34px;
+  }
+
+  body.home-page .stat-label {
+    font-size: 14px;
+    letter-spacing: 0.4px;
+  }
+
+  body.home-page .service-card {
+    padding: 32px 22px;
+  }
+
+  body.home-page .service-icon {
+    margin-bottom: 16px;
+    font-size: 32px;
+  }
+
+  body.home-page .service-num {
+    top: 16px;
+    right: 18px;
+    font-size: 38px;
+  }
+
+  body.home-page .service-title {
+    font-size: 22px;
+    line-height: 1.3;
+  }
+
+  body.home-page .service-desc {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  body.home-page .service-tag {
+    margin-top: 14px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  body.home-page #process {
+    padding-top: 62px;
+    padding-bottom: 62px;
+  }
+
+  body.home-page .process-steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  body.home-page .step {
+    padding: 34px 20px 24px;
+  }
+
+  body.home-page .step-num {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  body.home-page .step-title {
+    font-size: 16px;
+  }
+
+  body.home-page .step-desc {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+}
+@media (min-width: 1181px) {
+  body.home-page .samples-grid {
+    gap: 12px;
+  }
+
+  body.home-page .sample-card-swatch {
+    height: 114px;
+  }
+
+  body.home-page .sample-card-body {
+    padding: 11px 10px 12px;
+    gap: 5px;
+  }
+
+  body.home-page .sample-card-id {
+    font-size: 9px;
+    letter-spacing: 1.2px;
+  }
+
+  body.home-page .sample-card-material-tag {
+    display: none;
+  }
+
+  body.home-page .sample-card-name {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  body.home-page .sample-card-color-name {
+    font-size: 12px;
+  }
+
+  body.home-page .sample-card-order-btn {
+    padding: 8px 8px;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1599px) {
+  body.home-page .samples-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1600px) and (max-width: 2199px) {
+  body.home-page .samples-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 2200px) {
+  body.home-page .samples-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .services-grid,
+  .process-steps,
+  .reviews-grid,
+  .gallery-grid,
+  .samples-grid,
+  .samples-catalog-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gallery-card {
+    height: 272px;
+  }
+
+  .sample-card-swatch {
+    height: 184px;
+  }
+
+  .gallery-catalog-page .back-link,
+  .samples-catalog-back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .gallery-grid,
+  .samples-grid,
+  .samples-catalog-grid,
+  .reviews-grid,
+  .process-steps,
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-catalog-page .topbar,
+  .samples-catalog-topbar {
+    gap: 10px;
+  }
+
+  .gallery-catalog-page .nav-logo,
+  .samples-catalog-topbar .nav-logo {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .gallery-catalog-page .nav-logo-main,
+  .samples-catalog-topbar .nav-logo-main {
+    font-size: 18px;
+  }
+
+  .gallery-catalog-page .nav-logo-sub,
+  .samples-catalog-topbar .nav-logo-sub {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .gallery-catalog-page .back-link,
+  .samples-catalog-back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .gallery-card {
+    height: 240px;
+  }
+
+  .sample-card-swatch,
+  .sample-modal-swatch {
+    height: 180px;
+  }
+
+  .lightbox-nav-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .lightbox-info-title {
+    font-size: 15px;
+  }
+
+  .lightbox-counter {
+    font-size: 10px;
+  }
+
+  .sample-modal-body {
+    padding: 18px 16px;
+  }
+
+  .sample-modal-name {
+    font-size: 22px;
+  }
+
+  .review-submit-modal,
+  .review-confirm-modal,
+  .review-preview-inner,
+  .lightbox-inner,
+  .sample-modal {
+    width: min(100%, calc(100vw - 20px));
+  }
+
+  .review-preview-media-wrap,
+  .lightbox-img-wrap {
+    min-height: 220px;
+  }
+
+  .floating-cta {
+    right: 10px;
+    bottom: 12px;
+  }
+
+  .floating-cta-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .a11y-tools {
+    left: 8px;
+    bottom: 10px;
+    max-width: calc(100vw - 16px);
+  }
+
+  .a11y-tools-toggle:hover,
+  .a11y-tools-toggle:focus-visible,
+  .a11y-tools.open .a11y-tools-toggle {
+    width: min(174px, calc(100vw - 16px));
+  }
+
+  .a11y-tools-panel {
+    width: min(292px, calc(100vw - 16px));
+  }
+}
+
+@media (max-width: 420px) {
+  .gallery-card {
+    height: 220px;
+  }
+
+  .sample-card-swatch,
+  .sample-modal-swatch {
+    height: 168px;
+  }
+
+  .review-media-preview-grid,
+  .review-confirm-media-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-cta-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
+  }
+
+  .a11y-tools-toggle {
+    width: 42px;
+    height: 42px;
+  }
+}

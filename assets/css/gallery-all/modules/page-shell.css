@@ -71,7 +71,7 @@
 }
 
 .gallery-catalog-page .hero-copy {
-  max-width: fit-content;
+  max-width: min(100%, 68ch);
   color: var(--cream-dim);
   line-height: 1.85;
   font-size: 18px;

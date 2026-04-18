@@ -10,6 +10,14 @@ export function initHomeNavigation() {
   let measurementFrame = 0;
   let sectionObserver = null;
 
+  function syncNavbarMobileOffset() {
+    if (!navbar) return;
+
+    navHeight = navbar.offsetHeight || 0;
+    const mobileOffset = Math.max(56, Math.ceil(navHeight));
+    document.documentElement.style.setProperty('--navbar-mobile-offset', `${mobileOffset}px`);
+  }
+
   function updateNavToggleButtonState(isOpen) {
     if (!hamburgerBtn) return;
 
@@ -61,7 +69,7 @@ export function initHomeNavigation() {
   }
 
   function buildSectionObserver() {
-    navHeight = navbar?.offsetHeight || 0;
+    syncNavbarMobileOffset();
 
     if (sectionObserver) {
       sectionObserver.disconnect();
@@ -108,6 +116,8 @@ export function initHomeNavigation() {
     const nextState = typeof forceOpen === 'boolean'
       ? forceOpen
       : !navLinksContainer.classList.contains('open');
+
+    if (nextState) syncNavbarMobileOffset();
 
     navLinksContainer.classList.toggle('open', nextState);
     updateNavToggleButtonState(nextState);

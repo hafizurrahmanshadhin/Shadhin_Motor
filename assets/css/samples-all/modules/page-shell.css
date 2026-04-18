@@ -62,7 +62,8 @@
 }
 
 .samples-catalog-hero-note {
-  min-width: 180px;
+  width: min(100%, 320px);
+  min-width: 0;
   padding: 16px 18px;
   border: 1px solid rgba(200, 134, 10, 0.16);
   border-left: 4px solid var(--gold);

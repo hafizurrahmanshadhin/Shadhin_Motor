@@ -204,6 +204,19 @@
   .samples-catalog-panel {
     padding: 14px;
   }
+
+  .samples-catalog-toolbar-side {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .samples-catalog-count-info {
+    width: 100%;
+    font-size: 14px;
+    letter-spacing: 0.8px;
+    line-height: 1.55;
+  }
 }
 
 @media (max-width: 420px) {

@@ -3,3 +3,4 @@
 @import url('./modules/catalog.css');
 @import url('./modules/gallery-grid.css');
 @import url('./modules/lightbox.css');
+@import url('../shared/responsive-tuning.css');

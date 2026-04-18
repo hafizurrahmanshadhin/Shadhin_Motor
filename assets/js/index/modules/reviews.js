@@ -434,8 +434,10 @@ export function initHomeReviews() {
   }
 
   function getReviewsPerPage() {
+    const isCompactLaptopViewport = window.innerWidth <= 1366 && window.innerHeight <= 820;
+
     if (window.innerWidth <= 640) return 1;
-    if (window.innerWidth <= 1100) return 2;
+    if (window.innerWidth <= 1100 || isCompactLaptopViewport) return 2;
     return 3;
   }
 
