@@ -595,7 +595,6 @@
 
   .about-story-card,
   .about-owner-card,
-  .about-exp-card,
   .about-team-card {
     padding: 18px 16px;
   }
@@ -611,10 +610,6 @@
   .about-owner-meta span,
   .about-team-exp {
     font-size: 14px;
-  }
-
-  .about-exp-number {
-    font-size: 28px;
   }
 
   .footer-brand .nav-logo-main {

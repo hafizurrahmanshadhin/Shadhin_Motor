@@ -233,52 +233,6 @@
   line-height: 1.4;
 }
 
-.about-experience-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.about-exp-card {
-  background: rgba(37, 26, 10, 0.74);
-  border: 1px solid rgba(200, 134, 10, 0.16);
-  padding: 20px 16px;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-}
-
-.about-exp-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(232, 168, 50, 0.4);
-  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26);
-}
-
-.about-exp-number {
-  display: inline-block;
-  margin-bottom: 10px;
-  font-family: var(--font-brand);
-  font-size: 32px;
-  line-height: 1;
-  font-weight: 700;
-  color: var(--gold-light);
-}
-
-.about-exp-card :is(h3, h4) {
-  font-family: var(--font-ui);
-  font-size: 18px;
-  color: var(--cream);
-  line-height: 1.45;
-  margin-bottom: 8px;
-}
-
-.about-exp-card p {
-  font-size: 14px;
-  color: var(--cream-dim);
-  line-height: 1.65;
-}
-
 .about-team-head {
   margin: 30px 0 16px;
   max-width: 780px;
@@ -605,10 +559,6 @@
     grid-template-columns: 1fr;
   }
 
-  .about-experience-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .about-owner-head {
     align-items: flex-start;
   }
@@ -638,7 +588,6 @@
 @media (max-width: 640px) {
   .about-story-card,
   .about-owner-card,
-  .about-exp-card,
   .about-team-card {
     padding: 20px 18px;
   }
@@ -672,7 +621,6 @@
     font-size: 20px;
   }
 
-  .about-experience-grid,
   .about-owner-meta {
     grid-template-columns: 1fr;
   }
