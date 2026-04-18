@@ -1,8 +1,5 @@
-@import url('./modules/foundation.css');
-@import url('./modules/brand.css');
+@import url('../shared/root.css');
 @import url('./modules/page-shell.css');
 @import url('./modules/catalog.css');
 @import url('./modules/gallery-grid.css');
 @import url('./modules/lightbox.css');
-@import url('./modules/footer.css');
-@import url('./modules/floating-cta.css');

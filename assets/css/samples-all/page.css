@@ -1,9 +1,6 @@
-@import url('./modules/foundation.css');
-@import url('./modules/brand.css');
-@import url('./modules/content-primitives.css');
+@import url('../shared/root.css');
+@import url('../shared/content-primitives.css');
 @import url('./modules/page-shell.css');
 @import url('./modules/catalog.css');
 @import url('./modules/sample-cards.css');
 @import url('./modules/sample-modal.css');
-@import url('./modules/footer.css');
-@import url('./modules/floating-cta.css');
