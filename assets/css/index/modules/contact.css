@@ -127,6 +127,9 @@
 
 .form-submit {
   margin-top: 8px;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
 }
 
 .form-note {
