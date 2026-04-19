@@ -43,6 +43,29 @@ html[lang^='en'] :is(.catalog-search-input, .catalog-model-select, .catalog-per-
   font-family: var(--font-ui);
 }
 
+html[lang^='en'] :is(.hero-badge, .section-label) {
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+html[lang^='en'] :is(.nav-links a, .btn-primary, .btn-secondary, .filter-btn, .catalog-reset-btn, .samples-catalog-order-link, .samples-catalog-reset-btn, .catalog-page-btn, .samples-catalog-page-btn, .floating-cta-btn.language) {
+  font-weight: 600;
+  letter-spacing: 0.035em;
+}
+
+html[lang^='en'] :is(.nav-logo-sub, .catalog-count, .catalog-state, .samples-catalog-count-info, .catalog-display-meta, .samples-catalog-display-meta, .stat-label, .footer-brand p, .footer-location-note, .footer-col ul a, .footer-map-link, .footer-bottom, .sample-card-stock-badge) {
+  letter-spacing: 0.02em;
+}
+
+html[lang^='en'] :is(.catalog-count, .catalog-state, .samples-catalog-count-info, .catalog-display-meta, .samples-catalog-display-meta, .stat-label, .sample-card-id, .sample-modal-id, .sample-modal-id-value, .footer-bottom) {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+html[lang^='en'] :is(.sample-card-id, .sample-modal-id, .sample-modal-id-value) {
+  letter-spacing: 0.08em;
+}
+
 *,
 *::before,
 *::after {
