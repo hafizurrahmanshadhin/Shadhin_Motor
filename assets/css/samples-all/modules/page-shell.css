@@ -57,6 +57,10 @@
   flex-wrap: wrap;
 }
 
+.samples-catalog-hero-copy {
+  min-width: 0;
+}
+
 .samples-catalog-lead {
   max-width: 720px;
 }
@@ -133,6 +137,25 @@
 
   .samples-catalog-hero-note {
     width: min(100%, 320px);
+  }
+}
+
+@media (min-width: 1181px) {
+  .samples-catalog-hero-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+    align-items: start;
+    gap: clamp(24px, 3vw, 42px);
+  }
+
+  .samples-catalog-hero-note {
+    width: 100%;
+    align-self: start;
+    margin-top: 6px;
+  }
+
+  .samples-catalog-lead {
+    max-width: min(100%, 44ch);
   }
 }
 
