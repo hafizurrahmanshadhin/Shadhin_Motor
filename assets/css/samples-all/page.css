@@ -4,4 +4,5 @@
 @import url('./modules/catalog.css');
 @import url('./modules/sample-cards.css');
 @import url('./modules/sample-modal.css');
+@import url('../shared/experience.css');
 @import url('../shared/responsive-tuning.css');

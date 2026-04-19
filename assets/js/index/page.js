@@ -1,4 +1,5 @@
 import { initHomeNavigation } from './modules/navigation.js';
+import { initSharedExperience } from '../shared/experience.js';
 
 function observePageRevealElements(root = document) {
   if (typeof IntersectionObserver !== 'function') {
@@ -38,6 +39,7 @@ export function initHomePage() {
   if (!document.body?.classList.contains('home-page')) return;
 
   document.documentElement.setAttribute('data-enhanced', 'true');
+  initSharedExperience();
   initHomeNavigation();
   observePageRevealElements();
   scheduleHomeDeferredAssets();
