@@ -898,14 +898,6 @@
     line-height: 1.75;
   }
 
-  body.home-page #contact .contact-grid {
-    align-items: start;
-  }
-
-  body.home-page #contact .contact-grid > .reveal.reveal-delay-15 {
-    margin-top: -188px;
-  }
-
   body.home-page #hero {
     min-height: 100vh;
     min-height: 100svh;
