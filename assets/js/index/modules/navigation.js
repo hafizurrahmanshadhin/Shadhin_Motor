@@ -10,7 +10,7 @@ export function initHomeNavigation() {
   let navHeight = navbar?.offsetHeight || 0;
   let measurementFrame = 0;
   let sectionObserver = null;
-  let anchorCorrectionTimer = 0;
+  let anchorCorrectionTimers = [];
 
   function syncNavbarMobileOffset() {
     if (!navbar) return;
@@ -56,6 +56,28 @@ export function initHomeNavigation() {
     return Math.max(targetScrollMargin, fallbackOffset);
   }
 
+  function clearAnchorCorrections() {
+    anchorCorrectionTimers.forEach(timer => window.clearTimeout(timer));
+    anchorCorrectionTimers = [];
+  }
+
+  function primeSectionsForTarget(target) {
+    if (!(target instanceof HTMLElement)) return;
+
+    const sectionChain = Array.from(document.querySelectorAll('main section[id]'));
+    const targetIndex = sectionChain.indexOf(target);
+    if (targetIndex < 0) return;
+
+    for (let index = 0; index <= targetIndex; index += 1) {
+      const section = sectionChain[index];
+      if (!(section instanceof HTMLElement)) continue;
+
+      section.style.contentVisibility = 'visible';
+      section.style.containIntrinsicSize = 'auto';
+      section.getBoundingClientRect();
+    }
+  }
+
   function scrollToHashTarget(targetId, {
     updateHash = false,
     behavior
@@ -69,6 +91,8 @@ export function initHomeNavigation() {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const resolvedBehavior = behavior || (reduceMotion ? 'auto' : 'smooth');
+
+    primeSectionsForTarget(target);
 
     const performScroll = nextBehavior => {
       const offset = getTargetScrollOffset(target);
@@ -88,11 +112,19 @@ export function initHomeNavigation() {
 
     performScroll(resolvedBehavior);
 
-    window.clearTimeout(anchorCorrectionTimer);
-    anchorCorrectionTimer = window.setTimeout(() => {
-      performScroll('auto');
-      requestMeasurements();
-    }, reduceMotion ? 0 : 420);
+    clearAnchorCorrections();
+    const correctionDelays = reduceMotion ? [0, 120, 260] : [140, 420, 820, 1300];
+
+    correctionDelays.forEach(delay => {
+      const timer = window.setTimeout(() => {
+        primeSectionsForTarget(target);
+        performScroll('auto');
+        requestMeasurements();
+        updateActiveNavLink();
+      }, delay);
+
+      anchorCorrectionTimers.push(timer);
+    });
   }
 
   function updateActiveNavLink() {
