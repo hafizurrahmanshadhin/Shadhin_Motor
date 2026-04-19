@@ -74,3 +74,18 @@
     letter-spacing: 2px;
   }
 }
+
+@media (max-width: 220px) {
+  .nav-logo {
+    gap: 0;
+  }
+
+  .nav-logo-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .nav-logo-text {
+    display: none;
+  }
+}

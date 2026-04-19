@@ -1260,3 +1260,279 @@
     height: 42px;
   }
 }
+
+@media (max-width: 220px) {
+  :root {
+    --page-edge: 6px;
+    --section-block: 32px;
+    --section-header-gap: 18px;
+  }
+
+  body {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .section-label {
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .section-label::before {
+    width: 14px;
+  }
+
+  .section-title {
+    font-size: clamp(16px, 13vw, 22px);
+    line-height: 1.12;
+  }
+
+  .section-lead {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  body.home-page section {
+    padding-inline: var(--page-edge);
+  }
+
+  .services-grid,
+  .process-steps,
+  .reviews-grid,
+  .gallery-grid,
+  .samples-grid,
+  .samples-catalog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-card,
+  .step,
+  .review-card,
+  .reviews-summary,
+  .about-story-card,
+  .about-owner-card,
+  .about-team-card,
+  .samples-catalog-panel,
+  .footer-location-card {
+    padding: 12px 10px;
+    min-height: auto;
+  }
+
+  .service-icon {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .service-num {
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+  }
+
+  .service-title {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .service-desc {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .service-tag {
+    min-height: 28px;
+    padding: 4px 8px;
+    font-size: 10px;
+    inline-size: auto;
+  }
+
+  .step {
+    padding: 42px 10px 10px;
+  }
+
+  .step-num {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 8px;
+    right: 8px;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .step-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .step-title {
+    font-size: 12px;
+  }
+
+  .step-desc {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .gallery-card {
+    height: 110px;
+  }
+
+  .sample-card-swatch,
+  .sample-modal-swatch {
+    height: 96px;
+  }
+
+  .sample-card-body {
+    padding: 8px;
+    gap: 4px;
+  }
+
+  .sample-card-name {
+    font-size: 11px;
+  }
+
+  .sample-card-color-name,
+  .sample-card-id {
+    font-size: 9px;
+  }
+
+  .contact-grid {
+    gap: 18px;
+  }
+
+  .contact-item {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .contact-item-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .contact-item-text :is(h3, h4) {
+    font-size: 13px;
+  }
+
+  .contact-item-text p,
+  .contact-item-text address {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .form-group label {
+    font-size: 11px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .form-submit,
+  .btn-primary,
+  .btn-secondary,
+  .samples-catalog-order-link,
+  .samples-catalog-reset-btn,
+  .gallery-catalog-page .back-link,
+  .samples-catalog-back-link {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+
+  .gallery-catalog-page .page-shell,
+  .samples-catalog-shell {
+    padding-inline: 6px;
+  }
+
+  .gallery-catalog-page .topbar,
+  .samples-catalog-topbar {
+    gap: 8px;
+    padding: 10px 0 8px;
+  }
+
+  .gallery-catalog-page .back-link,
+  .samples-catalog-back-link {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .gallery-catalog-page .hero {
+    padding: 18px 0 12px;
+  }
+
+  .gallery-catalog-page .hero-title {
+    font-size: clamp(16px, 12vw, 20px);
+  }
+
+  .gallery-catalog-page .hero-copy {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .samples-catalog-main {
+    padding: 18px 0 26px;
+  }
+
+  .samples-catalog-hero {
+    margin-bottom: 16px;
+  }
+
+  .samples-catalog-hero-note {
+    width: 100%;
+    padding: 10px 12px;
+  }
+
+  .samples-catalog-hero-note strong {
+    font-size: 12px;
+  }
+
+  .samples-catalog-hero-note span,
+  .samples-catalog-helper,
+  .samples-catalog-count-info {
+    font-size: 10px;
+    line-height: 1.4;
+  }
+
+  .footer-brand .nav-logo-main {
+    font-size: 16px;
+  }
+
+  .footer-brand p,
+  .footer-location-address,
+  .footer-location-note,
+  .footer-col ul a,
+  .footer-credit,
+  .footer-copyright {
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .footer-col :is(h3, h4) {
+    font-size: 11px;
+  }
+
+  .footer-social-links .footer-social-link {
+    padding: 8px;
+  }
+
+  .footer-social-text {
+    display: none;
+  }
+
+  .floating-cta,
+  .a11y-tools {
+    display: none;
+  }
+}

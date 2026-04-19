@@ -465,6 +465,48 @@
   }
 }
 
+@media (max-width: 220px) {
+  #hero {
+    padding-top: 58px;
+    padding-bottom: 18px;
+    row-gap: 10px;
+  }
+
+  .hero-badge {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: clamp(18px, 13vw, 24px);
+    line-height: 1.06;
+    margin-bottom: 6px;
+  }
+
+  .hero-subtitle {
+    font-size: 10px;
+    line-height: 1.42;
+    margin-bottom: 10px;
+  }
+
+  .hero-actions {
+    gap: 8px;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .hero-actions .btn-secondary {
+    display: none;
+  }
+
+  .hero-right {
+    display: none;
+  }
+}
+
 @media (min-width: 2200px) {
   .hero-content {
     max-width: 860px;

@@ -359,3 +359,38 @@
     font-size: 16px;
   }
 }
+
+@media (max-width: 220px) {
+  #navbar {
+    gap: 6px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: calc(var(--page-edge) + 34px);
+  }
+
+  #navbar .nav-logo {
+    max-width: calc(100% - 32px);
+  }
+
+  .hamburger {
+    top: 6px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .hamburger span {
+    width: 12px;
+  }
+
+  .nav-links.open {
+    top: var(--navbar-mobile-offset, 42px);
+    gap: 6px;
+    padding: 10px 8px 14px;
+  }
+
+  .nav-links.open a {
+    font-size: 11px;
+    padding: 9px 10px;
+    min-height: 34px;
+  }
+}
