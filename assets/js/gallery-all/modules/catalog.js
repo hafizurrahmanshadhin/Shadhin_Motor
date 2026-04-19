@@ -6,19 +6,24 @@ export function initGalleryCatalogPage() {
   const panel = grid?.closest('.catalog-panel');
   const filterButtons = Array.from(panel?.querySelectorAll('.filter-btn') || []);
   const modelSelect = document.getElementById('catalogModelSelect');
+  const perPageSelect = document.getElementById('catalogPerPageSelect');
   const searchInput = document.getElementById('catalogSearchInput');
   const resetBtn = document.getElementById('catalogResetBtn');
 
-  if (!panel || !grid || !modelSelect || !searchInput || !resetBtn) return;
+  if (!panel || !grid || !modelSelect || !perPageSelect || !searchInput || !resetBtn) return;
 
   const filters = createGalleryCatalogFilters({
     grid,
     filterButtons,
     modelSelect,
+    perPageSelect,
     searchInput,
     resetBtn,
     currentLabelEl: document.getElementById('catalogCurrentLabel'),
-    countEl: document.getElementById('catalogCount')
+    countEl: document.getElementById('catalogCount'),
+    displayMetaEl: document.getElementById('catalogDisplayMeta'),
+    paginationEl: document.getElementById('catalogPagination'),
+    emptyStateEl: document.getElementById('galleryEmptyState')
   });
 
   createGalleryLightbox({

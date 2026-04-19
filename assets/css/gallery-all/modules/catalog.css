@@ -87,8 +87,29 @@
   min-width: 220px;
 }
 
+.catalog-per-page-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 8px 14px;
+  border: 1px solid rgba(200, 134, 10, 0.22);
+  background: rgba(37, 26, 10, 0.72);
+  color: var(--cream);
+}
+
+.catalog-per-page-label {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cream-dim);
+  white-space: nowrap;
+}
+
 .catalog-search-input,
-.catalog-model-select {
+.catalog-model-select,
+.catalog-per-page-select {
   width: 100%;
   min-height: 48px;
   padding: 12px 16px;
@@ -108,12 +129,14 @@
 }
 
 .catalog-search-input:focus,
-.catalog-model-select:focus {
+.catalog-model-select:focus,
+.catalog-per-page-select:focus {
   border-color: var(--gold);
   background: rgba(37, 26, 10, 0.92);
 }
 
-.catalog-model-select option {
+.catalog-model-select option,
+.catalog-per-page-select option {
   background: var(--bg-card);
 }
 
@@ -132,6 +155,17 @@
 .catalog-model-select {
   padding-left: 44px;
   padding-right: 42px;
+}
+
+.catalog-per-page-select {
+  width: auto;
+  min-width: 110px;
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  appearance: auto;
+  -webkit-appearance: menulist;
 }
 
 .catalog-model-wrap::after {
@@ -162,6 +196,78 @@
 .catalog-reset-btn:hover {
   background: rgba(200, 134, 10, 0.1);
   border-color: var(--gold);
+}
+
+.catalog-results-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.catalog-display-meta {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--cream-dim);
+}
+
+.catalog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.catalog-pagination[hidden] {
+  display: none;
+}
+
+.catalog-page-btn {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(200, 134, 10, 0.22);
+  background: rgba(22, 15, 7, 0.9);
+  color: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.catalog-page-btn:hover:not(:disabled) {
+  border-color: rgba(232, 168, 50, 0.45);
+  background: rgba(44, 29, 9, 0.95);
+  transform: translateY(-1px);
+}
+
+.catalog-page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.catalog-page-btn.active {
+  color: var(--bg-deep);
+  border-color: rgba(232, 168, 50, 0.75);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  box-shadow: 0 8px 20px rgba(200, 134, 10, 0.26);
+}
+
+.catalog-page-ellipsis {
+  color: var(--cream-dim);
+  font-size: 14px;
+  padding: 0 2px;
+}
+
+.catalog-panel > .gallery-empty {
+  margin-top: 20px;
 }
 
 @media (max-width: 900px) {
@@ -207,6 +313,16 @@
   .catalog-model-wrap {
     min-width: 200px;
   }
+
+  .catalog-results-footer {
+    justify-content: flex-start;
+  }
+
+  .catalog-pagination {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 1180px) {
@@ -238,8 +354,27 @@
     min-width: 0;
   }
 
+  .catalog-per-page-wrap {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .catalog-per-page-select {
+    flex: 1 1 auto;
+  }
+
   .catalog-reset-btn {
     width: 100%;
+  }
+
+  .catalog-results-footer {
+    margin-top: 18px;
+  }
+
+  .catalog-pagination {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
   }
 }
 
@@ -256,6 +391,20 @@
   .catalog-model-wrap {
     flex: 1 1 100%;
     min-width: 0;
+  }
+
+  .catalog-per-page-wrap {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .catalog-per-page-label {
+    width: 100%;
+  }
+
+  .catalog-per-page-select {
+    width: 100%;
   }
 
   .catalog-reset-btn {
@@ -290,6 +439,17 @@
   .filter-btn {
     padding: 8px 10px;
     font-size: 11px;
+  }
+
+  .catalog-display-meta {
+    font-size: 13px;
+  }
+
+  .catalog-page-btn {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
   }
 }
 

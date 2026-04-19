@@ -85,6 +85,15 @@
               <option value="Yamaha R15">Yamaha R15</option>
             </select>
           </div>
+          <div class="catalog-per-page-wrap">
+            <label for="catalogPerPageSelect" class="catalog-per-page-label">প্রতি পেজে</label>
+            <select id="catalogPerPageSelect" class="catalog-per-page-select">
+              <option value="10">10 টি</option>
+              <option value="25">25 টি</option>
+              <option value="50">50 টি</option>
+              <option value="100">100 টি</option>
+            </select>
+          </div>
           <button type="button" id="catalogResetBtn" class="catalog-reset-btn">ফিল্টার রিসেট</button>
         </search>
 
@@ -107,6 +116,16 @@
           <li class="gallery-card-item" data-cat="repair" data-models="ড্যাশবোর্ড রিফিনিশ" data-group="ড্যাশবোর্ড রিফিনিশ" data-search="রিপেয়ার ডিজাইন 02 রিপেয়ার ও রিফিনিশ কাজ রিপেয়ার ড্যাশবোর্ড রিফিনিশ"><article class="gallery-card" data-cat="repair"><a class="gallery-card-trigger" href="#lightboxOverlay" data-gallery-index="15" data-gallery-cat="repair" data-gallery-title="রিপেয়ার ডিজাইন 02" data-gallery-img="assets/images/others/16.jpeg" data-gallery-desc="রিপেয়ার ও রিফিনিশ কাজ" data-gallery-models="ড্যাশবোর্ড রিফিনিশ" data-gallery-group="ড্যাশবোর্ড রিফিনিশ" aria-label="রিপেয়ার: রিপেয়ার ডিজাইন 02"><img class="gallery-card-img" src="assets/images/others/16.jpeg" alt="রিপেয়ার ডিজাইন 02" loading="lazy" decoding="async"><div class="gallery-card-placeholder"><span class="gallery-card-placeholder-icon">🔧</span><span class="gallery-card-placeholder-label">রিপেয়ার</span></div><div class="gallery-card-overlay"><div class="gallery-card-cat">রিপেয়ার</div><h3 class="gallery-card-title">রিপেয়ার ডিজাইন 02</h3><div class="gallery-card-models"><span class="gallery-card-model-pill">ড্যাশবোর্ড রিফিনিশ</span></div><p class="gallery-card-desc">রিপেয়ার ও রিফিনিশ কাজ</p></div></a></article></li>
           <li class="gallery-card-item" data-cat="repair" data-models="হোম ফিটিং" data-group="হোম ফিটিং" data-search="রিপেয়ার ডিজাইন 03 রিপেয়ার ও রিফিনিশ কাজ রিপেয়ার হোম ফিটিং"><article class="gallery-card" data-cat="repair"><a class="gallery-card-trigger" href="#lightboxOverlay" data-gallery-index="16" data-gallery-cat="repair" data-gallery-title="রিপেয়ার ডিজাইন 03" data-gallery-img="assets/images/others/17.jpeg" data-gallery-desc="রিপেয়ার ও রিফিনিশ কাজ" data-gallery-models="হোম ফিটিং" data-gallery-group="হোম ফিটিং" aria-label="রিপেয়ার: রিপেয়ার ডিজাইন 03"><img class="gallery-card-img" src="assets/images/others/17.jpeg" alt="রিপেয়ার ডিজাইন 03" loading="lazy" decoding="async"><div class="gallery-card-placeholder"><span class="gallery-card-placeholder-icon">🔧</span><span class="gallery-card-placeholder-label">রিপেয়ার</span></div><div class="gallery-card-overlay"><div class="gallery-card-cat">রিপেয়ার</div><h3 class="gallery-card-title">রিপেয়ার ডিজাইন 03</h3><div class="gallery-card-models"><span class="gallery-card-model-pill">হোম ফিটিং</span></div><p class="gallery-card-desc">রিপেয়ার ও রিফিনিশ কাজ</p></div></a></article></li>
         </ul>
+
+        <div class="gallery-empty" id="galleryEmptyState" hidden>
+          <span class="gallery-empty-icon" aria-hidden="true">🔎</span>
+          <p>এই ফিল্টারে কোনো ডিজাইন পাওয়া যায়নি। অন্য category, model বা keyword দিয়ে আবার চেষ্টা করুন।</p>
+        </div>
+
+        <div class="catalog-results-footer">
+          <p class="catalog-display-meta" id="catalogDisplayMeta" aria-live="polite">ডিজাইন দেখানো হচ্ছে</p>
+          <nav class="catalog-pagination" id="catalogPagination" aria-label="গ্যালারি পেজ নেভিগেশন"></nav>
+        </div>
       </section>
     </main>
   </div>
