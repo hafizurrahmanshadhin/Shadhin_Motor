@@ -3,6 +3,7 @@ export function initHomeNavigation() {
   const navLinksContainer = document.getElementById('navLinks');
   const hamburgerBtn = document.getElementById('hamburger');
   const navLinks = Array.from(navLinksContainer?.querySelectorAll('a[href^="#"]') || []);
+  const topAnchors = Array.from(document.querySelectorAll('a[href="#hero"]'));
   const trackedSections = Array.from(document.querySelectorAll('main section[id]'))
     .filter(section => navLinks.some(link => link.getAttribute('href') === `#${section.id}`));
   const trackedSectionStates = new Map();
@@ -76,7 +77,9 @@ export function initHomeNavigation() {
     };
 
     if (updateHash) {
-      if (window.location.hash !== targetId) {
+      if (targetId === '#hero') {
+        history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+      } else if (window.location.hash !== targetId) {
         history.pushState(null, '', targetId);
       } else {
         history.replaceState(null, '', targetId);
@@ -93,6 +96,16 @@ export function initHomeNavigation() {
   }
 
   function updateActiveNavLink() {
+    const firstSection = trackedSections[0];
+    const beforeFirstSection = firstSection instanceof HTMLElement
+      ? firstSection.getBoundingClientRect().top > navHeight + Math.max(24, Math.round(window.innerHeight * 0.08))
+      : window.scrollY < 40;
+
+    if (beforeFirstSection) {
+      setActiveNavLink('');
+      return;
+    }
+
     const visibleSections = Array.from(trackedSectionStates.entries())
       .filter(([, state]) => state.isIntersecting)
       .sort((left, right) => {
@@ -101,12 +114,6 @@ export function initHomeNavigation() {
 
     if (visibleSections.length) {
       setActiveNavLink(visibleSections[0][0]);
-      return;
-    }
-
-    const isNearTop = window.scrollY < 40;
-    if (isNearTop) {
-      setActiveNavLink('');
       return;
     }
 
@@ -173,7 +180,10 @@ export function initHomeNavigation() {
   }
 
   buildSectionObserver();
-  window.addEventListener('scroll', updateNavbarState, { passive: true });
+  window.addEventListener('scroll', () => {
+    updateNavbarState();
+    updateActiveNavLink();
+  }, { passive: true });
   window.addEventListener('load', requestMeasurements);
   window.addEventListener('resize', requestMeasurements);
   window.addEventListener('hashchange', () => {
@@ -203,6 +213,15 @@ export function initHomeNavigation() {
         setActiveNavLink(targetId);
         scrollToHashTarget(targetId, { updateHash: true });
       }
+    });
+  });
+
+  topAnchors.forEach(anchor => {
+    anchor.addEventListener('click', event => {
+      event.preventDefault();
+      toggleNav(false);
+      setActiveNavLink('');
+      scrollToHashTarget('#hero', { updateHash: true });
     });
   });
 
