@@ -229,13 +229,24 @@
   }
 }
 
-@media (min-width: 1181px) and (max-width: 1599px) {
+@media (min-width: 1280px) and (max-width: 1599px) {
+  .gallery-catalog-page .gallery-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .gallery-catalog-page .gallery-card {
+    height: clamp(280px, 22vw, 308px);
+  }
+}
+
+@media (min-width: 1181px) and (max-width: 1279px) {
   .gallery-catalog-page .gallery-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .gallery-catalog-page .gallery-card {
-    height: 320px;
+    height: 308px;
   }
 }
 
