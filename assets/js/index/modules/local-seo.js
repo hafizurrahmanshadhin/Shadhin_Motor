@@ -44,6 +44,7 @@ export function initHomeLocalSeo() {
   let dragStartY = 0;
   let dragStartOffset = 0;
   let suppressClick = false;
+  let lastInputWasPointer = false;
 
   function applyViewportHeight() {
     let nextHeight = 0;
@@ -221,6 +222,17 @@ export function initHomeLocalSeo() {
         if (item.open) {
           closeOtherItems(item);
           keepItemInView(item);
+        } else if (lastInputWasPointer) {
+          requestAnimationFrame(() => {
+            const activeElement = document.activeElement;
+
+            if (activeElement instanceof HTMLElement && faqList.contains(activeElement)) {
+              activeElement.blur();
+            }
+
+            focusWithin = faqList.contains(document.activeElement);
+            syncAutoScrollState();
+          });
         }
 
         syncAutoScrollState();
@@ -336,9 +348,14 @@ export function initHomeLocalSeo() {
     event.stopPropagation();
   }, true);
 
+  faqList.addEventListener('keydown', () => {
+    lastInputWasPointer = false;
+  }, true);
+
   faqList.onpointerdown = event => {
     if (event.pointerType !== 'mouse' || event.button !== 0) return;
 
+    lastInputWasPointer = true;
     pointerDown = true;
     dragging = false;
     dragMoved = false;
