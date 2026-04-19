@@ -15,9 +15,32 @@
   --font-ui: 'Noto Sans Bengali', 'Nirmala UI', 'Segoe UI', 'Vrinda', sans-serif;
   --font-brand: 'Playfair Display', Georgia, serif;
   --font-accent: 'Josefin Sans', 'Noto Sans Bengali', sans-serif;
+  --font-meta: 'Josefin Sans', 'Noto Sans Bengali', sans-serif;
+  --font-code: 'Josefin Sans', 'Noto Sans Bengali', sans-serif;
   --page-edge: clamp(16px, 4vw, 60px);
   --section-block: 100px;
   --section-header-gap: 70px;
+}
+
+html[lang^='en'] {
+  --font-ui: 'Source Sans 3', 'Segoe UI Variable Text', 'Segoe UI', Tahoma, sans-serif;
+  --font-accent: 'Inter', 'Source Sans 3', 'Segoe UI Variable Text', 'Segoe UI', Tahoma, sans-serif;
+  --font-meta: 'Roboto', 'Inter', 'Source Sans 3', 'Segoe UI', Tahoma, sans-serif;
+  --font-code: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+html[lang^='en'] :is(.hero-title, .section-title) {
+  font-family: var(--font-brand);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+html[lang^='en'] :is(.hero-subtitle, .section-lead) {
+  letter-spacing: 0.01em;
+}
+
+html[lang^='en'] :is(.catalog-search-input, .catalog-model-select, .catalog-per-page-select, .sample-search, .samples-per-page-select, .form-group input, .form-group select, .form-group textarea) {
+  font-family: var(--font-ui);
 }
 
 *,
@@ -53,6 +76,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   overscroll-behavior-y: auto;
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
 }
 
 body.body-scroll-locked {

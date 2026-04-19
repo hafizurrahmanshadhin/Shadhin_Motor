@@ -384,7 +384,13 @@ export function initHomeReviews() {
 
     const startIndex = Math.max(0, triggers.indexOf(trigger));
     const reviewerName = card.querySelector('.reviewer-name')?.textContent?.trim() || getUiText('previewTitleDefault');
-    openReviewMediaPreview(items, Math.min(startIndex, items.length - 1), `${reviewerName} - কাজের মিডিয়া`, trigger, { restoreFocusOnClose: false });
+    openReviewMediaPreview(
+      items,
+      Math.min(startIndex, items.length - 1),
+      `${reviewerName} - ${getUiText('workMediaPreviewTitle')}`,
+      trigger,
+      { restoreFocusOnClose: false }
+    );
   }
 
   function openReviewCardAvatarPreview(trigger) {

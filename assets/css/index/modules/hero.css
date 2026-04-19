@@ -69,7 +69,7 @@
   padding: 8px 20px;
   margin-bottom: 32px;
   border-radius: 2px;
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.8px;
@@ -156,6 +156,7 @@
 }
 
 .stat-label {
+  font-family: var(--font-meta);
   margin-top: 2px;
   font-size: 16px;
   color: var(--cream-dim);

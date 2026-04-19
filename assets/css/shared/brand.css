@@ -46,6 +46,7 @@
 }
 
 .nav-logo-sub {
+  font-family: var(--font-meta);
   margin-top: 1px;
   font-size: 10px;
   font-weight: 400;

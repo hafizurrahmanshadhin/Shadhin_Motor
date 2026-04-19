@@ -51,7 +51,7 @@
 }
 
 .footer-col :is(h3, h4) {
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.4px;
@@ -80,6 +80,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
+  font-family: var(--font-accent);
   text-decoration: none;
   color: var(--gold-pale);
   border: 1px solid rgba(200, 134, 10, 0.26);
@@ -110,6 +111,7 @@
 }
 
 .footer-col ul a {
+  font-family: var(--font-meta);
   color: var(--cream-dim);
   text-decoration: none;
   font-size: 16px;

@@ -67,6 +67,11 @@ function normalizeSampleMaterial(value) {
   return 'rexine';
 }
 
+function hasOutOfStockText(value) {
+  const text = String(value || '').trim().toLowerCase();
+  return text.includes('স্টক') || text.includes('stock');
+}
+
 export function createSamplesCatalogModal({ grid, getUiText }) {
   const modalOverlay = document.getElementById('sampleModal');
   const orderBtn = document.getElementById('sampleModalOrderBtn');
@@ -89,7 +94,7 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
     const orderButton = card.querySelector('.sample-card-order-btn');
     const isUnavailable = card.classList.contains('out-of-stock')
       || Boolean(orderButton?.disabled)
-      || getElementText(card, '.sample-card-stock-badge', '').includes('স্টক')
+      || hasOutOfStockText(getElementText(card, '.sample-card-stock-badge', ''))
       || card.dataset.available === 'false';
 
     return {

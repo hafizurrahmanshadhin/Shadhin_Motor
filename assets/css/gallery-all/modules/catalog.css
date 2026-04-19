@@ -23,7 +23,7 @@
 
 .filter-btn {
   padding: 10px 20px;
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 13px;
   font-weight: 600;
   border: 1px solid rgba(200, 134, 10, 0.24);
@@ -51,7 +51,7 @@
 
 .catalog-count,
 .catalog-state {
-  font-family: var(--font-accent);
+  font-family: var(--font-meta);
   font-size: 16px;
   letter-spacing: 1.4px;
   color: var(--cream-dim);
@@ -100,7 +100,7 @@
 }
 
 .catalog-per-page-label {
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 13px;
   font-weight: 600;
   color: var(--cream-dim);
@@ -185,7 +185,7 @@
   border: 1px solid rgba(200, 134, 10, 0.24);
   background: transparent;
   color: var(--gold);
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -209,7 +209,7 @@
 
 .catalog-display-meta {
   margin: 0;
-  font-family: var(--font-ui);
+  font-family: var(--font-meta);
   font-size: 14px;
   line-height: 1.6;
   color: var(--cream-dim);
@@ -235,7 +235,7 @@
   border: 1px solid rgba(200, 134, 10, 0.22);
   background: rgba(22, 15, 7, 0.9);
   color: var(--cream);
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;

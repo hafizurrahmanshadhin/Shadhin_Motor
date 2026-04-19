@@ -112,7 +112,7 @@ dialog.sample-modal-overlay::backdrop {
 
 .sample-modal-id {
   margin-bottom: 8px;
-  font-family: var(--font-ui);
+  font-family: var(--font-meta);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.8px;
@@ -123,7 +123,7 @@ dialog.sample-modal-overlay::backdrop {
 .sample-modal-id-value {
   color: var(--gold);
   letter-spacing: 2px;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: var(--font-code);
 }
 
 .sample-modal-name {

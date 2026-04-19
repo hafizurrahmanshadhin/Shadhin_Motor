@@ -73,6 +73,16 @@
   color: var(--bg-deep);
 }
 
+.floating-cta-btn.language {
+  background: linear-gradient(145deg, rgba(245, 215, 142, 0.96), rgba(200, 134, 10, 0.94));
+  color: #1a1107;
+  font-family: var(--font-accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
 .floating-cta-btn.call::after {
   animation-delay: 1.2s;
 }

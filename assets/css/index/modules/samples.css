@@ -282,7 +282,7 @@
       font-weight: 700;
       letter-spacing: 1px;
       text-transform: uppercase;
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: var(--font-meta);
     }
 
     .sample-card-body {
@@ -294,7 +294,7 @@
     }
 
     .sample-card-id {
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: var(--font-code);
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 2px;
@@ -489,7 +489,7 @@
     }
 
     .sample-modal-id {
-      font-family: var(--font-ui);
+      font-family: var(--font-meta);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.8px;
@@ -580,7 +580,7 @@
     .sample-modal-id-value {
       color: var(--gold);
       letter-spacing: 2px;
-      font-family: 'Josefin Sans', sans-serif;
+      font-family: var(--font-code);
     }
 
     .sample-modal-note {

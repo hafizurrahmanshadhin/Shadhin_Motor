@@ -82,7 +82,7 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
       .map(value => value.trim())
       .filter(Boolean);
     const cat = shell?.dataset.cat || card?.dataset.cat || trigger.dataset.galleryCat || 'all';
-    const groupLabel = String(shell?.dataset.group || '').trim() || models.join(', ') || fallbackModels.join(', ');
+    const groupLabel = models.join(', ') || String(shell?.dataset.group || '').trim() || fallbackModels.join(', ');
 
     return {
       cat,

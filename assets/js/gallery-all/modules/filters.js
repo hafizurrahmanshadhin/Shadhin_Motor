@@ -2,6 +2,30 @@ import { cleanLeadingIcon, replaceUrlState, syncPressedState } from '../../share
 
 const PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
+function getGalleryCatalogUiText() {
+  const isEnglish = document.documentElement.lang?.toLowerCase().startsWith('en');
+
+  if (isEnglish) {
+    return {
+      empty: 'No designs found',
+      total: total => `Showing all ${total} designs`,
+      range: (from, to, total) => `Showing ${from}-${to} of ${total} designs`,
+      page: page => `Page ${page}`,
+      prev: 'Previous page',
+      next: 'Next page'
+    };
+  }
+
+  return {
+    empty: 'কোনো ডিজাইন পাওয়া যায়নি',
+    total: total => `মোট ${total} টি ডিজাইন দেখানো হচ্ছে`,
+    range: (from, to, total) => `${from}-${to} টি দেখানো হচ্ছে, মোট ${total}`,
+    page: page => `পেজ ${page}`,
+    prev: 'আগের পেজ',
+    next: 'পরের পেজ'
+  };
+}
+
 function normalizeGalleryFilter(value) {
   return ['all', 'car', 'bike', 'repair'].includes(value) ? value : 'all';
 }
@@ -46,6 +70,7 @@ export function createGalleryCatalogFilters({
   emptyStateEl
 }) {
   const items = Array.from(grid.querySelectorAll('.gallery-card-item'));
+  const uiText = getGalleryCatalogUiText();
 
   let currentFilter = 'all';
   let currentModel = '';
@@ -58,7 +83,7 @@ export function createGalleryCatalogFilters({
   const getItemSearchText = item => {
     const explicitSearch = String(item.dataset.search || '').trim();
     const fallbackSearch = item.textContent || '';
-    return (explicitSearch || fallbackSearch).toLowerCase();
+    return `${explicitSearch} ${fallbackSearch}`.trim().toLowerCase();
   };
   const getItemModelList = item => {
     const explicitModels = String(item.dataset.models || '')
@@ -104,16 +129,16 @@ export function createGalleryCatalogFilters({
     if (!displayMetaEl) return;
 
     if (!total) {
-      displayMetaEl.textContent = 'কোনো ডিজাইন পাওয়া যায়নি';
+      displayMetaEl.textContent = uiText.empty;
       return;
     }
 
     if (total <= currentPerPage) {
-      displayMetaEl.textContent = `মোট ${total} টি ডিজাইন দেখানো হচ্ছে`;
+      displayMetaEl.textContent = uiText.total(total);
       return;
     }
 
-    displayMetaEl.textContent = `${from}-${to} টি দেখানো হচ্ছে, মোট ${total}`;
+    displayMetaEl.textContent = uiText.range(from, to, total);
   };
 
   const createPaginationButton = ({
@@ -131,12 +156,12 @@ export function createGalleryCatalogFilters({
 
     if (page) {
       button.dataset.page = String(page);
-      button.setAttribute('aria-label', `পেজ ${page}`);
+      button.setAttribute('aria-label', uiText.page(page));
     }
 
     if (action) {
       button.dataset.action = action;
-      button.setAttribute('aria-label', action === 'prev' ? 'আগের পেজ' : 'পরের পেজ');
+      button.setAttribute('aria-label', action === 'prev' ? uiText.prev : uiText.next);
     }
 
     if (isActive) {

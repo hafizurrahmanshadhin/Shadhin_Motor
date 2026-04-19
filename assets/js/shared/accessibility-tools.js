@@ -23,6 +23,7 @@ const classMap = {
 
   function getReadablePageText() {
     const sourceRoot = document.querySelector('main') || document.body;
+    const isBangla = String(document.documentElement.lang || '').toLowerCase().startsWith('bn');
     // Prioritize content-heavy elements so read-aloud is useful instead of noisy.
     const selectors = [
       'h1', 'h2', 'h3',
@@ -37,13 +38,14 @@ const classMap = {
       .filter(text => text.length > 2)
       .slice(0, 120);
 
-    return chunks.join('। ').slice(0, 3500);
+    return chunks.join(isBangla ? '। ' : '. ').slice(0, 3500);
   }
 
-  function pickBanglaVoice() {
+  function pickPreferredVoice() {
     if (!('speechSynthesis' in window)) return null;
     const voices = window.speechSynthesis.getVoices();
-    return voices.find(voice => String(voice.lang || '').toLowerCase().startsWith('bn')) || null;
+    const languagePrefix = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
+    return voices.find(voice => String(voice.lang || '').toLowerCase().startsWith(languagePrefix)) || null;
   }
 
   function formatTemplate(template, tokens = {}) {
@@ -168,10 +170,10 @@ const classMap = {
 
       window.speechSynthesis.cancel();
       const utterance = new window.SpeechSynthesisUtterance(text);
-      utterance.lang = document.documentElement.lang || 'bn-BD';
+      utterance.lang = document.documentElement.lang || 'en';
       utterance.rate = state.easyRead ? 0.88 : 0.96;
       utterance.pitch = 1;
-      const voice = pickBanglaVoice();
+      const voice = pickPreferredVoice();
       if (voice) utterance.voice = voice;
 
       utterance.onstart = () => {
