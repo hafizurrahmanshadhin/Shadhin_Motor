@@ -37,6 +37,13 @@ export function initHomeLocalSeo() {
   let lastTimestamp = 0;
   let offset = 0;
   let running = false;
+  let pointerDown = false;
+  let dragging = false;
+  let dragMoved = false;
+  let dragPointerId = null;
+  let dragStartY = 0;
+  let dragStartOffset = 0;
+  let suppressClick = false;
 
   function applyViewportHeight() {
     let nextHeight = 0;
@@ -114,6 +121,16 @@ export function initHomeLocalSeo() {
       firstItem = track.firstElementChild;
       guard += 1;
     }
+
+    let lastItem = track.lastElementChild;
+
+    // Dragging downward needs items to be recycled in the opposite direction.
+    while (lastItem instanceof HTMLElement && offset < 0 && guard < renderedItems.length + 8) {
+      offset += getItemBlockSize(lastItem);
+      track.prepend(lastItem);
+      lastItem = track.lastElementChild;
+      guard += 1;
+    }
   }
 
   function keepItemInView(item) {
@@ -182,9 +199,11 @@ export function initHomeLocalSeo() {
       && templates.length > 0
       && !hovered
       && !focusWithin
+      && !pointerDown
       && !hasOpenItem;
 
     faqList.classList.toggle('is-open', hasOpenItem);
+    faqList.classList.toggle('is-dragging', dragging);
     faqList.classList.toggle('is-paused', !canScroll);
     faqList.dataset.scrollState = canScroll ? 'running' : 'paused';
 
@@ -264,6 +283,31 @@ export function initHomeLocalSeo() {
     });
   }
 
+  function endDrag(event) {
+    const hadDrag = dragging && dragMoved;
+
+    if (event && dragPointerId !== null && faqList.hasPointerCapture?.(dragPointerId)) {
+      faqList.releasePointerCapture(dragPointerId);
+    }
+
+    pointerDown = false;
+    dragPointerId = null;
+
+    if (dragging) {
+      dragging = false;
+    }
+
+    if (hadDrag) {
+      suppressClick = true;
+      window.setTimeout(() => {
+        suppressClick = false;
+      }, 220);
+    }
+
+    dragMoved = false;
+    syncAutoScrollState();
+  }
+
   faqList.addEventListener('mouseenter', () => {
     hovered = true;
     syncAutoScrollState();
@@ -285,6 +329,47 @@ export function initHomeLocalSeo() {
       syncAutoScrollState();
     });
   });
+
+  faqList.addEventListener('click', event => {
+    if (!suppressClick) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+
+  faqList.onpointerdown = event => {
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+
+    pointerDown = true;
+    dragging = false;
+    dragMoved = false;
+    dragPointerId = event.pointerId;
+    dragStartY = event.clientY;
+    dragStartOffset = offset;
+    syncAutoScrollState();
+  };
+
+  faqList.onpointermove = event => {
+    if (!pointerDown || event.pointerId !== dragPointerId) return;
+    const deltaY = event.clientY - dragStartY;
+
+    if (!dragging) {
+      if (Math.abs(deltaY) <= 6) return;
+      dragging = true;
+      dragMoved = true;
+      faqList.setPointerCapture(event.pointerId);
+    }
+
+    event.preventDefault();
+    offset = dragStartOffset - deltaY;
+    normalizeTrackOffset();
+    setTrackTransform();
+    syncAutoScrollState();
+  };
+
+  faqList.onpointerup = event => endDrag(event);
+  faqList.onpointercancel = event => endDrag(event);
+  faqList.onlostpointercapture = event => endDrag(event);
+  faqList.ondragstart = () => false;
 
   if (typeof IntersectionObserver === 'function') {
     const observer = new IntersectionObserver(entries => {

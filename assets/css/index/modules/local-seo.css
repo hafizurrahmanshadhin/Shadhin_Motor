@@ -127,6 +127,7 @@
   border: 1px solid rgba(200, 134, 10, 0.14);
   border-left: 4px solid rgba(200, 134, 10, 0.42);
   box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
+  cursor: grab;
 }
 
 #local-seo .faq-list::before,
@@ -164,6 +165,20 @@
   align-content: start;
   will-change: transform;
   transform: translate3d(0, 0, 0);
+}
+
+#local-seo .faq-list.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+#local-seo .faq-list.is-dragging .faq-item,
+#local-seo .faq-list.is-dragging .faq-question {
+  user-select: none;
+}
+
+#local-seo .faq-list.is-dragging .faq-item:hover {
+  transform: none;
 }
 
 #local-seo .faq-item {
