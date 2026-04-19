@@ -1,5 +1,10 @@
 const ABOUT_TEAM_MOTION_SPEED = 34;
 
+function isPrimaryDragPointer(event) {
+  if (event.isPrimary === false) return false;
+  return event.pointerType !== 'mouse' || event.button === 0;
+}
+
 function openDialog(dialog) {
   if (!dialog) return;
 
@@ -262,7 +267,7 @@ export function initHomeAboutTeam() {
     };
 
     viewport.onpointerdown = event => {
-      if (event.pointerType !== 'mouse' || event.button !== 0 || !state.motionCycle) return;
+      if (!isPrimaryDragPointer(event) || !state.motionCycle) return;
 
       state.pointerDown = true;
       state.pointerId = event.pointerId;

@@ -128,6 +128,7 @@
   border-left: 4px solid rgba(200, 134, 10, 0.42);
   box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
   cursor: grab;
+  touch-action: pan-x;
 }
 
 #local-seo .faq-list::before,

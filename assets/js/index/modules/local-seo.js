@@ -2,6 +2,11 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
+function isPrimaryDragPointer(event) {
+  if (event.isPrimary === false) return false;
+  return event.pointerType !== 'mouse' || event.button === 0;
+}
+
 export function initHomeLocalSeo() {
   const section = document.getElementById('local-seo');
   if (!section) return;
@@ -353,7 +358,7 @@ export function initHomeLocalSeo() {
   }, true);
 
   faqList.onpointerdown = event => {
-    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    if (!isPrimaryDragPointer(event)) return;
 
     lastInputWasPointer = true;
     pointerDown = true;

@@ -11,15 +11,6 @@ export function getElementText(root, selector, fallback = '') {
   return value || normalizeFallback(fallback);
 }
 
-export function getElementAttribute(root, selector, attribute, fallback = '') {
-  if (!root || typeof root.querySelector !== 'function') {
-    return normalizeFallback(fallback);
-  }
-
-  const value = root.querySelector(selector)?.getAttribute(attribute)?.trim();
-  return value || normalizeFallback(fallback);
-}
-
 export function getImageSource(root, selector, fallback = '') {
   if (!root || typeof root.querySelector !== 'function') {
     return normalizeFallback(fallback);

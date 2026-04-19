@@ -1,6 +1,11 @@
 import { buildRelativeUrl, cleanLeadingIcon, syncPressedState } from '../../shared/page-helpers.js';
 import { getElementText, getImageSource } from '../../shared/dom-helpers.js';
 
+function isPrimaryDragPointer(event) {
+  if (event.isPrimary === false) return false;
+  return event.pointerType !== 'mouse' || event.button === 0;
+}
+
 function openDialog(dialog) {
   if (!dialog) return;
 
@@ -420,7 +425,7 @@ export function initHomeGallery() {
     };
 
     viewport.onpointerdown = event => {
-      if (event.pointerType !== 'mouse' || event.button !== 0 || !galleryMotionCycle) return;
+      if (!isPrimaryDragPointer(event) || !galleryMotionCycle) return;
 
       galleryPointerDown = true;
       galleryPointerId = event.pointerId;

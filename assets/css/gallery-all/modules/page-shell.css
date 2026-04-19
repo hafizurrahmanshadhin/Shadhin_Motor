@@ -87,6 +87,22 @@
     align-items: flex-start;
   }
 
+  .gallery-catalog-page .nav-logo {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .gallery-catalog-page .nav-logo-text {
+    flex: 1 1 auto;
+  }
+
+  .gallery-catalog-page .back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+
   .gallery-catalog-page .hero {
     padding-top: 42px;
   }
@@ -143,22 +159,6 @@
   .gallery-catalog-page .topbar {
     gap: 12px;
     padding: 20px 0 16px;
-  }
-
-  .gallery-catalog-page .nav-logo {
-    width: 100%;
-    align-items: flex-start;
-  }
-
-  .gallery-catalog-page .nav-logo-text {
-    flex: 1 1 auto;
-  }
-
-  .gallery-catalog-page .back-link {
-    width: 100%;
-    justify-content: center;
-    white-space: normal;
-    text-align: center;
   }
 
   .gallery-catalog-page .hero {
