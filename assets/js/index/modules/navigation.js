@@ -9,6 +9,7 @@ export function initHomeNavigation() {
   let navHeight = navbar?.offsetHeight || 0;
   let measurementFrame = 0;
   let sectionObserver = null;
+  let anchorCorrectionTimer = 0;
 
   function syncNavbarMobileOffset() {
     if (!navbar) return;
@@ -41,6 +42,54 @@ export function initHomeNavigation() {
     if (navbar) {
       navbar.classList.toggle('scrolled', window.scrollY > 60);
     }
+  }
+
+  function getTargetScrollOffset(target) {
+    if (!(target instanceof HTMLElement)) {
+      return navHeight + 18;
+    }
+
+    const styles = window.getComputedStyle(target);
+    const targetScrollMargin = parseFloat(styles.scrollMarginTop || '0') || 0;
+    const fallbackOffset = navHeight + (window.innerWidth <= 900 ? 18 : 22);
+    return Math.max(targetScrollMargin, fallbackOffset);
+  }
+
+  function scrollToHashTarget(targetId, {
+    updateHash = false,
+    behavior
+  } = {}) {
+    if (!targetId || !targetId.startsWith('#')) return;
+
+    const target = document.querySelector(targetId);
+    if (!(target instanceof HTMLElement)) return;
+
+    syncNavbarMobileOffset();
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const resolvedBehavior = behavior || (reduceMotion ? 'auto' : 'smooth');
+
+    const performScroll = nextBehavior => {
+      const offset = getTargetScrollOffset(target);
+      const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+      window.scrollTo({ top, behavior: nextBehavior });
+    };
+
+    if (updateHash) {
+      if (window.location.hash !== targetId) {
+        history.pushState(null, '', targetId);
+      } else {
+        history.replaceState(null, '', targetId);
+      }
+    }
+
+    performScroll(resolvedBehavior);
+
+    window.clearTimeout(anchorCorrectionTimer);
+    anchorCorrectionTimer = window.setTimeout(() => {
+      performScroll('auto');
+      requestMeasurements();
+    }, reduceMotion ? 0 : 420);
   }
 
   function updateActiveNavLink() {
@@ -127,7 +176,10 @@ export function initHomeNavigation() {
   window.addEventListener('scroll', updateNavbarState, { passive: true });
   window.addEventListener('load', requestMeasurements);
   window.addEventListener('resize', requestMeasurements);
-  window.addEventListener('hashchange', requestMeasurements);
+  window.addEventListener('hashchange', () => {
+    scrollToHashTarget(window.location.hash, { updateHash: false, behavior: 'auto' });
+    requestMeasurements();
+  });
 
   if (typeof ResizeObserver === 'function') {
     const resizeObserver = new ResizeObserver(() => requestMeasurements());
@@ -142,12 +194,14 @@ export function initHomeNavigation() {
   }
 
   navLinks.forEach(anchor => {
-    anchor.addEventListener('click', () => {
+    anchor.addEventListener('click', event => {
       toggleNav(false);
 
       const targetId = anchor.getAttribute('href');
       if (targetId && targetId.startsWith('#')) {
+        event.preventDefault();
         setActiveNavLink(targetId);
+        scrollToHashTarget(targetId, { updateHash: true });
       }
     });
   });
@@ -170,6 +224,12 @@ export function initHomeNavigation() {
   });
 
   updateNavToggleButtonState(false);
+
+  if (window.location.hash) {
+    window.requestAnimationFrame(() => {
+      scrollToHashTarget(window.location.hash, { updateHash: false, behavior: 'auto' });
+    });
+  }
 
   return {
     setActiveNavLink,
