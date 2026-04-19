@@ -15,6 +15,82 @@ const classMap = {
   easyRead: 'a11y-easy-read'
 };
 
+let scrollCorrectionTimers = [];
+
+function clearScrollCorrections() {
+  scrollCorrectionTimers.forEach(timer => window.clearTimeout(timer));
+  scrollCorrectionTimers = [];
+}
+
+function getTargetScrollOffset(target) {
+  if (!(target instanceof HTMLElement)) {
+    return 0;
+  }
+
+  const navbar = document.getElementById('navbar');
+  const navHeight = navbar?.offsetHeight || 0;
+  const styles = window.getComputedStyle(target);
+  const targetScrollMargin = parseFloat(styles.scrollMarginTop || '0') || 0;
+  const fallbackOffset = navHeight + (window.innerWidth <= 900 ? 18 : 22);
+  return Math.max(targetScrollMargin, fallbackOffset);
+}
+
+function primeSectionsForTarget(target) {
+  if (!(target instanceof HTMLElement)) return;
+
+  const deferredNodes = [];
+  const sectionChain = Array.from(document.querySelectorAll('main section[id]'));
+  const targetSection = target.matches('section[id]') ? target : target.closest('section[id]');
+  const targetIndex = targetSection instanceof HTMLElement ? sectionChain.indexOf(targetSection) : -1;
+
+  if (targetIndex >= 0) {
+    deferredNodes.push(...sectionChain.slice(0, targetIndex + 1));
+  } else if (target.matches('main, #main-content') || target.closest('main')) {
+    deferredNodes.push(...sectionChain);
+  }
+
+  const sharedFooter = document.querySelector('#sharedFooter, body.home-page footer, footer');
+  if (sharedFooter instanceof HTMLElement) {
+    deferredNodes.push(sharedFooter);
+  }
+
+  Array.from(new Set(deferredNodes)).forEach(node => {
+    if (!(node instanceof HTMLElement)) return;
+    node.style.contentVisibility = 'visible';
+    node.style.containIntrinsicSize = 'auto';
+    node.getBoundingClientRect();
+  });
+}
+
+function scrollToSectionTarget(target, { behavior } = {}) {
+  if (!(target instanceof HTMLElement)) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const resolvedBehavior = behavior || (reduceMotion ? 'auto' : 'smooth');
+
+  primeSectionsForTarget(target);
+
+  const performScroll = nextBehavior => {
+    const offset = getTargetScrollOffset(target);
+    const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+    window.scrollTo({ top, behavior: nextBehavior });
+  };
+
+  performScroll(resolvedBehavior);
+
+  clearScrollCorrections();
+  const correctionDelays = reduceMotion ? [0, 120, 260] : [140, 420, 820, 1300];
+
+  correctionDelays.forEach(delay => {
+    const timer = window.setTimeout(() => {
+      primeSectionsForTarget(target);
+      performScroll('auto');
+    }, delay);
+
+    scrollCorrectionTimers.push(timer);
+  });
+}
+
   function applyBodyClasses() {
     document.body.classList.toggle(classMap.largeText, state.largeText);
     document.body.classList.toggle(classMap.highContrast, state.highContrast);
@@ -141,8 +217,7 @@ const classMap = {
         return;
       }
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      scrollToSectionTarget(target);
       setStatus(getStatusText('targetFoundMessage'));
     };
 
@@ -239,6 +314,7 @@ const classMap = {
     });
 
     window.addEventListener('beforeunload', () => {
+      clearScrollCorrections();
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
     });
 
