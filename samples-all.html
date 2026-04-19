@@ -71,6 +71,15 @@
             <input type="search" class="sample-search" id="samplesCatalogSearchInput"
               placeholder="ID, নাম, রং বা note দিয়ে খুঁজুন">
           </div>
+          <div class="samples-per-page-wrap">
+            <label for="samplesCatalogPerPageSelect" class="samples-per-page-label">প্রতি পেজে</label>
+            <select id="samplesCatalogPerPageSelect" class="samples-per-page-select">
+              <option value="10">10 টি</option>
+              <option value="25">25 টি</option>
+              <option value="50">50 টি</option>
+              <option value="100">100 টি</option>
+            </select>
+          </div>
           <button type="button" id="samplesCatalogResetBtn" class="samples-catalog-reset-btn">ফিল্টার রিসেট</button>
         </search>
 
@@ -93,6 +102,16 @@
           <li class="sample-card-item" data-material="leather" data-search="lt-003 পার্ফোরেটেড লেদার ধূসর ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই। লেদার leather"><article class="sample-card " data-sample-id="LT-003" data-sample-name="পার্ফোরেটেড লেদার" data-material="leather" data-color="ধূসর" data-hex="#5a5a5a" data-available="true" data-note="ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="LT-003" aria-label="LT-003 পার্ফোরেটেড লেদার"><div class="sample-card-swatch" style="background-color: #5a5a5a;"><span class="swatch-no-img">🧥</span><div class="sample-card-featured-badge">জনপ্রিয় পছন্দ</div></div><div class="sample-card-body"><div class="sample-card-id"><span>LT-003</span><span class="sample-card-material-tag tag-leather">লেদার</span></div><h3 class="sample-card-name">পার্ফোরেটেড লেদার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#5a5a5a"></div><span class="sample-card-color-name">ধূসর</span></div><p class="sample-card-note">ছিদ্রযুক্ত লেদার — বায়ু চলাচল ও স্টাইল দুটোই।</p></div></a><button type="button" class="sample-card-order-btn" data-order-sample-id="LT-003">অর্ডার শুরু করুন</button></article></li>
           <li class="sample-card-item" data-material="leather" data-search="lt-004 নাপা সফট লেদার আইভরি ক্রিম অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ। লেদার leather"><article class="sample-card " data-sample-id="LT-004" data-sample-name="নাপা সফট লেদার" data-material="leather" data-color="আইভরি ক্রিম" data-hex="#e8dbc8" data-available="true" data-note="অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।" data-img=""><a href="#sampleModal" class="sample-card-preview" data-preview-sample-id="LT-004" aria-label="LT-004 নাপা সফট লেদার"><div class="sample-card-swatch" style="background-color: #e8dbc8;"><span class="swatch-no-img">🧥</span></div><div class="sample-card-body"><div class="sample-card-id"><span>LT-004</span><span class="sample-card-material-tag tag-leather">লেদার</span></div><h3 class="sample-card-name">নাপা সফট লেদার</h3><div class="sample-card-color-row"><div class="sample-card-color-dot" style="background:#e8dbc8"></div><span class="sample-card-color-name">আইভরি ক্রিম</span></div><p class="sample-card-note">অত্যন্ত নরম নাপা লেদার, উচ্চমানের ফিনিশ।</p></div></a><button type="button" class="sample-card-order-btn" data-order-sample-id="LT-004">অর্ডার শুরু করুন</button></article></li>
         </ul>
+
+        <div class="samples-catalog-empty" id="samplesCatalogEmptyState" hidden>
+          <span class="samples-catalog-empty-icon" aria-hidden="true">🔎</span>
+          <p>এই filter-e কোনো sample পাওয়া যায়নি। অন্য category বা search keyword দিয়ে আবার চেষ্টা করুন।</p>
+        </div>
+
+        <div class="samples-catalog-results-footer">
+          <p class="samples-catalog-display-meta" id="samplesCatalogDisplayMeta" aria-live="polite">স্যাম্পল দেখানো হচ্ছে</p>
+          <nav class="samples-catalog-pagination" id="samplesCatalogPagination" aria-label="স্যাম্পল পেজ নেভিগেশন"></nav>
+        </div>
       </section>
     </main>
   </div>

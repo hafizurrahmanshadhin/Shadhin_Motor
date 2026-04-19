@@ -77,6 +77,25 @@
   min-width: 0;
 }
 
+.samples-per-page-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 8px 14px;
+  border: 1px solid rgba(200, 134, 10, 0.22);
+  background: rgba(37, 26, 10, 0.72);
+  color: var(--cream);
+}
+
+.samples-per-page-label {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cream-dim);
+  white-space: nowrap;
+}
+
 .sample-search {
   width: 100%;
   min-height: 46px;
@@ -90,9 +109,35 @@
   transition: border-color 0.25s ease, background 0.25s ease;
 }
 
+.samples-per-page-select {
+  width: auto;
+  min-width: 110px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid rgba(200, 134, 10, 0.22);
+  background: rgba(37, 26, 10, 0.72);
+  color: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease;
+  appearance: auto;
+  -webkit-appearance: menulist;
+}
+
 .sample-search:focus {
   border-color: var(--gold);
   background: rgba(37, 26, 10, 0.92);
+}
+
+.samples-per-page-select:focus {
+  border-color: var(--gold);
+  background: rgba(37, 26, 10, 0.92);
+}
+
+.samples-per-page-select option {
+  background: var(--bg-card);
 }
 
 .sample-search-icon {
@@ -125,6 +170,89 @@
   background: rgba(200, 134, 10, 0.08);
 }
 
+.samples-catalog-empty {
+  padding: 70px 24px;
+  margin-top: 20px;
+  text-align: center;
+  color: var(--cream-dim);
+  border: 1px solid rgba(200, 134, 10, 0.12);
+  background: rgba(24, 16, 7, 0.8);
+}
+
+.samples-catalog-empty-icon {
+  display: block;
+  font-size: 52px;
+  margin-bottom: 12px;
+}
+
+.samples-catalog-results-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.samples-catalog-display-meta {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--cream-dim);
+}
+
+.samples-catalog-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.samples-catalog-pagination[hidden] {
+  display: none;
+}
+
+.samples-catalog-page-btn {
+  min-width: 38px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(200, 134, 10, 0.22);
+  background: rgba(22, 15, 7, 0.9);
+  color: var(--cream);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.samples-catalog-page-btn:hover:not(:disabled) {
+  border-color: rgba(232, 168, 50, 0.45);
+  background: rgba(44, 29, 9, 0.95);
+  transform: translateY(-1px);
+}
+
+.samples-catalog-page-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.samples-catalog-page-btn.active {
+  color: var(--bg-deep);
+  border-color: rgba(232, 168, 50, 0.75);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  box-shadow: 0 8px 20px rgba(200, 134, 10, 0.26);
+}
+
+.samples-catalog-page-ellipsis {
+  color: var(--cream-dim);
+  font-size: 14px;
+  padding: 0 2px;
+}
+
 .samples-catalog-helper {
   max-width: 1366px;
   margin-bottom: 26px;
@@ -155,6 +283,16 @@
   .samples-catalog-reset-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .samples-catalog-results-footer {
+    justify-content: flex-start;
+  }
+
+  .samples-catalog-pagination {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
   }
 }
 
@@ -193,10 +331,25 @@
     flex: 1 1 100%;
   }
 
+  .samples-per-page-wrap {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .samples-per-page-select {
+    flex: 1 1 auto;
+  }
+
   .samples-catalog-order-link,
   .samples-catalog-reset-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .samples-catalog-pagination {
+    width: 100%;
+    justify-content: center;
+    margin-left: 0;
   }
 }
 
@@ -217,11 +370,30 @@
     letter-spacing: 0.8px;
     line-height: 1.55;
   }
+
+  .samples-per-page-wrap {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .samples-per-page-label,
+  .samples-per-page-select,
+  .samples-catalog-display-meta {
+    width: 100%;
+  }
 }
 
 @media (max-width: 420px) {
   .samples-catalog-helper {
     font-size: 13px;
+  }
+
+  .samples-catalog-page-btn {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 10px;
+    font-size: 12px;
   }
 }
 
