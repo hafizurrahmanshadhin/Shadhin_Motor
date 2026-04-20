@@ -1,51 +1,13 @@
 import { getElementText, getImageSource } from '../../shared/dom-helpers.js';
-
-const FOCUSABLE_SELECTOR = [
-  'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])'
-].join(', ');
-
-function openDialogModal(dialog) {
-  if (!dialog) return;
-
-  try {
-    if (typeof dialog.showModal === 'function' && !dialog.open) {
-      dialog.showModal();
-    } else {
-      dialog.setAttribute('open', '');
-    }
-  } catch {
-    dialog.setAttribute('open', '');
-  }
-
-  dialog.classList.add('open');
-}
-
-function closeDialogModal(dialog) {
-  if (!dialog) return;
-
-  dialog.classList.remove('open');
-
-  if (typeof dialog.close === 'function' && dialog.open) {
-    dialog.close();
-  } else {
-    dialog.removeAttribute('open');
-  }
-}
-
-function isFocusVisible(target) {
-  if (!(target instanceof HTMLElement)) return false;
-
-  try {
-    return target.matches(':focus-visible');
-  } catch {
-    return false;
-  }
-}
+import {
+  closeDialog as closeDialogModal,
+  focusFirstIn,
+  initDialogGlobals,
+  isFocusVisible,
+  openDialog as openDialogModal,
+  restoreFocus,
+  syncBodyScrollLockState
+} from '../../shared/dialog.js';
 
 function normalizeGroupKey(value) {
   return String(value || '')
@@ -56,6 +18,8 @@ function normalizeGroupKey(value) {
 }
 
 export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel }) {
+  initDialogGlobals();
+
   const overlay = document.getElementById('lightboxOverlay');
   const titleEl = document.getElementById('lightboxTitle');
   const catEl = document.getElementById('lightboxCat');
@@ -157,9 +121,8 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
     keepTriggerFocusOnClose = isFocusVisible(lastLightboxTrigger);
     render();
     openDialogModal(overlay);
-
-    const firstFocusable = overlay.querySelector(FOCUSABLE_SELECTOR);
-    if (firstFocusable) firstFocusable.focus();
+    syncBodyScrollLockState();
+    focusFirstIn(overlay);
   };
 
   const close = event => {
@@ -167,8 +130,9 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
     if (event && event.target !== overlay) return;
 
     closeDialogModal(overlay);
+    syncBodyScrollLockState();
     if (lastLightboxTrigger instanceof HTMLElement && lastLightboxTrigger.isConnected) {
-      lastLightboxTrigger.focus();
+      restoreFocus(lastLightboxTrigger);
       if (!keepTriggerFocusOnClose) {
         requestAnimationFrame(() => {
           lastLightboxTrigger.blur();

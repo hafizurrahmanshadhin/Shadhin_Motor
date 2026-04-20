@@ -322,7 +322,9 @@ function getDefaultDocumentLanguage() {
 }
 
 function isClientLocalizationEnabled() {
-  return document.documentElement.dataset.clientI18n !== 'false';
+  // Keep client-side copy mutation opt-in so Blade/server-rendered content
+  // stays the primary source of truth unless a page explicitly enables it.
+  return document.documentElement.dataset.clientI18n === 'true';
 }
 
 function getPreferredLanguage() {

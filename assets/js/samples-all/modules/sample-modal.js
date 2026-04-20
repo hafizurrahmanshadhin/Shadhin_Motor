@@ -4,53 +4,15 @@ import {
   getImageSource,
   getInlineStyleValue
 } from '../../shared/dom-helpers.js';
-
-const FOCUSABLE_SELECTOR = [
-  'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])'
-].join(', ');
-
-function openDialogModal(dialog) {
-  if (!dialog) return;
-
-  try {
-    if (typeof dialog.showModal === 'function' && !dialog.open) {
-      dialog.showModal();
-    } else {
-      dialog.setAttribute('open', '');
-    }
-  } catch {
-    dialog.setAttribute('open', '');
-  }
-
-  dialog.classList.add('open');
-}
-
-function closeDialogModal(dialog) {
-  if (!dialog) return;
-
-  dialog.classList.remove('open');
-
-  if (typeof dialog.close === 'function' && dialog.open) {
-    dialog.close();
-  } else {
-    dialog.removeAttribute('open');
-  }
-}
-
-function isFocusVisible(target) {
-  if (!(target instanceof HTMLElement)) return false;
-
-  try {
-    return target.matches(':focus-visible');
-  } catch {
-    return false;
-  }
-}
+import {
+  closeDialog as closeDialogModal,
+  focusFirstIn,
+  initDialogGlobals,
+  isFocusVisible,
+  openDialog as openDialogModal,
+  restoreFocus,
+  syncBodyScrollLockState
+} from '../../shared/dialog.js';
 
 function sanitizeColor(value, fallback) {
   const color = String(value || '').trim();
@@ -82,6 +44,8 @@ function escapeAttributeValue(value) {
 }
 
 export function createSamplesCatalogModal({ grid, getUiText }) {
+  initDialogGlobals();
+
   const modalOverlay = document.getElementById('sampleModal');
   const orderBtn = document.getElementById('sampleModalOrderBtn');
   const orderLink = grid.closest('.samples-catalog-panel')?.querySelector('.samples-catalog-order-link');
@@ -196,15 +160,16 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
       : getUiText('modalOrderUnavailableLabel');
 
     openDialogModal(modalOverlay);
-    const firstFocusable = modalOverlay.querySelector(FOCUSABLE_SELECTOR);
-    if (firstFocusable) firstFocusable.focus();
+    syncBodyScrollLockState();
+    focusFirstIn(modalOverlay);
   };
 
   const closeSampleModal = () => {
     if (!modalOverlay) return;
     closeDialogModal(modalOverlay);
+    syncBodyScrollLockState();
     if (lastSampleTrigger instanceof HTMLElement && lastSampleTrigger.isConnected) {
-      lastSampleTrigger.focus();
+      restoreFocus(lastSampleTrigger);
       if (!keepTriggerFocusOnClose) {
         requestAnimationFrame(() => {
           lastSampleTrigger.blur();

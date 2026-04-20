@@ -70,16 +70,6 @@ export function initHomeGallery() {
   const galleryMotionSpeed = 34;
   let lightboxShouldKeepFocus = false;
 
-  function isFocusVisible(target) {
-    if (!(target instanceof HTMLElement)) return false;
-
-    try {
-      return target.matches(':focus-visible');
-    } catch {
-      return false;
-    }
-  }
-
   function getShells({ includeClones = false } = {}) {
     return Array.from(galleryGrid.querySelectorAll('.gallery-item-shell')).filter(shell => {
       return includeClones || shell.dataset.marqueeClone !== 'true';

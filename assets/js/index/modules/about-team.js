@@ -56,16 +56,6 @@ export function initHomeAboutTeam() {
   let previewViewport = null;
   let previewShouldKeepFocusPause = false;
 
-  function isFocusVisible(target) {
-    if (!(target instanceof HTMLElement)) return false;
-
-    try {
-      return target.matches(':focus-visible');
-    } catch {
-      return false;
-    }
-  }
-
   function updatePauseState() {
     slider.classList.toggle('is-paused', state.pauseReasons.size > 0);
   }
