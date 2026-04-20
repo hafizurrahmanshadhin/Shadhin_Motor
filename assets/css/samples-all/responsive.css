@@ -1,0 +1,94 @@
+/*
+  Samples catalog responsive tuning split out from the shared responsive layer.
+*/
+
+@media (min-width: 901px) {
+  .samples-catalog-shell {
+    padding-inline: max(var(--page-edge), calc((100vw - var(--layout-max)) / 2));
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1440px) {
+  .samples-catalog-main {
+    padding: 40px 0 58px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1366px) {
+  .samples-catalog-topbar {
+    gap: 14px;
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .samples-catalog-main {
+    padding-top: 34px;
+    padding-bottom: 50px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .samples-catalog-back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .samples-catalog-topbar {
+    gap: 10px;
+  }
+
+  .samples-catalog-topbar .nav-logo {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .samples-catalog-topbar .nav-logo-main {
+    font-size: 18px;
+  }
+
+  .samples-catalog-topbar .nav-logo-sub {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .samples-catalog-back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .sample-modal-swatch {
+    height: 180px;
+  }
+
+  .sample-modal-body {
+    padding: 18px 16px;
+  }
+
+  .sample-modal-name {
+    font-size: 22px;
+  }
+
+  .sample-modal {
+    width: min(100%, calc(100vw - 20px));
+  }
+
+  .samples-catalog-hero-note {
+    padding: 14px 16px;
+  }
+
+  .samples-catalog-hero-note strong {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .sample-modal-swatch {
+    height: 168px;
+  }
+}

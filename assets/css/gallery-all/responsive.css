@@ -1,0 +1,106 @@
+/*
+  Gallery catalog responsive tuning split out from the shared responsive layer.
+*/
+
+@media (min-width: 901px) {
+  .gallery-catalog-page .page-shell {
+    padding-inline: max(var(--page-edge), calc((100vw - var(--layout-max)) / 2));
+  }
+
+  .gallery-catalog-page .hero-copy {
+    max-width: min(100%, 68ch);
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1440px) {
+  .gallery-catalog-page .hero {
+    padding: 46px 0 22px;
+  }
+
+  .gallery-catalog-page .hero-label {
+    font-size: 18px;
+  }
+
+  .gallery-catalog-page .hero-copy {
+    font-size: 16px;
+    line-height: 1.72;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1366px) {
+  .gallery-catalog-page .topbar {
+    gap: 14px;
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+
+  .gallery-catalog-page .hero {
+    padding-top: 38px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .gallery-catalog-page .back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .gallery-catalog-page .hero-label {
+    font-size: 16px;
+  }
+
+  .gallery-catalog-page .hero-label::before {
+    width: 28px;
+  }
+
+  .gallery-catalog-page .topbar {
+    gap: 10px;
+  }
+
+  .gallery-catalog-page .nav-logo {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .gallery-catalog-page .nav-logo-main {
+    font-size: 18px;
+  }
+
+  .gallery-catalog-page .nav-logo-sub {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+
+  .gallery-catalog-page .back-link {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .lightbox-nav-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 16px;
+  }
+
+  .lightbox-info-title {
+    font-size: 15px;
+  }
+
+  .lightbox-counter {
+    font-size: 10px;
+  }
+
+  .lightbox-inner {
+    width: min(100%, calc(100vw - 20px));
+  }
+
+  .lightbox-img-wrap {
+    min-height: 220px;
+  }
+}

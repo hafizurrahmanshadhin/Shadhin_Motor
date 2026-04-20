@@ -316,12 +316,21 @@ function resolveLanguage(language) {
   return language === 'bn' ? 'bn' : 'en';
 }
 
+function getDefaultDocumentLanguage() {
+  const authoredLanguage = String(document.documentElement.lang || '').toLowerCase();
+  return authoredLanguage.startsWith('bn') ? 'bn' : 'en';
+}
+
+function isClientLocalizationEnabled() {
+  return document.documentElement.dataset.clientI18n !== 'false';
+}
+
 function getPreferredLanguage() {
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    return resolveLanguage(stored);
+    return stored ? resolveLanguage(stored) : getDefaultDocumentLanguage();
   } catch {
-    return 'en';
+    return getDefaultDocumentLanguage();
   }
 }
 
@@ -1031,6 +1040,10 @@ function applySamplesCatalogUiText() {
 }
 
 export function initPageLocalization(pageKey) {
+  if (!isClientLocalizationEnabled()) {
+    return getDefaultDocumentLanguage();
+  }
+
   const language = getPreferredLanguage();
   setDocumentLanguage(language);
   ensureLanguageToggle(language);

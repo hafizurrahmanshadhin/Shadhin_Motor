@@ -1408,55 +1408,55 @@
                 পরিবর্তন করুন</button>
             </div>
           </div>
-          <input type="hidden" id="selectedSampleId" name="selectedSampleId">
+          <input type="hidden" id="selectedSampleId" name="selected_sample_id">
           <div class="form-row">
             <div class="form-group">
               <label for="custName">আপনার নাম *</label>
-              <input type="text" id="custName" name="custName" placeholder="পূর্ণ নাম লিখুন" autocomplete="name" required>
+              <input type="text" id="custName" name="customer_name" placeholder="পূর্ণ নাম লিখুন" autocomplete="name" required>
             </div>
             <div class="form-group">
               <label for="custPhone">ফোন নম্বর *</label>
-              <input type="tel" id="custPhone" name="custPhone" placeholder="01XXX-XXXXXX" autocomplete="tel" inputmode="tel" required>
+              <input type="tel" id="custPhone" name="customer_phone" placeholder="01XXX-XXXXXX" autocomplete="tel" inputmode="tel" required>
             </div>
           </div>
           <div class="form-row">
             <div class="form-group">
               <label for="vehicleType">গাড়ির ধরন *</label>
-              <select id="vehicleType" name="vehicleType" required>
+              <select id="vehicleType" name="vehicle_type" required>
                 <option value="">বেছে নিন</option>
-                <option>প্রাইভেট কার</option>
-                <option>SUV / Jeep</option>
-                <option>মাইক্রোবাস</option>
-                <option>মোটরসাইকেল</option>
+                <option value="private-car">প্রাইভেট কার</option>
+                <option value="suv-jeep">SUV / Jeep</option>
+                <option value="microbus">মাইক্রোবাস</option>
+                <option value="motorcycle">মোটরসাইকেল</option>
               </select>
             </div>
             <div class="form-group">
               <label for="carModel">গাড়ির মডেল</label>
-              <input type="text" id="carModel" name="carModel" placeholder="যেমন: Toyota Corolla" autocomplete="off">
+              <input type="text" id="carModel" name="vehicle_model" placeholder="যেমন: Toyota Corolla" autocomplete="off">
             </div>
           </div>
           <div class="form-group">
             <label for="serviceType">সার্ভিসের ধরন *</label>
-            <select id="serviceType" name="serviceType" required>
+            <select id="serviceType" name="service_type" required>
               <option value="">বেছে নিন</option>
-              <option>নতুন সিট কভার তৈরি</option>
-              <option>সিট কভার রিপেয়ার</option>
-              <option>কাস্টম ডিজাইন</option>
-              <option>ফিটিং সার্ভিস</option>
+              <option value="new-seat-cover">নতুন সিট কভার তৈরি</option>
+              <option value="seat-cover-repair">সিট কভার রিপেয়ার</option>
+              <option value="custom-design">কাস্টম ডিজাইন</option>
+              <option value="fitting-service">ফিটিং সার্ভিস</option>
             </select>
           </div>
           <div class="form-group" id="materialGroup">
             <label for="material">মেটেরিয়াল পছন্দ</label>
             <select id="material" name="material">
               <option value="">বেছে নিন</option>
-              <option>রেক্সিন (Rexine)</option>
-              <option>চামড়া (Leather)</option>
-              <option>পরামর্শ চাই</option>
+              <option value="rexine">রেক্সিন (Rexine)</option>
+              <option value="leather">চামড়া (Leather)</option>
+              <option value="need-advice">পরামর্শ চাই</option>
             </select>
           </div>
           <div class="form-group">
             <label for="orderDetails">বিস্তারিত / বিশেষ অনুরোধ</label>
-            <textarea id="orderDetails" name="orderDetails" placeholder="ডিজাইনের বিবরণ, রং পছন্দ বা অন্য কোনো তথ্য জানান..."></textarea>
+            <textarea id="orderDetails" name="order_details" placeholder="ডিজাইনের বিবরণ, রং পছন্দ বা অন্য কোনো তথ্য জানান..."></textarea>
           </div>
           <button type="submit" class="btn-primary form-submit" id="orderFormSubmitBtn">
             📋 অর্ডার জমা দিন
@@ -1513,17 +1513,17 @@
         <div class="review-submit-grid">
           <div class="form-group">
             <label for="reviewUserName">আপনার নাম</label>
-            <input type="text" id="reviewUserName" name="reviewUserName" placeholder="যেমন: মোঃ রাশেদ" required
+            <input type="text" id="reviewUserName" name="reviewer_name" placeholder="যেমন: মোঃ রাশেদ" required
               maxlength="60">
           </div>
           <div class="form-group">
             <label for="reviewWorkInfo">গাড়ি/কাজের তথ্য</label>
-            <input type="text" id="reviewWorkInfo" name="reviewWorkInfo" placeholder="যেমন: Toyota Axio • মিরপুর"
+            <input type="text" id="reviewWorkInfo" name="work_info" placeholder="যেমন: Toyota Axio • মিরপুর"
               required maxlength="90">
           </div>
           <div class="form-group">
             <label for="reviewUserRating">রেটিং (১-৫)</label>
-            <select id="reviewUserRating" name="reviewUserRating" required>
+            <select id="reviewUserRating" name="rating" required>
               <option value="">রেটিং নির্বাচন করুন</option>
               <option value="5">5 ★</option>
               <option value="4">4 ★</option>
@@ -1534,7 +1534,7 @@
           </div>
           <div class="form-group">
             <label for="reviewUserAvatar">প্রোফাইল ছবি (ঐচ্ছিক)</label>
-            <input type="file" id="reviewUserAvatar" name="reviewUserAvatar" accept="image/*">
+            <input type="file" id="reviewUserAvatar" name="avatar" accept="image/*">
             <div class="review-file-preview" id="reviewAvatarPreview">
               <div class="review-file-preview-empty">প্রোফাইল ছবি নির্বাচন করলে এখানে preview দেখা যাবে।</div>
             </div>
@@ -1543,13 +1543,13 @@
 
         <div class="form-group review-text-group">
           <label for="reviewUserComment">রিভিউ (টেক্সট)</label>
-          <textarea id="reviewUserComment" name="reviewUserComment" rows="4" maxlength="600"
+          <textarea id="reviewUserComment" name="comment" rows="4" maxlength="600"
             placeholder="কাজের মান, ফিটিং, সার্ভিস অভিজ্ঞতা লিখুন" required></textarea>
         </div>
 
         <div class="form-group review-media-group">
           <label for="reviewUserMedia">কাজের ছবি/ভিডিও (ঐচ্ছিক)</label>
-          <input type="file" id="reviewUserMedia" name="reviewUserMedia" accept="image/*,video/*" multiple>
+          <input type="file" id="reviewUserMedia" name="media[]" accept="image/*,video/*" multiple>
           <small class="review-submit-hint">আপনি ০-৬টি image/video দিতে পারবেন। image max 100MB, video max 10GB.</small>
           <div class="review-media-preview-grid" id="reviewMediaPreviewGrid">
             <div class="review-file-preview-empty">কাজের ছবি/ভিডিও নির্বাচন করলে এখানে preview দেখা যাবে।</div>
