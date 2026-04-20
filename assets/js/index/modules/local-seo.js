@@ -115,6 +115,17 @@ export function initHomeLocalSeo() {
     return 34;
   }
 
+  function blurFocusedFaqElement() {
+    const activeElement = document.activeElement;
+
+    if (activeElement instanceof HTMLElement && faqList.contains(activeElement)) {
+      activeElement.blur();
+      return true;
+    }
+
+    return false;
+  }
+
   function refreshInteractionState() {
     hovered = faqList.matches(':hover');
     focusWithin = faqList.contains(document.activeElement);
@@ -249,12 +260,7 @@ export function initHomeLocalSeo() {
           keepItemInView(item);
         } else if (lastInputWasPointer) {
           requestAnimationFrame(() => {
-            const activeElement = document.activeElement;
-
-            if (activeElement instanceof HTMLElement && faqList.contains(activeElement)) {
-              activeElement.blur();
-            }
-
+            blurFocusedFaqElement();
             focusWithin = faqList.contains(document.activeElement);
             syncAutoScrollState();
           });
@@ -336,6 +342,7 @@ export function initHomeLocalSeo() {
     }
 
     if (hadDrag) {
+      blurFocusedFaqElement();
       suppressClick = true;
       window.setTimeout(() => {
         suppressClick = false;
@@ -345,6 +352,9 @@ export function initHomeLocalSeo() {
     dragMoved = false;
     syncAutoScrollState({ refresh: true });
     requestAnimationFrame(() => {
+      if (hadDrag) {
+        blurFocusedFaqElement();
+      }
       syncAutoScrollState({ refresh: true });
     });
   }
@@ -405,6 +415,7 @@ export function initHomeLocalSeo() {
       dragging = true;
       dragMoved = true;
       faqList.setPointerCapture(event.pointerId);
+      blurFocusedFaqElement();
     }
 
     event.preventDefault();
