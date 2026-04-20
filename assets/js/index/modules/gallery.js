@@ -267,6 +267,18 @@ export function initHomeGallery() {
     const viewport = galleryGrid.querySelector('.gallery-marquee-viewport');
     if (!shell || !viewport) return;
 
+    const setDragReleaseNeutralState = active => {
+      shell.classList.toggle('is-after-drag', Boolean(active));
+    };
+
+    const clearGalleryInteractiveFocus = () => {
+      const activeElement = document.activeElement;
+      if (!(activeElement instanceof HTMLElement)) return;
+      if (!viewport.contains(activeElement) && !galleryGrid.contains(activeElement)) return;
+      if (!activeElement.matches('.gallery-item-trigger, .gallery-card-trigger')) return;
+      activeElement.blur();
+    };
+
     const endDrag = event => {
       const hadDrag = galleryDragging && galleryDragMoved;
 
@@ -284,6 +296,10 @@ export function initHomeGallery() {
 
       if (hadDrag) {
         gallerySuppressClick = true;
+        setDragReleaseNeutralState(true);
+        requestAnimationFrame(() => {
+          clearGalleryInteractiveFocus();
+        });
         window.setTimeout(() => {
           gallerySuppressClick = false;
         }, 220);
@@ -299,11 +315,13 @@ export function initHomeGallery() {
 
     viewport.onpointerleave = () => {
       if (!galleryDragging) galleryHovered = false;
+      setDragReleaseNeutralState(false);
     };
 
     viewport.onpointerdown = event => {
       if (!isPrimaryDragPointer(event) || !galleryMotionCycle) return;
 
+      setDragReleaseNeutralState(false);
       galleryPointerDown = true;
       galleryPointerId = event.pointerId;
       galleryDragging = false;
