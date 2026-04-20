@@ -115,6 +115,11 @@ export function initHomeLocalSeo() {
     return 34;
   }
 
+  function refreshInteractionState() {
+    hovered = faqList.matches(':hover');
+    focusWithin = faqList.contains(document.activeElement);
+  }
+
   function getRenderedOpenItem() {
     return renderedItems.find(item => item.open) || null;
   }
@@ -209,7 +214,11 @@ export function initHomeLocalSeo() {
     rafId = requestAnimationFrame(tick);
   }
 
-  function syncAutoScrollState() {
+  function syncAutoScrollState({ refresh = false } = {}) {
+    if (refresh) {
+      refreshInteractionState();
+    }
+
     const hasOpenItem = Boolean(getRenderedOpenItem());
     const canScroll = !prefersReducedMotion.matches
       && sectionVisible
@@ -334,17 +343,22 @@ export function initHomeLocalSeo() {
     }
 
     dragMoved = false;
-    syncAutoScrollState();
+    syncAutoScrollState({ refresh: true });
+    requestAnimationFrame(() => {
+      syncAutoScrollState({ refresh: true });
+    });
   }
 
-  faqList.addEventListener('mouseenter', () => {
+  faqList.addEventListener('pointerenter', event => {
+    if (event.pointerType && event.pointerType !== 'mouse') return;
     hovered = true;
     syncAutoScrollState();
   });
 
-  faqList.addEventListener('mouseleave', () => {
+  faqList.addEventListener('pointerleave', event => {
+    if (event.pointerType && event.pointerType !== 'mouse') return;
     hovered = false;
-    syncAutoScrollState();
+    syncAutoScrollState({ refresh: true });
   });
 
   faqList.addEventListener('focusin', () => {
@@ -409,6 +423,12 @@ export function initHomeLocalSeo() {
   faqList.onpointercancel = event => endDrag(event);
   faqList.onlostpointercapture = event => endDrag(event);
   faqList.ondragstart = () => false;
+
+  window.addEventListener('blur', () => {
+    hovered = false;
+    pointerDown = false;
+    syncAutoScrollState({ refresh: true });
+  });
 
   if (typeof IntersectionObserver === 'function') {
     const observer = new IntersectionObserver(entries => {
