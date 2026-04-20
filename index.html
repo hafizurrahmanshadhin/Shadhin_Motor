@@ -1550,8 +1550,7 @@
         <div class="form-group review-media-group">
           <label for="reviewUserMedia">কাজের ছবি/ভিডিও (ঐচ্ছিক)</label>
           <input type="file" id="reviewUserMedia" name="reviewUserMedia" accept="image/*,video/*" multiple>
-          <small class="review-submit-hint">আপনি ০-৬টি image/video দিতে পারবেন। image max 2MB, video max 8MB
-            (compressed).</small>
+          <small class="review-submit-hint">আপনি ০-৬টি image/video দিতে পারবেন। image max 100MB, video max 10GB.</small>
           <div class="review-media-preview-grid" id="reviewMediaPreviewGrid">
             <div class="review-file-preview-empty">কাজের ছবি/ভিডিও নির্বাচন করলে এখানে preview দেখা যাবে।</div>
           </div>
@@ -1778,7 +1777,13 @@
     <span data-key="invalidAvatarTitle">⚠️ ভুল প্রোফাইল ফাইল</span>
     <span data-key="invalidAvatarMessage">প্রোফাইল হিসেবে image file দিন।</span>
     <span data-key="avatarSizeTitle">⚠️ প্রোফাইল ফাইল বড়</span>
-    <span data-key="avatarSizeMessage">Profile photo 2MB এর মধ্যে দিন।</span>
+    <span data-key="avatarSizeMessage">Profile photo 100MB এর মধ্যে দিন।</span>
+    <span data-key="invalidMediaTypeTitle">⚠️ ভুল মিডিয়া ফাইল</span>
+    <span data-key="invalidMediaTypeMessage">কাজের জন্য শুধু image বা video file দিন।</span>
+    <span data-key="mediaImageSizeTitle">⚠️ ইমেজ ফাইল বড়</span>
+    <span data-key="mediaImageSizeMessage">প্রতিটি image file 100MB এর মধ্যে দিন।</span>
+    <span data-key="mediaVideoSizeTitle">⚠️ ভিডিও ফাইল বড়</span>
+    <span data-key="mediaVideoSizeMessage">প্রতিটি video file 10GB এর মধ্যে দিন।</span>
     <span data-key="mediaLimitTitle">⚠️ অতিরিক্ত ফাইল</span>
     <span data-key="mediaLimitMessage">সর্বোচ্চ ৬টি image/video দেয়া যাবে।</span>
   </div>

@@ -149,7 +149,7 @@ export function initHomeNavigation() {
       return;
     }
 
-    const lastSection = trackedSections.at(-1);
+    const lastSection = trackedSections[trackedSections.length - 1] || null;
     const isNearPageBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 32;
     if (isNearPageBottom && lastSection) {
       setActiveNavLink(`#${lastSection.id}`);

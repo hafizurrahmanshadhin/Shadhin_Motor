@@ -31,6 +31,19 @@ function hasOutOfStockText(value) {
   return text.includes('স্টক') || text.includes('stock');
 }
 
+function normalizeOptionText(value) {
+  return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+function escapeAttributeValue(value) {
+  const text = String(value || '');
+  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+    return CSS.escape(text);
+  }
+
+  return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
 function openDialog(dialog) {
   if (!dialog) return;
 
@@ -248,7 +261,7 @@ export function initHomeSamples() {
   }
 
   function getSampleCardById(sampleId) {
-    const directMatch = grid.querySelector(`.sample-card[data-sample-id="${CSS.escape(sampleId)}"]`);
+    const directMatch = grid.querySelector(`.sample-card[data-sample-id="${escapeAttributeValue(sampleId)}"]`);
     if (directMatch) return directMatch;
 
     return Array.from(grid.querySelectorAll('.sample-card')).find(card => {
@@ -385,6 +398,26 @@ export function initHomeSamples() {
       : getUiText('materialRexineShort');
   }
 
+  function syncSelectValue(select, preferredValues = []) {
+    if (!(select instanceof HTMLSelectElement)) return;
+
+    const normalizedValues = preferredValues
+      .map(normalizeOptionText)
+      .filter(Boolean);
+
+    if (!normalizedValues.length) return;
+
+    const matchedOption = Array.from(select.options).find(option => {
+      const optionValue = normalizeOptionText(option.value);
+      const optionLabel = normalizeOptionText(option.textContent);
+      return normalizedValues.includes(optionValue) || normalizedValues.includes(optionLabel);
+    });
+
+    if (matchedOption) {
+      select.value = matchedOption.value;
+    }
+  }
+
   function syncSelectionUi() {
     const bar = document.getElementById('selectedSampleBar');
     const strip = document.getElementById('formSampleStrip');
@@ -412,10 +445,15 @@ export function initHomeSamples() {
     strip.style.display = 'flex';
 
     const materialSelect = document.getElementById('material');
-    if (materialSelect) {
-      materialSelect.value = selectedSample.material === 'rexine'
-        ? getUiText('materialRexineLong')
-        : getUiText('materialLeatherLong');
+    if (materialSelect instanceof HTMLSelectElement) {
+      const isRexine = selectedSample.material === 'rexine';
+      syncSelectValue(materialSelect, [
+        isRexine ? getUiText('materialRexineLong') : getUiText('materialLeatherLong'),
+        isRexine ? getUiText('materialRexineShort') : getUiText('materialLeatherShort'),
+        isRexine ? 'রেক্সিন (Rexine)' : 'চামড়া (Leather)',
+        isRexine ? 'রেক্সিন' : 'লেদার',
+        isRexine ? 'Rexine' : 'Leather'
+      ]);
     }
 
     updateCardStates();

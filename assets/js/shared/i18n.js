@@ -290,7 +290,13 @@ const HOME_REVIEWS_UI_TEXT_EN = {
   invalidAvatarTitle: '⚠️ Invalid profile file',
   invalidAvatarMessage: 'Please upload an image file as the profile photo.',
   avatarSizeTitle: '⚠️ Profile file too large',
-  avatarSizeMessage: 'The profile photo must be within 2MB.',
+  avatarSizeMessage: 'The profile photo must be within 100MB.',
+  invalidMediaTypeTitle: '⚠️ Invalid media file',
+  invalidMediaTypeMessage: 'Please upload image or video files only.',
+  mediaImageSizeTitle: '⚠️ Image file too large',
+  mediaImageSizeMessage: 'Each image file must be within 100MB.',
+  mediaVideoSizeTitle: '⚠️ Video file too large',
+  mediaVideoSizeMessage: 'Each video file must be within 10GB.',
   mediaLimitTitle: '⚠️ Too many files',
   mediaLimitMessage: 'You can upload up to 6 image/video files.'
 };
@@ -856,7 +862,7 @@ function applyHomeStaticCopy() {
   setAttr('#reviewUserComment', 'placeholder', 'Write about the quality, fitting and service experience');
   setOptionTexts('#reviewUserRating', ['Select a rating', '5 ★', '4 ★', '3 ★', '2 ★', '1 ★']);
   setTexts('.review-file-preview-empty', ['Choose a profile photo to preview it here.', 'Choose work photos/videos to preview them here.']);
-  setText('.review-submit-hint', 'You can upload 0-6 image/video files. Image max 2MB, video max 8MB (compressed).');
+  setText('.review-submit-hint', 'You can upload 0-6 image/video files. Image max 100MB, video max 10GB.');
   setText('#reviewSubmitFileMeta', 'No file has been selected yet.');
   setTexts('.review-submit-actions button', ['Cancel', 'Submit review']);
   setAttr('#closeReviewModalBtn', 'aria-label', 'Close');

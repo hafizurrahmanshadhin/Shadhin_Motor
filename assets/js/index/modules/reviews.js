@@ -248,8 +248,10 @@ export function initHomeReviews() {
     reviewSubmitKeepFocus: false
   };
 
-  const REVIEW_IMAGE_EXT_RE = /\.(avif|bmp|gif|heic|heif|jpe?g|png|svg|webp)$/i;
-  const REVIEW_VIDEO_EXT_RE = /\.(3gp|avi|m4v|mkv|mov|mp4|ogg|ogv|webm)$/i;
+  const REVIEW_IMAGE_EXT_RE = /\.(apng|avif|bmp|dib|gif|heic|heics|heif|heifs|ico|jfif|jif|jpe?g|jxl|png|svgz?|tiff?|webp|raw|arw|cr2|cr3|dng|nef|nrw|orf|pef|raf|rw2|srw|x3f|ppm|pgm|pbm|pnm|hdr|exr)$/i;
+  const REVIEW_VIDEO_EXT_RE = /\.(3g2|3gp|asf|avi|divx|f4v|flv|m2ts|m2v|m4v|mkv|mov|mp4|mpe?g|mpg|mts|mxf|ogg|ogm|ogv|qt|rm|rmvb|ts|vob|webm|wmv)$/i;
+  const REVIEW_IMAGE_MAX_BYTES = 100 * 1024 * 1024;
+  const REVIEW_VIDEO_MAX_BYTES = 10 * 1024 * 1024 * 1024;
 
   function formatText(template, tokens = {}) {
     return String(template || '').replace(/\{(\w+)\}/g, (_, key) => {
@@ -273,9 +275,14 @@ export function initHomeReviews() {
   function formatReviewFileSize(bytes = 0) {
     const size = Number(bytes) || 0;
     if (size <= 0) return '0 B';
+    if (size >= 1024 * 1024 * 1024) return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
     if (size >= 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(2)} MB`;
     if (size >= 1024) return `${Math.round(size / 1024)} KB`;
     return `${size} B`;
+  }
+
+  function hasExplicitFileMime(file) {
+    return Boolean(String(file?.type || '').trim());
   }
 
   function createNode(tagName, { className = '', text = '', dataset = {}, attrs = {} } = {}) {
@@ -335,31 +342,40 @@ export function initHomeReviews() {
     return getReviewMediaThumbnailSource(trigger);
   }
 
+  function getReviewMediaFrameSources(trigger) {
+    return String(trigger.dataset.reviewVideoFrames || '')
+      .split('|')
+      .map(value => value.trim())
+      .filter(Boolean);
+  }
+
   function resolveReviewMediaItem(trigger) {
     const type = trigger.dataset.reviewMediaType === 'video' ? 'video' : 'image';
     const label = trigger.dataset.reviewMediaLabel || getUiText('previewTitleDefault');
-    const source = String(trigger.dataset.reviewMediaSrc || '').trim() || getReviewMediaThumbnailSource(trigger);
+    const explicitSource = String(trigger.dataset.reviewMediaSrc || '').trim();
+    const posterSource = getReviewMediaPosterSource(trigger);
+    const frameSources = getReviewMediaFrameSources(trigger);
 
     if (type === 'video') {
-      if (source) {
+      if (explicitSource) {
         return {
           type: 'video',
-          src: source,
-          poster: getReviewMediaPosterSource(trigger),
+          src: explicitSource,
+          poster: posterSource,
           title: label
         };
       }
 
       return {
         type: 'image',
-        src: getReviewMediaPosterSource(trigger),
+        src: posterSource || frameSources[0] || getReviewMediaThumbnailSource(trigger),
         title: label
       };
     }
 
     return {
       type: 'image',
-      src: source,
+      src: explicitSource || getReviewMediaThumbnailSource(trigger),
       title: label
     };
   }
@@ -388,8 +404,7 @@ export function initHomeReviews() {
       items,
       Math.min(startIndex, items.length - 1),
       `${reviewerName} - ${getUiText('workMediaPreviewTitle')}`,
-      trigger,
-      { restoreFocusOnClose: false }
+      trigger
     );
   }
 
@@ -400,7 +415,7 @@ export function initHomeReviews() {
     if (!src) return;
 
     const title = String(trigger.dataset.reviewAvatarTitle || getUiText('profilePreviewTitle')).trim();
-    openReviewMediaPreview([{ type: 'image', src, title }], 0, title, trigger, { restoreFocusOnClose: false });
+    openReviewMediaPreview([{ type: 'image', src, title }], 0, title, trigger);
   }
 
   function initReviewCardInteractions() {
@@ -674,6 +689,9 @@ export function initHomeReviews() {
       const video = document.createElement('video');
       video.id = 'reviewPreviewVideo';
       video.src = current.src;
+      if (current.poster) {
+        video.poster = current.poster;
+      }
       video.controls = true;
       video.playsInline = true;
       video.preload = 'metadata';
@@ -723,7 +741,7 @@ export function initHomeReviews() {
       });
     };
 
-    if (avatarFile && getReviewFileKind(avatarFile) === 'image') {
+    if (avatarFile && getReviewFileKind(avatarFile) !== 'video') {
       const avatarUrl = createPreviewUrl(avatarFile, reviewUploadPreviewState.objectUrls);
       const content = createNode('div', { className: 'review-file-preview-content' });
       const previewTrigger = createNode('button', {
@@ -742,6 +760,9 @@ export function initHomeReviews() {
       previewImage.alt = avatarFile.name;
       previewImage.loading = 'eager';
       previewImage.decoding = 'async';
+      previewImage.addEventListener('error', () => {
+        avatarPreviewEl.replaceChildren(createEmptyState(getUiText('avatarPreviewInvalid')));
+      }, { once: true });
       previewTrigger.append(previewImage);
 
       const noteRow = createNode('div', { className: 'review-file-preview-note-row' });
@@ -798,10 +819,11 @@ export function initHomeReviews() {
           } else {
             const video = document.createElement('video');
             video.src = src;
-            video.controls = true;
             video.muted = true;
             video.playsInline = true;
-            video.preload = 'auto';
+            video.preload = 'metadata';
+            video.tabIndex = -1;
+            video.setAttribute('aria-hidden', 'true');
             trigger.append(video);
           }
 
@@ -874,6 +896,36 @@ export function initHomeReviews() {
     releaseUrls(reviewSubmitConfirmState.previewUrls);
   }
 
+  function validateReviewMediaFiles(mediaFiles) {
+    for (const file of mediaFiles) {
+      const kind = getReviewFileKind(file);
+      const hasExplicitMime = hasExplicitFileMime(file);
+
+      if (hasExplicitMime && kind !== 'image' && kind !== 'video') {
+        return {
+          titleKey: 'invalidMediaTypeTitle',
+          messageKey: 'invalidMediaTypeMessage'
+        };
+      }
+
+      if (kind === 'image' && file.size > REVIEW_IMAGE_MAX_BYTES) {
+        return {
+          titleKey: 'mediaImageSizeTitle',
+          messageKey: 'mediaImageSizeMessage'
+        };
+      }
+
+      if ((kind === 'video' || kind === 'unknown') && file.size > REVIEW_VIDEO_MAX_BYTES) {
+        return {
+          titleKey: 'mediaVideoSizeTitle',
+          messageKey: 'mediaVideoSizeMessage'
+        };
+      }
+    }
+
+    return null;
+  }
+
   function openReviewSubmitConfirm(payload) {
     const overlay = document.getElementById('reviewSubmitConfirmOverlay');
     const summaryEl = document.getElementById('reviewSubmitConfirmSummary');
@@ -907,7 +959,7 @@ export function initHomeReviews() {
     });
 
     const avatarValue = createValueNode();
-    if (payload.avatarFile && getReviewFileKind(payload.avatarFile) === 'image') {
+    if (payload.avatarFile && getReviewFileKind(payload.avatarFile) !== 'video') {
       const src = createPreviewUrl(payload.avatarFile, reviewSubmitConfirmState.previewUrls);
       const thumb = createNode('button', {
         className: 'review-confirm-media-thumb review-confirm-avatar-thumb',
@@ -925,6 +977,9 @@ export function initHomeReviews() {
       thumbImage.alt = payload.avatarFile.name;
       thumbImage.loading = 'eager';
       thumbImage.decoding = 'async';
+      thumbImage.addEventListener('error', () => {
+        thumb.remove();
+      }, { once: true });
       thumb.append(thumbImage);
       avatarValue.append(
         thumb,
@@ -963,6 +1018,8 @@ export function initHomeReviews() {
             video.muted = true;
             video.playsInline = true;
             video.preload = 'metadata';
+            video.tabIndex = -1;
+            video.setAttribute('aria-hidden', 'true');
             thumb.append(video);
           } else {
             const image = document.createElement('img');
@@ -1060,6 +1117,7 @@ export function initHomeReviews() {
     reviewSubmitConfirmState.pendingPayload = payload;
     openOverlayDialog(overlay);
     syncBodyScrollLockState();
+    focusFirstIn(overlay);
   }
 
   async function finalizeReviewSubmitFromConfirm() {
@@ -1196,15 +1254,20 @@ export function initHomeReviews() {
       return;
     }
 
-    if (avatarFile && getReviewFileKind(avatarFile) !== 'image') {
-      showToast(
-        getUiText('invalidAvatarTitle'),
-        getUiText('invalidAvatarMessage')
-      );
-      return;
+    if (avatarFile) {
+      const avatarKind = getReviewFileKind(avatarFile);
+      const avatarHasExplicitMime = hasExplicitFileMime(avatarFile);
+
+      if (avatarKind === 'video' || (avatarHasExplicitMime && avatarKind !== 'image')) {
+        showToast(
+          getUiText('invalidAvatarTitle'),
+          getUiText('invalidAvatarMessage')
+        );
+        return;
+      }
     }
 
-    if (avatarFile && avatarFile.size > 2 * 1024 * 1024) {
+    if (avatarFile && avatarFile.size > REVIEW_IMAGE_MAX_BYTES) {
       showToast(
         getUiText('avatarSizeTitle'),
         getUiText('avatarSizeMessage')
@@ -1216,6 +1279,15 @@ export function initHomeReviews() {
       showToast(
         getUiText('mediaLimitTitle'),
         getUiText('mediaLimitMessage')
+      );
+      return;
+    }
+
+    const mediaValidationError = validateReviewMediaFiles(mediaFiles);
+    if (mediaValidationError) {
+      showToast(
+        getUiText(mediaValidationError.titleKey),
+        getUiText(mediaValidationError.messageKey)
       );
       return;
     }

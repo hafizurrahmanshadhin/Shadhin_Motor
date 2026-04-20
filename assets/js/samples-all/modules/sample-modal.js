@@ -72,6 +72,15 @@ function hasOutOfStockText(value) {
   return text.includes('স্টক') || text.includes('stock');
 }
 
+function escapeAttributeValue(value) {
+  const text = String(value || '');
+  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
+    return CSS.escape(text);
+  }
+
+  return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
 export function createSamplesCatalogModal({ grid, getUiText }) {
   const modalOverlay = document.getElementById('sampleModal');
   const orderBtn = document.getElementById('sampleModalOrderBtn');
@@ -118,7 +127,7 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   };
 
   const findSampleById = sampleId => {
-    const card = grid.querySelector(`.sample-card[data-sample-id="${CSS.escape(sampleId)}"]`)
+    const card = grid.querySelector(`.sample-card[data-sample-id="${escapeAttributeValue(sampleId)}"]`)
       || Array.from(grid.querySelectorAll('.sample-card')).find(entry => getSampleIdFromCard(entry) === sampleId);
     return card ? getSampleFromCard(card) : null;
   };

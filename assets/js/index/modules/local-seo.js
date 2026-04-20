@@ -430,6 +430,8 @@ export function initHomeLocalSeo() {
 
   if (typeof prefersReducedMotion.addEventListener === 'function') {
     prefersReducedMotion.addEventListener('change', scheduleRebuild);
+  } else if (typeof prefersReducedMotion.addListener === 'function') {
+    prefersReducedMotion.addListener(scheduleRebuild);
   }
 
   applyViewportHeight();
