@@ -2,6 +2,20 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
+function getOffsetTopWithin(element, ancestor) {
+  if (!(element instanceof HTMLElement) || !(ancestor instanceof HTMLElement)) return null;
+
+  let offset = 0;
+  let current = element;
+
+  while (current && current !== ancestor) {
+    offset += current.offsetTop;
+    current = current.offsetParent;
+  }
+
+  return current === ancestor ? offset : null;
+}
+
 function isPrimaryDragPointer(event) {
   if (event.isPrimary === false) return false;
   return event.pointerType !== 'mouse' || event.button === 0;
@@ -47,7 +61,7 @@ export function initHomeLocalSeo() {
   let dragMoved = false;
   let dragPointerId = null;
   let dragStartY = 0;
-  let dragStartOffset = 0;
+  let dragLastY = 0;
   let suppressClick = false;
   let lastInputWasPointer = false;
 
@@ -56,19 +70,16 @@ export function initHomeLocalSeo() {
     let nextOffset = 0;
 
     if (window.innerWidth > 1180) {
-      const gridRect = layoutGrid instanceof HTMLElement ? layoutGrid.getBoundingClientRect() : null;
-      const titleRect = title instanceof HTMLElement ? title.getBoundingClientRect() : null;
-      const copyRect = copyPanel instanceof HTMLElement ? copyPanel.getBoundingClientRect() : null;
-      const currentFaqRect = faqList.getBoundingClientRect();
-      const fallbackHeight = clamp(window.innerHeight * 0.5, 320, 720);
+      const sectionRoot = section instanceof HTMLElement ? section : null;
+      const headerTop = sectionRoot ? getOffsetTopWithin(headerBlock, sectionRoot) : null;
+      const gridTop = sectionRoot ? getOffsetTopWithin(layoutGrid, sectionRoot) : null;
+      const copyTop = sectionRoot ? getOffsetTopWithin(copyPanel, sectionRoot) : null;
+      const copyHeight = copyPanel instanceof HTMLElement ? copyPanel.offsetHeight : 0;
+      const fallbackHeight = clamp(window.innerHeight * 0.72, 420, 920);
 
-      if (gridRect && titleRect && copyRect) {
-        const measuredOverflow = faqList.classList.contains('visible') && copyPanel?.classList.contains('visible')
-          ? Math.max(0, currentFaqRect.bottom - copyRect.bottom)
-          : 0;
-
-        nextOffset = Math.round(titleRect.top - gridRect.top);
-        nextHeight = Math.max(280, copyRect.bottom - titleRect.top - measuredOverflow - 2);
+      if (headerTop !== null && gridTop !== null && copyTop !== null && copyHeight > 0) {
+        nextOffset = headerTop - gridTop;
+        nextHeight = Math.max(420, copyTop + copyHeight - headerTop);
       } else {
         nextHeight = fallbackHeight;
       }
@@ -309,6 +320,7 @@ export function initHomeLocalSeo() {
 
     pointerDown = false;
     dragPointerId = null;
+    dragLastY = 0;
 
     if (dragging) {
       dragging = false;
@@ -366,23 +378,28 @@ export function initHomeLocalSeo() {
     dragMoved = false;
     dragPointerId = event.pointerId;
     dragStartY = event.clientY;
-    dragStartOffset = offset;
+    dragLastY = event.clientY;
     syncAutoScrollState();
   };
 
   faqList.onpointermove = event => {
     if (!pointerDown || event.pointerId !== dragPointerId) return;
-    const deltaY = event.clientY - dragStartY;
+    const totalDeltaY = event.clientY - dragStartY;
 
     if (!dragging) {
-      if (Math.abs(deltaY) <= 6) return;
+      if (Math.abs(totalDeltaY) <= 6) return;
       dragging = true;
       dragMoved = true;
       faqList.setPointerCapture(event.pointerId);
     }
 
     event.preventDefault();
-    offset = dragStartOffset - deltaY;
+    const stepDeltaY = event.clientY - dragLastY;
+    dragLastY = event.clientY;
+
+    if (!stepDeltaY) return;
+
+    offset -= stepDeltaY;
     normalizeTrackOffset();
     setTrackTransform();
     syncAutoScrollState();
