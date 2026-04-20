@@ -1283,7 +1283,7 @@
       letter-spacing: 0.3px;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 900px) {
       .reviews-layout {
         grid-template-columns: 1fr;
       }
