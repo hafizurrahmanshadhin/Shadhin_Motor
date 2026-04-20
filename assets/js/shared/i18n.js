@@ -218,6 +218,8 @@ const HOME_SAMPLES_UI_TEXT_EN = {
   toastIncompleteMessage: 'Name, phone number, vehicle type and service are required.',
   toastOrderSuccessTitle: '✅ Order submitted',
   toastOrderSuccessMessage: 'Your order request has been received. We will contact you soon.',
+  integrationRequiredTitle: '⚙️ Backend integration required',
+  integrationRequiredMessage: 'This form is not connected to a server yet. Configure a Laravel route/controller action to enable submission.',
   confirmSelectedBadge: 'Sample selected',
   confirmSelectedTitle: 'Submit the order with this Sample ID?',
   confirmSelectedCopy: 'Your order will include sample {sampleId}. Once you confirm, we will follow up based on this sample.',
@@ -281,6 +283,8 @@ const HOME_REVIEWS_UI_TEXT_EN = {
   confirmSubmitDefaultLabel: 'Yes, submit',
   successTitle: '✅ Review submitted',
   successMessage: 'Thanks. Your review request has been received. You can later make this dynamic with Blade or a backend flow.',
+  integrationRequiredTitle: '⚙️ Backend integration required',
+  integrationRequiredMessage: 'The review form is not connected to a server yet. Configure a Laravel route/controller action to enable submission.',
   errorTitle: '⚠️ Review was not submitted',
   submitErrorMessage: 'The review could not be submitted. Please try again.',
   incompleteTitle: '⚠️ Incomplete information',
@@ -796,9 +800,9 @@ function applyHomeStaticCopy() {
   setHtml('#samplesViewAllBtn', 'View all samples <span>↗</span>');
   setText('.form-sample-heading', 'Selected sample');
   setText('#formSampleClearBtn', '✕ Change');
-  setText('.sample-modal-meta-item:nth-child(1) .sample-modal-meta-label', 'Material');
-  setText('.sample-modal-meta-item:nth-child(2) .sample-modal-meta-label', 'Color');
-  setText('.sample-modal-meta-item:nth-child(3) .sample-modal-meta-label', 'Availability');
+  setText('[data-sample-meta="material"]', 'Material');
+  setText('[data-sample-meta="color"]', 'Color');
+  setText('[data-sample-meta="availability"]', 'Availability');
   setAttr('#sampleModalCloseBtn', 'aria-label', 'Close');
   setText('#sampleModalName', 'Sample preview');
   setText('.sample-modal .visually-hidden', 'Preview of the selected sample');
@@ -893,10 +897,10 @@ function applyHomeStaticCopy() {
   setText('#contact .section-lead', 'If you want to place an order or ask about material, design, pricing, fitting or the type of work, contact us directly from here. We will quickly help you choose the right seat cover for your car or motorcycle.');
   setText('.contact-info > h3', 'Contact us');
   setTexts('.contact-item-text h3', ['Address', 'Phone number', 'Opening hours', 'Advance payment']);
-  setText('.contact-item:nth-child(1) address', 'Ali & Nur Real Estate Ltd. (behind the glass factory), Mohammadpur, Dhaka-1207');
-  setHtml('.contact-item:nth-child(2) p', '<a href="tel:+8801911387254">01911&#8209;387254</a><br><time datetime="09:00">9:00 AM</time> — <time datetime="21:00">9:00 PM</time>');
-  setHtml('.contact-item:nth-child(3) p', 'Saturday — Thursday: <time datetime="09:00">9:00 AM</time> — <time datetime="21:00">9:00 PM</time><br>Friday: <time datetime="10:00">10:00 AM</time> — <time datetime="17:00">5:00 PM</time>');
-  setText('.contact-item:nth-child(4) p', 'Work starts with an advance payment at the time of order. The remaining payment is completed on delivery.');
+  setText('.contact-item[data-contact-field="address"] address', 'Ali & Nur Real Estate Ltd. (behind the glass factory), Mohammadpur, Dhaka-1207');
+  setHtml('.contact-item[data-contact-field="phone"] p', '<a href="tel:+8801911387254">01911&#8209;387254</a><br><time datetime="09:00">9:00 AM</time> — <time datetime="21:00">9:00 PM</time>');
+  setHtml('.contact-item[data-contact-field="hours"] p', 'Saturday — Thursday: <time datetime="09:00">9:00 AM</time> — <time datetime="21:00">9:00 PM</time><br>Friday: <time datetime="10:00">10:00 AM</time> — <time datetime="17:00">5:00 PM</time>');
+  setText('.contact-item[data-contact-field="payment"] p', 'Work starts with an advance payment at the time of order. The remaining payment is completed on delivery.');
 
   setTexts('.order-form label', [
     'Your name *',
@@ -998,9 +1002,9 @@ function applySamplesCatalogCopy() {
   setAttr('#sampleModalCloseBtn', 'aria-label', 'Close');
   setText('.sample-modal .visually-hidden', 'Preview of the selected sample');
   setText('#sampleModalName', 'Sample preview');
-  setText('.sample-modal-meta-item:nth-child(1) .sample-modal-meta-label', 'Material');
-  setText('.sample-modal-meta-item:nth-child(2) .sample-modal-meta-label', 'Color');
-  setText('.sample-modal-meta-item:nth-child(3) .sample-modal-meta-label', 'Availability');
+  setText('[data-sample-meta="material"]', 'Material');
+  setText('[data-sample-meta="color"]', 'Color');
+  setText('[data-sample-meta="availability"]', 'Availability');
 }
 
 function applyHomePageEnglish() {

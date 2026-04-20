@@ -1000,20 +1000,13 @@ export function initHomeReviews() {
         return;
       }
 
-      if (form) form.reset();
-      reviewUploadFormState.avatarFile = null;
-      reviewUploadFormState.mediaFiles = [];
-      syncReviewMediaInputFromState();
-      updateReviewFileMeta();
+      showToast(
+        getUiText('integrationRequiredTitle'),
+        getUiText('integrationRequiredMessage'),
+        7000
+      );
 
       closeReviewSubmitConfirm();
-      closeReviewModal();
-
-      showToast(
-        getUiText('successTitle'),
-        getUiText('successMessage'),
-        6000
-      );
     } catch (error) {
       const message = error?.message || getUiText('submitErrorMessage');
       showToast(getUiText('errorTitle'), message, 6500);

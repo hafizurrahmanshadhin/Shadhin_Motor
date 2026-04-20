@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="bn-BD" data-client-i18n="true">
+<html lang="bn-BD" data-client-i18n="false">
 
 <head>
   <meta charset="UTF-8">
@@ -599,22 +599,22 @@
         <h2 class="sample-modal-name" id="sampleModalName">স্যাম্পল প্রিভিউ</h2>
         <dl class="sample-modal-meta">
           <div class="sample-modal-meta-item">
-            <dt class="sample-modal-meta-label">মেটেরিয়াল</dt>
+            <dt class="sample-modal-meta-label" data-sample-meta="material">মেটেরিয়াল</dt>
             <dd class="sample-modal-meta-value" id="sampleModalMaterial"></dd>
           </div>
           <div class="sample-modal-meta-item">
-            <dt class="sample-modal-meta-label">রং</dt>
+            <dt class="sample-modal-meta-label" data-sample-meta="color">রং</dt>
             <dd class="sample-modal-meta-value" id="sampleModalColor">
               <span id="sampleModalColorDot" class="sample-modal-color-dot"></span>
               <span id="sampleModalColorName"></span>
             </dd>
           </div>
           <div class="sample-modal-meta-item">
-            <dt class="sample-modal-meta-label">উপলব্ধতা</dt>
+            <dt class="sample-modal-meta-label" data-sample-meta="availability">উপলব্ধতা</dt>
             <dd class="sample-modal-meta-value" id="sampleModalStock" data-stock-state=""></dd>
           </div>
           <div class="sample-modal-meta-item">
-            <dt class="sample-modal-meta-label">Sample ID</dt>
+            <dt class="sample-modal-meta-label" data-sample-meta="id">Sample ID</dt>
             <dd class="sample-modal-meta-value sample-modal-id-value" id="sampleModalIdVal"></dd>
           </div>
         </dl>
@@ -1355,14 +1355,14 @@
     <div class="contact-grid">
       <div class="contact-info reveal">
         <h3>আমাদের সাথে যোগাযোগ করুন</h3>
-        <div class="contact-item">
+        <div class="contact-item" data-contact-field="address">
           <div class="contact-item-icon">📍</div>
           <div class="contact-item-text">
             <h3>ঠিকানা</h3>
-            <address>আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে) মোঃপুর, ঢাকা-১২০৭</address>
+            <address>আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে) মোহাম্মদপুর, ঢাকা-১২০৭</address>
           </div>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-contact-field="phone">
           <div class="contact-item-icon">📞</div>
           <div class="contact-item-text">
             <h3>ফোন নম্বর</h3>
@@ -1372,7 +1372,7 @@
             </p>
           </div>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-contact-field="hours">
           <div class="contact-item-icon">⏰</div>
           <div class="contact-item-text">
             <h3>খোলার সময়</h3>
@@ -1382,7 +1382,7 @@
             </p>
           </div>
         </div>
-        <div class="contact-item">
+        <div class="contact-item" data-contact-field="payment">
           <div class="contact-item-icon">💬</div>
           <div class="contact-item-text">
             <h3>অ্যাডভান্স পেমেন্ট</h3>
@@ -1705,6 +1705,8 @@
     <span data-key="toastIncompleteMessage">নাম, ফোন, গাড়ির ধরন ও সার্ভিস অবশ্যই পূরণ করুন।</span>
     <span data-key="toastOrderSuccessTitle">✅ অর্ডার সফল!</span>
     <span data-key="toastOrderSuccessMessage">আপনার অর্ডার অনুরোধ নেওয়া হয়েছে। আমরা শীঘ্রই যোগাযোগ করব।</span>
+    <span data-key="integrationRequiredTitle">⚙️ Backend সংযোগ প্রয়োজন</span>
+    <span data-key="integrationRequiredMessage">এই ফর্ম এখনো সার্ভারে যুক্ত হয়নি। Laravel route/controller action সেট করার পর অর্ডার সাবমিট হবে।</span>
     <span data-key="confirmSelectedBadge">স্যাম্পল নির্বাচন করা হয়েছে</span>
     <span data-key="confirmSelectedTitle">নির্বাচিত Sample ID সহ অর্ডার জমা দিতে চান?</span>
     <span data-key="confirmSelectedCopy">আপনার অর্ডারের সঙ্গে {sampleId} স্যাম্পলটি যুক্ত থাকবে। confirm করলে অর্ডার জমা হয়ে যাবে, পরে আমরা এই স্যাম্পল অনুযায়ী যোগাযোগ করব।</span>
@@ -1768,6 +1770,8 @@
     <span data-key="confirmSubmitDefaultLabel">হ্যাঁ, সাবমিট করুন</span>
     <span data-key="successTitle">✅ রিভিউ জমা হয়েছে</span>
     <span data-key="successMessage">ধন্যবাদ। আপনার রিভিউ অনুরোধ নেওয়া হয়েছে। পরে আপনি Blade বা backend flow অনুযায়ী এটা dynamic করতে পারবেন।</span>
+    <span data-key="integrationRequiredTitle">⚙️ Backend সংযোগ প্রয়োজন</span>
+    <span data-key="integrationRequiredMessage">রিভিউ ফর্ম এখনো সার্ভারে যুক্ত হয়নি। Laravel route/controller action সেট করার পর রিভিউ সাবমিট হবে।</span>
     <span data-key="errorTitle">⚠️ রিভিউ জমা হয়নি</span>
     <span data-key="submitErrorMessage">রিভিউ submit করা যায়নি। আবার চেষ্টা করুন।</span>
     <span data-key="incompleteTitle">⚠️ অপূর্ণ তথ্য</span>

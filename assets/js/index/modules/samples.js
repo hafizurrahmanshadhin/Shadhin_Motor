@@ -574,19 +574,10 @@ export function initHomeSamples() {
       return;
     }
 
-    ['custName', 'custPhone', 'carModel', 'orderDetails'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-    ['vehicleType', 'serviceType', 'material'].forEach(id => {
-      document.getElementById(id).selectedIndex = 0;
-    });
-
-    clearSelectedSample();
-
     showToast(
-      getUiText('toastOrderSuccessTitle'),
-      getUiText('toastOrderSuccessMessage'),
-      6000
+      getUiText('integrationRequiredTitle'),
+      getUiText('integrationRequiredMessage'),
+      7000
     );
   }
 
