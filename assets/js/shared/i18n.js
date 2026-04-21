@@ -405,6 +405,46 @@ function updateUiTextRoot(rootId, translations) {
   });
 }
 
+function getActiveSectionHash() {
+  const activeNavLink = document.querySelector('#navLinks a[aria-current="location"][href^="#"], #navLinks a.active[href^="#"]');
+  const activeNavHash = activeNavLink?.getAttribute('href');
+  if (activeNavHash) return activeNavHash;
+
+  const sections = Array.from(document.querySelectorAll('main section[id]'));
+  if (!sections.length) return window.location.hash || '';
+
+  const topbar = document.getElementById('navbar') || document.getElementById('catalogTopbar');
+  const topbarHeight = topbar instanceof HTMLElement
+    ? (topbar.getBoundingClientRect().height || topbar.offsetHeight || 0)
+    : 0;
+  const viewportAnchor = topbarHeight + Math.max(24, Math.round(window.innerHeight * 0.12));
+
+  let currentSection = sections[0];
+
+  sections.forEach(section => {
+    if (!(section instanceof HTMLElement)) return;
+
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= viewportAnchor) {
+      currentSection = section;
+    }
+
+    if (rect.top <= viewportAnchor && rect.bottom >= viewportAnchor) {
+      currentSection = section;
+    }
+  });
+
+  return currentSection?.id ? `#${currentSection.id}` : (window.location.hash || '');
+}
+
+function preserveCurrentViewHash() {
+  const currentUrl = new URL(window.location.href);
+  const activeSectionHash = getActiveSectionHash();
+
+  currentUrl.hash = activeSectionHash || '';
+  history.replaceState(null, '', `${currentUrl.pathname}${currentUrl.search}${currentUrl.hash}`);
+}
+
 function ensureLanguageToggle(language) {
   const cta = document.querySelector('#sharedFloatingCta .floating-cta');
   if (!cta) return;
@@ -432,6 +472,7 @@ function ensureLanguageToggle(language) {
 
   button.dataset.boundLanguageToggle = 'true';
   button.addEventListener('click', () => {
+    preserveCurrentViewHash();
     setPreferredLanguage(button.dataset.nextLanguage);
     window.location.reload();
   });
