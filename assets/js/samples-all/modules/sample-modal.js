@@ -53,6 +53,11 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
   let modalSample = null;
   let lastSampleTrigger = null;
   let keepTriggerFocusOnClose = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchTracking = false;
+
+  const modalCard = modalOverlay?.querySelector('.sample-modal');
 
   const getSampleIdFromCard = card => {
     if (!(card instanceof HTMLElement)) return '';
@@ -223,6 +228,32 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
     if (!modalSample) return;
     orderSample(modalSample.id);
   });
+
+  modalCard?.addEventListener('touchstart', event => {
+    if (!modalOverlay?.classList.contains('open')) return;
+    if (modalCard.scrollTop > 4) return;
+
+    const touch = event.touches?.[0];
+    if (!touch) return;
+
+    touchTracking = true;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }, { passive: true });
+
+  modalCard?.addEventListener('touchend', event => {
+    if (!touchTracking || !modalOverlay?.classList.contains('open')) return;
+    touchTracking = false;
+
+    const touch = event.changedTouches?.[0];
+    if (!touch) return;
+
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (deltaY < 88 || deltaY < Math.abs(deltaX) * 1.15) return;
+    closeSampleModal();
+  }, { passive: true });
 
   document.addEventListener('keydown', event => {
     if (event.key !== 'Escape') return;

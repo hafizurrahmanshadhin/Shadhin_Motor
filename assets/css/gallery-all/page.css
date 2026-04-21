@@ -4,5 +4,6 @@
 @import url('./modules/gallery-grid.css');
 @import url('./modules/lightbox.css');
 @import url('../shared/experience.css');
+@import url('../shared/catalog-effects.css');
 @import url('../shared/responsive-tuning.css');
 @import url('./responsive.css');

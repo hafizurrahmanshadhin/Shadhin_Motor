@@ -1,0 +1,146 @@
+body:is(.gallery-catalog-page, .samples-catalog-page) {
+  --page-light-x: 50vw;
+  --page-light-y: 28vh;
+  --page-light-opacity: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+body:is(.gallery-catalog-page, .samples-catalog-page)::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 24;
+  pointer-events: none;
+  opacity: var(--page-light-opacity);
+  mix-blend-mode: screen;
+  transition: opacity 0.18s ease;
+  background:
+    radial-gradient(circle 160px at var(--page-light-x) var(--page-light-y), rgba(245, 215, 142, 0.12), transparent 58%),
+    radial-gradient(circle 340px at var(--page-light-x) var(--page-light-y), rgba(200, 134, 10, 0.09), transparent 62%),
+    radial-gradient(circle 620px at var(--page-light-x) var(--page-light-y), rgba(139, 58, 15, 0.06), transparent 70%);
+}
+
+body:is(.gallery-catalog-page, .samples-catalog-page) :is(
+  .back-link,
+  .samples-catalog-back-link,
+  .filter-btn,
+  .sample-filter-btn,
+  .catalog-reset-btn,
+  .samples-catalog-order-link,
+  .samples-catalog-reset-btn,
+  .catalog-page-btn,
+  .samples-catalog-page-btn,
+  .sample-card-order-btn
+) {
+  --btn-shift-x: 0px;
+  --btn-shift-y: 0px;
+  --btn-hover-y: 0px;
+  transform: translate3d(var(--btn-shift-x), calc(var(--btn-shift-y) + var(--btn-hover-y)), 0);
+  will-change: transform;
+  transition:
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease,
+    filter 0.25s ease;
+}
+
+.gallery-catalog-page .catalog-page-btn:hover:not(:disabled),
+.samples-catalog-page .samples-catalog-page-btn:hover:not(:disabled) {
+  --btn-hover-y: -1px;
+}
+
+.samples-catalog-page .samples-catalog-order-link:hover {
+  --btn-hover-y: -2px;
+}
+
+body:is(.gallery-catalog-page, .samples-catalog-page) .reveal {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translate3d(0, 32px, 0) scale(0.988);
+  transition:
+    opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+    filter 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+  will-change: opacity, transform, filter;
+}
+
+body:is(.gallery-catalog-page, .samples-catalog-page) .reveal.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+body:is(.gallery-catalog-page, .samples-catalog-page) [data-glow-surface='true'] {
+  --surface-glow-x: 50%;
+  --surface-glow-y: 50%;
+  --surface-sheen-pos: -140%;
+  position: relative;
+  isolation: isolate;
+}
+
+body:is(.gallery-catalog-page, .samples-catalog-page) [data-glow-surface='true']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle 180px at var(--surface-glow-x) var(--surface-glow-y), rgba(245, 215, 142, 0.15), transparent 48%),
+    radial-gradient(circle 320px at var(--surface-glow-x) var(--surface-glow-y), rgba(200, 134, 10, 0.08), transparent 62%),
+    linear-gradient(118deg, transparent 35%, rgba(255, 255, 255, 0.1) 48%, transparent 60%);
+  background-repeat: no-repeat;
+  background-size: auto, auto, 240% 100%;
+  background-position: center, center, var(--surface-sheen-pos) 0;
+  transition: opacity 0.22s ease, background-position 0.9s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body:is(.gallery-catalog-page, .samples-catalog-page) [data-glow-surface='true']:is(:hover, :focus-within)::before {
+    opacity: 0.94;
+    --surface-sheen-pos: 140%;
+  }
+}
+
+@media (max-width: 640px) {
+  body:is(.gallery-catalog-page, .samples-catalog-page) .reveal {
+    transform: translate3d(0, 22px, 0) scale(0.993);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:is(.gallery-catalog-page, .samples-catalog-page)::after {
+    transition: none;
+  }
+
+  body:is(.gallery-catalog-page, .samples-catalog-page) :is(
+    .back-link,
+    .samples-catalog-back-link,
+    .filter-btn,
+    .sample-filter-btn,
+    .catalog-reset-btn,
+    .samples-catalog-order-link,
+    .samples-catalog-reset-btn,
+    .catalog-page-btn,
+    .samples-catalog-page-btn,
+    .sample-card-order-btn
+  ) {
+    transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+
+  body:is(.gallery-catalog-page, .samples-catalog-page) .reveal {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
+
+  body:is(.gallery-catalog-page, .samples-catalog-page) [data-glow-surface='true']::before {
+    display: none;
+  }
+}

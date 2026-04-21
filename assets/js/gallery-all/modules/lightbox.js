@@ -34,6 +34,9 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
   let lightboxIdx = 0;
   let lastLightboxTrigger = null;
   let keepTriggerFocusOnClose = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchTracking = false;
 
   const getTriggerData = trigger => {
     const card = trigger.closest('.gallery-card, .gallery-item');
@@ -174,6 +177,30 @@ export function createGalleryLightbox({ grid, getVisibleTriggers, getFilterLabel
   prevBtn?.addEventListener('click', () => navigate(-1));
   nextBtn?.addEventListener('click', () => navigate(1));
   closeBtn?.addEventListener('click', () => close());
+
+  imageWrap?.addEventListener('touchstart', event => {
+    if (!overlay?.classList.contains('open')) return;
+    const touch = event.touches?.[0];
+    if (!touch) return;
+
+    touchTracking = true;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }, { passive: true });
+
+  imageWrap?.addEventListener('touchend', event => {
+    if (!touchTracking || !overlay?.classList.contains('open')) return;
+    touchTracking = false;
+
+    const touch = event.changedTouches?.[0];
+    if (!touch) return;
+
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (Math.abs(deltaX) < 56 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+    navigate(deltaX < 0 ? 1 : -1);
+  }, { passive: true });
 
   document.addEventListener('keydown', event => {
     if (!overlay?.classList.contains('open')) return;
