@@ -658,7 +658,7 @@ function applyAboutTeamTranslations() {
 }
 
 function applyHomeMeta() {
-  document.title = 'Shadhin Motor | Car & Motorcycle Seat Cover Service in Dhaka';
+  document.title = 'Shadhin Motor';
   document.querySelector('meta[name="description"]')?.setAttribute('content', 'Shadhin Motor provides rexine and leather seat cover making, repair, custom design and home fitting for private cars and motorcycles in Dhaka and across the Dhaka Division.');
   document.querySelector('meta[name="keywords"]')?.setAttribute('content', 'car seat cover Dhaka, motorcycle seat cover Dhaka, rexine seat cover, leather seat cover, custom seat cover, Shadhin Motor');
   document.querySelector('meta[property="og:title"]')?.setAttribute('content', 'Shadhin Motor | Seat Cover Service in Dhaka');
@@ -925,7 +925,7 @@ function applyHomeStaticCopy() {
 }
 
 function applyGalleryCatalogMeta() {
-  document.title = 'Work Gallery | Shadhin Motor';
+  document.title = 'Work Gallery';
   document.querySelector('meta[name="description"]')?.setAttribute('content', 'Browse all Shadhin Motor car, motorbike and repair gallery designs in one place.');
 }
 
@@ -973,7 +973,7 @@ function applyGalleryCatalogCopy() {
 }
 
 function applySamplesCatalogMeta() {
-  document.title = 'Rexine & Leather Samples | Shadhin Motor';
+  document.title = 'Rexine & Leather Samples';
   document.querySelector('meta[name="description"]')?.setAttribute('content', 'Browse all Shadhin Motor rexine and leather seat cover samples in one place.');
 }
 
