@@ -1,4 +1,6 @@
 #hero {
+  --hero-stats-reserve: clamp(260px, 23vw, 340px);
+  --hero-shell-max: min(calc(100vw - (var(--page-edge) * 2) - var(--hero-stats-reserve)), 980px);
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
@@ -53,7 +55,8 @@
 .hero-content {
   position: relative;
   z-index: 2;
-  max-width: 700px;
+  width: fit-content;
+  max-width: var(--hero-shell-max);
   min-width: 0;
   margin-right: auto;
   text-align: left;
@@ -175,6 +178,7 @@
   }
 
   .hero-content {
+    width: 100%;
     max-width: 760px;
   }
 
@@ -234,7 +238,7 @@
   }
 
   .hero-content {
-    max-width: 700px;
+    max-width: min(var(--hero-shell-max), 900px);
   }
 
   .hero-badge {
@@ -300,6 +304,7 @@
   }
 
   .hero-content {
+    width: 100%;
     max-width: 100%;
   }
 
@@ -510,6 +515,6 @@
 
 @media (min-width: 2200px) {
   .hero-content {
-    max-width: 860px;
+    max-width: min(var(--hero-shell-max), 1060px);
   }
 }

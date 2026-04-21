@@ -725,10 +725,11 @@ function applyHomeMeta() {
 function applyHomeStaticCopy() {
   setText('.skip-link', 'Skip to main content');
   setAttr('.site-header .nav-logo', 'aria-label', 'Go to the Shadhin Motor home section');
-  setTexts('#navLinks a', ['Services', 'About Us', 'Gallery', 'Samples', 'Process', 'Vehicle Types', 'Service Areas', 'Reviews', 'Order Now']);
+  setTexts('#navLinks a', ['Services', 'About', 'Gallery', 'Samples', 'Process', 'Vehicles', 'Areas', 'Reviews', 'Order']);
   setAttr('#hamburger', 'aria-label', 'Open menu');
   setAttr('#hamburger', 'data-open-label', 'Open menu');
   setAttr('#hamburger', 'data-close-label', 'Close menu');
+  setText('#heroStatsTitle', 'Business highlights');
 
   setText('.hero-badge', 'Shadhin Motor — Seat Cover Specialists');
   setHtml('#heroTitle', '<span class="hero-title-main">Refresh your car or bike with a</span><span class="accent">Custom Seat Cover</span><span class="bn">that fits like new</span>');

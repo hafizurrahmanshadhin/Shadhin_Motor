@@ -44,6 +44,9 @@
 }
 
 .btn-primary {
+  --btn-shift-x: 0px;
+  --btn-shift-y: 0px;
+  --btn-lift-y: 0px;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -60,7 +63,9 @@
   font-weight: 700;
   letter-spacing: 0.4px;
   text-transform: none;
-  transition: all 0.3s;
+  transform: translate3d(var(--btn-shift-x), calc(var(--btn-shift-y) + var(--btn-lift-y)), 0);
+  transition: background 0.3s, transform 0.25s ease, box-shadow 0.3s;
+  will-change: transform;
 }
 
 .btn-primary::before {
@@ -73,8 +78,8 @@
 }
 
 .btn-primary:hover {
+  --btn-lift-y: -2px;
   background: var(--gold-light);
-  transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(200, 134, 10, 0.4);
 }
 
@@ -83,6 +88,9 @@
 }
 
 .btn-secondary {
+  --btn-shift-x: 0px;
+  --btn-shift-y: 0px;
+  --btn-lift-y: 0px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -97,13 +105,15 @@
   text-decoration: none;
   background: transparent;
   cursor: pointer;
-  transition: all 0.3s;
+  transform: translate3d(var(--btn-shift-x), calc(var(--btn-shift-y) + var(--btn-lift-y)), 0);
+  transition: background 0.3s, border-color 0.3s, transform 0.25s ease, box-shadow 0.3s;
+  will-change: transform;
 }
 
 .btn-secondary:hover {
+  --btn-lift-y: -2px;
   background: rgba(200, 134, 10, 0.1);
   border-color: var(--gold);
-  transform: translateY(-2px);
 }
 
 @media (max-width: 420px) {

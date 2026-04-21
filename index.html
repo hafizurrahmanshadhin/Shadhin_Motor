@@ -231,9 +231,9 @@
 
   <!-- HERO -->
   <section id="hero" aria-labelledby="heroTitle">
-    <div class="hero-bg"></div>
-    <div class="hero-pattern"></div>
-    <div class="hero-content">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-pattern" aria-hidden="true"></div>
+    <header class="hero-content">
       <div class="hero-badge">স্বাধীন মটর — সিট কভার বিশেষজ্ঞ</div>
       <h1 class="hero-title" id="heroTitle">
         <span class="hero-title-main">আপনার গাড়ির / মোটরসাইকেলের</span>
@@ -248,33 +248,34 @@
         <a href="#samples" class="btn-primary">🪡 স্যাম্পল দেখুন</a>
         <a href="#contact" class="btn-secondary">📞 যোগাযোগ করুন</a>
       </div>
-    </div>
-    <div class="hero-right">
-      <div class="stat-card">
+    </header>
+    <aside class="hero-right" role="list" aria-labelledby="heroStatsTitle">
+      <h2 class="visually-hidden" id="heroStatsTitle">ব্যবসার হাইলাইটস</h2>
+      <div class="stat-card" role="listitem">
         <div class="stat-num">১০০০+</div>
         <div class="stat-label">সম্পন্ন কাজ</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" role="listitem">
         <div class="stat-num">৩০+</div>
         <div class="stat-label">বছরের অভিজ্ঞতা</div>
       </div>
-      <div class="stat-card">
+      <div class="stat-card" role="listitem">
         <div class="stat-num">১০০%</div>
         <div class="stat-label">কাস্টম ডিজাইন</div>
       </div>
-    </div>
+    </aside>
   </section>
 
   <!-- SERVICES -->
   <section id="services" aria-labelledby="servicesTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">আমাদের সার্ভিস</p>
       <h2 class="section-title" id="servicesTitle">যা যা <span>করে থাকি</span></h2>
       <p class="section-lead">
         আপনার গাড়ির ধরন, ব্যবহার ও বাজেট অনুযায়ী আমরা সঠিক সিট কভার সমাধান দিই। নতুন তৈরি, রিপেয়ার,
         কাস্টম ডিজাইন এবং হোম ফিটিংসহ সম্পূর্ণ কাজ এক জায়গায় পেয়ে যাবেন।
       </p>
-    </div>
+    </header>
     <div class="services-grid">
       <article class="service-card reveal">
         <span class="service-num">01</span>
@@ -325,14 +326,14 @@
 
   <!-- ABOUT -->
   <section id="about" aria-labelledby="aboutTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">আমাদের সম্পর্কে</p>
       <h2 class="section-title" id="aboutTitle">দোকান, অভিজ্ঞতা ও <span>আমাদের টিম</span></h2>
       <p class="section-lead">
         স্বাধীন মটর শুধু সিট কভার বিক্রি করে না, আমরা আপনার গাড়ির ভিতরের পুরো আরাম ও লুক upgrade করার কাজ করি।
         এই section-এ দোকানের কাজের ধরণ, আমাদের অভিজ্ঞতা এবং কারিগর টিমের তথ্য একসাথে দেওয়া হয়েছে।
       </p>
-    </div>
+    </header>
 
     <div class="about-layout">
       <article class="about-story-card reveal">
@@ -450,14 +451,14 @@
 
   <!-- GALLERY -->
   <section id="gallery" aria-labelledby="galleryTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">আমাদের কাজ</p>
       <h2 class="section-title" id="galleryTitle">কাজের <span>স্যাম্পল</span></h2>
       <p class="section-lead">
         বাস্তব কাজের স্যাম্পল দেখে ডিজাইন, ফিটিং ও ফিনিশ আগে থেকেই বুঝে নিন। কার, বাইক ও রিপেয়ার
         ক্যাটাগরিতে যেটা আপনার গাড়ির সাথে বেশি মানানসই, সেটাই সহজে বেছে নিতে পারবেন।
       </p>
-    </div>
+    </header>
 
     <div class="gallery-toolbar reveal">
       <div class="gallery-filter" role="group" aria-label="গ্যালারি ক্যাটাগরি ফিল্টার">
@@ -528,14 +529,14 @@
 
   <!-- SAMPLES: REXINE & LEATHER -->
   <section id="samples" aria-labelledby="samplesTitle" data-sample-param="sample">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">মেটেরিয়াল বাছাই করুন</p>
       <h2 class="section-title" id="samplesTitle">রেক্সিন ও লেদার <span>স্যাম্পল</span></h2>
       <p class="samples-section-lead">
         পছন্দের স্যাম্পলটি বেছে নিন এবং <strong class="text-gold">Sample ID</strong> উল্লেখ করে অর্ডার দিন —
         আমরা সেই রেক্সিন বা লেদারের সঠিক মূল্য জানিয়ে দেব।
       </p>
-    </div>
+    </header>
 
     <!-- Selected sample bar -->
     <div class="selected-sample-bar" id="selectedSampleBar">
@@ -628,14 +629,14 @@
 
   <!-- HOW IT WORKS -->
   <section id="process" aria-labelledby="processTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">কাজের পদ্ধতি</p>
       <h2 class="section-title" id="processTitle">কিভাবে <span>অর্ডার করবেন</span></h2>
       <p class="section-lead">
         অর্ডার প্রক্রিয়াটি সহজ রাখতে আমরা ধাপে ধাপে পুরো নির্দেশনা সাজিয়েছি। Sample ID নির্বাচন থেকে
         শুরু করে কনফার্মেশন, তৈরি এবং ফাইনাল ফিটিং পর্যন্ত প্রতিটি ধাপ পরিষ্কারভাবে জানানো থাকবে।
       </p>
-    </div>
+    </header>
     <div class="process-steps">
       <a href="#samples" class="step step-link reveal" aria-label="স্যাম্পল বাছাই ধাপে ক্লিক করে মেটেরিয়াল সেকশনে যান">
         <div class="step-num">১</div>
@@ -707,7 +708,7 @@
 
   <!-- LOCAL SEO CONTENT -->
   <section id="local-seo" aria-labelledby="localSeoTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">ঢাকা ও ঢাকা বিভাগ</p>
       <h2 class="section-title" id="localSeoTitle">ঢাকায় সিট কভার <span>সার্ভিস</span></h2>
       <p class="section-lead">
@@ -715,7 +716,7 @@
         সিট কভার তৈরি, রিপেয়ার, কাস্টম ডিজাইন এবং ফিটিং সার্ভিস দিয়ে থাকে। লোকাল সার্চে যেন সহজে খুঁজে পাওয়া যায়,
         সে জন্য এই পেজে আমাদের সার্ভিস, এলাকা এবং অর্ডার পদ্ধতির তথ্য স্পষ্টভাবে রাখা হয়েছে।
       </p>
-    </div>
+    </header>
     <div class="local-seo-grid">
       <div class="local-seo-copy reveal">
         <h3>ঢাকার কোথায় কোথায় আমরা কাজ করি</h3>
@@ -771,14 +772,14 @@
 
   <!-- CUSTOMER REVIEWS -->
   <section id="reviews" aria-labelledby="reviewsTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">গ্রাহকদের মতামত</p>
       <h2 class="section-title" id="reviewsTitle">আমাদের কাজ নিয়ে <span>রিভিউ</span></h2>
       <p class="section-lead">
         যারা আমাদের দিয়ে সিট কভার করিয়েছেন, তাদের বাস্তব অভিজ্ঞতা, রেটিং এবং মন্তব্য এখানে দেখানো হয়েছে।
         প্রতিটি রিভিউতে কাজের মান, ফিটিং, টাইমলাইন এবং সার্ভিস নিয়ে সরাসরি মতামত দেওয়া আছে।
       </p>
-    </div>
+    </header>
 
     <div class="reviews-layout">
       <aside class="reviews-summary reveal" aria-labelledby="reviewsSummaryTitle">
@@ -1344,14 +1345,14 @@
 
   <!-- CONTACT -->
   <section id="contact" aria-labelledby="contactTitle">
-    <div class="section-header reveal">
+    <header class="section-header reveal">
       <p class="section-label">যোগাযোগ</p>
       <h2 class="section-title" id="contactTitle">অর্ডার দিন বা <span>কথা বলুন</span></h2>
       <p class="section-lead">
         অর্ডার দিতে চাইলে বা কাজের ধরন, মেটেরিয়াল, ডিজাইন, মূল্য এবং ফিটিং নিয়ে জানতে চাইলে এখান থেকে সরাসরি
         যোগাযোগ করুন। আপনার গাড়ি বা মোটরসাইকেলের জন্য উপযুক্ত সিট কভার বাছাইয়ে আমরা দ্রুত সহায়তা করব।
       </p>
-    </div>
+    </header>
     <div class="contact-grid">
       <div class="contact-info reveal">
         <h3>আমাদের সাথে যোগাযোগ করুন</h3>

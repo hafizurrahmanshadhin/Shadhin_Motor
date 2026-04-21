@@ -16,7 +16,7 @@
   background: var(--bg-card);
   padding: 48px 36px;
   border-top: 3px solid transparent;
-  transition: transform 0.4s, background 0.3s;
+  transition: transform 0.4s, background 0.3s, border-color 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
   min-height: 320px;
@@ -36,6 +36,7 @@
   transform: translateY(-4px);
   background: var(--bg-card2);
   border-top-color: var(--gold);
+  box-shadow: 0 24px 44px rgba(0, 0, 0, 0.22);
 }
 
 .service-card:hover::before {
@@ -61,7 +62,7 @@
 }
 
 .service-title {
-  font-family: var(--font-ui);
+  font-family: var(--font-accent);
   font-size: 26px;
   font-weight: 700;
   color: var(--cream);

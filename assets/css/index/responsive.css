@@ -675,7 +675,8 @@
   }
 
   body.home-page .hero-content {
-    max-width: min(62%, 720px);
+    width: fit-content;
+    max-width: min(var(--hero-shell-max), 880px);
   }
 
   body.home-page .hero-subtitle {

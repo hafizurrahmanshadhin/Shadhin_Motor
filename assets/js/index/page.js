@@ -1,4 +1,5 @@
 import { initHomeNavigation } from './modules/navigation.js';
+import { initHomeAmbientEffects } from './modules/ambient-effects.js';
 import { initSharedExperience } from '../shared/experience.js';
 import { initPageLocalization } from '../shared/i18n.js';
 
@@ -14,6 +15,7 @@ function observePageRevealElements(root = document) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
   }, { threshold: 0.08 });
@@ -42,6 +44,7 @@ export function initHomePage() {
   initPageLocalization('home');
   document.documentElement.setAttribute('data-enhanced', 'true');
   initSharedExperience();
+  initHomeAmbientEffects();
   initHomeNavigation();
   observePageRevealElements();
   scheduleHomeDeferredAssets();
