@@ -54,7 +54,7 @@ html[lang^='en'] :is(.nav-links a, .btn-primary, .btn-secondary, .filter-btn, .c
   letter-spacing: 0.035em;
 }
 
-html[lang^='en'] :is(.nav-logo-sub, .catalog-count, .catalog-state, .samples-catalog-count-info, .catalog-display-meta, .samples-catalog-display-meta, .stat-label, .footer-brand p, .footer-location-note, .footer-col ul a, .footer-map-link, .footer-bottom, .sample-card-stock-badge) {
+html[lang^='en'] :is(.catalog-count, .catalog-state, .samples-catalog-count-info, .catalog-display-meta, .samples-catalog-display-meta, .stat-label, .footer-brand p, .footer-location-note, .footer-col ul a, .footer-map-link, .footer-bottom, .sample-card-stock-badge) {
   letter-spacing: 0.02em;
 }
 

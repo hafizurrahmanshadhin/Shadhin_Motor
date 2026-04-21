@@ -725,7 +725,7 @@ function applyHomeMeta() {
 function applyHomeStaticCopy() {
   setText('.skip-link', 'Skip to main content');
   setAttr('.site-header .nav-logo', 'aria-label', 'Go to the Shadhin Motor home section');
-  setTexts('#navLinks a', ['Services', 'About', 'Gallery', 'Samples', 'Process', 'Vehicles', 'Areas', 'Reviews', 'Order']);
+  setTexts('#navLinks a', ['Services', 'About Us', 'Gallery', 'Samples', 'Process', 'Vehicle Types', 'Service Areas', 'Reviews', 'Order Now']);
   setAttr('#hamburger', 'aria-label', 'Open menu');
   setAttr('#hamburger', 'data-open-label', 'Open menu');
   setAttr('#hamburger', 'data-close-label', 'Close menu');
