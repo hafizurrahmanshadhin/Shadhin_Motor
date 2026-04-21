@@ -116,6 +116,45 @@
   }
 }
 
+@media (min-width: 901px) {
+  html[lang='en'] #navbar {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  html[lang='en'] #navbar .nav-logo {
+    gap: 10px;
+  }
+
+  html[lang='en'] #navbar .nav-logo-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  html[lang='en'] #navbar .nav-logo-main {
+    font-size: clamp(17px, 1.15vw, 18px);
+    letter-spacing: 0.3px;
+  }
+
+  html[lang='en'] #navbar .nav-logo-sub {
+    font-size: 9px;
+    letter-spacing: 1.8px;
+  }
+
+  html[lang='en'] #navbar .nav-links {
+    gap: clamp(8px, 0.9vw, 14px);
+  }
+
+  html[lang='en'] #navbar .nav-links a {
+    font-size: clamp(13.5px, 0.96vw, 15px);
+    letter-spacing: 0;
+  }
+
+  html[lang='en'] #navbar .nav-cta {
+    padding: 8px 12px;
+  }
+}
+
 @media (max-width: 900px) {
   #navbar {
     display: grid;
