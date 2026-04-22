@@ -679,6 +679,10 @@
     max-width: min(var(--hero-shell-max), 880px);
   }
 
+  body.home-page .hero-title .hero-title-main {
+    white-space: nowrap;
+  }
+
   body.home-page .hero-subtitle {
     max-width: 540px;
     margin-bottom: 26px;
