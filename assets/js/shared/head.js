@@ -29,5 +29,5 @@
 
     syncUrls(payload);
     structuredData.textContent = JSON.stringify(payload);
-  } catch {}
+  } catch { }
 })();

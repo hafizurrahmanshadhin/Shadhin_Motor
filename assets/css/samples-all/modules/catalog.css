@@ -9,8 +9,8 @@
   margin-bottom: 20px;
 }
 
-.samples-catalog-toolbar > *,
-.samples-catalog-search-row > * {
+.samples-catalog-toolbar>*,
+.samples-catalog-search-row>* {
   min-width: 0;
 }
 
@@ -304,6 +304,7 @@
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
+
   .samples-catalog-toolbar-side,
   .samples-catalog-search-row {
     justify-content: flex-start;
@@ -311,6 +312,7 @@
 }
 
 @media (max-width: 1180px) {
+
   .samples-catalog-toolbar-side,
   .samples-catalog-search-row {
     width: 100%;

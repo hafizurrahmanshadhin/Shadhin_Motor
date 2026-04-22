@@ -4,6 +4,7 @@
 */
 
 @media (min-width: 901px) {
+
   body.home-page #navbar,
   body.home-page section {
     padding-inline: max(var(--page-edge), calc((100vw - var(--layout-max)) / 2));
@@ -265,6 +266,7 @@
 }
 
 @media (max-width: 640px) {
+
   .services-grid,
   .process-steps,
   .reviews-grid,
@@ -465,6 +467,7 @@
 }
 
 @media (max-width: 420px) {
+
   .about-story-card,
   .about-owner-card,
   .about-team-card {
@@ -885,6 +888,7 @@
 }
 
 @media (min-width: 641px) and (max-width: 900px) {
+
   .services-grid,
   .process-steps,
   .reviews-grid,

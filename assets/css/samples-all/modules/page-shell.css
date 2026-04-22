@@ -18,7 +18,7 @@
   border-bottom: 1px solid rgba(200, 134, 10, 0.14);
 }
 
-.samples-catalog-topbar > * {
+.samples-catalog-topbar>* {
   min-width: 0;
 }
 

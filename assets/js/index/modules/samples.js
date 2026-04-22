@@ -84,8 +84,8 @@ export function initHomeSamples() {
 
   if (!samplesSection || !grid) {
     return {
-      closeSampleConfirmModal() {},
-      closeSampleModal() {}
+      closeSampleConfirmModal() { },
+      closeSampleModal() { }
     };
   }
 
@@ -155,10 +155,10 @@ export function initHomeSamples() {
       color: getElementText(card, '.sample-card-color-name', card.dataset.color || ''),
       hex: sanitizeColor(
         getInlineStyleValue(card, '.sample-card-color-dot', 'background', '')
-          || getInlineStyleValue(card, '.sample-card-color-dot', 'background-color', '')
-          || getInlineStyleValue(card, '.sample-card-swatch', 'background-color', '')
-          || getInlineStyleValue(card, '.sample-card-swatch', 'background', '')
-          || card.dataset.hex,
+        || getInlineStyleValue(card, '.sample-card-color-dot', 'background-color', '')
+        || getInlineStyleValue(card, '.sample-card-swatch', 'background-color', '')
+        || getInlineStyleValue(card, '.sample-card-swatch', 'background', '')
+        || card.dataset.hex,
         fallbackHex
       ),
       available: !isUnavailable,

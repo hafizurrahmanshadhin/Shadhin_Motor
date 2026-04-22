@@ -150,11 +150,11 @@
     align-items: start;
   }
 
-  #contact > .section-header {
+  #contact>.section-header {
     grid-column: 1;
   }
 
-  #contact > .contact-grid {
+  #contact>.contact-grid {
     display: contents;
   }
 
@@ -206,6 +206,7 @@
 }
 
 @media (hover: none), (pointer: coarse) {
+
   #contact,
   .contact-grid,
   .order-form,

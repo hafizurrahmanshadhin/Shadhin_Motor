@@ -16,7 +16,7 @@
   border-bottom: 1px solid rgba(200, 134, 10, 0.14);
 }
 
-.gallery-catalog-page .topbar > * {
+.gallery-catalog-page .topbar>* {
   min-width: 0;
 }
 

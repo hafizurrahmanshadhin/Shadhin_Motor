@@ -28,7 +28,7 @@ function scheduleHomeDeferredAssets() {
   const start = () => {
     if (started) return;
     started = true;
-    import('../shared/accessibility-tools.js').catch(() => {});
+    import('../shared/accessibility-tools.js').catch(() => { });
   };
 
   if ('requestIdleCallback' in window) {
@@ -74,7 +74,7 @@ export function initHomePage() {
     const start = () => {
       if (started) return;
       started = true;
-      Promise.resolve(loader()).catch(() => {});
+      Promise.resolve(loader()).catch(() => { });
     };
 
     if (immediate || typeof IntersectionObserver !== 'function') {

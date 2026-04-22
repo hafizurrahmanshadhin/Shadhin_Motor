@@ -69,7 +69,7 @@
   pointer-events: none;
 }
 
-#local-seo .local-seo-copy > * {
+#local-seo .local-seo-copy>* {
   position: relative;
   z-index: 1;
 }
@@ -94,7 +94,7 @@
   line-height: 1.8;
 }
 
-#local-seo .local-seo-copy p + p {
+#local-seo .local-seo-copy p+p {
   margin-top: 14px;
 }
 

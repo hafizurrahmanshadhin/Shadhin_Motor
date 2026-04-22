@@ -28,7 +28,7 @@ export function initHomeAboutTeam() {
 
   if (!aboutSection || !slider || !track || !viewport) {
     return {
-      closeAboutTeamPreview() {}
+      closeAboutTeamPreview() { }
     };
   }
 

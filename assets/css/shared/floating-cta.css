@@ -89,6 +89,7 @@
 }
 
 @keyframes cta-stack-float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -100,6 +101,7 @@
 }
 
 @keyframes cta-orbit-glow {
+
   0%,
   100% {
     opacity: 0.3;
@@ -113,6 +115,7 @@
 }
 
 @keyframes cta-reflection-sweep {
+
   0%,
   18% {
     transform: translateX(-230%) rotate(20deg);
@@ -131,6 +134,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .floating-cta,
   .floating-cta-btn,
   .floating-cta-btn::before,

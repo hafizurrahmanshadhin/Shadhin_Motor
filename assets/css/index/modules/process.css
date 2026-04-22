@@ -91,6 +91,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+
   .step:hover,
   .step-link:focus-visible {
     background: linear-gradient(180deg, rgba(200, 134, 10, 0.1), rgba(200, 134, 10, 0.04));

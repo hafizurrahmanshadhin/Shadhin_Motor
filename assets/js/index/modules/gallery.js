@@ -45,7 +45,7 @@ export function initHomeGallery() {
 
   if (!gallerySection || !galleryGrid || !track) {
     return {
-      closeLightbox() {}
+      closeLightbox() { }
     };
   }
 

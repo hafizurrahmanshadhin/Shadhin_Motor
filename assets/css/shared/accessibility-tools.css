@@ -220,6 +220,7 @@
 }
 
 @keyframes a11y-fab-float {
+
   0%,
   100% {
     transform: translateY(0);
@@ -231,6 +232,7 @@
 }
 
 @keyframes a11y-toggle-glow {
+
   0%,
   100% {
     opacity: 0.28;
@@ -244,6 +246,7 @@
 }
 
 @keyframes a11y-toggle-sheen {
+
   0%,
   20% {
     transform: translateX(-230%) rotate(22deg);
@@ -308,7 +311,7 @@ body.a11y-high-contrast :where(a, button, input, select, textarea, [role='button
 
   .a11y-tools-toggle:hover,
   .a11y-tools-toggle:focus-visible,
-.a11y-tools.open .a11y-tools-toggle {
+  .a11y-tools.open .a11y-tools-toggle {
     width: min(186px, calc(100vw - 20px));
   }
 
@@ -318,6 +321,7 @@ body.a11y-high-contrast :where(a, button, input, select, textarea, [role='button
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .a11y-tools,
   .a11y-tools-toggle,
   .a11y-tools-toggle::before,

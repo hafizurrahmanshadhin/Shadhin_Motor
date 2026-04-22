@@ -121,7 +121,7 @@
   object-fit: cover;
 }
 
-.sample-card-swatch img + .swatch-no-img {
+.sample-card-swatch img+.swatch-no-img {
   display: none;
 }
 
@@ -268,6 +268,7 @@
 }
 
 @media (max-width: 900px) {
+
   .samples-catalog-grid,
   .samples-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -280,6 +281,7 @@
 }
 
 @media (min-width: 1600px) {
+
   .samples-catalog-grid,
   .samples-grid {
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -287,6 +289,7 @@
 }
 
 @media (min-width: 2200px) {
+
   .samples-catalog-grid,
   .samples-grid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -294,6 +297,7 @@
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
+
   .samples-catalog-grid,
   .samples-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -342,6 +346,7 @@
 }
 
 @media (min-width: 1600px) {
+
   .samples-catalog-page .samples-catalog-grid,
   .samples-catalog-page .samples-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -354,6 +359,7 @@
 }
 
 @media (min-width: 1280px) and (max-width: 1599px) {
+
   .samples-catalog-page .samples-catalog-grid,
   .samples-catalog-page .samples-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -366,6 +372,7 @@
 }
 
 @media (min-width: 1181px) and (max-width: 1279px) {
+
   .samples-catalog-page .samples-catalog-grid,
   .samples-catalog-page .samples-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -377,6 +384,7 @@
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
+
   .samples-catalog-page .samples-catalog-grid,
   .samples-catalog-page .samples-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -388,6 +396,7 @@
 }
 
 @media (min-width: 641px) and (max-width: 900px) {
+
   .samples-catalog-page .samples-catalog-grid,
   .samples-catalog-page .samples-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -400,6 +409,7 @@
 }
 
 @media (max-width: 640px) {
+
   .samples-catalog-page .samples-catalog-grid,
   .samples-catalog-page .samples-grid {
     grid-template-columns: 1fr;

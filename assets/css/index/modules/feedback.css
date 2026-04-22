@@ -76,8 +76,7 @@
   color: var(--gold-light);
 }
 
-:where(
-  .hero-title,
+:where(.hero-title,
   .hero-subtitle,
   .section-title,
   .gallery-count-info,
@@ -86,8 +85,7 @@
   .lightbox-counter,
   .reviews-rail-meta,
   .footer-location-address,
-  .footer-credit
-) {
+  .footer-credit) {
   overflow-wrap: anywhere;
   word-break: break-word;
 }

@@ -1,9 +1,7 @@
 #hero {
   --hero-stats-reserve: clamp(260px, 23vw, 340px);
-  --hero-shell-max: min(
-    calc(100vw - (var(--page-edge) * 2) - var(--hero-stats-reserve)),
-    clamp(820px, 68vw, 1280px)
-  );
+  --hero-shell-max: min(calc(100vw - (var(--page-edge) * 2) - var(--hero-stats-reserve)),
+      clamp(820px, 68vw, 1280px));
   min-height: 100vh;
   min-height: 100svh;
   display: flex;

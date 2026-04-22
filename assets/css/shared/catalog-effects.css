@@ -21,8 +21,7 @@ body:is(.gallery-catalog-page, .samples-catalog-page)::after {
     radial-gradient(circle 620px at var(--page-light-x) var(--page-light-y), rgba(139, 58, 15, 0.06), transparent 70%);
 }
 
-body:is(.gallery-catalog-page, .samples-catalog-page) :is(
-  .back-link,
+body:is(.gallery-catalog-page, .samples-catalog-page) :is(.back-link,
   .samples-catalog-back-link,
   .filter-btn,
   .sample-filter-btn,
@@ -31,8 +30,7 @@ body:is(.gallery-catalog-page, .samples-catalog-page) :is(
   .samples-catalog-reset-btn,
   .catalog-page-btn,
   .samples-catalog-page-btn,
-  .sample-card-order-btn
-) {
+  .sample-card-order-btn) {
   --btn-shift-x: 0px;
   --btn-shift-y: 0px;
   --btn-hover-y: 0px;
@@ -118,8 +116,7 @@ body:is(.gallery-catalog-page, .samples-catalog-page) [data-glow-surface='true']
     transition: none;
   }
 
-  body:is(.gallery-catalog-page, .samples-catalog-page) :is(
-    .back-link,
+  body:is(.gallery-catalog-page, .samples-catalog-page) :is(.back-link,
     .samples-catalog-back-link,
     .filter-btn,
     .sample-filter-btn,
@@ -128,8 +125,7 @@ body:is(.gallery-catalog-page, .samples-catalog-page) [data-glow-surface='true']
     .samples-catalog-reset-btn,
     .catalog-page-btn,
     .samples-catalog-page-btn,
-    .sample-card-order-btn
-  ) {
+    .sample-card-order-btn) {
     transition: box-shadow 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
   }
 

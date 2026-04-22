@@ -4,7 +4,7 @@ import { initCatalogPageEffects } from '../shared/catalog-effects.js';
 import { initPageLocalization } from '../shared/i18n.js';
 
 function scheduleAccessibilityTools() {
-  const load = () => import('../shared/accessibility-tools.js').catch(() => {});
+  const load = () => import('../shared/accessibility-tools.js').catch(() => { });
 
   if ('requestIdleCallback' in window) {
     window.requestIdleCallback(load, { timeout: 1200 });

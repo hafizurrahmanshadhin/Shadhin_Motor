@@ -343,7 +343,7 @@ function getPreferredLanguage() {
 function setPreferredLanguage(language) {
   try {
     window.localStorage.setItem(STORAGE_KEY, resolveLanguage(language));
-  } catch {}
+  } catch { }
 }
 
 function setDocumentLanguage(language) {
@@ -760,7 +760,7 @@ function applyHomeMeta() {
 
     translateNode(payload);
     structuredData.textContent = JSON.stringify(payload);
-  } catch {}
+  } catch { }
 }
 
 function applyHomeStaticCopy() {

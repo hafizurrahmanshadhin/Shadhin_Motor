@@ -266,7 +266,7 @@
   padding: 0 2px;
 }
 
-.catalog-panel > .gallery-empty {
+.catalog-panel>.gallery-empty {
   margin-top: 20px;
 }
 
@@ -300,6 +300,7 @@
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
+
   .catalog-toolbar,
   .catalog-meta {
     justify-content: flex-start;
