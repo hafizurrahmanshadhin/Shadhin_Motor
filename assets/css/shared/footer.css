@@ -43,7 +43,7 @@
 }
 
 .footer-brand p {
-  max-width: fit-content;
+  max-width: min(100%, 38ch);
   margin-top: 4px;
   font-size: 18px;
   color: var(--cream-dim);
@@ -80,6 +80,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 6px;
+  max-width: 100%;
   font-family: var(--font-accent);
   text-decoration: none;
   color: var(--gold-pale);
@@ -143,7 +144,8 @@
 
 .footer-credit {
   margin-right: 86px;
-  white-space: nowrap;
+  max-width: min(100%, 26ch);
+  white-space: normal;
   text-align: right;
   overflow-wrap: anywhere;
   color: rgba(245, 234, 216, 0.88);

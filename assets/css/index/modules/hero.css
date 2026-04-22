@@ -104,6 +104,7 @@
 .hero-title .hero-title-main {
   display: block;
   max-width: 100%;
+  overflow-wrap: normal;
   white-space: normal;
 }
 
@@ -171,6 +172,32 @@
 }
 
 @media (min-width: 901px) and (max-width: 1180px) {
+  html[lang='en'] #hero {
+    --hero-stats-reserve: 0px;
+  }
+
+  html[lang='en'] .hero-content {
+    width: min(100%, 820px);
+    max-width: min(100%, 820px);
+  }
+
+  html[lang='en'] .hero-title {
+    font-size: clamp(36px, 4.7vw, 50px);
+    line-height: 1.05;
+    letter-spacing: -0.012em;
+  }
+
+  html[lang='en'] .hero-title .hero-title-main {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+
+  html[lang='en'] .hero-subtitle {
+    max-width: min(100%, 38ch);
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1180px) {
   #hero {
     display: grid;
     grid-template-columns: 1fr;
@@ -232,6 +259,31 @@
 
   .stat-label {
     letter-spacing: 0.5px;
+  }
+}
+
+@media (min-width: 1101px) {
+  html[lang='en'] #hero {
+    --hero-stats-reserve: clamp(220px, 18vw, 300px);
+  }
+
+  html[lang='en'] .hero-content {
+    width: min(100%, var(--hero-shell-max));
+  }
+
+  html[lang='en'] .hero-title {
+    font-size: clamp(40px, 5.1vw, 76px);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+  }
+
+  html[lang='en'] .hero-title .hero-title-main {
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+
+  html[lang='en'] .hero-subtitle {
+    max-width: min(100%, 40ch);
   }
 }
 
@@ -446,6 +498,15 @@
 }
 
 @media (max-width: 480px) {
+  .hero-right {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .hero-right .stat-card:last-child {
+    grid-column: 1 / -1;
+  }
+
   .hero-badge::before {
     display: none;
   }

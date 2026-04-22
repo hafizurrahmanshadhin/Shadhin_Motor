@@ -66,6 +66,10 @@ body.home-page::after {
   text-wrap: balance;
 }
 
+html[lang='en'] .hero-title {
+  text-wrap: wrap;
+}
+
 .hero-subtitle,
 .section-lead,
 .samples-section-lead {

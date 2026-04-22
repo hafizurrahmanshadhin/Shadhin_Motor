@@ -628,6 +628,19 @@
 }
 
 @media (min-width: 1181px) and (max-width: 1366px) {
+  html[lang='en'] body.home-page .nav-links {
+    gap: 10px;
+  }
+
+  html[lang='en'] body.home-page .nav-links a {
+    font-size: 14px;
+  }
+
+  html[lang='en'] body.home-page .nav-cta {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
   body.home-page .nav-logo-main {
     font-size: 21px;
   }
@@ -681,6 +694,11 @@
 
   body.home-page .hero-title .hero-title-main {
     white-space: nowrap;
+  }
+
+  html[lang='en'] body.home-page .hero-content {
+    width: min(100%, var(--hero-shell-max));
+    max-width: min(var(--hero-shell-max), 980px);
   }
 
   body.home-page .hero-subtitle {
