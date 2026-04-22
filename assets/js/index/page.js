@@ -1,7 +1,6 @@
 import { initHomeNavigation } from './modules/navigation.js';
 import { initHomeAmbientEffects } from './modules/ambient-effects.js';
 import { initSharedExperience } from '../shared/experience.js';
-import { initPageLocalization } from '../shared/i18n.js';
 
 function observePageRevealElements(root = document) {
   if (typeof IntersectionObserver !== 'function') {
@@ -41,7 +40,6 @@ function scheduleHomeDeferredAssets() {
 export function initHomePage() {
   if (!document.body?.classList.contains('home-page')) return;
 
-  initPageLocalization('home');
   document.documentElement.setAttribute('data-enhanced', 'true');
   initSharedExperience();
   initHomeAmbientEffects();

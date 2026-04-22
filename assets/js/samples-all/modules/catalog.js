@@ -1,5 +1,6 @@
 import { createSamplesCatalogFilters } from './filters.js';
 import { createSamplesCatalogModal } from './sample-modal.js';
+import { getTextToken } from '../../shared/page-helpers.js';
 
 export function initSamplesCatalogPage() {
   const grid = document.getElementById('samplesCatalogGrid');
@@ -12,10 +13,7 @@ export function initSamplesCatalogPage() {
 
   if (!panel || !grid || !perPageSelect || !searchInput || !resetBtn) return;
 
-  const getUiText = key => {
-    const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
-    return value || '';
-  };
+  const getUiText = key => getTextToken(uiTextRoot, key, '');
 
   const filters = createSamplesCatalogFilters({
     grid,

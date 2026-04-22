@@ -1,9 +1,9 @@
 import { buildRelativeUrl } from '../../shared/page-helpers.js';
 import {
-  getElementText,
-  getImageSource,
-  getInlineStyleValue
-} from '../../shared/dom-helpers.js';
+  escapeAttributeValue,
+  getSampleCardData,
+  getSampleIdFromCard
+} from '../../shared/sample-card.js';
 import {
   closeDialog as closeDialogModal,
   focusFirstIn,
@@ -13,35 +13,6 @@ import {
   restoreFocus,
   syncBodyScrollLockState
 } from '../../shared/dialog.js';
-
-function sanitizeColor(value, fallback) {
-  const color = String(value || '').trim();
-  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color)) {
-    return color;
-  }
-
-  return fallback;
-}
-
-function normalizeSampleMaterial(value) {
-  const material = String(value || '').trim().toLowerCase();
-  if (material.includes('leather') || material.includes('লেদার')) return 'leather';
-  return 'rexine';
-}
-
-function hasOutOfStockText(value) {
-  const text = String(value || '').trim().toLowerCase();
-  return text.includes('স্টক') || text.includes('stock');
-}
-
-function escapeAttributeValue(value) {
-  const text = String(value || '');
-  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
-    return CSS.escape(text);
-  }
-
-  return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-}
 
 export function createSamplesCatalogModal({ grid, getUiText }) {
   initDialogGlobals();
@@ -59,41 +30,7 @@ export function createSamplesCatalogModal({ grid, getUiText }) {
 
   const modalCard = modalOverlay?.querySelector('.sample-modal');
 
-  const getSampleIdFromCard = card => {
-    if (!(card instanceof HTMLElement)) return '';
-    return getElementText(card, '.sample-card-id span:first-child', card.dataset.sampleId || '');
-  };
-
-  const getSampleFromCard = card => {
-    if (!(card instanceof HTMLElement)) return null;
-    const materialLabel = getElementText(card, '.sample-card-material-tag', card.dataset.material || '');
-    const material = normalizeSampleMaterial(materialLabel || card.dataset.material || '');
-    const fallbackHex = material === 'rexine' ? '#3d2010' : '#3b1f0a';
-    const orderButton = card.querySelector('.sample-card-order-btn');
-    const isUnavailable = card.classList.contains('out-of-stock')
-      || Boolean(orderButton?.disabled)
-      || hasOutOfStockText(getElementText(card, '.sample-card-stock-badge', ''))
-      || card.dataset.available === 'false';
-
-    return {
-      id: getSampleIdFromCard(card),
-      name: getElementText(card, '.sample-card-name', card.dataset.sampleName || ''),
-      material,
-      color: getElementText(card, '.sample-card-color-name', card.dataset.color || ''),
-      hex: sanitizeColor(
-        getInlineStyleValue(card, '.sample-card-color-dot', 'background', '')
-        || getInlineStyleValue(card, '.sample-card-color-dot', 'background-color', '')
-        || getInlineStyleValue(card, '.sample-card-swatch', 'background-color', '')
-        || getInlineStyleValue(card, '.sample-card-swatch', 'background', '')
-        || card.dataset.hex,
-        fallbackHex
-      ),
-      available: !isUnavailable,
-      note: getElementText(card, '.sample-card-note', card.dataset.note || ''),
-      img: getImageSource(card, '.sample-card-swatch img', card.dataset.img || ''),
-      swatchFallback: getElementText(card, '.swatch-no-img', '')
-    };
-  };
+  const getSampleFromCard = card => getSampleCardData(card);
 
   const findSampleById = sampleId => {
     const card = grid.querySelector(`.sample-card[data-sample-id="${escapeAttributeValue(sampleId)}"]`)

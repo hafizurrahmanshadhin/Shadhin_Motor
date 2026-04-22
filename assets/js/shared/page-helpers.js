@@ -2,6 +2,20 @@ export function cleanLeadingIcon(text = '') {
   return String(text || '').replace(/^[^\u0980-\u09FFA-Za-z0-9]+/u, '').trim();
 }
 
+export function formatTextTemplate(template = '', tokens = {}) {
+  return String(template || '').replace(/\{(\w+)\}/g, (_, key) => {
+    return Object.prototype.hasOwnProperty.call(tokens, key) ? String(tokens[key] ?? '') : '';
+  });
+}
+
+export function getTextToken(rootOrId, key, fallback = '') {
+  const root = typeof rootOrId === 'string'
+    ? document.getElementById(rootOrId)
+    : rootOrId;
+  const value = root?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
+  return value || fallback;
+}
+
 export function syncPressedState(buttons, isActive) {
   buttons.forEach(button => {
     const active = Boolean(isActive(button));

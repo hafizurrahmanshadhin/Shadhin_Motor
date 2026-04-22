@@ -1,4 +1,9 @@
-import { hasServerFormAction, submitFormNative } from '../../shared/page-helpers.js';
+import {
+  formatTextTemplate,
+  getTextToken,
+  hasServerFormAction,
+  submitFormNative
+} from '../../shared/page-helpers.js';
 import {
   captureViewportPosition,
   closeDialog as closeOverlayDialog,
@@ -61,8 +66,7 @@ export function initHomeReviews() {
   if (!reviewsSection) return;
 
   function getUiText(key) {
-    const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
-    return value || '';
+    return getTextToken(uiTextRoot, key, '');
   }
 
   const reviewState = {
@@ -107,12 +111,6 @@ export function initHomeReviews() {
   const REVIEW_VIDEO_EXT_RE = /\.(3g2|3gp|asf|avi|divx|f4v|flv|m2ts|m2v|m4v|mkv|mov|mp4|mpe?g|mpg|mts|mxf|ogg|ogm|ogv|qt|rm|rmvb|ts|vob|webm|wmv)$/i;
   const REVIEW_IMAGE_MAX_BYTES = 100 * 1024 * 1024;
   const REVIEW_VIDEO_MAX_BYTES = 10 * 1024 * 1024 * 1024;
-
-  function formatText(template, tokens = {}) {
-    return String(template || '').replace(/\{(\w+)\}/g, (_, key) => {
-      return Object.prototype.hasOwnProperty.call(tokens, key) ? String(tokens[key] ?? '') : '';
-    });
-  }
 
   function getReviewFileKind(file) {
     if (!file) return 'unknown';
@@ -295,14 +293,14 @@ export function initHomeReviews() {
 
     const mediaNames = mediaFiles.slice(0, 2).map(file => file.name).join(', ');
     const extraText = mediaFiles.length > 2
-      ? formatText(getUiText('mediaExtraCountTemplate'), { count: mediaFiles.length - 2 })
+      ? formatTextTemplate(getUiText('mediaExtraCountTemplate'), { count: mediaFiles.length - 2 })
       : '';
 
     if (!mediaNames) {
-      return formatText(getUiText('mediaCountOnlyTemplate'), { count: mediaFiles.length });
+      return formatTextTemplate(getUiText('mediaCountOnlyTemplate'), { count: mediaFiles.length });
     }
 
-    return formatText(getUiText('mediaCountWithNamesTemplate'), {
+    return formatTextTemplate(getUiText('mediaCountWithNamesTemplate'), {
       count: mediaFiles.length,
       names: mediaNames,
       extra: extraText
@@ -386,7 +384,7 @@ export function initHomeReviews() {
       return;
     }
 
-    metaEl.textContent = formatText(
+    metaEl.textContent = formatTextTemplate(
       getUiText('displayMetaTemplate'),
       { total, from, to }
     );
@@ -734,7 +732,7 @@ export function initHomeReviews() {
     const avatarLabel = avatarFile ? avatarFile.name : getUiText('confirmAvatarNone');
     const mediaLabel = formatReviewMediaMetaLabel(mediaFiles);
 
-    metaEl.textContent = formatText(
+    metaEl.textContent = formatTextTemplate(
       getUiText('fileMetaTemplate'),
       { avatar: avatarLabel, media: mediaLabel }
     );
@@ -918,7 +916,7 @@ export function initHomeReviews() {
 
       mediaValue.append(
         mediaGrid,
-        createCaption(formatText(getUiText('confirmMediaTotalTemplate'), { count: payload.mediaFiles.length }))
+        createCaption(formatTextTemplate(getUiText('confirmMediaTotalTemplate'), { count: payload.mediaFiles.length }))
       );
     } else {
       mediaValue.append(createCaption(getUiText('confirmMediaNone')));

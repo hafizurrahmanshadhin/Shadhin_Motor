@@ -1,28 +1,26 @@
-import { cleanLeadingIcon, replaceUrlState, syncPressedState } from '../../shared/page-helpers.js';
+import {
+  cleanLeadingIcon,
+  formatTextTemplate,
+  getTextToken,
+  replaceUrlState,
+  syncPressedState
+} from '../../shared/page-helpers.js';
 
 const PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
 function getSamplesCatalogUiText() {
-  const isEnglish = document.documentElement.lang?.toLowerCase().startsWith('en');
-
-  if (isEnglish) {
-    return {
-      empty: 'No samples found',
-      total: total => `Showing all ${total} samples`,
-      range: (from, to, total) => `Showing ${from}-${to} of ${total} samples`,
-      page: page => `Page ${page}`,
-      prev: 'Previous page',
-      next: 'Next page'
-    };
-  }
+  const root = document.getElementById('samplesCatalogUiText');
+  const totalTemplate = getTextToken(root, 'totalTemplate', 'মোট {total} টি স্যাম্পল দেখানো হচ্ছে');
+  const rangeTemplate = getTextToken(root, 'rangeTemplate', '{from}-{to} টি দেখানো হচ্ছে, মোট {total}');
+  const pageTemplate = getTextToken(root, 'pageTemplate', 'পেজ {page}');
 
   return {
-    empty: 'কোনো স্যাম্পল পাওয়া যায়নি',
-    total: total => `মোট ${total} টি স্যাম্পল দেখানো হচ্ছে`,
-    range: (from, to, total) => `${from}-${to} টি দেখানো হচ্ছে, মোট ${total}`,
-    page: page => `পেজ ${page}`,
-    prev: 'আগের পেজ',
-    next: 'পরের পেজ'
+    empty: getTextToken(root, 'empty', 'কোনো স্যাম্পল পাওয়া যায়নি'),
+    total: total => formatTextTemplate(totalTemplate, { total }),
+    range: (from, to, total) => formatTextTemplate(rangeTemplate, { from, to, total }),
+    page: page => formatTextTemplate(pageTemplate, { page }),
+    prev: getTextToken(root, 'prevLabel', 'আগের পেজ'),
+    next: getTextToken(root, 'nextLabel', 'পরের পেজ')
   };
 }
 

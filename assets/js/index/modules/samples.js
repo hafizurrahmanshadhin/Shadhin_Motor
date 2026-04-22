@@ -1,15 +1,17 @@
 import {
   buildRelativeUrl,
   cleanLeadingIcon,
+  formatTextTemplate,
+  getTextToken,
   hasServerFormAction,
   submitFormNative,
   syncPressedState
 } from '../../shared/page-helpers.js';
 import {
-  getElementText,
-  getImageSource,
-  getInlineStyleValue
-} from '../../shared/dom-helpers.js';
+  escapeAttributeValue,
+  getSampleCardData,
+  getSampleIdFromCard
+} from '../../shared/sample-card.js';
 import {
   captureViewportPosition,
   closeDialog,
@@ -22,37 +24,8 @@ import {
   syncBodyScrollLockState
 } from '../../shared/dialog.js';
 
-function sanitizeColor(value, fallback) {
-  const color = String(value || '').trim();
-  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color)) {
-    return color;
-  }
-
-  return fallback;
-}
-
-function normalizeSampleMaterial(value) {
-  const material = String(value || '').trim().toLowerCase();
-  if (material.includes('leather') || material.includes('লেদার')) return 'leather';
-  return 'rexine';
-}
-
-function hasOutOfStockText(value) {
-  const text = String(value || '').trim().toLowerCase();
-  return text.includes('স্টক') || text.includes('stock');
-}
-
 function normalizeOptionText(value) {
   return String(value || '').replace(/\s+/g, ' ').trim().toLowerCase();
-}
-
-function escapeAttributeValue(value) {
-  const text = String(value || '');
-  if (typeof CSS !== 'undefined' && typeof CSS.escape === 'function') {
-    return CSS.escape(text);
-  }
-
-  return text.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }
 
 function showToast(title, message, duration = 4000) {
@@ -108,23 +81,11 @@ export function initHomeSamples() {
   };
 
   function getUiText(key) {
-    const value = uiTextRoot?.querySelector(`[data-key="${key}"]`)?.textContent?.trim();
-    return value || '';
-  }
-
-  function formatText(template, tokens = {}) {
-    return String(template || '').replace(/\{(\w+)\}/g, (_, key) => {
-      return Object.prototype.hasOwnProperty.call(tokens, key) ? String(tokens[key] ?? '') : '';
-    });
+    return getTextToken(uiTextRoot, key, '');
   }
 
   function getSampleItems() {
     return Array.from(grid.querySelectorAll('.sample-card-item'));
-  }
-
-  function getSampleIdFromCard(card) {
-    if (!(card instanceof HTMLElement)) return '';
-    return getElementText(card, '.sample-card-id span:first-child', card.dataset.sampleId || '');
   }
 
   function getSampleCardById(sampleId) {
@@ -137,36 +98,7 @@ export function initHomeSamples() {
   }
 
   function getSampleFromCard(card) {
-    if (!(card instanceof HTMLElement)) return null;
-
-    const materialLabel = getElementText(card, '.sample-card-material-tag', card.dataset.material || '');
-    const material = normalizeSampleMaterial(materialLabel || card.dataset.material || '');
-    const fallbackHex = material === 'rexine' ? '#3d2010' : '#3b1f0a';
-    const orderButton = card.querySelector('.sample-card-order-btn');
-    const isUnavailable = card.classList.contains('out-of-stock')
-      || Boolean(orderButton?.disabled)
-      || hasOutOfStockText(getElementText(card, '.sample-card-stock-badge', ''))
-      || card.dataset.available === 'false';
-
-    return {
-      id: getSampleIdFromCard(card),
-      name: getElementText(card, '.sample-card-name', card.dataset.sampleName || ''),
-      material,
-      color: getElementText(card, '.sample-card-color-name', card.dataset.color || ''),
-      hex: sanitizeColor(
-        getInlineStyleValue(card, '.sample-card-color-dot', 'background', '')
-        || getInlineStyleValue(card, '.sample-card-color-dot', 'background-color', '')
-        || getInlineStyleValue(card, '.sample-card-swatch', 'background-color', '')
-        || getInlineStyleValue(card, '.sample-card-swatch', 'background', '')
-        || card.dataset.hex,
-        fallbackHex
-      ),
-      available: !isUnavailable,
-      note: getElementText(card, '.sample-card-note', card.dataset.note || ''),
-      img: getImageSource(card, '.sample-card-swatch img', card.dataset.img || ''),
-      materialLabel,
-      swatchFallback: getElementText(card, '.swatch-no-img', '')
-    };
+    return getSampleCardData(card);
   }
 
   function findSampleById(sampleId) {
@@ -194,8 +126,8 @@ export function initHomeSamples() {
 
     if (countEl) {
       countEl.textContent = currentFilter === 'all'
-        ? formatText(getUiText('countAllTemplate'), { count: visibleTotal })
-        : formatText(getUiText('countFilteredTemplate'), {
+        ? formatTextTemplate(getUiText('countAllTemplate'), { count: visibleTotal })
+        : formatTextTemplate(getUiText('countFilteredTemplate'), {
           label: getFilterLabel(currentFilter),
           count: visibleTotal
         });
@@ -432,7 +364,7 @@ export function initHomeSamples() {
     syncSelectionUi();
     showToast(
       getUiText('toastSampleSelectedTitle'),
-      formatText(getUiText('toastSampleSelectedMessage'), {
+      formatTextTemplate(getUiText('toastSampleSelectedMessage'), {
         sampleId: sample.id,
         sampleName: sample.name
       }),
@@ -476,12 +408,12 @@ export function initHomeSamples() {
       orderConfirmState.secondaryAction = 'edit-order';
       badge.textContent = getUiText('confirmSelectedBadge');
       title.textContent = getUiText('confirmSelectedTitle');
-      copy.textContent = formatText(
+      copy.textContent = formatTextTemplate(
         getUiText('confirmSelectedCopy'),
         { sampleId: selectedSample.id }
       );
       primaryHighlightTitle.textContent = `${selectedSample.id} — ${selectedSample.name}`;
-      primaryHighlightCopy.textContent = formatText(
+      primaryHighlightCopy.textContent = formatTextTemplate(
         getUiText('confirmSelectedPrimaryMeta'),
         { material: getSampleMaterialLabel(selectedSample), color: selectedSample.color }
       );

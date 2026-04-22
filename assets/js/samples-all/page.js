@@ -1,7 +1,6 @@
 import { initSamplesCatalogPage } from './modules/catalog.js';
 import { initSharedExperience } from '../shared/experience.js';
 import { initCatalogPageEffects } from '../shared/catalog-effects.js';
-import { initPageLocalization } from '../shared/i18n.js';
 
 function scheduleAccessibilityTools() {
   const load = () => import('../shared/accessibility-tools.js').catch(() => { });
@@ -14,7 +13,6 @@ function scheduleAccessibilityTools() {
 }
 
 if (document.body?.classList.contains('samples-catalog-page')) {
-  initPageLocalization('samples-catalog');
   initSharedExperience();
   scheduleAccessibilityTools();
   initSamplesCatalogPage();

@@ -1,18 +1,65 @@
 <!DOCTYPE html>
-<html lang="bn-BD" data-client-i18n="true">
+<html lang="bn-BD">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>কাজের গ্যালারি</title>
-  <meta name="description" content="Shadhin Motor-এর সব কার, মোটরসাইকেল ও রিপেয়ার গ্যালারি একসাথে দেখুন।">
-  <script src="assets/js/shared/head.js" defer></script>
+  <title>কাজের গ্যালারি | Shadhin Motor</title>
+  <meta name="description"
+    content="Shadhin Motor-এর সব কার, মোটরসাইকেল ও রিপেয়ার সিট কভার ডিজাইন একসাথে category-wise দেখুন।">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="shortcut icon" href="assets/images/favicon.svg">
-  <link rel="canonical" id="canonicalLink">
-  <link rel="alternate" hreflang="bn-BD" id="localeLink">
+  <meta name="keywords" content="Shadhin Motor gallery, car seat cover gallery, bike seat cover gallery, repair gallery Dhaka">
+  <meta name="author" content="Shadhin Motor">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#0e0a04">
+  <link rel="canonical" href="http://127.0.0.1:5500/gallery-all.html">
+  <link rel="alternate" hreflang="bn-BD" href="http://127.0.0.1:5500/gallery-all.html">
+  <link rel="alternate" hreflang="x-default" href="http://127.0.0.1:5500/gallery-all.html">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="" id="ogUrlMeta">
+  <meta property="og:locale" content="bn_BD">
+  <meta property="og:site_name" content="Shadhin Motor">
+  <meta property="og:title" content="কাজের গ্যালারি | Shadhin Motor">
+  <meta property="og:description"
+    content="প্রাইভেট কার, মোটরসাইকেল ও রিপেয়ার কাজের সব সিট কভার ডিজাইন একসাথে দেখুন।">
+  <meta property="og:url" content="http://127.0.0.1:5500/gallery-all.html">
+  <meta property="og:image" content="http://127.0.0.1:5500/assets/images/cars/1.jpeg">
+  <meta property="og:image:alt" content="Shadhin Motor-এর গ্যালারি ক্যাটালগের প্রাইভেট কার ডিজাইন">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="কাজের গ্যালারি | Shadhin Motor">
+  <meta name="twitter:description"
+    content="Shadhin Motor-এর সব কার, মোটরসাইকেল ও রিপেয়ার সিট কভার ডিজাইন একসাথে দেখুন।">
+  <meta name="twitter:image" content="http://127.0.0.1:5500/assets/images/cars/1.jpeg">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "CollectionPage",
+          "name": "Shadhin Motor Gallery Catalog",
+          "url": "http://127.0.0.1:5500/gallery-all.html",
+          "inLanguage": "bn-BD",
+          "description": "Shadhin Motor-এর সব কার, মোটরসাইকেল ও রিপেয়ার সিট কভার ডিজাইন একসাথে category-wise দেখুন."
+        },
+        {
+          "@type": [
+            "LocalBusiness",
+            "AutoRepair"
+          ],
+          "name": "Shadhin Motor",
+          "url": "http://127.0.0.1:5500/index.html",
+          "telephone": "+8801911387254",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "আলী এন্ড নুর রিয়েল এস্টেট লিঃ (গ্লাস ফ্যাক্টরির পিছনে)",
+            "addressLocality": "Dhaka",
+            "postalCode": "1207",
+            "addressCountry": "BD"
+          }
+        }
+      ]
+    }
+  </script>
   <link rel="stylesheet" href="assets/css/gallery-all/page.css">
 </head>
 
@@ -540,6 +587,15 @@
         target="_blank" rel="noopener noreferrer" aria-label="WhatsApp এ মেসেজ করুন" title="WhatsApp">💬</a>
       <a class="floating-cta-btn call" href="tel:+8801911387254" aria-label="ফোন কল করুন" title="Call">📞</a>
     </nav>
+  </div>
+
+  <div id="galleryCatalogUiText" hidden>
+    <span data-key="empty">কোনো ডিজাইন পাওয়া যায়নি</span>
+    <span data-key="totalTemplate">মোট {total} টি ডিজাইন দেখানো হচ্ছে</span>
+    <span data-key="rangeTemplate">{from}-{to} টি দেখানো হচ্ছে, মোট {total}</span>
+    <span data-key="pageTemplate">পেজ {page}</span>
+    <span data-key="prevLabel">আগের পেজ</span>
+    <span data-key="nextLabel">পরের পেজ</span>
   </div>
 
   <aside class="a11y-tools" aria-label="সহজ ব্যবহার সহায়তা" data-feature-status-template="{label} {state} হয়েছে"

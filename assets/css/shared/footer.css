@@ -113,7 +113,7 @@
 
 .footer-col ul a {
   font-family: var(--font-meta);
-  color: var(--cream-dim);
+  color: rgba(245, 234, 216, 0.94);
   text-decoration: none;
   font-size: 16px;
   line-height: 1.55;
@@ -122,7 +122,7 @@
 
 .footer-col ul a:hover,
 .footer-col ul a:focus-visible {
-  color: var(--gold);
+  color: var(--gold-light);
 }
 
 .footer-bottom {
@@ -255,7 +255,7 @@
 
 .footer-credit a {
   display: inline-block;
-  color: var(--gold);
+  color: var(--gold-light);
   text-decoration: none;
   padding: 2px 8px;
   border-radius: 999px;

@@ -50,7 +50,10 @@ export function initGalleryCatalogPage() {
     img.addEventListener('load', hidePlaceholder, { once: true });
     img.addEventListener('error', showPlaceholder, { once: true });
 
-    if (img.complete && img.naturalWidth > 0) hidePlaceholder();
+    if (img.complete) {
+      if (img.naturalWidth > 0) hidePlaceholder();
+      else showPlaceholder();
+    }
   });
 
   filters.initFromSearchParams(new URLSearchParams(window.location.search));
