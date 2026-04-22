@@ -701,7 +701,23 @@
 
   html[lang='en'] body.home-page .hero-content {
     width: min(100%, var(--hero-shell-max));
-    max-width: min(var(--hero-shell-max), 980px);
+    max-width: min(var(--hero-shell-max), 920px);
+    padding:
+      clamp(24px, 2vw, 30px)
+      clamp(34px, 2.8vw, 50px)
+      clamp(30px, 2.5vw, 38px)
+      clamp(28px, 2.3vw, 34px);
+  }
+
+  html[lang='en'] body.home-page .hero-title {
+    font-size: clamp(44px, 4.05vw, 56px);
+    line-height: 1.03;
+    letter-spacing: -0.018em;
+  }
+
+  html[lang='en'] body.home-page .hero-title .hero-title-main {
+    white-space: nowrap;
+    text-wrap: nowrap;
   }
 
   body.home-page .hero-subtitle {
