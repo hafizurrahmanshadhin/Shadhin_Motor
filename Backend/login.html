@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shadhin Motor Admin Dashboard — Seat Cover Shop Management">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
+<script>
+(() => {
+  const root = document.documentElement;
+  const fallback = root.getAttribute("data-theme") || "dark";
+  let theme = fallback;
+  try {
+    const saved = window.localStorage.getItem("sm_theme");
+    if (saved === "light" || saved === "dark") theme = saved;
+  } catch {}
+  root.setAttribute("data-theme", theme);
+  root.setAttribute("data-bs-theme", theme);
+})();
+</script>
+<title>Shadhin Motor — Login</title>
+
+<!-- Bootstrap Icons -->
+<link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+<!-- SweetAlert2 -->
+<link href="assets/css/sweetalert2.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="assets/css/google-fonts.css" rel="stylesheet">
+
+<link href="assets/css/shared/base.css" rel="stylesheet">
+<link href="assets/css/login.css" rel="stylesheet">
+
+</head>
+
+<body class="preloading" data-page="login">
+
+<!-- PRELOADER -->
+<div id="pre" role="status" aria-label="Loading page">
+  <div class="pre-inner" aria-hidden="true">
+    <div class="pre-spinner-wrap">
+      <div class="pre-spinner-outer"></div>
+      <div class="pre-spinner-inner"></div>
+    </div>
+  </div>
+</div>
+<!-- LOGIN -->
+  <div id="loginWrap">
+  <div class="login-card">
+    <div class="login-brand">
+      <a class="login-logo-wrap login-brand-link" href="dashboard.html" aria-label="Open dashboard preview">
+        <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="46" height="46" aria-hidden="true">
+          <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="1.8"/>
+          <polygon points="18,8 21.5,11.5 18,15 14.5,11.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.8"/>
+          <polygon points="28,8 31.5,11.5 28,15 24.5,11.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.8"/>
+          <polygon points="18,16 21.5,19.5 18,23 14.5,19.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.8"/>
+          <polygon points="28,16 31.5,19.5 28,23 24.5,19.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.8"/>
+          <circle cx="23" cy="11.5" r="1.1" fill="#f59e0b"/>
+          <circle cx="23" cy="19.5" r="1.1" fill="#f59e0b"/>
+          <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.4"/>
+          <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.4"/>
+          <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(245,158,11,0.12)" stroke="#f59e0b" stroke-width="1.8"/>
+          <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="3,2.5"/>
+          <line x1="9" y1="30" x2="5" y2="32" stroke="#d97706" stroke-width="1.4"/>
+          <line x1="37" y1="30" x2="41" y2="32" stroke="#d97706" stroke-width="1.4"/>
+          <rect x="13" y="2" width="20" height="2" rx="1" fill="#f59e0b" opacity="0.7"/>
+        </svg>
+        <div>
+          <h1 class="login-title">Shadhin <em>Motor</em></h1>
+          <p class="login-sub">Admin Dashboard</p>
+        </div>
+      </a>
+      <div class="login-divider"></div>
+    </div>
+    <form id="loginForm">
+      <div class="login-field-wrap">
+        <label class="login-lbl" for="loginUser">Username or Email</label>
+        <div class="login-input-row">
+          <span class="login-field-icon"><i class="bi bi-person-circle"></i></span>
+          <input class="login-input" id="loginUser" type="text" placeholder="Enter username or email" autocomplete="username">
+        </div>
+      </div>
+      <div class="login-field-wrap">
+        <label class="login-lbl" for="loginPass">Password</label>
+        <div class="login-input-row">
+          <span class="login-field-icon"><i class="bi bi-shield-lock"></i></span>
+          <input class="login-input" id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password">
+          <button class="login-eye-btn" type="button" data-action="login-pass-toggle" aria-label="Toggle password visibility">
+            <i class="bi bi-eye-slash" id="loginPassIc"></i>
+          </button>
+        </div>
+      </div>
+      <button class="login-submit-btn" id="loginBtn" type="submit">
+        <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+        <span>Sign In</span>
+      </button>
+    </form>
+  </div>
+
+</div>
+
+<!-- Login scripts -->
+<script src="assets/js/sweetalert2.all.min.js"></script>
+<script src="assets/js/shared/core.js"></script>
+<script src="assets/js/login.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+

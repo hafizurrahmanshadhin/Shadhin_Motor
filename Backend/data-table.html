@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shadhin Motor Admin Dashboard — Seat Cover Shop Management">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
+<script>
+(() => {
+  const root = document.documentElement;
+  const fallback = root.getAttribute("data-theme") || "dark";
+  let theme = fallback;
+  try {
+    const saved = window.localStorage.getItem("sm_theme");
+    if (saved === "light" || saved === "dark") theme = saved;
+  } catch {}
+  root.setAttribute("data-theme", theme);
+  root.setAttribute("data-bs-theme", theme);
+})();
+</script>
+<title>Shadhin Motor — Data Table</title>
+
+<!-- Bootstrap 5.3 -->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+<!-- SweetAlert2 -->
+<link href="assets/css/sweetalert2.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="assets/css/google-fonts.css" rel="stylesheet">
+
+<link href="assets/css/shared/base.css" rel="stylesheet">
+<link href="assets/css/shared/admin-shell.css" rel="stylesheet">
+<link href="assets/css/data-table-page.css" rel="stylesheet">
+
+</head>
+
+<body class="preloading" data-page="tool-table">
+
+<!-- PRELOADER -->
+<div id="pre" role="status" aria-label="Loading page">
+  <div class="pre-inner" aria-hidden="true">
+    <div class="pre-spinner-wrap">
+      <div class="pre-spinner-outer"></div>
+      <div class="pre-spinner-inner"></div>
+    </div>
+  </div>
+</div>
+<!-- SIDEBAR OVERLAY -->
+<div id="sb-overlay" data-action="sidebar-close"></div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+<!-- ══ SIDEBAR ══ -->
+<div id="sb">
+  <a href="dashboard.html" class="sb-brand">
+    <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="36" height="36" style="flex-shrink:0">
+      <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(245,158,11,0.1)" stroke="#f59e0b" stroke-width="1.6"/>
+      <polygon points="18,8 21.5,11.5 18,15 14.5,11.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <polygon points="28,8 31.5,11.5 28,15 24.5,11.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <polygon points="18,16 21.5,19.5 18,23 14.5,19.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <polygon points="28,16 31.5,19.5 28,23 24.5,19.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <circle cx="23" cy="11.5" r="1" fill="#f59e0b" opacity="0.55"/>
+      <circle cx="23" cy="19.5" r="1" fill="#f59e0b" opacity="0.55"/>
+      <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.4"/>
+      <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.4"/>
+      <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(245,158,11,0.1)" stroke="#f59e0b" stroke-width="1.6"/>
+      <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="3,2.5" opacity="0.6"/>
+      <line x1="9" y1="30" x2="5" y2="32" stroke="#d97706" stroke-width="1.4"/>
+      <line x1="37" y1="30" x2="41" y2="32" stroke="#d97706" stroke-width="1.4"/>
+      <rect x="13" y="2" width="20" height="2" rx="1" fill="#f59e0b" opacity="0.6"/>
+    </svg>
+    <div>
+      <div class="sb-brand-name">Shadhin <em>Motor</em></div>
+      <div class="sb-brand-sub">Admin Panel</div>
+    </div>
+  </a>
+
+  <div class="sb-sec">Main</div>
+  <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
+  <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n" id="pBadge">12</span></a>
+
+  <div class="sb-sec">Content</div>
+  <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i class="bi bi-palette2"></i></span>Samples</a>
+  <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i class="bi bi-images"></i></span>Gallery</a>
+
+  <div class="sb-sec">Management</div>
+  <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i class="bi bi-people-fill"></i></span>Employees</a>
+  <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i class="bi bi-wallet2"></i></span>Wages</a>
+  <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i class="bi bi-graph-up-arrow"></i></span>Finance</a>
+
+  <div class="sb-sec">Tools</div>
+  <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i class="bi bi-table"></i></span>Data Table</a>
+  <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
+
+  <div class="sb-div"></div>
+  <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
+  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+
+  <div class="sb-foot">
+    <div class="sb-user" data-modal-open="moProfile">
+      <div class="ava" id="sbAv">A</div>
+      <div style="flex:1;min-width:0">
+        <div class="sb-uname" id="sbName">Admin</div>
+        <div class="sb-urole"><span style="color:var(--green);font-size:9px">●</span> Super Admin</div>
+      </div>
+      <i class="bi bi-three-dots-vertical" style="color:var(--txt3);font-size:14px"></i>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+
+<!-- TOPBAR -->
+<div id="tb">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="ic-btn" id="sbToggle" data-action="sidebar-toggle" title="Toggle Sidebar"><i class="bi bi-list" style="font-size:19px"></i></div>
+    <div class="tb-bc">
+      <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin Motor</span>
+      <span class="sep d-none d-md-inline">›</span>
+      <span class="cur" id="bcCur">Data Table</span>
+    </div>
+  </div>
+  <div class="tb-r">
+    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <!-- Theme -->
+    <div class="ic-btn" id="themeBtn" data-action="theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></div>
+    <!-- Notifications -->
+    <div style="position:relative">
+      <div class="ic-btn" id="notifBtn" data-action="notif-toggle">
+        <i class="bi bi-bell-fill"></i>
+        <span class="ic-dot" id="nDot" style="display:none"></span>
+      </div>
+      <div class="float-panel np" id="notifPanel">
+        <div class="np-head">
+          <span class="np-title"><i class="bi bi-bell-fill me-2" style="color:var(--am)"></i>Notifications</span>
+          <button class="np-mark" type="button" data-action="notif-read-all">Mark all read</button>
+        </div>
+        <div class="n-list" id="nList">
+  <div class="n-item unread">
+    <div class="n-ic" style="background:var(--blue-bg);color:var(--blue)"><i class="bi bi-bag-check"></i></div>
+    <div style="flex:1;min-width:0">
+      <div class="n-t">New order received</div>
+      <div class="n-m">Farhan Ahmed confirmed a premium leather seat cover booking for Friday delivery.</div>
+      <div class="n-time">5 min ago</div>
+    </div>
+    <span class="n-dot"></span>
+  </div>
+  <div class="n-item unread">
+    <div class="n-ic" style="background:var(--green-bg);color:var(--green)"><i class="bi bi-cash-stack"></i></div>
+    <div style="flex:1;min-width:0">
+      <div class="n-t">Payment collected</div>
+      <div class="n-m">Advance payment of ৳12,000 has been received for the Toyota Prado project.</div>
+      <div class="n-time">22 min ago</div>
+    </div>
+    <span class="n-dot"></span>
+  </div>
+  <div class="n-item">
+    <div class="n-ic" style="background:var(--orn-bg);color:var(--orn)"><i class="bi bi-calendar2-check"></i></div>
+    <div style="flex:1;min-width:0">
+      <div class="n-t">Delivery reminder</div>
+      <div class="n-m">Three completed jobs are scheduled for customer pickup before 6:00 PM today.</div>
+      <div class="n-time">1 hour ago</div>
+    </div>
+  </div>
+</div>
+        <div class="np-foot"><a href="#" data-action="noop">See all notifications</a></div>
+      </div>
+    </div>
+    <!-- User -->
+    <div style="position:relative">
+      <div class="tb-user" id="userBtn" data-action="user-toggle">
+        <div class="tb-ava" id="tbAv">A</div>
+        <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
+        <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
+      </div>
+      <div class="float-panel udrop" id="userDrop">
+        <div class="ud-head">
+          <div class="ud-name" id="udName">Admin</div>
+          <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
+        </div>
+        <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My Profile</button>
+        <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+        <button class="dd-row" type="button" data-action="theme-toggle"><i class="bi bi-moon-stars"></i> Toggle Theme</button>
+        <div class="dd-sep"></div>
+        <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PAGES ══════════════ -->
+
+<!-- TOOL: DATA TABLE -->
+<div class="page-shell" id="page-tool-table">
+  <div class="ph"><div><h1><i class="bi bi-table me-2" style="color:var(--am)"></i>Data Table</h1><p class="d-none d-sm-block">Fully responsive seat cover orders table with search, pagination and Bootstrap modal actions</p></div></div>
+  <div class="panel atbl-panel">
+    <div class="panel-h"><span class="panel-t">SEAT COVER ORDERS — SAMPLE DATASET + YOUR ORDERS</span></div>
+    <div class="panel-b">
+      <div id="toolTableWrap" class="atbl-wrap" data-page="1">
+        <div class="atbl-toolbar">
+          <div class="atbl-toolbar-left">
+            <button class="btn2 b2-gd atbl-add-btn" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="add">
+              <i class="bi bi-plus-lg"></i>
+              <span>Add New</span>
+            </button>
+            <div class="atbl-show">
+              <span class="atbl-show-lbl">Show</span>
+              <select class="fs" id="toolTablePerPage" aria-label="Rows per page">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="20">20</option>
+              </select>
+            </div>
+            <div class="atbl-meta" id="toolTableMeta" aria-live="polite">Showing 1 to 10 of 12 entries</div>
+          </div>
+          <div class="atbl-toolbar-right">
+            <div class="atbl-search">
+              <i class="bi bi-search"></i>
+              <input class="fi" id="toolTableSearch" type="search" autocomplete="off" placeholder="Search customer, phone, vehicle, service or status">
+            </div>
+          </div>
+        </div>
+        <div class="atbl-shell">
+          <div class="atbl-scroll">
+            <table class="tbl atbl-table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Vehicle</th>
+                  <th scope="col">Service</th>
+                  <th scope="col">Sample</th>
+                  <th scope="col">Total (৳)</th>
+                  <th scope="col">Advance (৳)</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Date</th>
+                  <th scope="col" class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="toolTableBody">
+                <tr data-row="1" data-customer="Rahman Ali" data-phone="01711-234567" data-vehicle="Private Car — Toyota Corolla" data-service="New Seat Cover" data-sample="RX-001" data-total="8500" data-advance="3000" data-status="Completed" data-date="2025-04-15" data-note="Black leather seat cover with diamond stitching.">
+                  <td class="atbl-row-no">1</td><td>Rahman Ali</td><td>01711-234567</td><td>Private Car — Toyota Corolla</td><td>New Seat Cover</td><td><span class="chip">RX-001</span></td><td class="atbl-amount">৳8,500</td><td>৳3,000</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-15</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="2" data-customer="Kamal Hossain" data-phone="01812-345678" data-vehicle="Private Car — Honda City" data-service="Custom Design" data-sample="LT-002" data-total="12000" data-advance="5000" data-status="In Progress" data-date="2025-04-14" data-note="Brown leather with beige piping and custom finish.">
+                  <td class="atbl-row-no">2</td><td>Kamal Hossain</td><td>01812-345678</td><td>Private Car — Honda City</td><td>Custom Design</td><td><span class="chip">LT-002</span></td><td class="atbl-amount">৳12,000</td><td>৳5,000</td><td><span class="bdg b-bl">In Progress</span></td><td>2025-04-14</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="3" data-customer="Sumaiya Begum" data-phone="01913-456789" data-vehicle="SUV — Honda CR-V" data-service="New Seat Cover" data-sample="RX-003" data-total="15000" data-advance="6000" data-status="Pending" data-date="2025-04-13" data-note="Customer requested quilted front panels and soft foam finish.">
+                  <td class="atbl-row-no">3</td><td>Sumaiya Begum</td><td>01913-456789</td><td>SUV — Honda CR-V</td><td>New Seat Cover</td><td><span class="chip">RX-003</span></td><td class="atbl-amount">৳15,000</td><td>৳6,000</td><td><span class="bdg b-am">Pending</span></td><td>2025-04-13</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="4" data-customer="Jakir Hossain" data-phone="01614-567890" data-vehicle="Motorcycle — Yamaha R15" data-service="Repair" data-sample="RX-004" data-total="1800" data-advance="800" data-status="Completed" data-date="2025-04-12" data-note="Repaired rider seat foam and stitch line.">
+                  <td class="atbl-row-no">4</td><td>Jakir Hossain</td><td>01614-567890</td><td>Motorcycle — Yamaha R15</td><td>Repair</td><td><span class="chip">RX-004</span></td><td class="atbl-amount">৳1,800</td><td>৳800</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-12</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="5" data-customer="Rima Akter" data-phone="01515-678901" data-vehicle="Private Car — Toyota Allion" data-service="Repair" data-sample="—" data-total="2500" data-advance="1000" data-status="Completed" data-date="2025-04-11" data-note="Door panel and front seat repair package.">
+                  <td class="atbl-row-no">5</td><td>Rima Akter</td><td>01515-678901</td><td>Private Car — Toyota Allion</td><td>Repair</td><td>—</td><td class="atbl-amount">৳2,500</td><td>৳1,000</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-11</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="6" data-customer="Minhaj Uddin" data-phone="01716-789012" data-vehicle="Private Car — Nissan X-Trail" data-service="New Seat Cover" data-sample="LT-001" data-total="18000" data-advance="8000" data-status="In Progress" data-date="2025-04-10" data-note="Two-tone premium leather finish.">
+                  <td class="atbl-row-no">6</td><td>Minhaj Uddin</td><td>01716-789012</td><td>Private Car — Nissan X-Trail</td><td>New Seat Cover</td><td><span class="chip">LT-001</span></td><td class="atbl-amount">৳18,000</td><td>৳8,000</td><td><span class="bdg b-bl">In Progress</span></td><td>2025-04-10</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="7" data-customer="Tasnim Jahan" data-phone="01817-890123" data-vehicle="Microbus — Toyota HiAce" data-service="New Seat Cover" data-sample="RX-002" data-total="22000" data-advance="10000" data-status="Pending" data-date="2025-04-09" data-note="Microbus full interior package with custom color combination.">
+                  <td class="atbl-row-no">7</td><td>Tasnim Jahan</td><td>01817-890123</td><td>Microbus — Toyota HiAce</td><td>New Seat Cover</td><td><span class="chip">RX-002</span></td><td class="atbl-amount">৳22,000</td><td>৳10,000</td><td><span class="bdg b-am">Pending</span></td><td>2025-04-09</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="8" data-customer="Arif Rahman" data-phone="01918-901234" data-vehicle="Private Car — Toyota Premio" data-service="Fitting Only" data-sample="—" data-total="1200" data-advance="1200" data-status="Completed" data-date="2025-04-08" data-note="Customer brought own cover set, fitting service only.">
+                  <td class="atbl-row-no">8</td><td>Arif Rahman</td><td>01918-901234</td><td>Private Car — Toyota Premio</td><td>Fitting Only</td><td>—</td><td class="atbl-amount">৳1,200</td><td>৳1,200</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-08</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="9" data-customer="Nazneen Islam" data-phone="01719-012345" data-vehicle="Motorcycle — Bajaj Pulsar" data-service="Repair" data-sample="—" data-total="950" data-advance="500" data-status="Completed" data-date="2025-04-07" data-note="Minor side patch and seat tightening work.">
+                  <td class="atbl-row-no">9</td><td>Nazneen Islam</td><td>01719-012345</td><td>Motorcycle — Bajaj Pulsar</td><td>Repair</td><td>—</td><td class="atbl-amount">৳950</td><td>৳500</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-07</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="10" data-customer="Farhan Ahmed" data-phone="01520-123456" data-vehicle="SUV — Mitsubishi Pajero" data-service="New Seat Cover" data-sample="LT-003" data-total="25000" data-advance="12000" data-status="In Progress" data-date="2025-04-06" data-note="Beige leather and armrest wrap package.">
+                  <td class="atbl-row-no">10</td><td>Farhan Ahmed</td><td>01520-123456</td><td>SUV — Mitsubishi Pajero</td><td>New Seat Cover</td><td><span class="chip">LT-003</span></td><td class="atbl-amount">৳25,000</td><td>৳12,000</td><td><span class="bdg b-bl">In Progress</span></td><td>2025-04-06</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="11" data-customer="Shabana Khatun" data-phone="01721-234567" data-vehicle="Private Car — Toyota Aqua" data-service="New Seat Cover" data-sample="RX-005" data-total="7500" data-advance="3000" data-status="Completed" data-date="2025-04-05" data-note="Standard leather package with soft back support.">
+                  <td class="atbl-row-no">11</td><td>Shabana Khatun</td><td>01721-234567</td><td>Private Car — Toyota Aqua</td><td>New Seat Cover</td><td><span class="chip">RX-005</span></td><td class="atbl-amount">৳7,500</td><td>৳3,000</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-05</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr data-row="12" data-customer="Delwar Hossain" data-phone="01822-345678" data-vehicle="Private Car — Honda Civic" data-service="Custom Design" data-sample="RX-006" data-total="9500" data-advance="4000" data-status="Pending" data-date="2025-04-04" data-note="Customer approved design but fitting date not fixed yet.">
+                  <td class="atbl-row-no">12</td><td>Delwar Hossain</td><td>01822-345678</td><td>Private Car — Honda Civic</td><td>Custom Design</td><td><span class="chip">RX-006</span></td><td class="atbl-amount">৳9,500</td><td>৳4,000</td><td><span class="bdg b-am">Pending</span></td><td>2025-04-04</td>
+                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                </tr>
+                <tr id="toolTableEmptyRow" hidden>
+                  <td class="atbl-empty" colspan="11">
+                    <i class="bi bi-search-heart d-block mb-2" style="font-size:30px"></i>
+                    No matching records found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="atbl-footer">
+          <div class="atbl-foot-note">Raw HTML table data with client-side search, pagination, add, edit and delete preview actions.</div>
+          <nav class="atbl-pager" id="toolTablePagination" aria-label="Table pagination"></nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="app-foot">
+  <div class="app-foot-inner">
+    <span>© 2026 Shadhin Motor Admin Dashboard</span>
+    <span>Built for smooth multi-page management workflows</span>
+  </div>
+</footer>
+
+</div><!-- end #main -->
+</div><!-- end #app -->
+
+<!-- ══ MODALS ══ -->
+<!-- PROFILE -->
+<div class="modal fade" id="moProfile" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-content"><div class="modal-header"><h5 class="modal-title">My Profile</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="pro-wrap">
+      <div class="ava lg mx-auto mb-3" id="proAv">A</div>
+      <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
+      <div style="font-size:11px;color:var(--txt3);margin-top:3px">Super Admin · Shadhin Motor</div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
+      <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e"></div>
+      <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b" placeholder="Shop owner & manager"></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn2 b2-out" data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button" data-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
+  </div>
+</div></div>
+
+
+
+<!-- REUSABLE TABLE: FORM -->
+<div class="modal fade data-table-modal" id="moATRecord" tabindex="-1" aria-labelledby="tableRecordTitle" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+  <div class="modal-content">
+    <div class="modal-header"><div><h5 class="modal-title" id="tableRecordTitle">Add New Order</h5><p class="mb-0 atbl-modal-sub">Use the modal form to create or update a seat cover order preview row.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body">
+      <form id="tableRecordForm" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6"><label class="fl">Customer</label><input class="fi form-control" id="tr_customer" placeholder="Customer name" required></div>
+          <div class="col-md-6"><label class="fl">Phone</label><input class="fi form-control" id="tr_phone" placeholder="01XXXXXXXXX" required></div>
+          <div class="col-md-6"><label class="fl">Vehicle</label><input class="fi form-control" id="tr_vehicle" placeholder="Vehicle name or model" required></div>
+          <div class="col-md-6"><label class="fl">Service</label><input class="fi form-control" id="tr_service" placeholder="Service type" required></div>
+          <div class="col-md-6"><label class="fl">Sample</label><input class="fi form-control" id="tr_sample" placeholder="Sample code"></div>
+          <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="tr_status"><option>Pending</option><option>In Progress</option><option>Completed</option></select></div>
+          <div class="col-md-6"><label class="fl">Total</label><input class="fi form-control" id="tr_total" type="number" min="0" placeholder="Total amount" required></div>
+          <div class="col-md-6"><label class="fl">Advance</label><input class="fi form-control" id="tr_advance" type="number" min="0" placeholder="Advance amount"></div>
+          <div class="col-md-6"><label class="fl">Date</label><input class="fi form-control" id="tr_date" type="date" required></div>
+          <div class="col-12"><label class="fl">Notes</label><textarea class="fi form-control fta" id="tr_note" rows="4" placeholder="Add order details, color or fitting notes"></textarea></div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer"><button class="btn2 b2-out" data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="submit" form="tableRecordForm" id="tableRecordSubmit"><i class="bi bi-save-fill"></i> <span>Save Record</span></button></div>
+  </div>
+</div></div>
+
+
+
+<!-- REUSABLE TABLE: VIEW -->
+<div class="modal fade data-table-modal" id="moATView" tabindex="-1" aria-labelledby="atViewTitle" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+  <div class="modal-content">
+    <div class="modal-header"><div><h5 class="modal-title" id="atViewTitle">Order Details</h5><p class="mb-0 atbl-modal-sub">Preview the selected order in a clean responsive Bootstrap modal.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+    <div class="modal-body" id="atViewBody"><p style="font-size:12px;color:var(--txt2);margin:0">Select any row from the static table to preview details here.</p></div>
+    <div class="modal-footer"><button class="btn2 b2-out" data-bs-dismiss="modal">Close</button></div>
+  </div>
+</div></div>
+
+
+
+<!-- Data Table scripts -->
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/sweetalert2.all.min.js"></script>
+<script src="assets/js/shared/core.js"></script>
+<script src="assets/js/shared/admin-shell.js"></script>
+<script src="assets/js/data-table-page.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+

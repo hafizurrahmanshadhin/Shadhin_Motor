@@ -1,0 +1,398 @@
+.atbl-panel .panel-b {
+  padding: clamp(16px, 2vw, 22px);
+}
+
+.atbl-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.atbl-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.atbl-toolbar-left,
+.atbl-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.atbl-add-btn {
+  min-height: 40px;
+  padding-inline: 16px;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.atbl-add-btn:active,
+.atbl-act:active,
+.atbl-page-btn:active {
+  transform: none !important;
+}
+
+.atbl-show {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--txt2);
+  font-size: 12px;
+}
+
+.atbl-show-lbl {
+  color: var(--txt2);
+}
+
+.atbl-show .fs {
+  width: 92px;
+  min-height: 40px;
+  border-radius: 10px !important;
+}
+
+.atbl-meta {
+  font-size: 12px;
+  color: var(--txt3);
+  white-space: nowrap;
+}
+
+.atbl-search {
+  position: relative;
+  width: min(100%, 360px);
+}
+
+.atbl-search .bi {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--txt3);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.atbl-search .fi {
+  min-height: 42px;
+  padding-left: 40px !important;
+  border-radius: 10px !important;
+}
+
+.atbl-shell {
+  border: 1px solid var(--bdr2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--card);
+}
+
+[data-theme="light"] .atbl-shell {
+  background: #fff;
+  box-shadow: var(--sh);
+}
+
+.atbl-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.atbl-table {
+  width: 100%;
+  min-width: 1320px;
+}
+
+.atbl-table thead th {
+  white-space: nowrap;
+}
+
+.atbl-table tbody td {
+  white-space: nowrap;
+}
+
+.atbl-row-no {
+  font-weight: 700;
+  color: var(--txt2);
+}
+
+.atbl-amount {
+  font-weight: 700;
+  color: var(--am);
+}
+
+.atbl-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.atbl-act {
+  width: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.atbl-act span {
+  display: none;
+}
+
+.atbl-act-view {
+  color: var(--txt2);
+}
+
+.atbl-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.atbl-foot-note {
+  font-size: 12px;
+  color: var(--txt3);
+  line-height: 1.6;
+}
+
+.atbl-pager {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.atbl-page-btn {
+  min-width: 38px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+}
+
+.atbl-page-btn.active,
+.atbl-page-btn.active:hover {
+  color: #000;
+  background: var(--am);
+  border-color: var(--am);
+}
+
+.atbl-page-edge {
+  gap: 7px;
+}
+
+.atbl-page-dots {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  min-height: 38px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--txt3);
+}
+
+.atbl-empty {
+  padding: 46px 18px !important;
+  text-align: center;
+  color: var(--txt3) !important;
+  background: transparent !important;
+}
+
+.data-table-modal .modal-dialog {
+  --bs-modal-width: min(900px, calc(100vw - 2rem));
+}
+
+.data-table-modal .modal-content {
+  border-radius: 18px !important;
+  overflow: hidden;
+}
+
+.atbl-modal-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--txt2);
+}
+
+.data-table-modal .modal-footer {
+  gap: 10px;
+}
+
+.data-table-modal .modal-footer .btn2 {
+  min-height: 42px;
+  border-radius: 12px;
+}
+
+.atbl-view-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.atbl-view-item {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--bdr2);
+  background: var(--bg3);
+}
+
+[data-theme="light"] .atbl-view-item {
+  background: rgba(15, 23, 42, 0.025);
+}
+
+.atbl-view-item.full {
+  grid-column: 1 / -1;
+}
+
+.atbl-view-lbl {
+  margin-bottom: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--txt3);
+}
+
+.atbl-view-val {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--txt);
+  white-space: pre-wrap;
+}
+
+@media (max-width: 991px) {
+  .atbl-toolbar,
+  .atbl-toolbar-left,
+  .atbl-toolbar-right {
+    width: 100%;
+  }
+
+  .atbl-search {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .atbl-panel .panel-b {
+    padding: 14px;
+  }
+
+  .atbl-toolbar-left,
+  .atbl-toolbar-right {
+    align-items: stretch;
+  }
+
+  .atbl-add-btn,
+  .atbl-search,
+  .atbl-search .fi {
+    width: 100%;
+  }
+
+  .atbl-table {
+    min-width: 100%;
+  }
+
+  .atbl-table thead {
+    display: none;
+  }
+
+  .atbl-table,
+  .atbl-table tbody,
+  .atbl-table tr,
+  .atbl-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .atbl-table tbody {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .atbl-table tbody tr {
+    overflow: hidden;
+    border: 1px solid var(--bdr2);
+    border-radius: 16px;
+    background: var(--card);
+  }
+
+  [data-theme="light"] .atbl-table tbody tr {
+    background: #fff;
+  }
+
+  .atbl-table tbody td {
+    display: grid;
+    grid-template-columns: 98px minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px 14px;
+    white-space: normal;
+    border-bottom: 1px solid var(--bdr2);
+    text-align: left;
+  }
+
+  .atbl-table tbody td::before {
+    content: attr(data-label);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--txt3);
+  }
+
+  .atbl-table tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .atbl-actions {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .atbl-act {
+    width: auto;
+    min-width: 0;
+    padding: 0 12px;
+  }
+
+  .atbl-act span {
+    display: inline;
+  }
+
+  .atbl-table tbody td.atbl-empty {
+    display: block;
+    text-align: center;
+  }
+
+  .atbl-table tbody td.atbl-empty::before {
+    display: none;
+  }
+
+  .atbl-footer,
+  .atbl-pager {
+    justify-content: flex-start;
+  }
+
+  .atbl-view-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575px) {
+  .atbl-page-edge span {
+    display: none;
+  }
+
+  .data-table-modal .modal-footer > * {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}

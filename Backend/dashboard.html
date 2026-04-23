@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Shadhin Motor Admin Dashboard — Seat Cover Shop Management">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
+<script>
+(() => {
+  const root = document.documentElement;
+  const fallback = root.getAttribute("data-theme") || "dark";
+  let theme = fallback;
+  try {
+    const saved = window.localStorage.getItem("sm_theme");
+    if (saved === "light" || saved === "dark") theme = saved;
+  } catch {}
+  root.setAttribute("data-theme", theme);
+  root.setAttribute("data-bs-theme", theme);
+})();
+</script>
+<title>Shadhin Motor — Dashboard</title>
+
+<!-- Bootstrap 5.3 -->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+<!-- SweetAlert2 -->
+<link href="assets/css/sweetalert2.min.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="assets/css/google-fonts.css" rel="stylesheet">
+
+<link href="assets/css/shared/base.css" rel="stylesheet">
+<link href="assets/css/shared/admin-shell.css" rel="stylesheet">
+<link href="assets/css/dashboard-page.css" rel="stylesheet">
+
+</head>
+
+<body class="preloading" data-page="dashboard">
+
+<!-- PRELOADER -->
+<div id="pre" role="status" aria-label="Loading page">
+  <div class="pre-inner" aria-hidden="true">
+    <div class="pre-spinner-wrap">
+      <div class="pre-spinner-outer"></div>
+      <div class="pre-spinner-inner"></div>
+    </div>
+  </div>
+</div>
+<!-- SIDEBAR OVERLAY -->
+<div id="sb-overlay" data-action="sidebar-close"></div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+<!-- ══ SIDEBAR ══ -->
+<div id="sb">
+  <a href="dashboard.html" class="sb-brand">
+    <svg viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" width="36" height="36" style="flex-shrink:0">
+      <rect x="9" y="2" width="28" height="28" rx="5" fill="rgba(245,158,11,0.1)" stroke="#f59e0b" stroke-width="1.6"/>
+      <polygon points="18,8 21.5,11.5 18,15 14.5,11.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <polygon points="28,8 31.5,11.5 28,15 24.5,11.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <polygon points="18,16 21.5,19.5 18,23 14.5,19.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <polygon points="28,16 31.5,19.5 28,23 24.5,19.5" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+      <circle cx="23" cy="11.5" r="1" fill="#f59e0b" opacity="0.55"/>
+      <circle cx="23" cy="19.5" r="1" fill="#f59e0b" opacity="0.55"/>
+      <rect x="5" y="8" width="4" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.4"/>
+      <rect x="37" y="8" width="4" height="14" rx="2" fill="none" stroke="#d97706" stroke-width="1.4"/>
+      <rect x="5" y="32" width="36" height="11" rx="4" fill="rgba(245,158,11,0.1)" stroke="#f59e0b" stroke-width="1.6"/>
+      <line x1="9" y1="37.5" x2="37" y2="37.5" stroke="#f59e0b" stroke-width="0.9" stroke-dasharray="3,2.5" opacity="0.6"/>
+      <line x1="9" y1="30" x2="5" y2="32" stroke="#d97706" stroke-width="1.4"/>
+      <line x1="37" y1="30" x2="41" y2="32" stroke="#d97706" stroke-width="1.4"/>
+      <rect x="13" y="2" width="20" height="2" rx="1" fill="#f59e0b" opacity="0.6"/>
+    </svg>
+    <div>
+      <div class="sb-brand-name">Shadhin <em>Motor</em></div>
+      <div class="sb-brand-sub">Admin Panel</div>
+    </div>
+  </a>
+
+  <div class="sb-sec">Main</div>
+  <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
+  <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n" id="pBadge">12</span></a>
+
+  <div class="sb-sec">Content</div>
+  <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i class="bi bi-palette2"></i></span>Samples</a>
+  <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i class="bi bi-images"></i></span>Gallery</a>
+
+  <div class="sb-sec">Management</div>
+  <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i class="bi bi-people-fill"></i></span>Employees</a>
+  <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i class="bi bi-wallet2"></i></span>Wages</a>
+  <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i class="bi bi-graph-up-arrow"></i></span>Finance</a>
+
+  <div class="sb-sec">Tools</div>
+  <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i class="bi bi-table"></i></span>Data Table</a>
+  <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
+
+  <div class="sb-div"></div>
+  <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
+  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+
+  <div class="sb-foot">
+    <div class="sb-user" data-modal-open="moProfile">
+      <div class="ava" id="sbAv">A</div>
+      <div style="flex:1;min-width:0">
+        <div class="sb-uname" id="sbName">Admin</div>
+        <div class="sb-urole"><span style="color:var(--green);font-size:9px">●</span> Super Admin</div>
+      </div>
+      <i class="bi bi-three-dots-vertical" style="color:var(--txt3);font-size:14px"></i>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
+<div id="main">
+
+<!-- TOPBAR -->
+<div id="tb">
+  <div style="display:flex;align-items:center;gap:14px">
+    <div class="ic-btn" id="sbToggle" data-action="sidebar-toggle" title="Toggle Sidebar"><i class="bi bi-list" style="font-size:19px"></i></div>
+    <div class="tb-bc">
+      <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin Motor</span>
+      <span class="sep d-none d-md-inline">›</span>
+      <span class="cur" id="bcCur">Dashboard</span>
+    </div>
+  </div>
+  <div class="tb-r">
+    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <!-- Theme -->
+    <div class="ic-btn" id="themeBtn" data-action="theme-toggle" title="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></div>
+    <!-- Notifications -->
+    <div style="position:relative">
+      <div class="ic-btn" id="notifBtn" data-action="notif-toggle">
+        <i class="bi bi-bell-fill"></i>
+        <span class="ic-dot" id="nDot" style="display:none"></span>
+      </div>
+      <div class="float-panel np" id="notifPanel">
+        <div class="np-head">
+          <span class="np-title"><i class="bi bi-bell-fill me-2" style="color:var(--am)"></i>Notifications</span>
+          <button class="np-mark" type="button" data-action="notif-read-all">Mark all read</button>
+        </div>
+        <div class="n-list" id="nList">
+  <div class="n-item unread">
+    <div class="n-ic" style="background:var(--blue-bg);color:var(--blue)"><i class="bi bi-bag-check"></i></div>
+    <div style="flex:1;min-width:0">
+      <div class="n-t">New order received</div>
+      <div class="n-m">Farhan Ahmed confirmed a premium leather seat cover booking for Friday delivery.</div>
+      <div class="n-time">5 min ago</div>
+    </div>
+    <span class="n-dot"></span>
+  </div>
+  <div class="n-item unread">
+    <div class="n-ic" style="background:var(--green-bg);color:var(--green)"><i class="bi bi-cash-stack"></i></div>
+    <div style="flex:1;min-width:0">
+      <div class="n-t">Payment collected</div>
+      <div class="n-m">Advance payment of ৳12,000 has been received for the Toyota Prado project.</div>
+      <div class="n-time">22 min ago</div>
+    </div>
+    <span class="n-dot"></span>
+  </div>
+  <div class="n-item">
+    <div class="n-ic" style="background:var(--orn-bg);color:var(--orn)"><i class="bi bi-calendar2-check"></i></div>
+    <div style="flex:1;min-width:0">
+      <div class="n-t">Delivery reminder</div>
+      <div class="n-m">Three completed jobs are scheduled for customer pickup before 6:00 PM today.</div>
+      <div class="n-time">1 hour ago</div>
+    </div>
+  </div>
+</div>
+        <div class="np-foot"><a href="#" data-action="noop">See all notifications</a></div>
+      </div>
+    </div>
+    <!-- User -->
+    <div style="position:relative">
+      <div class="tb-user" id="userBtn" data-action="user-toggle">
+        <div class="tb-ava" id="tbAv">A</div>
+        <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
+        <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
+      </div>
+      <div class="float-panel udrop" id="userDrop">
+        <div class="ud-head">
+          <div class="ud-name" id="udName">Admin</div>
+          <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
+        </div>
+        <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My Profile</button>
+        <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+        <button class="dd-row" type="button" data-action="theme-toggle"><i class="bi bi-moon-stars"></i> Toggle Theme</button>
+        <div class="dd-sep"></div>
+        <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ PAGES ══════════════ -->
+
+<!-- DASHBOARD -->
+<div class="page-shell" id="page-dashboard">
+  <div class="ph">
+    <div><h1>Dashboard <span style="font-size:14px;font-weight:400;color:var(--txt3)" id="dashGreet"></span></h1><p id="dashDate"></p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn2 b2-out b2-sm" type="button" data-action="dash-refresh"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+      <a class="btn2 b2-gd b2-sm" href="orders.html#new-order"><i class="bi bi-plus-lg"></i> New Order</a>
+    </div>
+  </div>
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+      <div class="scard sc-am">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="sc-lbl">Total Orders</div>
+          <div style="width:36px;height:36px;border-radius:8px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--txt3);font-size:15px"><i class="bi bi-bag-check-fill"></i></div>
+        </div>
+        <div class="sc-val v-am">48</div>
+        <div class="sc-sub">12 pending · 31 done · 5 cancelled</div>
+        <span class="sc-badge sb-up"><i class="bi bi-arrow-up"></i>+8 this week</span>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="scard sc-gr">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="sc-lbl">Monthly Income</div>
+          <div style="width:36px;height:36px;border-radius:8px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--txt3);font-size:15px"><i class="bi bi-cash-stack"></i></div>
+        </div>
+        <div class="sc-val v-gr">৳2,84,500</div>
+        <div class="sc-sub">From 31 completed jobs</div>
+        <span class="sc-badge sb-up"><i class="bi bi-arrow-up"></i>12% vs last month</span>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="scard sc-re">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="sc-lbl">Monthly Expense</div>
+          <div style="width:36px;height:36px;border-radius:8px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--txt3);font-size:15px"><i class="bi bi-arrow-down-circle-fill"></i></div>
+        </div>
+        <div class="sc-val v-re">৳96,800</div>
+        <div class="sc-sub">Materials, wages, delivery</div>
+        <span class="sc-badge sb-dn"><i class="bi bi-arrow-down"></i>Heavy leather month</span>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="scard sc-bl">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="sc-lbl">Net Profit</div>
+          <div style="width:36px;height:36px;border-radius:8px;background:var(--hover);display:flex;align-items:center;justify-content:center;color:var(--txt3);font-size:15px"><i class="bi bi-graph-up-arrow"></i></div>
+        </div>
+        <div class="sc-val v-bl">৳1,87,700</div>
+        <div class="sc-sub">Healthy 66% gross margin</div>
+        <span class="sc-badge sb-up"><i class="bi bi-arrow-up"></i>Profitable</span>
+      </div>
+    </div>
+  </div>
+  <div class="row g-3">
+    <div class="col-xl-7">
+      <div class="panel">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-bag-check me-2" style="color:var(--am)"></i>Recent Orders</span><a class="btn2 b2-ghost b2-xs" href="orders.html">View all <i class="bi bi-arrow-right"></i></a></div>
+        <div class="tbl-w"><table class="tbl"><thead><tr><th>Customer</th><th>Vehicle</th><th>Sample</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+          <tr><td><div style="font-weight:600">Rahman Ali</div><div style="font-size:10px;color:var(--txt2)">01711-234567</div></td><td style="color:var(--txt2);font-size:12px">Private Car</td><td><span class="chip">RX-001</span></td><td style="color:var(--am);font-weight:600">৳8,500</td><td><span class="bdg b-gr">Completed</span></td></tr>
+          <tr><td><div style="font-weight:600">Kamal Hossain</div><div style="font-size:10px;color:var(--txt2)">01812-345678</div></td><td style="color:var(--txt2);font-size:12px">Honda City</td><td><span class="chip">LT-002</span></td><td style="color:var(--am);font-weight:600">৳12,000</td><td><span class="bdg b-bl">In Progress</span></td></tr>
+          <tr><td><div style="font-weight:600">Sumaiya Begum</div><div style="font-size:10px;color:var(--txt2)">01913-456789</div></td><td style="color:var(--txt2);font-size:12px">SUV / Jeep</td><td><span class="chip">RX-003</span></td><td style="color:var(--am);font-weight:600">৳15,000</td><td><span class="bdg b-am">Pending</span></td></tr>
+          <tr><td><div style="font-weight:600">Jakir Hossain</div><div style="font-size:10px;color:var(--txt2)">01614-567890</div></td><td style="color:var(--txt2);font-size:12px">Yamaha R15</td><td><span class="chip">RX-004</span></td><td style="color:var(--am);font-weight:600">৳1,800</td><td><span class="bdg b-gr">Completed</span></td></tr>
+        </tbody></table></div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-bar-chart-fill me-2" style="color:var(--am)"></i>Monthly P&L Chart</span></div>
+        <div class="panel-b">
+          <div class="dashboard-chart-static">
+            <div class="dashboard-chart-bar"><span>Jan 2026</span><div class="dashboard-chart-track"><div class="dashboard-chart-fill" style="width:58%;background:linear-gradient(90deg,var(--am),var(--am-l))"></div></div><span style="text-align:right;color:var(--am)">৳82k</span></div>
+            <div class="dashboard-chart-bar"><span>Feb 2026</span><div class="dashboard-chart-track"><div class="dashboard-chart-fill" style="width:76%;background:linear-gradient(90deg,var(--blue),#7dd3fc)"></div></div><span style="text-align:right;color:var(--blue)">৳1.09L</span></div>
+            <div class="dashboard-chart-bar"><span>Mar 2026</span><div class="dashboard-chart-track"><div class="dashboard-chart-fill" style="width:69%;background:linear-gradient(90deg,var(--green),#6ee7b7)"></div></div><span style="text-align:right;color:var(--green)">৳96k</span></div>
+            <div class="dashboard-chart-bar"><span>Apr 2026</span><div class="dashboard-chart-track"><div class="dashboard-chart-fill" style="width:94%;background:linear-gradient(90deg,var(--pur),#c4b5fd)"></div></div><span style="text-align:right;color:var(--pur)">৳1.34L</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-5">
+      <div class="panel mb-3">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-wallet2 me-2" style="color:var(--am)"></i>Today's Wages</span><a class="btn2 b2-ghost b2-xs" href="wages.html">Manage</a></div>
+        <div class="panel-b">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bdr2)"><div style="display:flex;align-items:center;gap:9px"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);border:1px solid var(--green)"></div><span style="font-size:13px">Rahim Mia</span><span style="font-size:10px;color:var(--txt3)">Rexine Cutting</span></div><span style="color:var(--green);font-weight:600;font-size:13px">৳600</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bdr2)"><div style="display:flex;align-items:center;gap:9px"><div style="width:7px;height:7px;border-radius:50%;background:var(--green);border:1px solid var(--green)"></div><span style="font-size:13px">Karim Uddin</span><span style="font-size:10px;color:var(--txt3)">Stitching</span></div><span style="color:var(--green);font-weight:600;font-size:13px">৳800</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--bdr2)"><div style="display:flex;align-items:center;gap:9px"><div style="width:7px;height:7px;border-radius:50%;background:var(--bdr);border:1px solid var(--txt3)"></div><span style="font-size:13px">Hasan Ali</span><span style="font-size:10px;color:var(--txt3)">Fitting</span></div><span style="color:var(--txt3);font-weight:600;font-size:13px">Pending</span></div>
+          <div style="margin-top:10px;font-size:12px;color:var(--txt2)">Today total: <strong style="color:var(--am)">৳1,400</strong></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-lightning-fill me-2" style="color:var(--am)"></i>Quick Stats</span></div>
+        <div class="panel-b">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border-radius:var(--r);border-left:3px solid var(--pur);margin-bottom:8px"><div style="display:flex;align-items:center;gap:9px"><i class="bi bi-palette2" style="color:var(--pur);font-size:15px"></i><span style="font-size:13px">Samples</span></div><span style="font-size:16px;font-weight:700;color:var(--pur)">24</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border-radius:var(--r);border-left:3px solid var(--blue);margin-bottom:8px"><div style="display:flex;align-items:center;gap:9px"><i class="bi bi-people-fill" style="color:var(--blue);font-size:15px"></i><span style="font-size:13px">Active Staff</span></div><span style="font-size:16px;font-weight:700;color:var(--blue)">6</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border-radius:var(--r);border-left:3px solid var(--cyan);margin-bottom:8px"><div style="display:flex;align-items:center;gap:9px"><i class="bi bi-images" style="color:var(--cyan);font-size:15px"></i><span style="font-size:13px">Gallery</span></div><span style="font-size:16px;font-weight:700;color:var(--cyan)">18</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border-radius:var(--r);border-left:3px solid var(--orn);margin-bottom:8px"><div style="display:flex;align-items:center;gap:9px"><i class="bi bi-receipt" style="color:var(--orn);font-size:15px"></i><span style="font-size:13px">Finance Records</span></div><span style="font-size:16px;font-weight:700;color:var(--orn)">37</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="app-foot">
+  <div class="app-foot-inner">
+    <span>© 2026 Shadhin Motor Admin Dashboard</span>
+    <span>Built for smooth multi-page management workflows</span>
+  </div>
+</footer>
+
+</div><!-- end #main -->
+</div><!-- end #app -->
+
+<!-- ══ MODALS ══ -->
+<!-- PROFILE -->
+<div class="modal fade" id="moProfile" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-content"><div class="modal-header"><h5 class="modal-title">My Profile</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="pro-wrap">
+      <div class="ava lg mx-auto mb-3" id="proAv">A</div>
+      <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
+      <div style="font-size:11px;color:var(--txt3);margin-top:3px">Super Admin · Shadhin Motor</div>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
+      <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e"></div>
+      <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b" placeholder="Shop owner & manager"></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn2 b2-out" data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button" data-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
+  </div>
+</div></div>
+
+
+
+<!-- Dashboard scripts -->
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/sweetalert2.all.min.js"></script>
+<script src="assets/js/shared/core.js"></script>
+<script src="assets/js/shared/admin-shell.js"></script>
+<script src="assets/js/dashboard-page.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+

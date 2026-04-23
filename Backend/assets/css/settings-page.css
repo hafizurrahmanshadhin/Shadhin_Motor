@@ -1,0 +1,3 @@
+#storInfo .stor-row:last-child {
+  border-bottom: none;
+}
