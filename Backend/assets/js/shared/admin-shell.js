@@ -1,10 +1,6 @@
 let notifOpen = false;
 let userOpen = false;
-let profileState = {
-  name: "Admin",
-  email: "admin@shadhinmotor.com",
-  bio: "Shop owner & manager"
-};
+let profileState = {};
 
 function getModalInstance(id) {
   const el = document.getElementById(id);
@@ -117,9 +113,10 @@ function getProfileSnapshot() {
     name:
       document.getElementById("tbName")?.textContent.trim() ||
       document.getElementById("sbName")?.textContent.trim() ||
-      profileState.name,
-    email: document.getElementById("udEmail")?.textContent.trim() || profileState.email,
-    bio: document.getElementById("pro_b")?.value?.trim() || profileState.bio
+      profileState.name ||
+      "",
+    email: document.getElementById("udEmail")?.textContent.trim() || profileState.email || "",
+    bio: document.getElementById("pro_b")?.value?.trim() || profileState.bio || ""
   };
 }
 
@@ -129,11 +126,6 @@ function updateProfileUI(nextProfile) {
   ["sbName", "tbName", "udName", "proName"].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = profileState.name;
-  });
-
-  ["sbAv", "tbAv", "proAv"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = profileState.name.charAt(0).toUpperCase();
   });
 
   const emailEl = document.getElementById("udEmail");
@@ -155,11 +147,12 @@ function saveProfile() {
   const nameInput = document.getElementById("pro_n");
   const emailInput = document.getElementById("pro_e");
   const bioInput = document.getElementById("pro_b");
+  const currentProfile = getProfileSnapshot();
 
   const nextProfile = {
-    name: nameInput?.value.trim() || "Admin",
-    email: emailInput?.value.trim() || "admin@shadhinmotor.com",
-    bio: bioInput?.value.trim() || "Shop owner & manager"
+    name: nameInput?.value.trim() || currentProfile.name,
+    email: emailInput?.value.trim() || currentProfile.email,
+    bio: bioInput?.value.trim() || currentProfile.bio
   };
 
   updateProfileUI(nextProfile);
@@ -322,7 +315,6 @@ function syncShellState() {
 function initAdminShell() {
   bindShellChrome();
   bindStaticForms();
-  updateProfileUI(getProfileSnapshot());
 
   runPreloader(() => {
     syncShellState();
