@@ -201,67 +201,150 @@
 
 <!-- SETTINGS -->
 <div class="page-shell" id="page-settings">
-  <div class="ph"><div><h1>Settings</h1><p>Shop configuration & data management</p></div></div>
-  <div class="row g-3">
-    <div class="col-lg-7">
-      <div class="panel">
-        <div class="panel-h"><span class="panel-t"><i class="bi bi-shop me-2" style="color:var(--am)"></i>Shop Information</span></div>
-        <div class="panel-b">
-          <div class="set-sec">
-            <div class="set-t"><i class="bi bi-building"></i> Business Details</div>
-            <div class="row g-3">
-              <div class="col-md-6"><label class="fl">Shop Name</label><input class="fi" id="sName" placeholder="Shadhin Motor" value="Shadhin Motor"></div>
-              <div class="col-md-6"><label class="fl">Phone</label><input class="fi" id="sPhone" value="01911-387254"></div>
-              <div class="col-12"><label class="fl">Address</label><input class="fi" id="sAddr" value="Mohammadpur, Dhaka-1207"></div>
-              <div class="col-md-6"><label class="fl">Opening Hours</label><input class="fi" id="sOpen" value="9am - 9pm"></div>
-              <div class="col-md-6"><label class="fl">Off Days</label><input class="fi" id="sClosed" value="Friday after 5pm"></div>
-            </div>
-          </div>
-          <div class="set-sec">
-            <div class="set-t"><i class="bi bi-share-fill"></i> Social Links</div>
-            <div class="row g-3">
-              <div class="col-md-6"><label class="fl"><i class="bi bi-facebook me-1"></i>Facebook</label><input class="fi" id="sFb" placeholder="https://facebook.com/..." value="https://facebook.com/shadhinmotor"></div>
-              <div class="col-md-6"><label class="fl"><i class="bi bi-whatsapp me-1"></i>WhatsApp</label><input class="fi" id="sWa" value="8801911387254"></div>
-              <div class="col-md-6"><label class="fl"><i class="bi bi-youtube me-1"></i>YouTube</label><input class="fi" id="sYt" value="https://youtube.com/@shadhinmotor"></div>
-              <div class="col-md-6"><label class="fl"><i class="bi bi-geo-alt-fill me-1"></i>Google Map</label><input class="fi" id="sMap" value="https://maps.google.com/?q=Shadhin+Motor"></div>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:flex-end"><button class="btn2 b2-gd" type="button" data-action="settings-save"><i class="bi bi-save-fill"></i> Save Settings</button></div>
-        </div>
-      </div>
+  <div class="ph">
+    <div>
+      <h1>Admin Settings</h1>
+      <p>Branding, dashboard defaults, module visibility and static data controls</p>
     </div>
-    <div class="col-lg-5">
-      <div class="panel mb-3">
-        <div class="panel-h"><span class="panel-t"><i class="bi bi-code-slash me-2" style="color:var(--am)"></i>Frontend Status</span></div>
-        <div class="panel-b">
-          <div style="padding:14px;border:1px solid var(--bdr-s);border-radius:var(--r2);background:var(--hover)">
-            <div style="font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--am);margin-bottom:8px">Authentication Removed</div>
-            <p style="font-size:12px;color:var(--txt2);line-height:1.8;margin:0">
-              This dashboard is now running as a static frontend build. No login validation, session check or credential management is active in the current version.
-            </p>
+    <div class="settings-actions">
+      <button class="btn2 b2-out b2-sm" type="button" data-action="settings-preview"><i class="bi bi-eye"></i> Preview</button>
+      <button class="btn2 b2-gd b2-sm" type="button" data-action="settings-save"><i class="bi bi-save-fill"></i> Save Changes</button>
+    </div>
+  </div>
+
+  <div class="settings-summary" aria-label="Settings summary">
+    <div class="set-summary-card">
+      <span class="set-summary-icon"><i class="bi bi-brush-fill"></i></span>
+      <div><strong>Brand System</strong><small>Logo, favicon and admin naming</small></div>
+    </div>
+    <div class="set-summary-card">
+      <span class="set-summary-icon green"><i class="bi bi-window-sidebar"></i></span>
+      <div><strong>8 Modules Active</strong><small>Navigation ready for Blade conversion</small></div>
+    </div>
+    <div class="set-summary-card">
+      <span class="set-summary-icon blue"><i class="bi bi-database-fill-check"></i></span>
+      <div><strong>Static HTML Data</strong><small>No JavaScript-generated records</small></div>
+    </div>
+    <div class="set-summary-card">
+      <span class="set-summary-icon red"><i class="bi bi-search-heart-fill"></i></span>
+      <div><strong>SEO Controlled</strong><small>Meta, robots and title defaults</small></div>
+    </div>
+  </div>
+
+  <div class="settings-grid">
+    <section class="panel settings-main-panel">
+      <div class="panel-h">
+        <span class="panel-t"><i class="bi bi-sliders2 me-2" style="color:var(--am)"></i>Dashboard Customization</span>
+      </div>
+      <div class="panel-b settings-stack">
+        <div class="set-block">
+          <div class="set-block-head">
+            <div>
+              <div class="set-t"><i class="bi bi-palette2"></i> Brand Identity</div>
+              <p class="set-sub">Logo, favicon and dashboard title used across every admin page.</p>
+            </div>
+          </div>
+          <div class="asset-row">
+            <label class="asset-picker">
+              <span class="asset-mark logo-mark"><i class="bi bi-tools"></i></span>
+              <span>
+                <strong>Admin Logo</strong>
+                <small id="logoFileName">Current SVG logo</small>
+              </span>
+              <input type="file" id="adminLogoInput" accept=".svg,.png,.jpg,.jpeg,.webp">
+            </label>
+            <label class="asset-picker">
+              <span class="asset-mark favicon-mark">SM</span>
+              <span>
+                <strong>Favicon</strong>
+                <small id="faviconFileName">favicon.svg / favicon.ico</small>
+              </span>
+              <input type="file" id="faviconInput" accept=".ico,.svg,.png">
+            </label>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="fl">Admin Name</label><input class="fi" id="adminName" value="Shadhin Motor"></div>
+            <div class="col-md-6"><label class="fl">Sidebar Label</label><input class="fi" id="adminLabel" value="Admin Panel"></div>
+            <div class="col-md-6"><label class="fl">Browser Title Prefix</label><input class="fi" id="titlePrefix" value="Shadhin Motor"></div>
+            <div class="col-md-6"><label class="fl">Default Theme</label><select class="fs" id="defaultTheme"><option>System</option><option selected>Dark</option><option>Light</option></select></div>
+          </div>
+        </div>
+
+        <div class="set-block">
+          <div class="set-t"><i class="bi bi-grid-1x2-fill"></i> Dashboard Defaults</div>
+          <p class="set-sub">Reusable defaults for dashboard stats, tables and generated Blade layouts later.</p>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="fl">Dashboard Heading</label><input class="fi" id="dashTitle" value="Dashboard"></div>
+            <div class="col-md-6"><label class="fl">Greeting Mode</label><select class="fs" id="greetingMode"><option selected>Time based</option><option>Static</option><option>Hidden</option></select></div>
+            <div class="col-md-4"><label class="fl">Currency</label><input class="fi" id="currencySymbol" value="৳"></div>
+            <div class="col-md-4"><label class="fl">Date Format</label><select class="fs" id="dateFormat"><option selected>Friday, April 24, 2026</option><option>24 Apr 2026</option><option>2026-04-24</option></select></div>
+            <div class="col-md-4"><label class="fl">Rows Per Page</label><select class="fs" id="rowsPerPage"><option>10</option><option selected>12</option><option>25</option><option>50</option></select></div>
+          </div>
+        </div>
+
+        <div class="set-block">
+          <div class="set-t"><i class="bi bi-window-sidebar"></i> Navigation Modules</div>
+          <div class="module-grid">
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Orders</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Samples</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Gallery</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Employees</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Wages</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Finance</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Data Table</span></label>
+            <label class="mod-toggle"><input type="checkbox" checked> <span>Form Builder</span></label>
           </div>
         </div>
       </div>
-      <div class="panel">
-        <div class="panel-h"><span class="panel-t"><i class="bi bi-database-fill me-2" style="color:var(--am)"></i>Data Management</span></div>
+    </section>
+
+    <aside class="settings-side">
+      <section class="panel">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-display me-2" style="color:var(--am)"></i>Live Preview</span></div>
         <div class="panel-b">
-          <p style="font-size:12px;color:var(--txt2);margin-bottom:14px;line-height:1.7">This static version keeps all module data directly in raw HTML files. No browser storage sync is active.</p>
+          <div class="brand-preview">
+            <div class="brand-preview-mark"><i class="bi bi-tools"></i></div>
+            <div>
+              <div class="brand-preview-name">Shadhin <span>Motor</span></div>
+              <div class="brand-preview-sub">Admin Panel</div>
+            </div>
+          </div>
+          <div class="preview-row"><span>Theme</span><strong data-preview="theme">Dark</strong></div>
+          <div class="preview-row"><span>Currency</span><strong data-preview="currency">৳ BDT</strong></div>
+          <div class="preview-row"><span>Sidebar</span><strong data-preview="sidebar">246px</strong></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-search me-2" style="color:var(--am)"></i>Meta & SEO</span></div>
+        <div class="panel-b settings-stack">
+          <div><label class="fl">Meta Description</label><textarea class="fta" id="metaDescription" rows="3">Shadhin Motor Admin Dashboard - Seat Cover Shop Management</textarea></div>
+          <div class="row g-3">
+            <div class="col-6"><label class="fl">Robots</label><select class="fs" id="robotsMeta"><option selected>noindex, nofollow</option><option>index, follow</option></select></div>
+            <div class="col-6"><label class="fl">Accent</label><div class="accent-field"><input type="color" id="accentColorPicker" value="#f59e0b" aria-label="Accent color picker"><input class="fi" id="accentColor" value="#f59e0b"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-h"><span class="panel-t"><i class="bi bi-database-fill me-2" style="color:var(--am)"></i>Static Data</span></div>
+        <div class="panel-b">
+          <p class="settings-note">All demo data stays in HTML so it can be moved cleanly into Laravel Blade/database later.</p>
           <div id="storInfo" class="mb-3">
-            <div class="stor-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr2)"><span style="font-size:12px;color:var(--txt2)">dashboard.html</span><span style="font-size:11px;color:var(--txt3)">6.4 KB</span></div>
-            <div class="stor-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr2)"><span style="font-size:12px;color:var(--txt2)">orders.html</span><span style="font-size:11px;color:var(--txt3)">8.7 KB</span></div>
-            <div class="stor-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr2)"><span style="font-size:12px;color:var(--txt2)">samples.html</span><span style="font-size:11px;color:var(--txt3)">5.2 KB</span></div>
-            <div class="stor-row" style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bdr2)"><span style="font-size:12px;color:var(--txt2)">finance.html</span><span style="font-size:11px;color:var(--txt3)">6.9 KB</span></div>
+            <div class="stor-row"><span>dashboard.html</span><span>6.4 KB</span></div>
+            <div class="stor-row"><span>orders.html</span><span>8.7 KB</span></div>
+            <div class="stor-row"><span>samples.html</span><span>5.2 KB</span></div>
+            <div class="stor-row"><span>finance.html</span><span>6.9 KB</span></div>
             <div class="stor-bar"><div class="stor-bar-f" style="width:72%"></div></div>
-            <div style="font-size:10px;color:var(--txt3);text-align:right;margin-top:4px">Static module bundle with direct HTML content</div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <button class="btn2 b2-out w-100 justify-content-center" type="button" data-action="settings-export"><i class="bi bi-download"></i> Export Backup (JSON)</button>
-            <label class="btn2 b2-out w-100 justify-content-center" style="cursor:pointer"><i class="bi bi-upload"></i> Import Data <input type="file" accept=".json" id="settingsImportInput" style="display:none"></label>
-            <button class="btn2 b2-re w-100 justify-content-center" type="button" data-action="settings-reset"><i class="bi bi-trash3-fill"></i> Reset All Data</button>
+          <div class="data-actions">
+            <button class="btn2 b2-out w-100 justify-content-center" type="button" data-action="settings-export"><i class="bi bi-download"></i> Export Backup</button>
+            <label class="btn2 b2-out w-100 justify-content-center"><i class="bi bi-upload"></i> <span id="importFileName">Import Data</span><input type="file" accept=".json" id="settingsImportInput"></label>
+            <button class="btn2 b2-re w-100 justify-content-center" type="button" data-action="settings-reset"><i class="bi bi-trash3-fill"></i> Reset Demo Data</button>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </aside>
   </div>
 </div>
 

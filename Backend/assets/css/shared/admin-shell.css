@@ -1580,7 +1580,9 @@ input[type="color"] {
 
 /* Sidebar classic visual: original logo and lighter admin navigation. */
 .sb-brand {
-  padding: 13px 16px 15px;
+  height: var(--th);
+  min-height: var(--th);
+  padding: 0 16px;
   gap: 10px;
 }
 
