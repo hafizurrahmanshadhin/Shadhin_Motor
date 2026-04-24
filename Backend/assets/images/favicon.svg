@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="faviconTitle">
+  <title id="faviconTitle">Shadhin Motor favicon</title>
+  <rect width="64" height="64" rx="16" fill="#0f172a"/>
+  <rect x="16" y="9" width="32" height="32" rx="7" fill="rgba(245,158,11,0.16)" stroke="#f59e0b" stroke-width="3"/>
+  <polygon points="26,17 30,21 26,25 22,21" fill="none" stroke="#f59e0b" stroke-width="1.8" opacity="0.9"/>
+  <polygon points="38,17 42,21 38,25 34,21" fill="none" stroke="#f59e0b" stroke-width="1.8" opacity="0.9"/>
+  <polygon points="26,28 30,32 26,36 22,32" fill="none" stroke="#f59e0b" stroke-width="1.8" opacity="0.9"/>
+  <polygon points="38,28 42,32 38,36 34,32" fill="none" stroke="#f59e0b" stroke-width="1.8" opacity="0.9"/>
+  <rect x="9" y="18" width="7" height="19" rx="3.5" fill="none" stroke="#f59e0b" stroke-width="2.4"/>
+  <rect x="48" y="18" width="7" height="19" rx="3.5" fill="none" stroke="#f59e0b" stroke-width="2.4"/>
+  <rect x="10" y="45" width="44" height="13" rx="5" fill="rgba(245,158,11,0.18)" stroke="#f59e0b" stroke-width="3"/>
+  <line x1="17" y1="51.5" x2="47" y2="51.5" stroke="#fbbf24" stroke-width="1.6" stroke-dasharray="4,3"/>
+</svg>

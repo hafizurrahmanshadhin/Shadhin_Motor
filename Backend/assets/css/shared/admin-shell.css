@@ -1586,7 +1586,8 @@ input[type="color"] {
   gap: 10px;
 }
 
-.sb-brand > svg {
+.sb-brand > svg,
+.sb-brand-logo {
   display: block;
   width: 36px;
   height: 36px;

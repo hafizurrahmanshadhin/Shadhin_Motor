@@ -44,6 +44,12 @@
   justify-content: center; margin-bottom: 16px;
   text-align: left;
 }
+.login-logo-img {
+  display: block;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+}
 .login-brand-link {
   color: inherit; text-decoration: none; border-radius: 14px;
   transition: transform .2s ease, box-shadow .2s ease, opacity .2s ease;
@@ -140,5 +146,10 @@
 @media (max-width: 375px) {
   .login-card { padding: 20px 14px; }
   .login-title { font-size: 18px; }
-  .login-logo-wrap svg { width: 38px; height: 38px; }
+  .login-logo-wrap svg,
+  .login-logo-img {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
 }
