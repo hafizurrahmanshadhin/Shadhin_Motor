@@ -55,13 +55,15 @@
   outline: none; box-shadow: 0 0 0 3px var(--am-glow);
 }
 .login-title {
-  font-family: var(--font-brand), Georgia, serif;
-  font-size: 22px; font-weight: 900; color: var(--am); line-height: 1.15; margin: 0;
+  font-family: var(--font-brand);
+  font-size: 21px; font-weight: 800; color: var(--am); line-height: 1.1; margin: 0;
+  letter-spacing: 0;
 }
 .login-title em { color: var(--txt); font-style: normal; }
 .login-sub {
-  font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
-  color: var(--txt3); margin-top: 4px; font-weight: 600; display: block;
+  font-family: var(--font-nav);
+  font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--txt2); margin-top: 4px; font-weight: 800; display: block;
 }
 .login-divider {
   height: 1px; background: linear-gradient(90deg, transparent, var(--bdr), transparent);
@@ -69,7 +71,7 @@
 }
 /* Field label */
 .login-lbl {
-  display: block; font-size: 10px; font-weight: 700;
+  display: block; font-family: var(--font-nav); font-size: 10px; font-weight: 800;
   letter-spacing: 1px; text-transform: uppercase;
   margin-bottom: 6px;
 }
@@ -95,8 +97,8 @@
 }
 .login-input {
   flex: 1; background: transparent; border: none; outline: none;
-  color: var(--txt); font-size: 14px; padding: 12px 12px 12px 12px;
-  font-family: var(--font); min-width: 0;
+  color: var(--txt); font-size: 14px; font-weight: 500; padding: 12px 12px 12px 12px;
+  font-family: var(--font-ui); min-width: 0;
 }
 .login-input::placeholder { color: var(--txt3); }
 .login-eye-btn {
@@ -112,9 +114,9 @@
   justify-content: center; gap: 8px; margin-top: 4px;
   background: linear-gradient(135deg, var(--am-d), var(--am));
   color: #000; border: none;
-  border-radius: var(--r); font-size: 14px; font-weight: 700;
-  cursor: pointer; font-family: var(--font);
-  transition: all .2s; letter-spacing: .3px;
+  border-radius: var(--r); font-size: 14px; font-weight: 800;
+  cursor: pointer; font-family: var(--font-ui);
+  transition: all .2s; letter-spacing: 0;
   box-shadow: 0 2px 8px rgba(245,158,11,.25);
 }
 .login-submit-btn:hover { background: linear-gradient(135deg, var(--am), var(--am-l)); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,.4); }

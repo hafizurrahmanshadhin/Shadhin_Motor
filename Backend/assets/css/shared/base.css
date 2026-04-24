@@ -14,10 +14,15 @@
   --tr: .18s ease;
   --tr2: .28s cubic-bezier(.4,0,.2,1);
 
-  /* Typography stack — OS UI fonts render sharper for dense admin screens. */
-  --font:       'Segoe UI Variable Text', 'Segoe UI Variable', 'Segoe UI', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Inter', 'Plus Jakarta Sans', Roboto, Arial, sans-serif;
-  --font-brand: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-mono:  'JetBrains Mono', 'Cascadia Code', Consolas, 'Courier New', monospace;
+  /* Typography stacks tuned for crisp admin UI rendering. */
+  --font-content: Tahoma, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-ui:      Tahoma, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-nav:     Tahoma, Verdana, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: Tahoma, Verdana, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-data:    Arial, Tahoma, 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
+  --font-brand:   Tahoma, Verdana, Arial, ui-sans-serif, system-ui, sans-serif;
+  --font:         var(--font-content);
+  --font-mono:    'Cascadia Code', Consolas, 'JetBrains Mono', 'Courier New', monospace;
 
   /* Brand amber */
   --am:      #f59e0b;
@@ -48,7 +53,7 @@
   /* ── Text — all WCAG AA ── */
   --txt:   #eaf0ff;   /* Primary text  — 13.2:1 on --card   */
   --txt2:  #9ab0cc;   /* Secondary     —  6.4:1              */
-  --txt3:  #4a6488;   /* Tertiary/hint —  3.5:1 captions     */
+  --txt3:  #7188a6;   /* Tertiary/hint text, kept readable    */
   --txt-inv: #0a0f1e;
   /* ── Interaction ── */
   --hover:  rgba(120,150,210,.09);
@@ -94,7 +99,7 @@
   /* ── Text — deep warm slate ── */
   --txt:   #111827;   /* Primary  — 15.6:1 on card           */
   --txt2:  #374151;   /* Secondary—  9.3:1                   */
-  --txt3:  #6b7280;   /* Tertiary —  4.6:1                   */
+  --txt3:  #64748b;   /* Tertiary text, crisp on light bg     */
   --txt-inv: #ffffff;
   /* ── Interaction ── */
   --hover:  rgba(15,30,65,.05);
@@ -144,8 +149,8 @@ body {
   -moz-osx-font-smoothing: auto;
   font-kerning: normal;
   font-optical-sizing: auto;
-  font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  text-rendering: auto;
   transition: background var(--tr2), color var(--tr);
 }
 :focus-visible { outline: 2px solid var(--am); outline-offset: 2px; border-radius: 4px; }
