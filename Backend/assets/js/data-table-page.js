@@ -1,4 +1,4 @@
-const TOOL_TABLE_COLUMNS = ["#", "Customer", "Phone", "Vehicle", "Service", "Sample", "Total", "Advance", "Status", "Date", "Actions"];
+const TOOL_TABLE_COLUMNS = ["#", "Customer", "Avatar", "Phone", "Vehicle", "Service", "Sample", "Total", "Advance", "Status", "Date", "Actions"];
 
 let activeEditRow = null;
 
@@ -18,9 +18,19 @@ function formatCurrency(value) {
   return `৳${Number(value || 0).toLocaleString("en-US")}`;
 }
 
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
 function formatSample(sample) {
   if (!sample || sample === "—" || sample === "-") return "—";
-  return `<span class="chip">${sample}</span>`;
+  return `<span class="chip">${escapeHtml(sample)}</span>`;
 }
 
 function getStatusBadgeClass(status) {
@@ -34,10 +44,78 @@ function getStatusBadgeClass(status) {
   }
 }
 
-function getRowPayload(row) {
+function getAvatarForRow(rowId) {
+  const normalized = (((Number(rowId || 1) - 1) % 12) + 1);
+  return `assets/images/avatars/avatar-${String(normalized).padStart(2, "0")}.jpeg`;
+}
+
+function createAvatarMarkup(data) {
+  const src = data.avatar || getAvatarForRow(data.row);
+  const name = data.customer || "Customer";
+  return `<img class="atbl-avatar" src="${escapeHtml(src)}" alt="${escapeHtml(name)} avatar" width="38" height="38" loading="lazy" decoding="async">`;
+}
+
+function getVehicleCategory(vehicle) {
+  const value = (vehicle || "").toLowerCase();
+  if (value.includes("motorcycle")) return "Motorcycle";
+  if (value.includes("microbus")) return "Microbus";
+  if (value.includes("suv")) return "SUV";
+  if (value.includes("private car")) return "Private Car";
+  return "Other";
+}
+
+function getSampleCategory(sample) {
+  const value = (sample || "").trim().toLowerCase();
+  if (!value || value === "—" || value === "-") return "none";
+  if (value.startsWith("rx")) return "rexine";
+  if (value.startsWith("lt")) return "leather";
+  return "other";
+}
+
+function getPaymentCategory(total, advance) {
+  return Number(advance || 0) >= Number(total || 0) ? "paid" : "due";
+}
+
+function getActiveFilters() {
   return {
-    row: Number(row.dataset.row || "0"),
+    status: document.getElementById("toolFilterStatus")?.value || "all",
+    service: document.getElementById("toolFilterService")?.value || "all",
+    vehicle: document.getElementById("toolFilterVehicle")?.value || "all",
+    sample: document.getElementById("toolFilterSample")?.value || "all",
+    payment: document.getElementById("toolFilterPayment")?.value || "all"
+  };
+}
+
+function rowMatchesSearch(data, query) {
+  if (!query) return true;
+  const haystack = [
+    data.customer,
+    data.phone,
+    data.vehicle,
+    data.service,
+    data.sample,
+    data.status,
+    data.date,
+    data.note
+  ].join(" ").toLowerCase();
+  return haystack.includes(query);
+}
+
+function rowMatchesFilters(data, filters) {
+  if (filters.status !== "all" && data.status !== filters.status) return false;
+  if (filters.service !== "all" && data.service !== filters.service) return false;
+  if (filters.vehicle !== "all" && getVehicleCategory(data.vehicle) !== filters.vehicle) return false;
+  if (filters.sample !== "all" && getSampleCategory(data.sample) !== filters.sample) return false;
+  if (filters.payment !== "all" && getPaymentCategory(data.total, data.advance) !== filters.payment) return false;
+  return true;
+}
+
+function getRowPayload(row) {
+  const rowNumber = Number(row.dataset.row || "0");
+  return {
+    row: rowNumber,
     customer: row.dataset.customer || "-",
+    avatar: row.dataset.avatar || getAvatarForRow(rowNumber),
     phone: row.dataset.phone || "-",
     vehicle: row.dataset.vehicle || "-",
     service: row.dataset.service || "-",
@@ -174,7 +252,11 @@ function applyTableState(page = null) {
     tbody.appendChild(row);
   });
 
-  const matchedRows = rows.filter(row => row.textContent.toLowerCase().includes(query));
+  const filters = getActiveFilters();
+  const matchedRows = rows.filter(row => {
+    const data = getRowPayload(row);
+    return rowMatchesSearch(data, query) && rowMatchesFilters(data, filters);
+  });
   updateRowNumbers(matchedRows);
 
   const totalPages = Math.max(1, Math.ceil(matchedRows.length / perPage));
@@ -212,21 +294,27 @@ function createActionButtons() {
 function buildRowMarkup(data) {
   return `
     <td class="atbl-row-no">${data.row}</td>
-    <td>${data.customer}</td>
-    <td>${data.phone}</td>
-    <td>${data.vehicle}</td>
-    <td>${data.service}</td>
+    <td class="atbl-customer">${escapeHtml(data.customer)}</td>
+    <td class="atbl-avatar-cell">${createAvatarMarkup(data)}</td>
+    <td>${escapeHtml(data.phone)}</td>
+    <td>${escapeHtml(data.vehicle)}</td>
+    <td>${escapeHtml(data.service)}</td>
     <td>${formatSample(data.sample)}</td>
     <td class="atbl-amount">${formatCurrency(data.total)}</td>
     <td>${formatCurrency(data.advance)}</td>
-    <td><span class="bdg ${getStatusBadgeClass(data.status)}">${data.status}</span></td>
-    <td>${data.date || "-"}</td>
+    <td><span class="bdg ${getStatusBadgeClass(data.status)}">${escapeHtml(data.status)}</span></td>
+    <td>${escapeHtml(data.date || "-")}</td>
     <td>${createActionButtons()}</td>
   `;
 }
 
 function syncRow(row, data) {
+  const rowNumber = Number(data.row || row.dataset.row || "0");
+  const avatar = data.avatar || row.dataset.avatar || getAvatarForRow(rowNumber);
+
+  row.dataset.row = String(rowNumber);
   row.dataset.customer = data.customer;
+  row.dataset.avatar = avatar;
   row.dataset.phone = data.phone;
   row.dataset.vehicle = data.vehicle;
   row.dataset.service = data.service;
@@ -236,7 +324,7 @@ function syncRow(row, data) {
   row.dataset.status = data.status;
   row.dataset.date = data.date;
   row.dataset.note = data.note;
-  row.innerHTML = buildRowMarkup(data);
+  row.innerHTML = buildRowMarkup({ ...data, row: rowNumber, avatar });
 }
 
 function createRow(data) {
@@ -330,6 +418,16 @@ function prepareViewModal(trigger) {
   title.textContent = data.customer;
   body.textContent = "";
 
+  const profile = document.createElement("div");
+  profile.className = "atbl-view-profile";
+  profile.innerHTML = `
+    <img src="${escapeHtml(data.avatar)}" alt="${escapeHtml(data.customer)} avatar" width="54" height="54" loading="lazy" decoding="async">
+    <div>
+      <div class="atbl-view-person">${escapeHtml(data.customer)}</div>
+      <div class="atbl-view-sub">${escapeHtml(data.phone)} · ${escapeHtml(getVehicleCategory(data.vehicle))}</div>
+    </div>
+  `;
+
   const grid = document.createElement("div");
   grid.className = "atbl-view-grid";
   grid.append(
@@ -345,7 +443,7 @@ function prepareViewModal(trigger) {
     createViewItem("Notes", data.note, true)
   );
 
-  body.appendChild(grid);
+  body.append(profile, grid);
 }
 
 function bindRecordForm() {
@@ -437,6 +535,18 @@ function initDataTablePage() {
   });
 
   document.getElementById("toolTablePerPage")?.addEventListener("change", () => {
+    applyTableState(1);
+  });
+
+  document.querySelectorAll("[data-table-filter]").forEach(filter => {
+    filter.addEventListener("change", () => applyTableState(1));
+  });
+
+  document.querySelector("[data-table-filter-reset]")?.addEventListener("click", () => {
+    document.getElementById("toolTableSearch").value = "";
+    document.querySelectorAll("[data-table-filter]").forEach(filter => {
+      filter.value = "all";
+    });
     applyTableState(1);
   });
 
