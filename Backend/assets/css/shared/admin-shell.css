@@ -313,7 +313,7 @@ body.sb-mobile-open #sb {
 .n-item:last-child { border-bottom: none; }
 .n-ic { width: 36px; height: 36px; border-radius: var(--r); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
 .n-t { font-size: 12px; font-weight: 600; color: var(--txt); margin-bottom: 2px; }
-.n-m { font-size: 11px; color: var(--txt2); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.n-m { font-size: 11px; color: var(--txt2); line-height: 1.45; display: -webkit-box; line-clamp: 2; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .n-time { font-size: 10px; color: var(--txt3); margin-top: 3px; }
 .n-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--am); flex-shrink: 0; margin-top: 4px; }
 .np-foot { padding: 11px 18px; text-align: center; border-top: 1px solid var(--bdr2); }
