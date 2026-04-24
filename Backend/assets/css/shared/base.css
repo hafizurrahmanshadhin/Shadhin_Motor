@@ -335,16 +335,82 @@ body.preloading #loginWrap {
 .swal2-icon.swal2-warning { border-color: var(--am) !important; color: var(--am) !important; }
 .swal2-icon.swal2-question { border-color: var(--blue) !important; color: var(--blue) !important; }
 .swal2-timer-progress-bar { background: var(--am) !important; }
-[data-theme="dark"] .swal2-toast { background: var(--bg3) !important; color: var(--txt) !important; box-shadow: var(--sh2) !important; }
-.swal2-toast .swal2-close {
-  color: var(--txt3) !important;
-  font-size: 20px !important;
-  opacity: .82;
+
+/* Classic SweetAlert toast, placed top-right */
+.swal2-container.swal2-top-end {
+  padding: 14px 16px !important;
 }
-.swal2-toast .swal2-close:hover,
-.swal2-toast .swal2-close:focus {
+
+.swal2-popup.swal2-toast.sm-classic-toast {
+  width: min(360px, calc(100vw - 24px)) !important;
+  min-height: 0 !important;
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  border: 1px solid var(--bdr) !important;
+  color: var(--txt) !important;
+  box-shadow: 0 14px 34px rgba(15, 23, 42, .16), 0 4px 12px rgba(15, 23, 42, .08) !important;
+}
+
+[data-theme="dark"] .swal2-popup.swal2-toast.sm-classic-toast {
+  background: var(--bg3) !important;
+  border-color: rgba(120,150,210,.18) !important;
+  box-shadow: var(--sh2) !important;
+}
+
+[data-theme="light"] .swal2-popup.swal2-toast.sm-classic-toast {
+  background: #fff !important;
+  border-color: rgba(15, 23, 42, .12) !important;
+}
+
+.swal2-popup.swal2-toast.sm-classic-toast .swal2-icon {
+  margin: 0 10px 0 0 !important;
+}
+
+.swal2-popup.swal2-toast.sm-classic-toast .sm-classic-toast-title {
+  margin: 2px 28px 0 0 !important;
+  padding: 0 !important;
+  color: var(--txt) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1.25 !important;
+  text-align: left !important;
+}
+
+.swal2-popup.swal2-toast.sm-classic-toast .sm-classic-toast-message {
+  margin: 3px 28px 0 0 !important;
+  padding: 0 !important;
+  color: var(--txt2) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
+}
+
+.swal2-popup.swal2-toast.sm-classic-toast .swal2-close.sm-classic-toast-close {
+  width: 24px !important;
+  height: 24px !important;
+  margin: 0 !important;
+  border-radius: 8px !important;
+  color: var(--txt3) !important;
+  font-family: var(--font-ui) !important;
+  font-size: 20px !important;
+  line-height: 1 !important;
+  opacity: .82;
+  transition: background .18s ease, color .18s ease, opacity .18s ease;
+}
+
+.swal2-popup.swal2-toast.sm-classic-toast .swal2-close.sm-classic-toast-close:hover,
+.swal2-popup.swal2-toast.sm-classic-toast .swal2-close.sm-classic-toast-close:focus {
+  background: var(--hover) !important;
   color: var(--txt) !important;
   opacity: 1;
+}
+
+.swal2-popup.swal2-toast.sm-classic-toast .swal2-timer-progress-bar-container {
+  height: 2px !important;
+  border-radius: 0 0 14px 14px !important;
 }
 
 /* Body background texture - very subtle grid */

@@ -1297,7 +1297,7 @@ input[type="color"] {
 /* Table row hover */
 [data-theme="dark"] .tbl tbody tr:hover td { background: rgba(245,158,11,.05); }
 /* Swal toast */
-[data-theme="dark"] .swal2-toast       { background: #1a2540 !important; border: 1px solid rgba(120,150,210,.18) !important; }
+[data-theme="dark"] .swal2-toast:not(.sm-classic-toast) { background: #1a2540 !important; border: 1px solid rgba(120,150,210,.18) !important; }
 
 /* ══ LIGHT MODE — Deep warm palette overrides ══ */
 [data-theme="light"] body              { font-size: 1rem; line-height: 1.55; }

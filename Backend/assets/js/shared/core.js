@@ -66,22 +66,44 @@ async function confirm2(title, text = "This action is for static preview only.",
   return result.isConfirmed;
 }
 
+function escapeToastHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
 function toast(type, title, msg = "", dur = 2800) {
   if (!window.Swal) return;
 
+  const toastType = ["success", "error", "warning", "info", "question"].includes(type) ? type : "info";
+  const safeTitle = escapeToastHtml(title);
+  const safeMessage = escapeToastHtml(msg);
+
   Swal.mixin({
     toast: true,
-    position: "bottom-end",
+    position: "top-end",
     showConfirmButton: false,
     showCloseButton: true,
     timer: dur,
     timerProgressBar: true,
+    width: "auto",
     background: "var(--card)",
-    color: "var(--txt)"
+    color: "var(--txt)",
+    customClass: {
+      popup: "sm-classic-toast",
+      title: "sm-classic-toast-title",
+      htmlContainer: "sm-classic-toast-message",
+      closeButton: "sm-classic-toast-close",
+      timerProgressBar: "sm-classic-toast-progress"
+    }
   }).fire({
-    icon: type,
-    title: `<span style="font-size:13px;font-weight:700;color:var(--txt)">${title}</span>`,
-    html: msg ? `<span style="font-size:11px;color:var(--txt2)">${msg}</span>` : ""
+    icon: toastType,
+    title: `<span>${safeTitle}</span>`,
+    html: safeMessage ? `<span>${safeMessage}</span>` : ""
   });
 }
 
