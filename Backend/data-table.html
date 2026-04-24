@@ -187,10 +187,10 @@
 
 <!-- TOOL: DATA TABLE -->
 <div class="page-shell" id="page-tool-table">
-  <div class="ph"><div><h1><i class="bi bi-table me-2" style="color:var(--am)"></i>Data Table</h1><p class="d-none d-sm-block">Fully responsive seat cover orders table with search, pagination and Bootstrap modal actions</p></div></div>
+  <div class="ph"><div><h1><i class="bi bi-table me-2" style="color:var(--am)"></i>Data Table</h1><p class="d-none d-sm-block">Yajra-ready HTML table sample with reusable styling and Bootstrap modal actions</p></div></div>
   <div class="panel atbl-panel">
     <div class="panel-h atbl-panel-head">
-      <span class="panel-t">SEAT COVER ORDERS — SAMPLE DATASET + YOUR ORDERS</span>
+      <span class="panel-t">SEAT COVER ORDERS — HTML SAMPLE + YAJRA-READY MARKUP</span>
       <button class="btn2 b2-gd atbl-add-btn" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="add">
         <i class="bi bi-plus-lg"></i>
         <span>Add New</span>
@@ -202,25 +202,25 @@
           <div class="atbl-toolbar-left">
             <div class="atbl-show">
               <span class="atbl-show-lbl">Show</span>
-              <select class="fs" id="toolTablePerPage" aria-label="Rows per page">
+              <select class="fs" id="toolTablePerPage" data-yajra-length aria-label="Rows per page">
                 <option value="5">5</option>
                 <option value="10" selected>10</option>
                 <option value="20">20</option>
               </select>
             </div>
-            <div class="atbl-meta" id="toolTableMeta" aria-live="polite">Showing 1 to 10 of 12 entries</div>
+            <div class="atbl-meta" id="toolTableMeta" aria-live="polite">12 sample rows in HTML</div>
           </div>
           <div class="atbl-toolbar-right">
             <div class="atbl-search">
               <i class="bi bi-search"></i>
-              <input class="fi" id="toolTableSearch" type="search" autocomplete="off" placeholder="Search customer, phone, vehicle, service or status">
+              <input class="fi" id="toolTableSearch" data-yajra-search type="search" autocomplete="off" placeholder="Search customer, phone, vehicle, service or status">
             </div>
           </div>
         </div>
         <div class="atbl-filterbar" aria-label="Table filters">
           <div class="atbl-filter">
             <label for="toolFilterStatus">Status</label>
-            <select class="fs" id="toolFilterStatus" data-table-filter="status">
+            <select class="fs" id="toolFilterStatus" data-yajra-filter="status">
               <option value="all">All Status</option>
               <option value="Completed">Completed</option>
               <option value="In Progress">In Progress</option>
@@ -229,7 +229,7 @@
           </div>
           <div class="atbl-filter">
             <label for="toolFilterService">Service</label>
-            <select class="fs" id="toolFilterService" data-table-filter="service">
+            <select class="fs" id="toolFilterService" data-yajra-filter="service">
               <option value="all">All Services</option>
               <option value="New Seat Cover">New Seat Cover</option>
               <option value="Custom Design">Custom Design</option>
@@ -239,7 +239,7 @@
           </div>
           <div class="atbl-filter">
             <label for="toolFilterVehicle">Vehicle</label>
-            <select class="fs" id="toolFilterVehicle" data-table-filter="vehicle">
+            <select class="fs" id="toolFilterVehicle" data-yajra-filter="vehicle">
               <option value="all">All Vehicles</option>
               <option value="Private Car">Private Car</option>
               <option value="SUV">SUV</option>
@@ -249,7 +249,7 @@
           </div>
           <div class="atbl-filter">
             <label for="toolFilterSample">Sample</label>
-            <select class="fs" id="toolFilterSample" data-table-filter="sample">
+            <select class="fs" id="toolFilterSample" data-yajra-filter="sample">
               <option value="all">All Samples</option>
               <option value="rexine">Rexine RX</option>
               <option value="leather">Leather LT</option>
@@ -258,20 +258,20 @@
           </div>
           <div class="atbl-filter">
             <label for="toolFilterPayment">Payment</label>
-            <select class="fs" id="toolFilterPayment" data-table-filter="payment">
+            <select class="fs" id="toolFilterPayment" data-yajra-filter="payment">
               <option value="all">All Payments</option>
               <option value="paid">Fully Paid</option>
               <option value="due">Advance Due</option>
             </select>
           </div>
-          <button class="btn2 b2-out b2-sm atbl-filter-reset" type="button" data-table-filter-reset>
+          <button class="btn2 b2-out b2-sm atbl-filter-reset" type="button" data-yajra-reset>
             <i class="bi bi-x-circle"></i>
             <span>Reset</span>
           </button>
         </div>
         <div class="atbl-shell">
           <div class="atbl-scroll">
-            <table class="tbl atbl-table">
+            <table class="tbl atbl-table atbl-order-table" id="ordersDataTable" data-admin-table data-yajra-table="orders">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -285,57 +285,57 @@
                   <th scope="col">Advance (৳)</th>
                   <th scope="col">Status</th>
                   <th scope="col">Date</th>
-                  <th scope="col" class="text-end">Actions</th>
+                  <th scope="col" class="atbl-actions-col text-end">Actions</th>
                 </tr>
               </thead>
               <tbody id="toolTableBody">
                 <tr data-row="1" data-customer="Rahman Ali" data-avatar="assets/images/avatars/avatar-01.jpeg" data-phone="01711-234567" data-vehicle="Private Car — Toyota Corolla" data-service="New Seat Cover" data-sample="RX-001" data-total="8500" data-advance="3000" data-status="Completed" data-date="2025-04-15" data-note="Black leather seat cover with diamond stitching.">
                   <td class="atbl-row-no">1</td><td class="atbl-customer">Rahman Ali</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-01.jpeg" alt="Rahman Ali avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01711-234567</td><td>Private Car — Toyota Corolla</td><td>New Seat Cover</td><td><span class="chip">RX-001</span></td><td class="atbl-amount">৳8,500</td><td>৳3,000</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-15</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="2" data-customer="Kamal Hossain" data-avatar="assets/images/avatars/avatar-02.jpeg" data-phone="01812-345678" data-vehicle="Private Car — Honda City" data-service="Custom Design" data-sample="LT-002" data-total="12000" data-advance="5000" data-status="In Progress" data-date="2025-04-14" data-note="Brown leather with beige piping and custom finish.">
                   <td class="atbl-row-no">2</td><td class="atbl-customer">Kamal Hossain</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-02.jpeg" alt="Kamal Hossain avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01812-345678</td><td>Private Car — Honda City</td><td>Custom Design</td><td><span class="chip">LT-002</span></td><td class="atbl-amount">৳12,000</td><td>৳5,000</td><td><span class="bdg b-bl">In Progress</span></td><td>2025-04-14</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="3" data-customer="Sumaiya Begum" data-avatar="assets/images/avatars/avatar-03.jpeg" data-phone="01913-456789" data-vehicle="SUV — Honda CR-V" data-service="New Seat Cover" data-sample="RX-003" data-total="15000" data-advance="6000" data-status="Pending" data-date="2025-04-13" data-note="Customer requested quilted front panels and soft foam finish.">
                   <td class="atbl-row-no">3</td><td class="atbl-customer">Sumaiya Begum</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-03.jpeg" alt="Sumaiya Begum avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01913-456789</td><td>SUV — Honda CR-V</td><td>New Seat Cover</td><td><span class="chip">RX-003</span></td><td class="atbl-amount">৳15,000</td><td>৳6,000</td><td><span class="bdg b-am">Pending</span></td><td>2025-04-13</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="4" data-customer="Jakir Hossain" data-avatar="assets/images/avatars/avatar-04.jpeg" data-phone="01614-567890" data-vehicle="Motorcycle — Yamaha R15" data-service="Repair" data-sample="RX-004" data-total="1800" data-advance="800" data-status="Completed" data-date="2025-04-12" data-note="Repaired rider seat foam and stitch line.">
                   <td class="atbl-row-no">4</td><td class="atbl-customer">Jakir Hossain</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-04.jpeg" alt="Jakir Hossain avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01614-567890</td><td>Motorcycle — Yamaha R15</td><td>Repair</td><td><span class="chip">RX-004</span></td><td class="atbl-amount">৳1,800</td><td>৳800</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-12</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="5" data-customer="Rima Akter" data-avatar="assets/images/avatars/avatar-05.jpeg" data-phone="01515-678901" data-vehicle="Private Car — Toyota Allion" data-service="Repair" data-sample="—" data-total="2500" data-advance="1000" data-status="Completed" data-date="2025-04-11" data-note="Door panel and front seat repair package.">
                   <td class="atbl-row-no">5</td><td class="atbl-customer">Rima Akter</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-05.jpeg" alt="Rima Akter avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01515-678901</td><td>Private Car — Toyota Allion</td><td>Repair</td><td>—</td><td class="atbl-amount">৳2,500</td><td>৳1,000</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-11</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="6" data-customer="Minhaj Uddin" data-avatar="assets/images/avatars/avatar-06.jpeg" data-phone="01716-789012" data-vehicle="Private Car — Nissan X-Trail" data-service="New Seat Cover" data-sample="LT-001" data-total="18000" data-advance="8000" data-status="In Progress" data-date="2025-04-10" data-note="Two-tone premium leather finish.">
                   <td class="atbl-row-no">6</td><td class="atbl-customer">Minhaj Uddin</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-06.jpeg" alt="Minhaj Uddin avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01716-789012</td><td>Private Car — Nissan X-Trail</td><td>New Seat Cover</td><td><span class="chip">LT-001</span></td><td class="atbl-amount">৳18,000</td><td>৳8,000</td><td><span class="bdg b-bl">In Progress</span></td><td>2025-04-10</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="7" data-customer="Tasnim Jahan" data-avatar="assets/images/avatars/avatar-07.jpeg" data-phone="01817-890123" data-vehicle="Microbus — Toyota HiAce" data-service="New Seat Cover" data-sample="RX-002" data-total="22000" data-advance="10000" data-status="Pending" data-date="2025-04-09" data-note="Microbus full interior package with custom color combination.">
                   <td class="atbl-row-no">7</td><td class="atbl-customer">Tasnim Jahan</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-07.jpeg" alt="Tasnim Jahan avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01817-890123</td><td>Microbus — Toyota HiAce</td><td>New Seat Cover</td><td><span class="chip">RX-002</span></td><td class="atbl-amount">৳22,000</td><td>৳10,000</td><td><span class="bdg b-am">Pending</span></td><td>2025-04-09</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="8" data-customer="Arif Rahman" data-avatar="assets/images/avatars/avatar-08.jpeg" data-phone="01918-901234" data-vehicle="Private Car — Toyota Premio" data-service="Fitting Only" data-sample="—" data-total="1200" data-advance="1200" data-status="Completed" data-date="2025-04-08" data-note="Customer brought own cover set, fitting service only.">
                   <td class="atbl-row-no">8</td><td class="atbl-customer">Arif Rahman</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-08.jpeg" alt="Arif Rahman avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01918-901234</td><td>Private Car — Toyota Premio</td><td>Fitting Only</td><td>—</td><td class="atbl-amount">৳1,200</td><td>৳1,200</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-08</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="9" data-customer="Nazneen Islam" data-avatar="assets/images/avatars/avatar-09.jpeg" data-phone="01719-012345" data-vehicle="Motorcycle — Bajaj Pulsar" data-service="Repair" data-sample="—" data-total="950" data-advance="500" data-status="Completed" data-date="2025-04-07" data-note="Minor side patch and seat tightening work.">
                   <td class="atbl-row-no">9</td><td class="atbl-customer">Nazneen Islam</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-09.jpeg" alt="Nazneen Islam avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01719-012345</td><td>Motorcycle — Bajaj Pulsar</td><td>Repair</td><td>—</td><td class="atbl-amount">৳950</td><td>৳500</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-07</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="10" data-customer="Farhan Ahmed" data-avatar="assets/images/avatars/avatar-10.jpeg" data-phone="01520-123456" data-vehicle="SUV — Mitsubishi Pajero" data-service="New Seat Cover" data-sample="LT-003" data-total="25000" data-advance="12000" data-status="In Progress" data-date="2025-04-06" data-note="Beige leather and armrest wrap package.">
                   <td class="atbl-row-no">10</td><td class="atbl-customer">Farhan Ahmed</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-10.jpeg" alt="Farhan Ahmed avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01520-123456</td><td>SUV — Mitsubishi Pajero</td><td>New Seat Cover</td><td><span class="chip">LT-003</span></td><td class="atbl-amount">৳25,000</td><td>৳12,000</td><td><span class="bdg b-bl">In Progress</span></td><td>2025-04-06</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="11" data-customer="Shabana Khatun" data-avatar="assets/images/avatars/avatar-11.jpeg" data-phone="01721-234567" data-vehicle="Private Car — Toyota Aqua" data-service="New Seat Cover" data-sample="RX-005" data-total="7500" data-advance="3000" data-status="Completed" data-date="2025-04-05" data-note="Standard leather package with soft back support.">
                   <td class="atbl-row-no">11</td><td class="atbl-customer">Shabana Khatun</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-11.jpeg" alt="Shabana Khatun avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01721-234567</td><td>Private Car — Toyota Aqua</td><td>New Seat Cover</td><td><span class="chip">RX-005</span></td><td class="atbl-amount">৳7,500</td><td>৳3,000</td><td><span class="bdg b-gr">Completed</span></td><td>2025-04-05</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr data-row="12" data-customer="Delwar Hossain" data-avatar="assets/images/avatars/avatar-12.jpeg" data-phone="01822-345678" data-vehicle="Private Car — Honda Civic" data-service="Custom Design" data-sample="RX-006" data-total="9500" data-advance="4000" data-status="Pending" data-date="2025-04-04" data-note="Customer approved design but fitting date not fixed yet.">
                   <td class="atbl-row-no">12</td><td class="atbl-customer">Delwar Hossain</td><td class="atbl-avatar-cell"><img class="atbl-avatar" src="assets/images/avatars/avatar-12.jpeg" alt="Delwar Hossain avatar" width="38" height="38" loading="lazy" decoding="async"></td><td>01822-345678</td><td>Private Car — Honda Civic</td><td>Custom Design</td><td><span class="chip">RX-006</span></td><td class="atbl-amount">৳9,500</td><td>৳4,000</td><td><span class="bdg b-am">Pending</span></td><td>2025-04-04</td>
-                  <td><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-table-action="delete"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
+                  <td class="atbl-actions-col"><div class="atbl-actions"><button class="btn2 b2-out b2-xs atbl-act atbl-act-view" type="button" data-bs-toggle="modal" data-bs-target="#moATView" data-table-mode="view" aria-label="View order"><i class="bi bi-eye"></i><span>View</span></button><button class="btn2 b2-gr b2-xs atbl-act atbl-act-edit" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="edit" aria-label="Edit order"><i class="bi bi-pencil"></i><span>Edit</span></button><button class="btn2 b2-re b2-xs atbl-act atbl-act-delete" type="button" data-static-delete="true" data-confirm-title="Delete this row?" data-confirm-text="This removes only this static preview row. In Laravel, call your delete route and reload the Yajra table." aria-label="Delete order"><i class="bi bi-trash"></i><span>Delete</span></button></div></td>
                 </tr>
                 <tr id="toolTableEmptyRow" hidden>
                   <td class="atbl-empty" colspan="12">
@@ -348,8 +348,8 @@
           </div>
         </div>
         <div class="atbl-footer">
-          <div class="atbl-foot-note">Raw HTML table data with client-side search, pagination, add, edit and delete preview actions.</div>
-          <nav class="atbl-pager" id="toolTablePagination" aria-label="Table pagination"></nav>
+          <div class="atbl-foot-note">HTML sample rows stay in markup. In Laravel, let Yajra own search, filters, pagination and Ajax reloads.</div>
+          <nav class="atbl-pager" id="toolTablePagination" data-yajra-pagination aria-label="Table pagination"></nav>
         </div>
       </div>
     </div>
@@ -393,7 +393,7 @@
   <div class="modal-content">
     <div class="modal-header"><div><h5 class="modal-title" id="tableRecordTitle">Add New Order</h5><p class="mb-0 atbl-modal-sub">Use the modal form to create or update a seat cover order preview row.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
     <div class="modal-body">
-      <form id="tableRecordForm" novalidate>
+      <form id="tableRecordForm" data-static-form="true" novalidate>
         <div class="row g-3">
           <div class="col-md-6"><label class="fl">Customer</label><input class="fi form-control" id="tr_customer" placeholder="Customer name" required></div>
           <div class="col-md-6"><label class="fl">Phone</label><input class="fi form-control" id="tr_phone" placeholder="01XXXXXXXXX" required></div>
