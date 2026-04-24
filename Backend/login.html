@@ -1,96 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light" data-bs-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Shadhin Motor Admin Dashboard — Seat Cover Shop Management">
+<meta name="description" content="Shadhin Motor Admin Dashboard login">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-<script>
-(() => {
-  const root = document.documentElement;
-  const fallback = root.getAttribute("data-theme") || "dark";
-  let theme = fallback;
-  try {
-    const saved = window.localStorage.getItem("sm_theme");
-    if (saved === "light" || saved === "dark") theme = saved;
-  } catch {}
-  root.setAttribute("data-theme", theme);
-  root.setAttribute("data-bs-theme", theme);
-})();
-</script>
+<meta name="theme-color" content="#e8ecf2">
 <title>Shadhin Motor — Login</title>
 <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-
-<!-- Bootstrap Icons -->
 <link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
-<!-- SweetAlert2 -->
-<link href="assets/css/sweetalert2.min.css" rel="stylesheet">
-<!-- Google Fonts -->
 <link href="assets/css/google-fonts.css" rel="stylesheet">
-
 <link href="assets/css/shared/base.css" rel="stylesheet">
-<link href="assets/css/login.css" rel="stylesheet">
-
+<link href="assets/css/auth.css" rel="stylesheet">
 </head>
 
-<body class="preloading" data-page="login">
-
-<!-- PRELOADER -->
-<div id="pre" role="status" aria-label="Loading page">
-  <div class="pre-inner" aria-hidden="true">
-    <div class="pre-spinner-wrap">
-      <div class="pre-spinner-outer"></div>
-      <div class="pre-spinner-inner"></div>
-    </div>
-  </div>
-</div>
-<!-- LOGIN -->
-  <div id="loginWrap">
-  <div class="login-card">
+<body data-page="login">
+<main id="loginWrap" class="auth-wrap">
+  <section class="login-card auth-card" aria-labelledby="loginTitle">
     <div class="login-brand">
       <a class="login-logo-wrap login-brand-link" href="dashboard.html" aria-label="Open dashboard preview">
         <img class="login-logo-img" src="assets/images/brand-logo.svg" alt="" width="46" height="46" decoding="async">
         <div>
-          <h1 class="login-title">Shadhin <em>Motor</em></h1>
-          <p class="login-sub">Admin Dashboard</p>
+          <h1 class="login-title" id="loginTitle">Shadhin <em>Motor</em></h1>
+          <p class="login-sub">Admin Login</p>
         </div>
       </a>
       <div class="login-divider"></div>
     </div>
-    <form id="loginForm">
+
+    <form id="loginForm" class="auth-form" action="#" method="post">
       <div class="login-field-wrap">
-        <label class="login-lbl" for="loginUser">Username or Email</label>
+        <label class="login-lbl" for="loginEmail">Email</label>
         <div class="login-input-row">
-          <span class="login-field-icon"><i class="bi bi-person-circle"></i></span>
-          <input class="login-input" id="loginUser" type="text" placeholder="Enter username or email" autocomplete="username">
+          <span class="login-field-icon"><i class="bi bi-envelope"></i></span>
+          <input class="login-input" id="loginEmail" name="email" type="email" placeholder="admin@example.com" autocomplete="email" required>
         </div>
       </div>
       <div class="login-field-wrap">
         <label class="login-lbl" for="loginPass">Password</label>
         <div class="login-input-row">
           <span class="login-field-icon"><i class="bi bi-shield-lock"></i></span>
-          <input class="login-input" id="loginPass" type="password" placeholder="Enter password" autocomplete="current-password">
-          <button class="login-eye-btn" type="button" data-action="login-pass-toggle" aria-label="Toggle password visibility">
-            <i class="bi bi-eye-slash" id="loginPassIc"></i>
-          </button>
+          <input class="login-input" id="loginPass" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
         </div>
       </div>
+
+      <div class="auth-row">
+        <label class="auth-check"><input type="checkbox" name="remember"> Remember me</label>
+        <a class="auth-link" href="forgot-password.html">Forgot password?</a>
+      </div>
+
       <button class="login-submit-btn" id="loginBtn" type="submit">
         <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
         <span>Sign In</span>
       </button>
     </form>
-  </div>
 
-</div>
+    <div class="auth-divider"><span>or continue with</span></div>
+    <div class="auth-social" role="group" aria-label="Social login options">
+      <a class="auth-provider google" href="#" aria-label="Continue with Google"><i class="bi bi-google" aria-hidden="true"></i></a>
+      <a class="auth-provider facebook" href="#" aria-label="Continue with Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+      <a class="auth-provider linkedin" href="#" aria-label="Continue with LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+      <a class="auth-provider github" href="#" aria-label="Continue with GitHub"><i class="bi bi-github" aria-hidden="true"></i></a>
+      <a class="auth-provider apple" href="#" aria-label="Continue with Apple"><i class="bi bi-apple" aria-hidden="true"></i></a>
+    </div>
 
-<!-- Login scripts -->
-<script src="assets/js/sweetalert2.all.min.js"></script>
-<script src="assets/js/shared/core.js"></script>
-<script src="assets/js/login.js"></script>
-
+    <p class="auth-switch">New here? <a href="register.html">Create an account</a></p>
+  </section>
+</main>
 </body>
-
 </html>

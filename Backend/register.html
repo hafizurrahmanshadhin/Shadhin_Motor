@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-bs-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Create a Shadhin Motor admin account">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#e8ecf2">
+<title>Shadhin Motor — Register</title>
+<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+<link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+<link href="assets/css/google-fonts.css" rel="stylesheet">
+<link href="assets/css/shared/base.css" rel="stylesheet">
+<link href="assets/css/auth.css" rel="stylesheet">
+</head>
+
+<body data-page="register">
+<main id="loginWrap" class="auth-wrap">
+  <section class="login-card auth-card auth-card-lg" aria-labelledby="registerTitle">
+    <div class="login-brand">
+      <a class="login-logo-wrap login-brand-link" href="login.html" aria-label="Back to login">
+        <img class="login-logo-img" src="assets/images/brand-logo.svg" alt="" width="46" height="46" decoding="async">
+        <div>
+          <h1 class="login-title" id="registerTitle">Create <em>Account</em></h1>
+          <p class="login-sub">Admin Registration</p>
+        </div>
+      </a>
+      <div class="login-divider"></div>
+    </div>
+
+    <form class="auth-form" action="#" method="post">
+      <div class="auth-grid">
+        <div class="login-field-wrap">
+          <label class="login-lbl" for="regName">Name</label>
+          <div class="login-input-row">
+            <span class="login-field-icon"><i class="bi bi-person"></i></span>
+            <input class="login-input" id="regName" name="name" type="text" placeholder="Your full name" autocomplete="name" required>
+          </div>
+        </div>
+        <div class="login-field-wrap">
+          <label class="login-lbl" for="regEmail">Email</label>
+          <div class="login-input-row">
+            <span class="login-field-icon"><i class="bi bi-envelope"></i></span>
+            <input class="login-input" id="regEmail" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="login-field-wrap">
+          <label class="login-lbl" for="regPhone">Phone Number</label>
+          <div class="login-input-row">
+            <span class="login-field-icon"><i class="bi bi-telephone"></i></span>
+            <input class="login-input" id="regPhone" name="phone" type="tel" placeholder="01XXXXXXXXX" autocomplete="tel" required>
+          </div>
+        </div>
+        <div class="login-field-wrap">
+          <label class="login-lbl" for="regPassword">Password</label>
+          <div class="login-input-row">
+            <span class="login-field-icon"><i class="bi bi-shield-lock"></i></span>
+            <input class="login-input" id="regPassword" name="password" type="password" placeholder="Minimum 8 characters" autocomplete="new-password" minlength="8" required>
+          </div>
+        </div>
+        <div class="login-field-wrap auth-grid-full">
+          <label class="login-lbl" for="regPasswordConfirm">Confirm Password</label>
+          <div class="login-input-row">
+            <span class="login-field-icon"><i class="bi bi-shield-check"></i></span>
+            <input class="login-input" id="regPasswordConfirm" name="password_confirmation" type="password" placeholder="Repeat password" autocomplete="new-password" minlength="8" required>
+          </div>
+        </div>
+      </div>
+
+      <label class="auth-check auth-terms">
+        <input id="regTerms" name="terms" type="checkbox" required>
+        <span>I agree to the <a href="#termsModal">terms and conditions</a>.</span>
+      </label>
+
+      <button class="login-submit-btn" type="submit">
+        <i class="bi bi-person-plus" aria-hidden="true"></i>
+        <span>Create Account</span>
+      </button>
+    </form>
+
+    <div class="auth-divider"><span>or sign up with</span></div>
+    <div class="auth-social" role="group" aria-label="Social registration options">
+      <a class="auth-provider google" href="#" aria-label="Sign up with Google"><i class="bi bi-google" aria-hidden="true"></i></a>
+      <a class="auth-provider facebook" href="#" aria-label="Sign up with Facebook"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+      <a class="auth-provider linkedin" href="#" aria-label="Sign up with LinkedIn"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+      <a class="auth-provider github" href="#" aria-label="Sign up with GitHub"><i class="bi bi-github" aria-hidden="true"></i></a>
+      <a class="auth-provider apple" href="#" aria-label="Sign up with Apple"><i class="bi bi-apple" aria-hidden="true"></i></a>
+    </div>
+
+    <p class="auth-switch">Already have an account? <a href="login.html">Sign in</a></p>
+  </section>
+</main>
+
+<section class="auth-modal" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+  <a class="auth-modal-backdrop" href="#" aria-label="Close terms modal"></a>
+  <div class="auth-modal-card">
+    <div class="auth-modal-head">
+      <div>
+        <p class="login-sub">Shadhin Motor</p>
+        <h2 id="termsTitle">Terms and Conditions</h2>
+      </div>
+      <a class="auth-modal-close" href="#" aria-label="Close terms modal"><i class="bi bi-x-lg"></i></a>
+    </div>
+    <div class="auth-modal-body">
+      <p>Use this admin dashboard only for authorized Shadhin Motor management work. Keep customer information private and accurate.</p>
+      <p>Account access is personal. Do not share credentials, bypass security checks, or use another team member's account.</p>
+      <p>Orders, payments, wages, gallery content, and reports should be entered truthfully. Any production version should use Laravel validation, rate limits, audit logs, and secure password handling.</p>
+      <p>By creating an account, you agree that the final application may store your submitted information for authentication, authorization, and operational records.</p>
+    </div>
+    <div class="auth-modal-foot">
+      <a class="login-submit-btn auth-modal-ok" href="#regTerms">I Understand</a>
+    </div>
+  </div>
+</section>
+</body>
+</html>
