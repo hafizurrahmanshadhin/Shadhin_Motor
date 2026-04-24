@@ -15,12 +15,12 @@
   --tr2: .28s cubic-bezier(.4,0,.2,1);
 
   /* Typography stacks tuned for crisp admin UI rendering. */
-  --font-content: Tahoma, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
-  --font-ui:      Tahoma, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
-  --font-nav:     Tahoma, Verdana, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
-  --font-heading: Tahoma, Verdana, 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-content: 'Plus Jakarta Sans', 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-ui:      'Plus Jakarta Sans', 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-nav:     'Plus Jakarta Sans', 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Segoe UI', Arial, ui-sans-serif, system-ui, sans-serif;
   --font-data:    Arial, Tahoma, 'Segoe UI', ui-sans-serif, system-ui, sans-serif;
-  --font-brand:   Tahoma, Verdana, Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-brand:   'Playfair Display', Georgia, 'Times New Roman', serif;
   --font:         var(--font-content);
   --font-mono:    'Cascadia Code', Consolas, 'JetBrains Mono', 'Courier New', monospace;
 
@@ -300,7 +300,6 @@ a { color: inherit; text-decoration: none; }
 #app,
 #loginWrap {
   transition: filter .45s ease, transform .45s ease, opacity .45s ease;
-  will-change: filter, transform;
 }
 body.preloading {
   overflow: hidden;
@@ -310,6 +309,7 @@ body.preloading #loginWrap {
   opacity: .82;
   filter: blur(14px) saturate(.92);
   transform: scale(1.012);
+  will-change: filter, transform;
 }
 
 /* ══ SWEETALERT OVERRIDES ══ */
