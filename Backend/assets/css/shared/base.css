@@ -322,6 +322,16 @@ body.preloading #loginWrap {
 .swal2-icon.swal2-question { border-color: var(--blue) !important; color: var(--blue) !important; }
 .swal2-timer-progress-bar { background: var(--am) !important; }
 [data-theme="dark"] .swal2-toast { background: var(--bg3) !important; color: var(--txt) !important; box-shadow: var(--sh2) !important; }
+.swal2-toast .swal2-close {
+  color: var(--txt3) !important;
+  font-size: 20px !important;
+  opacity: .82;
+}
+.swal2-toast .swal2-close:hover,
+.swal2-toast .swal2-close:focus {
+  color: var(--txt) !important;
+  opacity: 1;
+}
 
 /* Body background texture - very subtle grid */
 [data-theme="dark"] body::before {

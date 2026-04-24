@@ -2,6 +2,17 @@
   padding: clamp(16px, 2vw, 22px);
 }
 
+.atbl-panel-head {
+  align-items: center;
+  gap: 12px;
+}
+
+.atbl-panel-head .panel-t {
+  flex: 1 1 280px;
+  min-width: 0;
+  line-height: 1.5;
+}
+
 .atbl-wrap {
   display: flex;
   flex-direction: column;
@@ -25,6 +36,8 @@
 }
 
 .atbl-add-btn {
+  flex: 0 0 auto;
+  margin-left: auto;
   min-height: 40px;
   padding-inline: 16px;
   border-radius: 10px;
@@ -285,12 +298,15 @@
     padding: 14px;
   }
 
+  .atbl-panel-head .atbl-add-btn {
+    width: auto;
+  }
+
   .atbl-toolbar-left,
   .atbl-toolbar-right {
     align-items: stretch;
   }
 
-  .atbl-add-btn,
   .atbl-search,
   .atbl-search .fi {
     width: 100%;

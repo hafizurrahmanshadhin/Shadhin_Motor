@@ -199,15 +199,17 @@
 <div class="page-shell" id="page-tool-table">
   <div class="ph"><div><h1><i class="bi bi-table me-2" style="color:var(--am)"></i>Data Table</h1><p class="d-none d-sm-block">Fully responsive seat cover orders table with search, pagination and Bootstrap modal actions</p></div></div>
   <div class="panel atbl-panel">
-    <div class="panel-h"><span class="panel-t">SEAT COVER ORDERS — SAMPLE DATASET + YOUR ORDERS</span></div>
+    <div class="panel-h atbl-panel-head">
+      <span class="panel-t">SEAT COVER ORDERS — SAMPLE DATASET + YOUR ORDERS</span>
+      <button class="btn2 b2-gd atbl-add-btn" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="add">
+        <i class="bi bi-plus-lg"></i>
+        <span>Add New</span>
+      </button>
+    </div>
     <div class="panel-b">
       <div id="toolTableWrap" class="atbl-wrap" data-page="1">
         <div class="atbl-toolbar">
           <div class="atbl-toolbar-left">
-            <button class="btn2 b2-gd atbl-add-btn" type="button" data-bs-toggle="modal" data-bs-target="#moATRecord" data-table-mode="add">
-              <i class="bi bi-plus-lg"></i>
-              <span>Add New</span>
-            </button>
             <div class="atbl-show">
               <span class="atbl-show-lbl">Show</span>
               <select class="fs" id="toolTablePerPage" aria-label="Rows per page">

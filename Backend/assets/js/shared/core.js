@@ -73,6 +73,7 @@ function toast(type, title, msg = "", dur = 2800) {
     toast: true,
     position: "bottom-end",
     showConfirmButton: false,
+    showCloseButton: true,
     timer: dur,
     timerProgressBar: true,
     background: "var(--card)",
