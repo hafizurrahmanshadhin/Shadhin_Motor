@@ -154,16 +154,16 @@ body {
 
 /* Sidebar Footer */
 .sb-foot {
-  margin-top: 0; padding: 12px; border-top: 1px solid var(--bdr2); flex-shrink: 0;
+  margin-top: 0; padding: 8px 10px; border-top: 1px solid var(--bdr2); flex-shrink: 0;
   position: relative; bottom: auto; z-index: 2;
   background: var(--grd-sb);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 .sb-user {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 8px;
   width: 100%;
-  padding: 10px; border-radius: var(--r); cursor: pointer;
+  padding: 6px 8px; border-radius: var(--r); cursor: pointer;
   transition: background var(--tr);
   border: 0;
   background: transparent;
@@ -173,10 +173,10 @@ body {
 }
 .sb-user:hover { background: var(--hover); }
 .ava {
-  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+  width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
   background: linear-gradient(135deg, var(--am-d), var(--am));
   display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: #000;
+  font-size: 12px; font-weight: 800; color: #000;
   box-shadow: 0 0 0 2px var(--am-glow), 0 0 0 4px var(--bdr2);
 }
 .ava.lg {
@@ -184,8 +184,8 @@ body {
   border: 3px solid var(--am);
   box-shadow: 0 0 0 4px var(--am-glow);
 }
-.sb-uname { font-family: var(--font-nav); font-size: 13.5px; font-weight: 700; color: var(--txt); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sb-urole { font-family: var(--font-nav); font-size: 10.5px; color: var(--txt2); margin-top: 1px; font-weight: 500; }
+.sb-uname { font-family: var(--font-nav); font-size: 13px; font-weight: 700; color: var(--txt); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.15; }
+.sb-urole { font-family: var(--font-nav); font-size: 9.5px; color: var(--txt2); margin-top: 1px; font-weight: 500; line-height: 1.2; }
 
 /* ══ TOPBAR ══ */
 #tb {
@@ -1665,12 +1665,12 @@ input[type="color"] {
 }
 
 .sb-uname {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .sb-urole {
-  font-size: 10.5px;
+  font-size: 9.5px;
   font-weight: 500;
 }
 
