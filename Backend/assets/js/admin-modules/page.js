@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || document.body?.dataset.page || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function byId(id) {
   return document.getElementById(id);
@@ -30,7 +30,7 @@ function resetModalFields(modalId) {
 function openStaticModal(modalId, title) {
   resetModalFields(modalId);
   setModalTitle(modalId, title);
-  window.openMo?.(modalId);
+  window.SMAdmin?.shell?.openMo?.(modalId);
 }
 
 function bindFilterButtons({ root = document, wrapSelector, itemSelector, emptySelector, statusAttr = "status" }) {
@@ -104,7 +104,7 @@ function initReviewsPage() {
     }
 
     if (!card || !["approved", "rejected", "pending"].includes(next)) return;
-    window.toast?.("info", "Moderation flow ready", "Static HTML data was not changed. Connect this button to a Laravel action later.");
+    window.SMAdmin?.ui?.toast?.("info", "Moderation flow ready", "Static HTML data was not changed. Connect this button to a Laravel action later.");
   });
 }
 
@@ -136,13 +136,13 @@ function initFrontendContentPage() {
 
     const publish = event.target.closest("[data-action='content-publish']");
     if (publish) {
-      window.toast?.("info", "Publish flow ready", "Laravel can persist section order, copy, media and SEO later.");
+      window.SMAdmin?.ui?.toast?.("info", "Publish flow ready", "Laravel can persist section order, copy, media and SEO later.");
     }
   });
 
   byId("moContentBlock")?.querySelector("[data-action='content-save']")?.addEventListener("click", () => {
-    window.closeMo?.("moContentBlock");
-    window.toast?.("success", "Content block saved", "Static preview only");
+    window.SMAdmin?.shell?.closeMo?.("moContentBlock");
+    window.SMAdmin?.ui?.toast?.("success", "Content block saved", "Static preview only");
   });
 
   showPanel("sections");
@@ -192,8 +192,8 @@ function initRolesPage() {
   });
 
   roleModal?.querySelector("[data-action='role-save']")?.addEventListener("click", () => {
-    window.closeMo?.("moRole");
-    window.toast?.("success", "Role saved", "Static preview only");
+    window.SMAdmin?.shell?.closeMo?.("moRole");
+    window.SMAdmin?.ui?.toast?.("success", "Role saved", "Static preview only");
   });
 }
 
@@ -211,8 +211,8 @@ function initUsersPage() {
   });
 
   byId("moUser")?.querySelector("[data-action='user-save']")?.addEventListener("click", () => {
-    window.closeMo?.("moUser");
-    window.toast?.("success", "User saved", "Static preview only");
+    window.SMAdmin?.shell?.closeMo?.("moUser");
+    window.SMAdmin?.ui?.toast?.("success", "User saved", "Static preview only");
   });
 }
 
@@ -236,8 +236,8 @@ function initMediaPage() {
   });
 
   byId("moMedia")?.querySelector("[data-action='media-save']")?.addEventListener("click", () => {
-    window.closeMo?.("moMedia");
-    window.toast?.("success", "Media saved", "Static preview only");
+    window.SMAdmin?.shell?.closeMo?.("moMedia");
+    window.SMAdmin?.ui?.toast?.("success", "Media saved", "Static preview only");
   });
 }
 

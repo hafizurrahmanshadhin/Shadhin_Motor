@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function getOrderRows() {
   return Array.from(document.querySelectorAll("#ordTbody tr"));
@@ -45,12 +45,12 @@ function openOrderMo(trigger) {
   const title = trigger?.dataset?.orderModalTitle || "New Order";
   const titleEl = document.getElementById("moOT");
   if (titleEl) titleEl.textContent = title;
-  window.openMo?.("moOrder");
+  window.SMAdmin?.shell?.openMo?.("moOrder");
 }
 
 function saveOrder() {
-  window.closeMo?.("moOrder");
-  window.toast?.("success", "Order form submitted", "Static preview only");
+  window.SMAdmin?.shell?.closeMo?.("moOrder");
+  window.SMAdmin?.ui?.toast?.("success", "Order form submitted", "Static preview only");
 }
 
 export function initOrdersPage() {

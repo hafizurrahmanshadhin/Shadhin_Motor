@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function syncWageDateLabel() {
   const input = document.getElementById("wDate");
@@ -10,15 +10,15 @@ function syncWageDateLabel() {
 
 function renderWageLog() {
   const currentDate = document.getElementById("wDate")?.value || "the selected date";
-  window.toast?.("info", "Wage log filtered", `Static HTML rows shown for ${currentDate}.`);
+  window.SMAdmin?.ui?.toast?.("info", "Wage log filtered", `Static HTML rows shown for ${currentDate}.`);
 }
 
 function markAllPresent() {
-  window.toast?.("success", "Attendance marked", "Static preview only");
+  window.SMAdmin?.ui?.toast?.("success", "Attendance marked", "Static preview only");
 }
 
 function clearDayWages() {
-  window.toast?.("warning", "Clear disabled", "Static demo rows stay fixed in HTML.");
+  window.SMAdmin?.ui?.toast?.("warning", "Clear disabled", "Static demo rows stay fixed in HTML.");
 }
 
 export function initWagesPage() {

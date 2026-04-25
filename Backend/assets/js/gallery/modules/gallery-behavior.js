@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function getGalleryItems() {
   return Array.from(document.querySelectorAll("#gGrid .g-item"));
@@ -46,12 +46,12 @@ function openGalMo(trigger) {
   resetGalleryModal();
   const titleEl = document.getElementById("moGT");
   if (titleEl) titleEl.textContent = trigger?.dataset?.galleryModalTitle || "Add Photo";
-  window.openMo?.("moGallery");
+  window.SMAdmin?.shell?.openMo?.("moGallery");
 }
 
 function saveGalItem() {
-  window.closeMo?.("moGallery");
-  window.toast?.("success", "Gallery item saved", "Static preview only");
+  window.SMAdmin?.shell?.closeMo?.("moGallery");
+  window.SMAdmin?.ui?.toast?.("success", "Gallery item saved", "Static preview only");
 }
 
 export function initGalleryPage() {

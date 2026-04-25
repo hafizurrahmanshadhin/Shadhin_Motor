@@ -6,6 +6,7 @@ This Backend folder is a static admin dashboard prepared for future Laravel Blad
 
 - HTML owns page data. Static rows, cards, permissions, and modal examples stay in markup so Blade or React can replace them with database records later.
 - JavaScript owns behavior only: sidebar, topbar dropdowns, theme, Bootstrap modals, static preview toasts, filters, tabs, searches, and modal prefill.
+- Shared helpers are namespaced under `window.SMAdmin.ui` and `window.SMAdmin.shell`. Avoid new generic globals so Blade, Inertia, React, or Vue code can use its own component state safely.
 - Shell behavior uses `data-shell-action` and `data-shell-modal-open` to avoid conflicts with future page-level `data-action` or React component props.
 - Page behavior scripts must read existing HTML through IDs, classes, and `data-*` hooks. They should not render database data.
 - `assets/js/shared/theme-init.js` must stay in the `<head>` before CSS to prevent a light/dark theme flash.
@@ -29,6 +30,7 @@ This Backend folder is a static admin dashboard prepared for future Laravel Blad
 ## Module Isolation Rules
 
 - Shared shell CSS lives in `assets/css/shared/admin-shell.css`; shared module UI lives in `assets/css/shared/module-pages.css`.
-- Large standalone modules can keep their own folder: `assets/js/{module}/page.js`, `assets/js/{module}/modules/controller.js`, and matching CSS.
+- Large standalone modules can keep their own folder: `assets/js/{module}/page.js`, `assets/js/{module}/modules/{module}-behavior.js`, and matching CSS.
 - New pages should avoid global IDs outside their own page wrapper and modal IDs.
 - Load shared scripts first, then the page/module script last.
+- For Inertia or isolated React/Vue, either port page scripts into component hooks or initialize them from a page-level effect using the same `data-page` guard.

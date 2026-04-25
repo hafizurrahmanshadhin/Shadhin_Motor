@@ -1,4 +1,4 @@
-const settingsPageName = window.SMAdmin?.page || window.PAGE || document.body?.dataset?.page;
+const settingsPageName = window.SMAdmin?.page || document.body?.dataset?.page;
 
 function q(sel, scope = document) {
   return scope.querySelector(sel);
@@ -51,7 +51,7 @@ function updatePreview(showToast = false) {
   document.title = `${titlePrefix} — Settings`;
 
   if (showToast) {
-    window.toast?.("info", "Preview refreshed", "Your visible settings preview is updated.");
+    window.SMAdmin?.ui?.toast?.("info", "Preview refreshed", "Your visible settings preview is updated.");
   }
 }
 
@@ -63,24 +63,24 @@ function saveSettings(event) {
 
   window.setTimeout(() => {
     btn?.classList.remove("loading");
-    window.toast?.("success", "Settings saved", "Static preview updated. Backend persistence can be connected later.");
+    window.SMAdmin?.ui?.toast?.("success", "Settings saved", "Static preview updated. Backend persistence can be connected later.");
   }, 350);
 }
 
 function exportData() {
-  window.toast?.("info", "Export ready for backend", "Demo records stay in HTML for clean Laravel Blade conversion.");
+  window.SMAdmin?.ui?.toast?.("info", "Export ready for backend", "Demo records stay in HTML for clean Laravel Blade conversion.");
 }
 
 function importData(event) {
   const file = event?.target?.files?.[0];
   if (file) setText("#importFileName", file.name);
-  window.toast?.("info", "Import selected", file ? `${file.name} selected. Connect backend import later.` : "Connect backend or storage later.");
+  window.SMAdmin?.ui?.toast?.("info", "Import selected", file ? `${file.name} selected. Connect backend import later.` : "Connect backend or storage later.");
 }
 
 async function clearAll() {
-  const ok = await window.confirm2("Reset static demo content?");
+  const ok = await window.SMAdmin?.ui?.confirm("Reset static demo content?");
   if (ok) {
-    window.toast?.("success", "Reset skipped", "Static HTML content is fixed in this build.");
+    window.SMAdmin?.ui?.toast?.("success", "Reset skipped", "Static HTML content is fixed in this build.");
   }
 }
 

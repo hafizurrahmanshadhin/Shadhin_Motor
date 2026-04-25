@@ -1,4 +1,4 @@
-import { initOrdersPage } from './modules/controller.js';
+import { initOrdersPage } from './modules/orders-behavior.js';
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initOrdersPage, { once: true });

@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function getSampleCards() {
   return Array.from(document.querySelectorAll("#sGrid .s-card"));
@@ -95,12 +95,12 @@ function openSampleMo(trigger) {
   if (titleEl) titleEl.textContent = trigger?.dataset?.sampleModalTitle || "Add Sample";
   autoSID();
   updSPrev();
-  window.openMo?.("moSample");
+  window.SMAdmin?.shell?.openMo?.("moSample");
 }
 
 function saveSample() {
-  window.closeMo?.("moSample");
-  window.toast?.("success", "Sample saved", "Static preview only");
+  window.SMAdmin?.shell?.closeMo?.("moSample");
+  window.SMAdmin?.ui?.toast?.("success", "Sample saved", "Static preview only");
 }
 
 export function initSamplesPage() {

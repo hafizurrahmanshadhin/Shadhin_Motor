@@ -1,5 +1,5 @@
 (() => {
-  const PAGE_NAME = window.SMAdmin?.page || window.PAGE || document.body?.dataset.page || "";
+  const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
   let notifOpen = false;
   let userOpen = false;
   let profileState = {};
@@ -56,7 +56,7 @@
       item.querySelector(".n-dot")?.remove();
     });
     refreshNotifState();
-    window.toast?.("success", "All notifications marked as read");
+    window.SMAdmin?.ui?.toast?.("success", "All notifications marked as read");
   }
 
   function togNotif() {
@@ -164,7 +164,7 @@
     updateProfileUI(nextProfile);
     closeMo("moProfile");
     closeUser();
-    window.toast?.("success", "Profile updated", "Static preview only");
+    window.SMAdmin?.ui?.toast?.("success", "Profile updated", "Static preview only");
   }
 
   function bindStaticForms() {
@@ -182,7 +182,7 @@
         if (modal && window.bootstrap?.Modal) {
           bootstrap.Modal.getInstance(modal)?.hide();
         }
-        window.toast?.("success", success, desc);
+        window.SMAdmin?.ui?.toast?.("success", success, desc);
       });
     });
   }
@@ -221,7 +221,7 @@
 
         if (action === "theme-toggle") {
           event.preventDefault();
-          togTheme();
+          window.SMAdmin?.ui?.toggleTheme?.();
           return;
         }
 
@@ -332,8 +332,8 @@
       refreshNotifState();
     };
 
-    if (window.runPreloader) {
-      window.runPreloader(finishShellInit);
+    if (window.SMAdmin?.ui?.runPreloader) {
+      window.SMAdmin.ui.runPreloader(finishShellInit);
       return;
     }
 
@@ -360,14 +360,4 @@
     }
   };
 
-  window.openMo = openMo;
-  window.closeMo = closeMo;
-  window.closeUser = closeUser;
-  window.readAll = readAll;
-  window.readN = readN;
-  window.togNotif = togNotif;
-  window.togUser = togUser;
-  window.togSB = togSB;
-  window.closeSB = closeSB;
-  window.saveProfile = saveProfile;
 })();

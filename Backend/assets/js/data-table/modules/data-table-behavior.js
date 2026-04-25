@@ -5,7 +5,7 @@
  * and filters run only when the wrapper opts in with data-static-table="true".
  */
 
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function getAdminTable(trigger = null) {
   return trigger?.closest(".atbl-wrap")?.querySelector("[data-admin-table]")
@@ -178,7 +178,7 @@ function bindStaticRecordForm() {
     if (!form.checkValidity()) return;
 
     window.bootstrap?.Modal.getInstance(document.getElementById("moATRecord"))?.hide();
-    window.toast?.("info", "Static form preview", "In Laravel, submit this form to your controller or update the Yajra table after Ajax success.");
+    window.SMAdmin?.ui?.toast?.("info", "Static form preview", "In Laravel, submit this form to your controller or update the Yajra table after Ajax success.");
   });
 }
 
@@ -442,14 +442,14 @@ function bindStaticDeleteActions() {
     const row = trigger.closest("tr");
     if (!row) return;
 
-    const confirmed = await window.confirm2(
+    const confirmed = await window.SMAdmin?.ui?.confirm(
       trigger.dataset.confirmTitle || "Delete this row?",
       trigger.dataset.confirmText || "Static rows stay fixed in HTML. In Laravel, call your delete route and reload the Yajra table after success."
     );
 
     if (!confirmed) return;
 
-    window.toast?.("info", "Delete flow ready", "Static HTML data was not changed. Connect this button to a backend delete route later.");
+    window.SMAdmin?.ui?.toast?.("info", "Delete flow ready", "Static HTML data was not changed. Connect this button to a backend delete route later.");
   });
 }
 
@@ -458,7 +458,7 @@ function bindConfirmActions() {
     const trigger = event.target.closest("[data-table-confirm]");
     if (!trigger) return;
 
-    const confirmed = await window.confirm2(
+    const confirmed = await window.SMAdmin?.ui?.confirm(
       trigger.dataset.confirmTitle || "Continue?",
       trigger.dataset.confirmText || "Laravel should handle this action on submit or Ajax success."
     );
@@ -471,7 +471,7 @@ function bindConfirmActions() {
 
     if (trigger.dataset.staticAction === "true") {
       event.preventDefault();
-      window.toast?.("info", "Static action preview", "Replace this button with a route, form submit, or Ajax call in Blade.");
+      window.SMAdmin?.ui?.toast?.("info", "Static action preview", "Replace this button with a route, form submit, or Ajax call in Blade.");
     }
   });
 }

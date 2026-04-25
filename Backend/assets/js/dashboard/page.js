@@ -1,4 +1,4 @@
-import { initDashboardPage } from './modules/controller.js';
+import { initDashboardPage } from './modules/dashboard-behavior.js';
 
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initDashboardPage, { once: true });

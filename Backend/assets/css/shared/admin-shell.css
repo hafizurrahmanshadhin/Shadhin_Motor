@@ -526,6 +526,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
 }
 
 .tb-bc .r {
@@ -545,12 +546,17 @@ body {
   color: var(--txt);
   font-weight: 700;
   font-size: 14.5px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tb-r {
   display: flex;
   align-items: center;
   gap: 5px;
+  flex: 0 0 auto;
 }
 
 /* Topbar icon buttons */
@@ -2665,6 +2671,20 @@ input[type="color"] {
     height: 54px;
   }
 
+  #tb>div:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .tb-bc {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .tb-bc .cur {
+    max-width: clamp(82px, 32vw, 150px);
+  }
+
   .tb-r {
     gap: 4px;
   }
@@ -2678,8 +2698,15 @@ input[type="color"] {
   }
 
   .tb-user {
-    padding: 4px 8px 4px 4px;
+    width: 34px;
+    height: 34px;
+    padding: 4px;
     gap: 6px;
+    justify-content: center;
+  }
+
+  .tb-user .tb-chev {
+    display: none;
   }
 
   .tb-ava {

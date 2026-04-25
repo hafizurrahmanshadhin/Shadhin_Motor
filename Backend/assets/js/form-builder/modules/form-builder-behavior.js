@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function calcDue() {
   const total = parseFloat(document.getElementById("f_total")?.value || "0");
@@ -77,7 +77,7 @@ function handleFormSubmit(event) {
 
   if (typeof form.checkValidity === "function" && !form.checkValidity()) return;
 
-  window.toast?.("success", "Order form ready", "Static preview only");
+  window.SMAdmin?.ui?.toast?.("success", "Order form ready", "Static preview only");
 }
 
 export function initFormBuilderPage() {

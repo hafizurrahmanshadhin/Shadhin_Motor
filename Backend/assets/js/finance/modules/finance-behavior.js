@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function resetFinanceModal() {
   const modal = document.getElementById("moFin");
@@ -17,12 +17,12 @@ function openFinMo(trigger) {
   resetFinanceModal();
   const titleEl = document.querySelector("#moFin .modal-title");
   if (titleEl) titleEl.textContent = trigger?.dataset?.financeModalTitle || "Finance Entry";
-  window.openMo?.("moFin");
+  window.SMAdmin?.shell?.openMo?.("moFin");
 }
 
 function saveFinEntry() {
-  window.closeMo?.("moFin");
-  window.toast?.("success", "Finance entry saved", "Static preview only");
+  window.SMAdmin?.shell?.closeMo?.("moFin");
+  window.SMAdmin?.ui?.toast?.("success", "Finance entry saved", "Static preview only");
 }
 
 export function initFinancePage() {

@@ -1,4 +1,4 @@
-const PAGE_NAME = window.SMAdmin?.page || window.PAGE || "";
+const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function resetEmployeeModal() {
   const modal = document.getElementById("moEmp");
@@ -21,12 +21,12 @@ function openEmpMo(trigger) {
   resetEmployeeModal();
   const titleEl = document.querySelector("#moEmp .modal-title");
   if (titleEl) titleEl.textContent = trigger?.dataset?.employeeModalTitle || "Employee";
-  window.openMo?.("moEmp");
+  window.SMAdmin?.shell?.openMo?.("moEmp");
 }
 
 function saveEmp() {
-  window.closeMo?.("moEmp");
-  window.toast?.("success", "Employee profile saved", "Static preview only");
+  window.SMAdmin?.shell?.closeMo?.("moEmp");
+  window.SMAdmin?.ui?.toast?.("success", "Employee profile saved", "Static preview only");
 }
 
 export function initEmployeesPage() {
