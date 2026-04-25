@@ -297,15 +297,13 @@ a { color: inherit; text-decoration: none; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 @keyframes slideUp { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
 
-#app,
-#loginWrap {
+#app {
   transition: filter .45s ease, transform .45s ease, opacity .45s ease;
 }
 body.preloading {
   overflow: hidden;
 }
-body.preloading #app,
-body.preloading #loginWrap {
+body.preloading #app {
   opacity: .82;
   filter: blur(14px) saturate(.92);
   transform: scale(1.012);

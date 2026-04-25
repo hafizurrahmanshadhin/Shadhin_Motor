@@ -34,7 +34,7 @@
 
 <link href="assets/css/shared/base.css" rel="stylesheet">
 <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-<link href="assets/css/wages-page.css" rel="stylesheet">
+<link href="assets/css/wages/page.css" rel="stylesheet">
 
 </head>
 
@@ -51,7 +51,7 @@
   </div>
 </div>
 <!-- SIDEBAR OVERLAY -->
-<div id="sb-overlay" data-action="sidebar-close"></div>
+<div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
 
 <!-- APP SHELL -->
 <div id="app">
@@ -86,7 +86,7 @@
 
   <div class="sb-div"></div>
   <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
-  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+  <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
 
   </nav>
 
@@ -116,14 +116,14 @@
     </div>
   </div>
   <div class="tb-r">
-    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <a href="../Frontend/index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
     <!-- Theme -->
     <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
     <!-- Notifications -->
     <div style="position:relative">
       <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
         <i class="bi bi-bell-fill"></i>
-        <span class="ic-dot" id="nDot" style="display:none"></span>
+        <span class="ic-dot" id="nDot" hidden></span>
       </button>
       <div class="float-panel np" id="notifPanel" aria-label="Notifications">
         <div class="np-head">
@@ -187,7 +187,7 @@
 
 <!-- WAGES -->
 <div class="page-shell" id="page-wages">
-  <div class="ph"><div><h1>Wages</h1><p>Daily attendance & wage tracking</p></div></div>
+  <header class="ph"><div><h1>Wages</h1><p>Daily attendance & wage tracking</p></div></header>
   <div class="panel" style="padding:18px;margin-bottom:16px">
     <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
       <div><label class="fl">Date</label><input type="date" class="fi" id="wDate" style="width:185px"></div>
@@ -223,7 +223,7 @@
       </div></div>
       <div class="panel">
         <div class="panel-h"><span class="panel-t">Wage History</span></div>
-        <div class="tbl-w"><table class="tbl"><thead><tr><th>Date</th><th>Employee</th><th>Amount</th><th>Status</th></tr></thead><tbody id="wHistTbody">
+        <div class="tbl-w"><table class="tbl"><thead><tr><th scope="col">Date</th><th scope="col">Employee</th><th scope="col">Amount</th><th scope="col">Status</th></tr></thead><tbody id="wHistTbody">
           <tr><td>Apr 23</td><td>Rahim Mia</td><td style="color:var(--am);font-weight:600">৳600</td><td><span class="bdg b-gr">Paid</span></td></tr>
           <tr><td>Apr 23</td><td>Karim Uddin</td><td style="color:var(--am);font-weight:600">৳800</td><td><span class="bdg b-gr">Paid</span></td></tr>
           <tr><td>Apr 22</td><td>Hasan Ali</td><td style="color:var(--am);font-weight:600">৳1,000</td><td><span class="bdg b-gr">Paid</span></td></tr>
@@ -271,7 +271,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/shared/core.js"></script>
 <script src="assets/js/shared/admin-shell.js"></script>
-<script src="assets/js/wages-page.js"></script>
+<script type="module" src="assets/js/wages/page.js"></script>
 
 </body>
 

@@ -1,0 +1,10 @@
+@media (max-width: 575px) {
+  .form-preview-row {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .form-preview-row dd {
+    text-align: left;
+  }
+}

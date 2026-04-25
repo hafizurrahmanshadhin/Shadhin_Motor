@@ -34,7 +34,7 @@
 
 <link href="assets/css/shared/base.css" rel="stylesheet">
 <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-<link href="assets/css/settings-page.css" rel="stylesheet">
+<link href="assets/css/settings/page.css" rel="stylesheet">
 
 </head>
 
@@ -51,7 +51,7 @@
   </div>
 </div>
 <!-- SIDEBAR OVERLAY -->
-<div id="sb-overlay" data-action="sidebar-close"></div>
+<div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
 
 <!-- APP SHELL -->
 <div id="app">
@@ -86,7 +86,7 @@
 
   <div class="sb-div"></div>
   <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
-  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+  <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
 
   </nav>
 
@@ -116,14 +116,14 @@
     </div>
   </div>
   <div class="tb-r">
-    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <a href="../Frontend/index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
     <!-- Theme -->
     <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
     <!-- Notifications -->
     <div style="position:relative">
       <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
         <i class="bi bi-bell-fill"></i>
-        <span class="ic-dot" id="nDot" style="display:none"></span>
+        <span class="ic-dot" id="nDot" hidden></span>
       </button>
       <div class="float-panel np" id="notifPanel" aria-label="Notifications">
         <div class="np-head">
@@ -187,7 +187,7 @@
 
 <!-- SETTINGS -->
 <div class="page-shell" id="page-settings">
-  <div class="ph">
+  <header class="ph">
     <div>
       <h1>Admin Settings</h1>
       <p>Branding, dashboard defaults, module visibility and static data controls</p>
@@ -196,7 +196,7 @@
       <button class="btn2 b2-out b2-sm" type="button" data-action="settings-preview"><i class="bi bi-eye"></i> Preview</button>
       <button class="btn2 b2-gd b2-sm" type="button" data-action="settings-save"><i class="bi bi-save-fill"></i> Save Changes</button>
     </div>
-  </div>
+  </header>
 
   <div class="settings-summary" aria-label="Settings summary">
     <div class="set-summary-card">
@@ -371,7 +371,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/shared/core.js"></script>
 <script src="assets/js/shared/admin-shell.js"></script>
-<script src="assets/js/settings-page.js"></script>
+<script type="module" src="assets/js/settings/page.js"></script>
 
 </body>
 

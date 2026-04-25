@@ -1,0 +1,27 @@
+#ordTbody tr[hidden],
+#ordEmpty[hidden] {
+  display: none !important;
+}
+
+.orders-filter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.orders-empty {
+  padding: 48px 20px;
+  color: var(--txt3);
+  text-align: center;
+}
+
+.orders-empty .bi {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 36px;
+}
+
+.orders-empty p {
+  margin: 0;
+}

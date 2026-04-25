@@ -1,0 +1,25 @@
+.emp-c {
+  padding: 18px;
+  border: 1px solid var(--bdr);
+  border-top: 3px solid var(--bdr);
+  border-radius: var(--r2);
+  background: var(--card);
+  animation: fadeUp .3s ease both;
+  transition: all var(--tr);
+}
+
+[data-theme="light"] .emp-c {
+  background: #f8fafc;
+  box-shadow: var(--sh);
+}
+
+.emp-c:hover {
+  transform: translateY(-2px);
+  border-top-color: var(--am);
+  box-shadow: var(--sh2);
+}
+
+.emp-c .emp-meta {
+  font-size: 11px;
+  color: var(--txt2);
+}

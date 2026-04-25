@@ -1,0 +1,69 @@
+#f_due[readonly] {
+  opacity: .82;
+}
+
+.form-preview-empty {
+  padding: 36px 20px;
+  color: var(--txt3);
+  text-align: center;
+}
+
+.form-preview-empty[hidden],
+.form-preview-summary[hidden] {
+  display: none !important;
+}
+
+.form-preview-empty .bi {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 36px;
+}
+
+.form-preview-empty p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.form-preview-summary {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.form-preview-row {
+  display: grid;
+  grid-template-columns: minmax(82px, .42fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid var(--bdr2);
+  border-radius: var(--r);
+  background: var(--bg3);
+}
+
+[data-theme="light"] .form-preview-row {
+  background: rgba(15, 23, 42, .025);
+}
+
+.form-preview-row dt,
+.form-preview-row dd {
+  margin: 0;
+}
+
+.form-preview-row dt {
+  color: var(--txt2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.form-preview-row dd {
+  overflow-wrap: anywhere;
+  color: var(--txt);
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: right;
+}

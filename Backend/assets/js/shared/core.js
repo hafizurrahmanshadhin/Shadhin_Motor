@@ -1,4 +1,7 @@
+(() => {
 const PAGE = document.body?.dataset.page || "";
+const SMAdmin = window.SMAdmin || {};
+window.SMAdmin = SMAdmin;
 
 function getStoredTheme() {
   try {
@@ -131,9 +134,17 @@ function runPreloader(onReady) {
   window.setTimeout(finish, 950);
 }
 
+SMAdmin.page = PAGE;
+SMAdmin.applyTheme = applyTheme;
+SMAdmin.togTheme = togTheme;
+SMAdmin.confirm2 = confirm2;
+SMAdmin.toast = toast;
+SMAdmin.runPreloader = runPreloader;
+
 window.PAGE = PAGE;
 window.applyTheme = applyTheme;
 window.togTheme = togTheme;
 window.confirm2 = confirm2;
 window.toast = toast;
 window.runPreloader = runPreloader;
+})();

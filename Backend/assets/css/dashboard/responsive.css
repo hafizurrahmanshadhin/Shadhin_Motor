@@ -1,0 +1,17 @@
+@media (max-width: 575px) {
+  #page-dashboard > .row.mb-4 > [class*="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #page-dashboard .sc-val,
+  #page-dashboard .sc-sub {
+    overflow-wrap: anywhere;
+  }
+
+  .dashboard-chart-bar {
+    grid-template-columns: 76px minmax(0, 1fr) 58px;
+    gap: 9px;
+  }
+}

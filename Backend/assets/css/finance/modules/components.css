@@ -1,0 +1,17 @@
+.f-bar {
+  height: 7px;
+  margin-top: 4px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bdr);
+}
+
+.f-bar-f {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .8s ease;
+}
+
+#finMonthly .f-bar + .f-bar {
+  margin-top: 6px;
+}

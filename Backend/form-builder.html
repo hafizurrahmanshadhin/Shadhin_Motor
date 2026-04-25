@@ -34,7 +34,7 @@
 
 <link href="assets/css/shared/base.css" rel="stylesheet">
 <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-<link href="assets/css/form-builder-page.css" rel="stylesheet">
+<link href="assets/css/form-builder/page.css" rel="stylesheet">
 
 </head>
 
@@ -51,7 +51,7 @@
   </div>
 </div>
 <!-- SIDEBAR OVERLAY -->
-<div id="sb-overlay" data-action="sidebar-close"></div>
+<div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
 
 <!-- APP SHELL -->
 <div id="app">
@@ -86,7 +86,7 @@
 
   <div class="sb-div"></div>
   <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
-  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+  <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
 
   </nav>
 
@@ -116,14 +116,14 @@
     </div>
   </div>
   <div class="tb-r">
-    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <a href="../Frontend/index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
     <!-- Theme -->
     <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
     <!-- Notifications -->
     <div style="position:relative">
       <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
         <i class="bi bi-bell-fill"></i>
-        <span class="ic-dot" id="nDot" style="display:none"></span>
+        <span class="ic-dot" id="nDot" hidden></span>
       </button>
       <div class="float-panel np" id="notifPanel" aria-label="Notifications">
         <div class="np-head">
@@ -187,7 +187,7 @@
 
 <!-- TOOL: FORM BUILDER -->
 <div class="page-shell" id="page-tool-form">
-  <div class="ph"><div><h1><i class="bi bi-ui-checks-grid me-2" style="color:var(--am)"></i>Form Builder</h1><p>Fully responsive order form with live validation — ready to use</p></div></div>
+  <header class="ph"><div><h1><i class="bi bi-ui-checks-grid me-2" style="color:var(--am)"></i>Form Builder</h1><p>Fully responsive order form with live validation — ready to use</p></div></header>
   <div class="row g-3">
     <div class="col-xl-8">
       <div class="panel">
@@ -363,7 +363,20 @@
     <div class="col-xl-4">
       <div class="panel" style="position:sticky;top:76px">
         <div class="panel-h"><span class="panel-t"><i class="bi bi-eye me-2"></i>Live Preview</span></div>
-        <div class="panel-b" id="fPreview"><div style="text-align:center;padding:36px 20px;color:var(--txt3)"><i class="bi bi-file-text" style="font-size:36px;display:block;margin-bottom:10px"></i><p style="font-size:12px">Fill the form to see preview</p></div></div>
+        <div class="panel-b form-preview" id="fPreview" aria-live="polite">
+          <div class="form-preview-empty" data-preview-empty>
+            <i class="bi bi-file-text" aria-hidden="true"></i>
+            <p>Fill the form to see preview</p>
+          </div>
+          <dl class="form-preview-summary" data-preview-summary hidden>
+            <div class="form-preview-row"><dt>Customer</dt><dd data-preview-field="Customer">Customer name · Phone number</dd></div>
+            <div class="form-preview-row"><dt>Vehicle</dt><dd data-preview-field="Vehicle">Vehicle type · Brand Model</dd></div>
+            <div class="form-preview-row"><dt>Service</dt><dd data-preview-field="Service">Service · Material</dd></div>
+            <div class="form-preview-row"><dt>Sample</dt><dd data-preview-field="Sample">No sample</dd></div>
+            <div class="form-preview-row"><dt>Payment</dt><dd data-preview-field="Payment">৳0 total · ৳0 advance · ৳0 due</dd></div>
+            <div class="form-preview-row"><dt>Delivery</dt><dd data-preview-field="Delivery">Not scheduled</dd></div>
+          </dl>
+        </div>
       </div>
       <div class="panel mt-3">
         <div class="panel-h"><span class="panel-t">Validation Rules</span></div>
@@ -419,7 +432,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/shared/core.js"></script>
 <script src="assets/js/shared/admin-shell.js"></script>
-<script src="assets/js/form-builder-page.js"></script>
+<script type="module" src="assets/js/form-builder/page.js"></script>
 
 </body>
 

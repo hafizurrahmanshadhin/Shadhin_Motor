@@ -1,0 +1,7 @@
+/* Page-specific responsive overrides live here. */
+@media (max-width: 575px) {
+  .s-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px;
+  }
+}

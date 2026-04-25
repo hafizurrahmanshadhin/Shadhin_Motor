@@ -1,0 +1,24 @@
+.w-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--bdr);
+  border-radius: var(--r);
+  background: var(--bg3);
+  transition: border-left-color var(--tr);
+}
+
+[data-theme="light"] .w-row {
+  background: var(--bg);
+}
+
+.w-row.paid {
+  border-left-color: var(--green);
+  background: var(--green-bg);
+}
+
+#wRows .w-row:last-child {
+  margin-bottom: 0;
+}

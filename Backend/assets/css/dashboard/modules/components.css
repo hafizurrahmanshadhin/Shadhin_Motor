@@ -1,0 +1,35 @@
+.dashboard-greeting {
+  color: var(--txt3);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.dashboard-chart-static {
+  display: grid;
+  gap: 12px;
+}
+
+.dashboard-chart-bar {
+  display: grid;
+  grid-template-columns: 92px 1fr 72px;
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard-chart-bar span {
+  font-size: 12px;
+  color: var(--txt);
+  font-weight: 600;
+}
+
+.dashboard-chart-track {
+  height: 12px;
+  border-radius: 999px;
+  background: var(--bg3);
+  overflow: hidden;
+}
+
+.dashboard-chart-fill {
+  height: 100%;
+  border-radius: inherit;
+}

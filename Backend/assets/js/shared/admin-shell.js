@@ -1,3 +1,5 @@
+(() => {
+const PAGE_NAME = window.SMAdmin?.page || window.PAGE || document.body?.dataset.page || "";
 let notifOpen = false;
 let userOpen = false;
 let profileState = {};
@@ -37,7 +39,7 @@ function closeNotif() {
 function refreshNotifState() {
   const unread = document.querySelectorAll("#nList .n-item.unread").length;
   const dot = document.getElementById("nDot");
-  if (dot) dot.style.display = unread > 0 ? "block" : "none";
+  if (dot) dot.hidden = unread <= 0;
 }
 
 function readN(item) {
@@ -54,7 +56,7 @@ function readAll() {
     item.querySelector(".n-dot")?.remove();
   });
   refreshNotifState();
-  toast("success", "All notifications marked as read");
+  window.toast?.("success", "All notifications marked as read");
 }
 
 function togNotif() {
@@ -85,7 +87,8 @@ function togSB() {
   if (isMobile) {
     const isOpen = sidebar.classList.toggle("open");
     document.body.classList.toggle("sb-mobile-open", isOpen);
-    overlay.style.display = isOpen ? "block" : "none";
+    overlay.hidden = !isOpen;
+    overlay.setAttribute("aria-hidden", String(!isOpen));
     document.getElementById("sbToggle")?.setAttribute("aria-expanded", String(isOpen));
     return;
   }
@@ -96,14 +99,18 @@ function togSB() {
     .getElementById("sbToggle")
     ?.setAttribute("aria-expanded", String(!document.body.classList.contains("sb-collapsed")));
   sidebar.classList.remove("open");
-  overlay.style.display = "none";
+  overlay.hidden = true;
+  overlay.setAttribute("aria-hidden", "true");
 }
 
 function closeSB() {
   document.getElementById("sb")?.classList.remove("open");
   document.body.classList.remove("sb-mobile-open");
   const overlay = document.getElementById("sb-overlay");
-  if (overlay) overlay.style.display = "none";
+  if (overlay) {
+    overlay.hidden = true;
+    overlay.setAttribute("aria-hidden", "true");
+  }
   const expanded = window.innerWidth >= 992 && !document.body.classList.contains("sb-collapsed");
   document.getElementById("sbToggle")?.setAttribute("aria-expanded", String(expanded));
 }
@@ -158,7 +165,7 @@ function saveProfile() {
   updateProfileUI(nextProfile);
   closeMo("moProfile");
   closeUser();
-  toast("success", "Profile updated", "Static preview only");
+  window.toast?.("success", "Profile updated", "Static preview only");
 }
 
 function bindStaticForms() {
@@ -176,7 +183,7 @@ function bindStaticForms() {
       if (modal && window.bootstrap?.Modal) {
         bootstrap.Modal.getInstance(modal)?.hide();
       }
-      toast("success", success, desc);
+      window.toast?.("success", success, desc);
     });
   });
 }
@@ -300,7 +307,7 @@ function bindShellChrome() {
 
 function syncShellState() {
   document.querySelectorAll(".nav-row[data-nav]").forEach(link => {
-    const active = link.dataset.nav === PAGE;
+    const active = link.dataset.nav === PAGE_NAME;
     link.classList.toggle("on", active);
     if (active) {
       link.setAttribute("aria-current", "page");
@@ -310,23 +317,52 @@ function syncShellState() {
   });
   document.getElementById("notifPanel")?.setAttribute("aria-hidden", "true");
   document.getElementById("userDrop")?.setAttribute("aria-hidden", "true");
+  const overlay = document.getElementById("sb-overlay");
+  if (overlay) {
+    overlay.hidden = true;
+    overlay.setAttribute("aria-hidden", "true");
+  }
 }
 
 function initAdminShell() {
   bindShellChrome();
   bindStaticForms();
 
-  runPreloader(() => {
+  const finishShellInit = () => {
     syncShellState();
     refreshNotifState();
-  });
+  };
+
+  if (window.runPreloader) {
+    window.runPreloader(finishShellInit);
+    return;
+  }
+
+  finishShellInit();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (PAGE && PAGE !== "login") initAdminShell();
+  if (document.getElementById("app") && document.getElementById("sb")) initAdminShell();
 });
 
+window.SMAdmin = {
+  ...(window.SMAdmin || {}),
+  shell: {
+    openMo,
+    closeMo,
+    closeUser,
+    readAll,
+    readN,
+    togNotif,
+    togUser,
+    togSB,
+    closeSB,
+    saveProfile
+  }
+};
+
 window.openMo = openMo;
+window.closeMo = closeMo;
 window.closeUser = closeUser;
 window.readAll = readAll;
 window.readN = readN;
@@ -335,3 +371,4 @@ window.togUser = togUser;
 window.togSB = togSB;
 window.closeSB = closeSB;
 window.saveProfile = saveProfile;
+})();

@@ -1,0 +1,125 @@
+.gallery-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.gallery-filter {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.gallery-count {
+  color: var(--txt2);
+  font-size: 11px;
+}
+
+.gallery-count strong {
+  color: var(--am);
+}
+
+.g-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
+  gap: 10px;
+}
+
+.g-item {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--bdr);
+  border-radius: var(--r2);
+  background: var(--bg3);
+  cursor: pointer;
+  animation: fadeUp .3s ease both;
+  transition: all var(--tr);
+}
+
+.g-item:hover {
+  transform: scale(1.02);
+  border-color: var(--am-ring);
+}
+
+.g-item[hidden] {
+  display: none !important;
+}
+
+.g-item img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.g-ph {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 24px;
+}
+
+.g-ov {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity var(--tr);
+}
+
+.g-item:hover .g-ov {
+  opacity: 1;
+}
+
+.g-item .g-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.g-acts {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--tr);
+}
+
+.g-item:hover .g-acts {
+  opacity: 1;
+}
+
+.g-add {
+  display: flex;
+  aspect-ratio: 4 / 3;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed var(--bdr);
+  border-radius: var(--r2);
+  background: var(--bg3);
+  color: var(--txt3);
+  cursor: pointer;
+  transition: all var(--tr);
+}
+
+.g-add:hover {
+  border-color: var(--am);
+  color: var(--am);
+}

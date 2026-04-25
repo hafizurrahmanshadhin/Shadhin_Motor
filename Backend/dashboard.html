@@ -34,7 +34,7 @@
 
 <link href="assets/css/shared/base.css" rel="stylesheet">
 <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-<link href="assets/css/dashboard-page.css" rel="stylesheet">
+<link href="assets/css/dashboard/page.css" rel="stylesheet">
 
 </head>
 
@@ -51,7 +51,7 @@
   </div>
 </div>
 <!-- SIDEBAR OVERLAY -->
-<div id="sb-overlay" data-action="sidebar-close"></div>
+<div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
 
 <!-- APP SHELL -->
 <div id="app">
@@ -86,7 +86,7 @@
 
   <div class="sb-div"></div>
   <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
-  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+  <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
 
   </nav>
 
@@ -116,14 +116,14 @@
     </div>
   </div>
   <div class="tb-r">
-    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <a href="../Frontend/index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
     <!-- Theme -->
     <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
     <!-- Notifications -->
     <div style="position:relative">
       <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
         <i class="bi bi-bell-fill"></i>
-        <span class="ic-dot" id="nDot" style="display:none"></span>
+        <span class="ic-dot" id="nDot" hidden></span>
       </button>
       <div class="float-panel np" id="notifPanel" aria-label="Notifications">
         <div class="np-head">
@@ -187,9 +187,10 @@
 
 <!-- DASHBOARD -->
 <div class="page-shell" id="page-dashboard">
-  <div class="ph">
-    <div><h1>Dashboard <span style="font-size:14px;font-weight:400;color:var(--txt3)" id="dashGreet"></span></h1><p id="dashDate"></p></div>
-  </div>
+  <header class="ph">
+    <div><h1>Dashboard <span class="dashboard-greeting" id="dashGreet">Good evening</span></h1><p><time id="dashDate" datetime="2026-04-25">Saturday, April 25, 2026</time></p></div>
+    <button class="btn2 b2-out b2-sm" type="button" data-action="dash-refresh"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+  </header>
   <div class="row g-3 mb-4">
     <div class="col-6 col-xl-3">
       <div class="scard sc-am">
@@ -240,7 +241,7 @@
     <div class="col-xl-7">
       <div class="panel">
         <div class="panel-h"><span class="panel-t"><i class="bi bi-bag-check me-2" style="color:var(--am)"></i>Recent Orders</span><a class="btn2 b2-ghost b2-xs" href="orders.html">View all <i class="bi bi-arrow-right"></i></a></div>
-        <div class="tbl-w"><table class="tbl"><thead><tr><th>Customer</th><th>Vehicle</th><th>Sample</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+        <div class="tbl-w"><table class="tbl"><thead><tr><th scope="col">Customer</th><th scope="col">Vehicle</th><th scope="col">Sample</th><th scope="col">Amount</th><th scope="col">Status</th></tr></thead><tbody>
           <tr><td><div style="font-weight:600">Rahman Ali</div><div style="font-size:10px;color:var(--txt2)">01711-234567</div></td><td style="color:var(--txt2);font-size:12px">Private Car</td><td><span class="chip">RX-001</span></td><td style="color:var(--am);font-weight:600">৳8,500</td><td><span class="bdg b-gr">Completed</span></td></tr>
           <tr><td><div style="font-weight:600">Kamal Hossain</div><div style="font-size:10px;color:var(--txt2)">01812-345678</div></td><td style="color:var(--txt2);font-size:12px">Honda City</td><td><span class="chip">LT-002</span></td><td style="color:var(--am);font-weight:600">৳12,000</td><td><span class="bdg b-bl">In Progress</span></td></tr>
           <tr><td><div style="font-weight:600">Sumaiya Begum</div><div style="font-size:10px;color:var(--txt2)">01913-456789</div></td><td style="color:var(--txt2);font-size:12px">SUV / Jeep</td><td><span class="chip">RX-003</span></td><td style="color:var(--am);font-weight:600">৳15,000</td><td><span class="bdg b-am">Pending</span></td></tr>
@@ -319,7 +320,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/shared/core.js"></script>
 <script src="assets/js/shared/admin-shell.js"></script>
-<script src="assets/js/dashboard-page.js"></script>
+<script type="module" src="assets/js/dashboard/page.js"></script>
 
 </body>
 

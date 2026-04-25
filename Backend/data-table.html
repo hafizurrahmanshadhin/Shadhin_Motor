@@ -34,7 +34,7 @@
 
 <link href="assets/css/shared/base.css" rel="stylesheet">
 <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-<link href="assets/css/data-table-page.css" rel="stylesheet">
+<link href="assets/css/data-table/page.css" rel="stylesheet">
 
 </head>
 
@@ -51,7 +51,7 @@
   </div>
 </div>
 <!-- SIDEBAR OVERLAY -->
-<div id="sb-overlay" data-action="sidebar-close"></div>
+<div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
 
 <!-- APP SHELL -->
 <div id="app">
@@ -86,7 +86,7 @@
 
   <div class="sb-div"></div>
   <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
-  <a class="nav-row" href="../index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+  <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
 
   </nav>
 
@@ -116,14 +116,14 @@
     </div>
   </div>
   <div class="tb-r">
-    <a href="../index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+    <a href="../Frontend/index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
     <!-- Theme -->
     <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
     <!-- Notifications -->
     <div style="position:relative">
       <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
         <i class="bi bi-bell-fill"></i>
-        <span class="ic-dot" id="nDot" style="display:none"></span>
+        <span class="ic-dot" id="nDot" hidden></span>
       </button>
       <div class="float-panel np" id="notifPanel" aria-label="Notifications">
         <div class="np-head">
@@ -187,7 +187,7 @@
 
 <!-- TOOL: DATA TABLE -->
 <div class="page-shell" id="page-tool-table">
-  <div class="ph"><div><h1><i class="bi bi-table me-2" style="color:var(--am)"></i>Data Table</h1><p class="d-none d-sm-block">Yajra-ready HTML table sample with reusable styling and Bootstrap modal actions</p></div></div>
+  <header class="ph"><div><h1><i class="bi bi-table me-2" style="color:var(--am)"></i>Data Table</h1><p class="d-none d-sm-block">Yajra-ready HTML table sample with reusable styling and Bootstrap modal actions</p></div></header>
   <div class="panel atbl-panel">
     <div class="panel-h atbl-panel-head">
       <span class="panel-t">SEAT COVER ORDERS — HTML SAMPLE + YAJRA-READY MARKUP</span>
@@ -197,7 +197,7 @@
       </button>
     </div>
     <div class="panel-b">
-      <div id="toolTableWrap" class="atbl-wrap" data-page="1">
+      <div id="toolTableWrap" class="atbl-wrap" data-page="1" data-static-table="true">
         <div class="atbl-toolbar">
           <div class="atbl-toolbar-left">
             <div class="atbl-show">
@@ -349,7 +349,7 @@
         </div>
         <div class="atbl-footer">
           <div class="atbl-foot-note">HTML sample rows stay in markup. In Laravel, let Yajra own search, filters, pagination and Ajax reloads.</div>
-          <nav class="atbl-pager" id="toolTablePagination" data-yajra-pagination aria-label="Table pagination"></nav>
+          <nav class="atbl-pager" id="toolTablePagination" data-yajra-pagination aria-label="Table pagination" hidden></nav>
         </div>
       </div>
     </div>
@@ -418,7 +418,27 @@
 <div class="modal fade data-table-modal" id="moATView" tabindex="-1" aria-labelledby="atViewTitle" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
   <div class="modal-content">
     <div class="modal-header"><div><h5 class="modal-title" id="atViewTitle">Order Details</h5><p class="mb-0 atbl-modal-sub">Preview the selected order in a clean responsive Bootstrap modal.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-    <div class="modal-body" id="atViewBody"><p style="font-size:12px;color:var(--txt2);margin:0">Select any row from the static table to preview details here.</p></div>
+    <div class="modal-body" id="atViewBody">
+      <div class="atbl-view-profile" data-view-profile hidden>
+        <img id="atViewAvatar" src="assets/images/avatars/avatar-01.jpeg" alt="" width="54" height="54" loading="lazy" decoding="async">
+        <div>
+          <div class="atbl-view-person" id="atViewPerson">Order Details</div>
+          <div class="atbl-view-sub" id="atViewSub">Selected table record</div>
+        </div>
+      </div>
+      <dl class="atbl-view-grid" id="atViewGrid">
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Customer</dt><dd class="atbl-view-val" data-view-value="Customer">Select any row from the static table.</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Phone</dt><dd class="atbl-view-val" data-view-value="Phone">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Vehicle</dt><dd class="atbl-view-val" data-view-value="Vehicle">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Service</dt><dd class="atbl-view-val" data-view-value="Service">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Sample</dt><dd class="atbl-view-val" data-view-value="Sample">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Total</dt><dd class="atbl-view-val" data-view-value="Total">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Advance</dt><dd class="atbl-view-val" data-view-value="Advance">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Status</dt><dd class="atbl-view-val" data-view-value="Status">-</dd></div>
+        <div class="atbl-view-item"><dt class="atbl-view-lbl">Date</dt><dd class="atbl-view-val" data-view-value="Date">-</dd></div>
+        <div class="atbl-view-item full"><dt class="atbl-view-lbl">Notes</dt><dd class="atbl-view-val" data-view-value="Notes">-</dd></div>
+      </dl>
+    </div>
     <div class="modal-footer"><button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Close</button></div>
   </div>
 </div></div>
@@ -430,7 +450,7 @@
 <script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/shared/core.js"></script>
 <script src="assets/js/shared/admin-shell.js"></script>
-<script src="assets/js/data-table-page.js"></script>
+<script type="module" src="assets/js/data-table/page.js"></script>
 
 </body>
 
