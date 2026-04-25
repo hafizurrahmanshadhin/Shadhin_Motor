@@ -1,5 +1,5 @@
 @media (max-width: 575px) {
-  #page-dashboard > .row.mb-4 > [class*="col-"] {
+  #page-dashboard>.row.mb-4>[class*="col-"] {
     flex: 0 0 100%;
     max-width: 100%;
     width: 100%;

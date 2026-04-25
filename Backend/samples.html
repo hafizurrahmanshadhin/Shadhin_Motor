@@ -1,279 +1,423 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Shadhin Motor Admin Dashboard — Seat Cover Shop Management">
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-<script>
-(() => {
-  const root = document.documentElement;
-  const fallback = root.getAttribute("data-theme") || "dark";
-  let theme = fallback;
-  try {
-    const saved = window.localStorage.getItem("sm_theme");
-    if (saved === "light" || saved === "dark") theme = saved;
-  } catch {}
-  root.setAttribute("data-theme", theme);
-  root.setAttribute("data-bs-theme", theme);
-})();
-</script>
-<title>Shadhin Motor — Samples</title>
-<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shadhin Motor Admin Dashboard — Seat Cover Shop Management">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const fallback = root.getAttribute("data-theme") || "dark";
+      let theme = fallback;
+      try {
+        const saved = window.localStorage.getItem("sm_theme");
+        if (saved === "light" || saved === "dark") theme = saved;
+      } catch { }
+      root.setAttribute("data-theme", theme);
+      root.setAttribute("data-bs-theme", theme);
+    })();
+  </script>
+  <title>Shadhin Motor — Samples</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
-<!-- Bootstrap 5.3 -->
-<link href="assets/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap Icons -->
-<link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
-<!-- SweetAlert2 -->
-<link href="assets/css/sweetalert2.min.css" rel="stylesheet">
-<!-- Google Fonts -->
-<link href="assets/css/google-fonts.css" rel="stylesheet">
+  <!-- Bootstrap 5.3 -->
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <link href="assets/css/sweetalert2.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="assets/css/google-fonts.css" rel="stylesheet">
 
-<link href="assets/css/shared/base.css" rel="stylesheet">
-<link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-<link href="assets/css/samples/page.css" rel="stylesheet">
+  <link href="assets/css/shared/base.css" rel="stylesheet">
+  <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
+  <link href="assets/css/samples/page.css" rel="stylesheet">
 
 </head>
 
 <body class="preloading" data-page="samples">
-<a class="skip-link" href="#main">Skip to main content</a>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-<!-- PRELOADER -->
-<div id="pre" role="status" aria-label="Loading page">
-  <div class="pre-inner" aria-hidden="true">
-    <div class="pre-spinner-wrap">
-      <div class="pre-spinner-outer"></div>
-      <div class="pre-spinner-inner"></div>
-    </div>
-  </div>
-</div>
-<!-- SIDEBAR OVERLAY -->
-<div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
-
-<!-- APP SHELL -->
-<div id="app">
-
-<!-- ══ SIDEBAR ══ -->
-<aside id="sb" aria-label="Admin sidebar">
-  <a href="dashboard.html" class="sb-brand">
-    <img class="sb-brand-logo" src="assets/images/brand-logo.svg" alt="" width="36" height="36" decoding="async">
-    <div>
-      <div class="sb-brand-name">Shadhin <em>Motor</em></div>
-      <div class="sb-brand-sub">Admin Panel</div>
-    </div>
-  </a>
-
-  <nav class="sb-nav" aria-label="Admin navigation">
-  <div class="sb-sec">Main</div>
-  <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
-  <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n" id="pBadge">12</span></a>
-
-  <div class="sb-sec">Content</div>
-  <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i class="bi bi-palette2"></i></span>Samples</a>
-  <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i class="bi bi-images"></i></span>Gallery</a>
-
-  <div class="sb-sec">Management</div>
-  <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i class="bi bi-people-fill"></i></span>Employees</a>
-  <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i class="bi bi-wallet2"></i></span>Wages</a>
-  <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i class="bi bi-graph-up-arrow"></i></span>Finance</a>
-
-  <div class="sb-sec">Tools</div>
-  <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i class="bi bi-table"></i></span>Data Table</a>
-  <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
-
-  <div class="sb-div"></div>
-  <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
-
-  </nav>
-
-  <div class="sb-foot">
-    <a class="sb-settings" data-nav="settings" href="settings.html" aria-label="Open dashboard settings">
-      <span class="sb-settings-ic"><i class="bi bi-gear-fill"></i></span>
-      <span class="sb-settings-copy">
-        <span class="sb-settings-title">Settings</span>
-        <span class="sb-settings-sub">Dashboard preferences</span>
-      </span>
-      <i class="bi bi-chevron-right sb-settings-go"></i>
-    </a>
-  </div>
-</aside>
-
-<!-- ══ MAIN ══ -->
-<main id="main" tabindex="-1">
-
-<!-- TOPBAR -->
-<div id="tb">
-  <div style="display:flex;align-items:center;gap:14px">
-    <button class="ic-btn" id="sbToggle" type="button" data-action="sidebar-toggle" title="Toggle Sidebar" aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list" style="font-size:19px"></i></button>
-    <div class="tb-bc">
-      <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin Motor</span>
-      <span class="sep d-none d-md-inline">›</span>
-      <span class="cur" id="bcCur">Samples</span>
-    </div>
-  </div>
-  <div class="tb-r">
-    <a href="../Frontend/index.html" target="_blank" rel="noopener" class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
-    <!-- Theme -->
-    <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
-    <!-- Notifications -->
-    <div style="position:relative">
-      <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle" aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
-        <i class="bi bi-bell-fill"></i>
-        <span class="ic-dot" id="nDot" hidden></span>
-      </button>
-      <div class="float-panel np" id="notifPanel" aria-label="Notifications">
-        <div class="np-head">
-          <span class="np-title"><i class="bi bi-bell-fill me-2" style="color:var(--am)"></i>Notifications</span>
-          <button class="np-mark" type="button" data-action="notif-read-all">Mark all read</button>
-        </div>
-        <div class="n-list" id="nList">
-  <div class="n-item unread">
-    <div class="n-ic" style="background:var(--blue-bg);color:var(--blue)"><i class="bi bi-bag-check"></i></div>
-    <div style="flex:1;min-width:0">
-      <div class="n-t">New order received</div>
-      <div class="n-m">Farhan Ahmed confirmed a premium leather seat cover booking for Friday delivery.</div>
-      <div class="n-time">5 min ago</div>
-    </div>
-    <span class="n-dot"></span>
-  </div>
-  <div class="n-item unread">
-    <div class="n-ic" style="background:var(--green-bg);color:var(--green)"><i class="bi bi-cash-stack"></i></div>
-    <div style="flex:1;min-width:0">
-      <div class="n-t">Payment collected</div>
-      <div class="n-m">Advance payment of ৳12,000 has been received for the Toyota Prado project.</div>
-      <div class="n-time">22 min ago</div>
-    </div>
-    <span class="n-dot"></span>
-  </div>
-  <div class="n-item">
-    <div class="n-ic" style="background:var(--orn-bg);color:var(--orn)"><i class="bi bi-calendar2-check"></i></div>
-    <div style="flex:1;min-width:0">
-      <div class="n-t">Delivery reminder</div>
-      <div class="n-m">Three completed jobs are scheduled for customer pickup before 6:00 PM today.</div>
-      <div class="n-time">1 hour ago</div>
-    </div>
-  </div>
-</div>
-        <div class="np-foot"><button type="button" data-action="noop">See all notifications</button></div>
-      </div>
-    </div>
-    <!-- User -->
-    <div style="position:relative">
-      <button class="tb-user" id="userBtn" type="button" data-action="user-toggle" aria-label="Open admin menu" aria-expanded="false" aria-controls="userDrop">
-        <div class="tb-ava has-img" id="tbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="28" height="28" loading="lazy" decoding="async"></div>
-        <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
-        <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
-      </button>
-      <div class="float-panel udrop" id="userDrop" aria-label="Admin menu">
-        <div class="ud-head">
-          <div class="ud-name" id="udName">Admin</div>
-          <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
-        </div>
-        <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My Profile</button>
-        <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
-        <button class="dd-row" type="button" data-action="theme-toggle"><i class="bi bi-moon-stars"></i> Toggle Theme</button>
-        <div class="dd-sep"></div>
-        <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+  <!-- PRELOADER -->
+  <div id="pre" role="status" aria-label="Loading page">
+    <div class="pre-inner" aria-hidden="true">
+      <div class="pre-spinner-wrap">
+        <div class="pre-spinner-outer"></div>
+        <div class="pre-spinner-inner"></div>
       </div>
     </div>
   </div>
-</div>
+  <!-- SIDEBAR OVERLAY -->
+  <div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
 
-<!-- ══════════════ PAGES ══════════════ -->
+  <!-- APP SHELL -->
+  <div id="app">
 
-<!-- SAMPLES -->
-<div class="page-shell" id="page-samples">
-  <header class="ph"><div><h1>Samples</h1><p>Rexine & Leather — customers order by Sample ID</p></div><button class="btn2 b2-gd" type="button" data-sample-modal data-sample-modal-title="Add Sample"><i class="bi bi-plus-lg"></i> Add Sample</button></header>
-  <div class="sample-toolbar">
-    <div class="sample-filter" aria-label="Sample material filters">
-      <button class="f-btn on" id="sf-all" type="button" data-sample-filter="all">All</button>
-      <button class="f-btn" id="sf-rx" type="button" data-sample-filter="rexine"><i class="bi bi-scissors"></i> Rexine</button>
-      <button class="f-btn" id="sf-lt" type="button" data-sample-filter="leather"><i class="bi bi-bag"></i> Leather</button>
-    </div>
-    <span class="sample-count">Total: <strong id="sCnt" aria-live="polite">6</strong></span>
-  </div>
-  <div class="s-grid" id="sGrid">
-    <div class="s-card" data-material="rexine"><div class="s-sw" style="background:#111827"><div style="width:54px;height:54px;border-radius:12px;background:#111827;border:1px solid rgba(255,255,255,.15)"></div></div><div class="s-body"><div class="s-id">RX-001 <span class="tag-rx">Rexine</span></div><div class="s-name">Diamond Black</div><div class="s-clr"><span class="s-dot" style="background:#111827"></span><span class="s-cname">Jet Black</span></div></div></div>
-    <div class="s-card" data-material="leather"><div class="s-sw" style="background:#854d0e"><div style="width:54px;height:54px;border-radius:12px;background:#854d0e;border:1px solid rgba(255,255,255,.15)"></div></div><div class="s-body"><div class="s-id">LT-002 <span class="tag-lt">Leather</span></div><div class="s-name">Cocoa Premium</div><div class="s-clr"><span class="s-dot" style="background:#854d0e"></span><span class="s-cname">Brown</span></div></div></div>
-    <div class="s-card" data-material="rexine"><div class="s-sw" style="background:#991b1b"><div style="width:54px;height:54px;border-radius:12px;background:#991b1b;border:1px solid rgba(255,255,255,.15)"></div></div><div class="s-body"><div class="s-id">RX-003 <span class="tag-rx">Rexine</span></div><div class="s-name">Crimson Mesh</div><div class="s-clr"><span class="s-dot" style="background:#991b1b"></span><span class="s-cname">Red Black</span></div></div></div>
-    <div class="s-card" data-material="rexine"><div class="s-sw" style="background:#1d4ed8"><div style="width:54px;height:54px;border-radius:12px;background:#1d4ed8;border:1px solid rgba(255,255,255,.15)"></div></div><div class="s-body"><div class="s-id">RX-004 <span class="tag-rx">Rexine</span></div><div class="s-name">Ocean Stitch</div><div class="s-clr"><span class="s-dot" style="background:#1d4ed8"></span><span class="s-cname">Royal Blue</span></div></div></div>
-    <div class="s-card" data-material="leather"><div class="s-sw" style="background:#57534e"><div style="width:54px;height:54px;border-radius:12px;background:#57534e;border:1px solid rgba(255,255,255,.15)"></div></div><div class="s-body"><div class="s-id">LT-003 <span class="tag-lt">Leather</span></div><div class="s-name">Graphite Soft</div><div class="s-clr"><span class="s-dot" style="background:#57534e"></span><span class="s-cname">Graphite</span></div></div></div>
-    <div class="s-card" data-material="leather"><div class="s-sw" style="background:#14532d"><div style="width:54px;height:54px;border-radius:12px;background:#14532d;border:1px solid rgba(255,255,255,.15)"></div></div><div class="s-body"><div class="s-id">LT-004 <span class="tag-lt">Leather</span></div><div class="s-name">Forest Luxury</div><div class="s-clr"><span class="s-dot" style="background:#14532d"></span><span class="s-cname">Dark Green</span></div></div></div>
-  </div>
-</div>
+    <!-- ══ SIDEBAR ══ -->
+    <aside id="sb" aria-label="Admin sidebar">
+      <a href="dashboard.html" class="sb-brand">
+        <img class="sb-brand-logo" src="assets/images/brand-logo.svg" alt="" width="36" height="36" decoding="async">
+        <div>
+          <div class="sb-brand-name">Shadhin <em>Motor</em></div>
+          <div class="sb-brand-sub">Admin Panel</div>
+        </div>
+      </a>
 
-<footer class="app-foot">
-  <div class="app-foot-inner">
-    <span>© 2026 Shadhin Motor Admin Dashboard</span>
-    <span>Built for smooth multi-page management workflows</span>
-  </div>
-</footer>
+      <nav class="sb-nav" aria-label="Admin navigation">
+        <div class="sb-sec">Main</div>
+        <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i
+              class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
+        <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i
+              class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n" id="pBadge">12</span></a>
 
-</main><!-- end #main -->
-</div><!-- end #app -->
+        <div class="sb-sec">Content</div>
+        <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i
+              class="bi bi-palette2"></i></span>Samples</a>
+        <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i
+              class="bi bi-images"></i></span>Gallery</a>
 
-<!-- ══ MODALS ══ -->
-<!-- SAMPLE -->
-<div class="modal fade" id="moSample" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-  <div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="moST">Add Sample</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-  <div class="modal-body">
-    <div class="row g-3">
-      <div class="col-md-6"><label class="fl">Sample ID *</label><input class="fi form-control" id="sm_id" placeholder="RX-001"></div>
-      <div class="col-md-6"><label class="fl">Material *</label><select class="fs form-select" id="sm_mat"><option value="rexine">Rexine</option><option value="leather">Leather</option></select></div>
-      <div class="col-12"><label class="fl">Name *</label><input class="fi form-control" id="sm_n" placeholder="Diamond Quilt..."></div>
-      <div class="col-md-6"><label class="fl">Color Name</label><input class="fi form-control" id="sm_c" placeholder="Black, Navy Blue..."></div>
-      <div class="col-md-6">
-        <label class="fl">Color Code</label>
-        <div style="display:flex;gap:8px">
-          <input class="fi form-control" id="sm_hex" placeholder="#1a1a1a">
-          <input type="color" id="sm_pick" value="#1a1a1a">
+        <div class="sb-sec">Management</div>
+        <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i
+              class="bi bi-people-fill"></i></span>Employees</a>
+        <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i
+              class="bi bi-wallet2"></i></span>Wages</a>
+        <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i
+              class="bi bi-graph-up-arrow"></i></span>Finance</a>
+
+        <div class="sb-sec">Tools</div>
+        <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i
+              class="bi bi-table"></i></span>Data Table</a>
+        <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i
+              class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
+
+        <div class="sb-div"></div>
+        <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i
+              class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+
+      </nav>
+
+      <div class="sb-foot">
+        <a class="sb-settings" data-nav="settings" href="settings.html" aria-label="Open dashboard settings">
+          <span class="sb-settings-ic"><i class="bi bi-gear-fill"></i></span>
+          <span class="sb-settings-copy">
+            <span class="sb-settings-title">Settings</span>
+            <span class="sb-settings-sub">Dashboard preferences</span>
+          </span>
+          <i class="bi bi-chevron-right sb-settings-go"></i>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ══ MAIN ══ -->
+    <main id="main" tabindex="-1">
+
+      <!-- TOPBAR -->
+      <div id="tb">
+        <div style="display:flex;align-items:center;gap:14px">
+          <button class="ic-btn" id="sbToggle" type="button" data-action="sidebar-toggle" title="Toggle Sidebar"
+            aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list"
+              style="font-size:19px"></i></button>
+          <div class="tb-bc">
+            <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin
+              Motor</span>
+            <span class="sep d-none d-md-inline">›</span>
+            <span class="cur" id="bcCur">Samples</span>
+          </div>
+        </div>
+        <div class="tb-r">
+          <a href="../Frontend/index.html" target="_blank" rel="noopener"
+            class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+          <!-- Theme -->
+          <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme"
+            aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
+          <!-- Notifications -->
+          <div style="position:relative">
+            <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle"
+              aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
+              <i class="bi bi-bell-fill"></i>
+              <span class="ic-dot" id="nDot" hidden></span>
+            </button>
+            <div class="float-panel np" id="notifPanel" aria-label="Notifications">
+              <div class="np-head">
+                <span class="np-title"><i class="bi bi-bell-fill me-2" style="color:var(--am)"></i>Notifications</span>
+                <button class="np-mark" type="button" data-action="notif-read-all">Mark all read</button>
+              </div>
+              <div class="n-list" id="nList">
+                <div class="n-item unread">
+                  <div class="n-ic" style="background:var(--blue-bg);color:var(--blue)"><i class="bi bi-bag-check"></i>
+                  </div>
+                  <div style="flex:1;min-width:0">
+                    <div class="n-t">New order received</div>
+                    <div class="n-m">Farhan Ahmed confirmed a premium leather seat cover booking for Friday delivery.
+                    </div>
+                    <div class="n-time">5 min ago</div>
+                  </div>
+                  <span class="n-dot"></span>
+                </div>
+                <div class="n-item unread">
+                  <div class="n-ic" style="background:var(--green-bg);color:var(--green)"><i
+                      class="bi bi-cash-stack"></i></div>
+                  <div style="flex:1;min-width:0">
+                    <div class="n-t">Payment collected</div>
+                    <div class="n-m">Advance payment of ৳12,000 has been received for the Toyota Prado project.</div>
+                    <div class="n-time">22 min ago</div>
+                  </div>
+                  <span class="n-dot"></span>
+                </div>
+                <div class="n-item">
+                  <div class="n-ic" style="background:var(--orn-bg);color:var(--orn)"><i
+                      class="bi bi-calendar2-check"></i></div>
+                  <div style="flex:1;min-width:0">
+                    <div class="n-t">Delivery reminder</div>
+                    <div class="n-m">Three completed jobs are scheduled for customer pickup before 6:00 PM today.</div>
+                    <div class="n-time">1 hour ago</div>
+                  </div>
+                </div>
+              </div>
+              <div class="np-foot"><button type="button" data-action="noop">See all notifications</button></div>
+            </div>
+          </div>
+          <!-- User -->
+          <div style="position:relative">
+            <button class="tb-user" id="userBtn" type="button" data-action="user-toggle" aria-label="Open admin menu"
+              aria-expanded="false" aria-controls="userDrop">
+              <div class="tb-ava has-img" id="tbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="28"
+                  height="28" loading="lazy" decoding="async"></div>
+              <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
+              <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
+            </button>
+            <div class="float-panel udrop" id="userDrop" aria-label="Admin menu">
+              <div class="ud-head">
+                <div class="ud-name" id="udName">Admin</div>
+                <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
+              </div>
+              <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My
+                Profile</button>
+              <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+              <button class="dd-row" type="button" data-action="theme-toggle"><i class="bi bi-moon-stars"></i> Toggle
+                Theme</button>
+              <div class="dd-sep"></div>
+              <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="col-md-6"><label class="fl">Availability</label><select class="fs form-select" id="sm_av"><option value="1">Available ✅</option><option value="0">Out of Stock ❌</option></select></div>
-      <div class="col-md-6"><label class="fl">Image URL</label><input class="fi form-control" id="sm_img" placeholder="assets/images/..."></div>
-      <div class="col-12"><label class="fl">Notes</label><textarea class="fi form-control fta" id="sm_nt" rows="2" placeholder="Customer description..."></textarea></div>
+
+      <!-- ══════════════ PAGES ══════════════ -->
+
+      <!-- SAMPLES -->
+      <div class="page-shell" id="page-samples">
+        <header class="ph">
+          <div>
+            <h1>Samples</h1>
+            <p>Rexine & Leather — customers order by Sample ID</p>
+          </div><button class="btn2 b2-gd" type="button" data-sample-modal data-sample-modal-title="Add Sample"><i
+              class="bi bi-plus-lg"></i> Add Sample</button>
+        </header>
+        <div class="sample-toolbar">
+          <div class="sample-filter" aria-label="Sample material filters">
+            <button class="f-btn on" id="sf-all" type="button" data-sample-filter="all">All</button>
+            <button class="f-btn" id="sf-rx" type="button" data-sample-filter="rexine"><i class="bi bi-scissors"></i>
+              Rexine</button>
+            <button class="f-btn" id="sf-lt" type="button" data-sample-filter="leather"><i class="bi bi-bag"></i>
+              Leather</button>
+          </div>
+          <span class="sample-count">Total: <strong id="sCnt" aria-live="polite">6</strong></span>
+        </div>
+        <div class="s-grid" id="sGrid">
+          <div class="s-card" data-material="rexine">
+            <div class="s-sw" style="background:#111827">
+              <div
+                style="width:54px;height:54px;border-radius:12px;background:#111827;border:1px solid rgba(255,255,255,.15)">
+              </div>
+            </div>
+            <div class="s-body">
+              <div class="s-id">RX-001 <span class="tag-rx">Rexine</span></div>
+              <div class="s-name">Diamond Black</div>
+              <div class="s-clr"><span class="s-dot" style="background:#111827"></span><span class="s-cname">Jet
+                  Black</span></div>
+            </div>
+          </div>
+          <div class="s-card" data-material="leather">
+            <div class="s-sw" style="background:#854d0e">
+              <div
+                style="width:54px;height:54px;border-radius:12px;background:#854d0e;border:1px solid rgba(255,255,255,.15)">
+              </div>
+            </div>
+            <div class="s-body">
+              <div class="s-id">LT-002 <span class="tag-lt">Leather</span></div>
+              <div class="s-name">Cocoa Premium</div>
+              <div class="s-clr"><span class="s-dot" style="background:#854d0e"></span><span
+                  class="s-cname">Brown</span></div>
+            </div>
+          </div>
+          <div class="s-card" data-material="rexine">
+            <div class="s-sw" style="background:#991b1b">
+              <div
+                style="width:54px;height:54px;border-radius:12px;background:#991b1b;border:1px solid rgba(255,255,255,.15)">
+              </div>
+            </div>
+            <div class="s-body">
+              <div class="s-id">RX-003 <span class="tag-rx">Rexine</span></div>
+              <div class="s-name">Crimson Mesh</div>
+              <div class="s-clr"><span class="s-dot" style="background:#991b1b"></span><span class="s-cname">Red
+                  Black</span></div>
+            </div>
+          </div>
+          <div class="s-card" data-material="rexine">
+            <div class="s-sw" style="background:#1d4ed8">
+              <div
+                style="width:54px;height:54px;border-radius:12px;background:#1d4ed8;border:1px solid rgba(255,255,255,.15)">
+              </div>
+            </div>
+            <div class="s-body">
+              <div class="s-id">RX-004 <span class="tag-rx">Rexine</span></div>
+              <div class="s-name">Ocean Stitch</div>
+              <div class="s-clr"><span class="s-dot" style="background:#1d4ed8"></span><span class="s-cname">Royal
+                  Blue</span></div>
+            </div>
+          </div>
+          <div class="s-card" data-material="leather">
+            <div class="s-sw" style="background:#57534e">
+              <div
+                style="width:54px;height:54px;border-radius:12px;background:#57534e;border:1px solid rgba(255,255,255,.15)">
+              </div>
+            </div>
+            <div class="s-body">
+              <div class="s-id">LT-003 <span class="tag-lt">Leather</span></div>
+              <div class="s-name">Graphite Soft</div>
+              <div class="s-clr"><span class="s-dot" style="background:#57534e"></span><span
+                  class="s-cname">Graphite</span></div>
+            </div>
+          </div>
+          <div class="s-card" data-material="leather">
+            <div class="s-sw" style="background:#14532d">
+              <div
+                style="width:54px;height:54px;border-radius:12px;background:#14532d;border:1px solid rgba(255,255,255,.15)">
+              </div>
+            </div>
+            <div class="s-body">
+              <div class="s-id">LT-004 <span class="tag-lt">Leather</span></div>
+              <div class="s-name">Forest Luxury</div>
+              <div class="s-clr"><span class="s-dot" style="background:#14532d"></span><span class="s-cname">Dark
+                  Green</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="app-foot">
+        <div class="app-foot-inner">
+          <span>© 2026 Shadhin Motor Admin Dashboard</span>
+          <span>Built for smooth multi-page management workflows</span>
+        </div>
+      </footer>
+
+    </main><!-- end #main -->
+  </div><!-- end #app -->
+
+  <!-- ══ MODALS ══ -->
+  <!-- SAMPLE -->
+  <div class="modal fade" id="moSample" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="moST">Add Sample</h5><button type="button" class="btn-close"
+            data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6"><label class="fl">Sample ID *</label><input class="fi form-control" id="sm_id"
+                placeholder="RX-001"></div>
+            <div class="col-md-6"><label class="fl">Material *</label><select class="fs form-select" id="sm_mat">
+                <option value="rexine">Rexine</option>
+                <option value="leather">Leather</option>
+              </select></div>
+            <div class="col-12"><label class="fl">Name *</label><input class="fi form-control" id="sm_n"
+                placeholder="Diamond Quilt..."></div>
+            <div class="col-md-6"><label class="fl">Color Name</label><input class="fi form-control" id="sm_c"
+                placeholder="Black, Navy Blue..."></div>
+            <div class="col-md-6">
+              <label class="fl">Color Code</label>
+              <div style="display:flex;gap:8px">
+                <input class="fi form-control" id="sm_hex" placeholder="#1a1a1a">
+                <input type="color" id="sm_pick" value="#1a1a1a">
+              </div>
+            </div>
+            <div class="col-md-6"><label class="fl">Availability</label><select class="fs form-select" id="sm_av">
+                <option value="1">Available ✅</option>
+                <option value="0">Out of Stock ❌</option>
+              </select></div>
+            <div class="col-md-6"><label class="fl">Image URL</label><input class="fi form-control" id="sm_img"
+                placeholder="assets/images/..."></div>
+            <div class="col-12"><label class="fl">Notes</label><textarea class="fi form-control fta" id="sm_nt" rows="2"
+                placeholder="Customer description..."></textarea></div>
+          </div>
+          <div class="mt-3 p-3"
+            style="background:var(--hover);border:1px solid var(--bdr-s);border-radius:var(--r2);display:flex;align-items:center;gap:14px">
+            <div id="smPrevSw"
+              style="width:52px;height:52px;border-radius:10px;flex-shrink:0;border:1px solid var(--bdr);transition:background .2s">
+            </div>
+            <div>
+              <div
+                style="font-size:9px;color:var(--txt3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">
+                Live Preview</div>
+              <div id="smPrevN" style="font-size:14px;font-weight:600;color:var(--txt)">—</div>
+              <div id="smPrevC" style="font-size:11px;color:var(--txt2);margin-top:2px"></div>
+            </div>
+          </div>
+          <input type="hidden" id="sm_eid">
+        </div>
+        <div class="modal-footer"><button class="btn2 b2-out" type="button"
+            data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button" data-action="sample-save"><i
+              class="bi bi-save-fill"></i> Save Sample</button></div>
+      </div>
     </div>
-    <div class="mt-3 p-3" style="background:var(--hover);border:1px solid var(--bdr-s);border-radius:var(--r2);display:flex;align-items:center;gap:14px">
-      <div id="smPrevSw" style="width:52px;height:52px;border-radius:10px;flex-shrink:0;border:1px solid var(--bdr);transition:background .2s"></div>
-      <div><div style="font-size:9px;color:var(--txt3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px">Live Preview</div><div id="smPrevN" style="font-size:14px;font-weight:600;color:var(--txt)">—</div><div id="smPrevC" style="font-size:11px;color:var(--txt2);margin-top:2px"></div></div>
+  </div>
+
+
+  <!-- PROFILE -->
+  <div class="modal fade" id="moProfile" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">My Profile</h5><button type="button" class="btn-close" data-bs-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="pro-wrap">
+            <div class="ava lg has-img mx-auto mb-3" id="proAv"><img src="assets/images/avatars/admin-avatar.jpeg"
+                alt="" width="68" height="68" loading="lazy" decoding="async"></div>
+            <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
+            <div style="font-size:11px;color:var(--txt3);margin-top:3px">Super Admin · Shadhin Motor</div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
+            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            </div>
+            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+                placeholder="Shop owner & manager"></div>
+          </div>
+        </div>
+        <div class="modal-footer"><button class="btn2 b2-out" type="button"
+            data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button"
+            data-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
+      </div>
     </div>
-    <input type="hidden" id="sm_eid">
   </div>
-  <div class="modal-footer"><button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button" data-action="sample-save"><i class="bi bi-save-fill"></i> Save Sample</button></div>
-  </div>
-</div></div>
-
-
-<!-- PROFILE -->
-<div class="modal fade" id="moProfile" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-  <div class="modal-content"><div class="modal-header"><h5 class="modal-title">My Profile</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
-  <div class="modal-body">
-    <div class="pro-wrap">
-      <div class="ava lg has-img mx-auto mb-3" id="proAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="68" height="68" loading="lazy" decoding="async"></div>
-      <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
-      <div style="font-size:11px;color:var(--txt3);margin-top:3px">Super Admin · Shadhin Motor</div>
-    </div>
-    <div class="row g-3">
-      <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
-      <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e"></div>
-      <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b" placeholder="Shop owner & manager"></div>
-    </div>
-  </div>
-  <div class="modal-footer"><button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button" data-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
-  </div>
-</div></div>
 
 
 
-<!-- Samples scripts -->
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/sweetalert2.all.min.js"></script>
-<script src="assets/js/shared/core.js"></script>
-<script src="assets/js/shared/admin-shell.js"></script>
-<script type="module" src="assets/js/samples/page.js"></script>
+  <!-- Samples scripts -->
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/sweetalert2.all.min.js"></script>
+  <script src="assets/js/shared/core.js"></script>
+  <script src="assets/js/shared/admin-shell.js"></script>
+  <script type="module" src="assets/js/samples/page.js"></script>
 
 </body>
 

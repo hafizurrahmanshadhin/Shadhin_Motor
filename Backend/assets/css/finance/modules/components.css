@@ -12,6 +12,6 @@
   transition: width .8s ease;
 }
 
-#finMonthly .f-bar + .f-bar {
+#finMonthly .f-bar+.f-bar {
   margin-top: 6px;
 }

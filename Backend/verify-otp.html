@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" data-bs-theme="light">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Verify Shadhin Motor password reset OTP">
-<meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#e8ecf2">
-<title>Shadhin Motor — Verify OTP</title>
-<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-<link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
-<link href="assets/css/google-fonts.css" rel="stylesheet">
-<link href="assets/css/shared/base.css" rel="stylesheet">
-<link href="assets/css/auth/page.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Verify Shadhin Motor password reset OTP">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#e8ecf2">
+  <title>Shadhin Motor — Verify OTP</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/google-fonts.css" rel="stylesheet">
+  <link href="assets/css/shared/base.css" rel="stylesheet">
+  <link href="assets/css/auth/page.css" rel="stylesheet">
 </head>
 
 <body data-page="verify-otp">
-<main id="loginWrap" class="auth-wrap">
-  <section class="login-card auth-card" aria-labelledby="otpTitle">
-    <div class="login-brand">
-      <a class="login-logo-wrap login-brand-link" href="login.html" aria-label="Back to login">
-        <img class="login-logo-img" src="assets/images/brand-logo.svg" alt="" width="46" height="46" decoding="async">
-        <div>
-          <h1 class="login-title" id="otpTitle">Verify <em>OTP</em></h1>
-          <p class="login-sub">Security Check</p>
-        </div>
-      </a>
-      <div class="login-divider"></div>
-    </div>
-
-    <p class="auth-copy">Enter the six digit OTP sent to the user's email.</p>
-
-    <form class="auth-form" action="reset-password.html" method="get">
-      <div class="login-field-wrap">
-        <label class="login-lbl" for="otpCode">OTP Code</label>
-        <div class="login-input-row auth-otp-row">
-          <span class="login-field-icon"><i class="bi bi-key"></i></span>
-          <input class="login-input auth-otp-input" id="otpCode" name="otp" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
-        </div>
+  <main id="loginWrap" class="auth-wrap">
+    <section class="login-card auth-card" aria-labelledby="otpTitle">
+      <div class="login-brand">
+        <a class="login-logo-wrap login-brand-link" href="login.html" aria-label="Back to login">
+          <img class="login-logo-img" src="assets/images/brand-logo.svg" alt="" width="46" height="46" decoding="async">
+          <div>
+            <h1 class="login-title" id="otpTitle">Verify <em>OTP</em></h1>
+            <p class="login-sub">Security Check</p>
+          </div>
+        </a>
+        <div class="login-divider"></div>
       </div>
-      <button class="login-submit-btn" type="submit">
-        <i class="bi bi-patch-check" aria-hidden="true"></i>
-        <span>Verify OTP</span>
-      </button>
-    </form>
 
-    <div class="auth-row auth-row-center">
-      <a class="auth-link" href="forgot-password.html">Send again</a>
-      <a class="auth-link" href="login.html">Back to sign in</a>
-    </div>
-  </section>
-</main>
+      <p class="auth-copy">Enter the six digit OTP sent to the user's email.</p>
+
+      <form class="auth-form" action="reset-password.html" method="get">
+        <div class="login-field-wrap">
+          <label class="login-lbl" for="otpCode">OTP Code</label>
+          <div class="login-input-row auth-otp-row">
+            <span class="login-field-icon"><i class="bi bi-key"></i></span>
+            <input class="login-input auth-otp-input" id="otpCode" name="otp" type="text" inputmode="numeric"
+              pattern="[0-9]{6}" maxlength="6" placeholder="000000" autocomplete="one-time-code" required>
+          </div>
+        </div>
+        <button class="login-submit-btn" type="submit">
+          <i class="bi bi-patch-check" aria-hidden="true"></i>
+          <span>Verify OTP</span>
+        </button>
+      </form>
+
+      <div class="auth-row auth-row-center">
+        <a class="auth-link" href="forgot-password.html">Send again</a>
+        <a class="auth-link" href="login.html">Back to sign in</a>
+      </div>
+    </section>
+  </main>
 </body>
+
 </html>
