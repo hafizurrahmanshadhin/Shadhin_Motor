@@ -145,8 +145,8 @@ body {
   min-height: 100dvh;
   min-width: 320px;
   overflow-x: hidden;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-kerning: normal;
   font-optical-sizing: auto;
   font-synthesis: none;
@@ -338,6 +338,12 @@ body.preloading #app {
   filter: blur(8px) saturate(.96);
   transform: scale(1.006);
   will-change: filter, transform;
+}
+
+body:not(.preloading) #app {
+  will-change: auto;
+  filter: none;
+  transform: none;
 }
 
 /* ══ SWEETALERT OVERRIDES ══ */

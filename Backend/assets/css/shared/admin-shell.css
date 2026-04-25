@@ -198,7 +198,7 @@ body {
     transparent 100%
   );
   border-radius: 2px;
-  box-shadow: 
+  box-shadow:
     0 0 8px rgba(245, 158, 11, 0.4),
     0 0 16px rgba(245, 158, 11, 0.2);
   animation: dividerPulse 3s ease-in-out infinite;
@@ -224,7 +224,7 @@ body {
     rgba(245, 158, 11, 0.9) 50%,
     transparent 100%
   );
-  box-shadow: 
+  box-shadow:
     0 0 12px rgba(245, 158, 11, 0.5),
     0 0 20px rgba(245, 158, 11, 0.25),
     0 0 4px rgba(245, 158, 11, 0.6);
@@ -246,7 +246,7 @@ body {
     rgba(245, 158, 11, 0.85) 50%,
     transparent 100%
   );
-  box-shadow: 
+  box-shadow:
     0 0 10px rgba(245, 158, 11, 0.45),
     0 0 18px rgba(245, 158, 11, 0.22),
     0 0 3px rgba(245, 158, 11, 0.55);
@@ -907,6 +907,11 @@ input[type="color"] {
 
 /* Card hover lift with glow */
 .scard {
+  will-change: auto;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.scard:hover {
   will-change: transform;
 }
 [data-theme="dark"] .scard:hover {
@@ -1791,7 +1796,7 @@ body.sb-collapsed #sb    { transform: translateX(-100%); }
 body.sb-collapsed #main  { margin-left: 0 !important; }
 body.sb-collapsed #sb    { box-shadow: none; }
 @media (min-width: 992px) {
-  body.sb-collapsed #main { 
+  body.sb-collapsed #main {
     margin-left: 0 !important;
     transition: margin-left var(--tr2);
   }
