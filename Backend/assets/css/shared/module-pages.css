@@ -469,3 +469,116 @@ tr[hidden] {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+@media (max-width: 220px) {
+  .admin-module-grid,
+  .admin-page-grid,
+  .permission-grid,
+  .permission-action-grid,
+  .media-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .admin-module-card {
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .admin-module-icon {
+    width: 28px;
+    height: 28px;
+    flex-basis: 28px;
+    border-radius: 8px;
+    font-size: 12px;
+  }
+
+  .admin-module-card strong,
+  .content-section-title,
+  .review-name,
+  .media-title {
+    font-size: 10px;
+  }
+
+  .admin-module-card small,
+  .admin-list-head p,
+  .content-section-meta,
+  .review-meta,
+  .media-meta {
+    font-size: 8px;
+    line-height: 1.25;
+  }
+
+  .module-toolbar,
+  .admin-list-head,
+  .content-section-top,
+  .review-card-top,
+  .media-card-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .module-filters,
+  .content-tabs,
+  .content-action-row,
+  .review-action-row,
+  .media-action-row {
+    gap: 5px;
+  }
+
+  .module-search {
+    width: 100%;
+  }
+
+  .permission-action-card,
+  .role-hint {
+    padding: 8px;
+  }
+
+  .permission-action-head {
+    display: block;
+    padding-bottom: 7px;
+  }
+
+  .permission-action-head strong {
+    font-size: 10px;
+  }
+
+  .permission-action-head small {
+    display: block;
+    max-width: none;
+    margin-top: 2px;
+    font-size: 8px;
+    text-align: left;
+  }
+
+  .permission-action-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .permission-action-list label {
+    min-height: 24px;
+    padding: 4px 6px;
+    font-size: 9px;
+  }
+
+  .status-pill,
+  .permission-pill {
+    min-height: 18px;
+    padding: 2px 5px;
+    font-size: 8px;
+  }
+
+  .media-thumb {
+    min-height: 76px;
+    font-size: 20px;
+  }
+
+  .role-hint {
+    font-size: 8.5px;
+    line-height: 1.35;
+  }
+}

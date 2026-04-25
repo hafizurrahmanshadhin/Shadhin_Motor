@@ -305,15 +305,23 @@
   }
 
   function syncShellState() {
+    let activeNavLink = null;
+
     document.querySelectorAll(".nav-row[data-nav], .sb-settings[data-nav]").forEach(link => {
       const active = link.dataset.nav === PAGE_NAME;
       link.classList.toggle("on", active);
       if (active) {
+        activeNavLink = link;
         link.setAttribute("aria-current", "page");
       } else {
         link.removeAttribute("aria-current");
       }
     });
+
+    if (activeNavLink) {
+      scrollActiveNavIntoView(activeNavLink);
+    }
+
     document.getElementById("notifPanel")?.setAttribute("aria-hidden", "true");
     document.getElementById("userDrop")?.setAttribute("aria-hidden", "true");
     const overlay = document.getElementById("sb-overlay");
@@ -321,6 +329,16 @@
       overlay.hidden = true;
       overlay.setAttribute("aria-hidden", "true");
     }
+  }
+
+  function scrollActiveNavIntoView(activeLink) {
+    const nav = activeLink.closest(".sb-nav");
+    if (!nav) return;
+
+    window.requestAnimationFrame(() => {
+      const targetTop = activeLink.offsetTop - (nav.clientHeight - activeLink.offsetHeight) / 2;
+      nav.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+    });
   }
 
   function initAdminShell() {
