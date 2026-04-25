@@ -703,10 +703,7 @@
     width: min(100%, var(--hero-shell-max));
     max-width: min(var(--hero-shell-max), 920px);
     padding:
-      clamp(24px, 2vw, 30px)
-      clamp(34px, 2.8vw, 50px)
-      clamp(30px, 2.5vw, 38px)
-      clamp(28px, 2.3vw, 34px);
+      clamp(24px, 2vw, 30px) clamp(34px, 2.8vw, 50px) clamp(30px, 2.5vw, 38px) clamp(28px, 2.3vw, 34px);
   }
 
   html[lang='en'] body.home-page .hero-title {
