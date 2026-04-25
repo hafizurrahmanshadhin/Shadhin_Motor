@@ -172,6 +172,73 @@ body {
   text-align: left;
 }
 .sb-user:hover { background: var(--hover); }
+.sb-settings {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 18px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 54px;
+  padding: 8px;
+  border: 1px solid var(--bdr2);
+  border-radius: var(--r);
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, .10), rgba(245, 158, 11, .03)),
+    var(--hover);
+  color: var(--txt);
+  text-decoration: none;
+  transition: background var(--tr), border-color var(--tr), box-shadow var(--tr), color var(--tr);
+}
+.sb-settings:hover,
+.sb-settings.on {
+  color: var(--txt);
+  border-color: var(--am-ring);
+  background:
+    linear-gradient(135deg, rgba(245, 158, 11, .18), rgba(245, 158, 11, .06)),
+    var(--hover);
+  box-shadow: 0 10px 24px rgba(245, 158, 11, .10);
+}
+.sb-settings-ic {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r);
+  background: rgba(245, 158, 11, .14);
+  color: var(--am);
+  font-size: 15px;
+  box-shadow: inset 0 0 0 1px rgba(245, 158, 11, .16);
+}
+.sb-settings-title,
+.sb-settings-sub {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sb-settings-title {
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+.sb-settings-sub {
+  margin-top: 2px;
+  color: var(--txt3);
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.sb-settings-go {
+  color: var(--txt3);
+  font-size: 12px;
+  transition: transform var(--tr), color var(--tr);
+}
+.sb-settings:hover .sb-settings-go,
+.sb-settings.on .sb-settings-go {
+  color: var(--am);
+  transform: translateX(2px);
+}
 .ava {
   width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
   background: linear-gradient(135deg, var(--am-d), var(--am));
@@ -1102,6 +1169,7 @@ input[type="color"] {
   .udrop { right: -8px; }
   .fi, .fs { min-height: 44px !important; font-size: 14px !important; }
   .nav-row { min-height: 44px; padding: 10px 14px; }
+  .sb-settings { min-height: 56px; }
   #sb-overlay { z-index: 240; }
 }
 
@@ -1181,6 +1249,10 @@ input[type="color"] {
 [data-theme="dark"] .nav-row           { color: #7a9ab8; }
 [data-theme="dark"] .nav-row:hover     { color: #eaf0ff; background: rgba(120,150,210,.09); }
 [data-theme="dark"] .nav-row.on        { color: #fbbf24; background: rgba(245,158,11,.12); border-left-color: #f59e0b; }
+[data-theme="dark"] .sb-settings       { color: #dbe8f6; background: linear-gradient(135deg, rgba(245,158,11,.11), rgba(120,150,210,.06)); border-color: rgba(120,150,210,.14); }
+[data-theme="dark"] .sb-settings-sub   { color: #7188a6; }
+[data-theme="dark"] .sb-settings:hover,
+[data-theme="dark"] .sb-settings.on    { background: linear-gradient(135deg, rgba(245,158,11,.16), rgba(120,150,210,.08)); border-color: rgba(245,158,11,.30); }
 [data-theme="dark"] .sb-sec            { color: #7188a6; }
 [data-theme="dark"] .sb-brand-name     { color: #f59e0b; }
 [data-theme="dark"] .sb-brand-name em  { color: #eaf0ff; }
@@ -1220,6 +1292,10 @@ input[type="color"] {
 [data-theme="light"] .nav-row          { color: #374151; }
 [data-theme="light"] .nav-row:hover    { color: #111827; background: rgba(15,30,65,.05); }
 [data-theme="light"] .nav-row.on       { color: #92400e; background: rgba(245,158,11,.10); border-left-color: #f59e0b; }
+[data-theme="light"] .sb-settings      { color: #111827; background: linear-gradient(135deg, rgba(245,158,11,.13), rgba(255,255,255,.48)); border-color: rgba(15,30,65,.10); }
+[data-theme="light"] .sb-settings-sub  { color: #64748b; }
+[data-theme="light"] .sb-settings:hover,
+[data-theme="light"] .sb-settings.on   { background: linear-gradient(135deg, rgba(245,158,11,.18), rgba(255,255,255,.62)); border-color: rgba(245,158,11,.34); }
 [data-theme="light"] .sb-sec           { color: #64748b; }
 [data-theme="light"] .sb-brand-name    { color: #b45309; }
 [data-theme="light"] .sb-brand-name em { color: #111827; }
@@ -1253,6 +1329,7 @@ input[type="color"] {
 .nav-row,
 .sb-sec,
 .sb-user,
+.sb-settings,
 .tb-user,
 .tb-bc,
 .dd-row,

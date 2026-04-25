@@ -119,7 +119,6 @@ function getProfileSnapshot() {
   return {
     name:
       document.getElementById("tbName")?.textContent.trim() ||
-      document.getElementById("sbName")?.textContent.trim() ||
       profileState.name ||
       "",
     email: document.getElementById("udEmail")?.textContent.trim() || profileState.email || "",
@@ -130,7 +129,7 @@ function getProfileSnapshot() {
 function updateProfileUI(nextProfile) {
   profileState = { ...profileState, ...nextProfile };
 
-  ["sbName", "tbName", "udName", "proName"].forEach(id => {
+  ["tbName", "udName", "proName"].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.textContent = profileState.name;
   });
@@ -257,7 +256,7 @@ function bindShellChrome() {
       return;
     }
 
-    const mobileNavLink = event.target.closest("#sb.open .nav-row[href]");
+    const mobileNavLink = event.target.closest("#sb.open a[href]");
     if (mobileNavLink && window.innerWidth < 992) {
       closeSB();
       return;
@@ -306,7 +305,7 @@ function bindShellChrome() {
 }
 
 function syncShellState() {
-  document.querySelectorAll(".nav-row[data-nav]").forEach(link => {
+  document.querySelectorAll(".nav-row[data-nav], .sb-settings[data-nav]").forEach(link => {
     const active = link.dataset.nav === PAGE_NAME;
     link.classList.toggle("on", active);
     if (active) {

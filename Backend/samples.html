@@ -85,20 +85,19 @@
   <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
 
   <div class="sb-div"></div>
-  <a class="nav-row" data-nav="settings" href="settings.html"><span class="ic"><i class="bi bi-gear-fill"></i></span>Settings</a>
   <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i class="bi bi-box-arrow-up-right"></i></span>View Website</a>
 
   </nav>
 
   <div class="sb-foot">
-    <button class="sb-user" type="button" data-modal-open="moProfile" aria-label="Open admin profile">
-      <div class="ava has-img" id="sbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="30" height="30" loading="lazy" decoding="async"></div>
-      <div style="flex:1;min-width:0">
-        <div class="sb-uname" id="sbName">Admin</div>
-        <div class="sb-urole"><span style="color:var(--green);font-size:9px">●</span> Super Admin</div>
-      </div>
-      <i class="bi bi-three-dots-vertical" style="color:var(--txt3);font-size:14px"></i>
-    </button>
+    <a class="sb-settings" data-nav="settings" href="settings.html" aria-label="Open dashboard settings">
+      <span class="sb-settings-ic"><i class="bi bi-gear-fill"></i></span>
+      <span class="sb-settings-copy">
+        <span class="sb-settings-title">Settings</span>
+        <span class="sb-settings-sub">Dashboard preferences</span>
+      </span>
+      <i class="bi bi-chevron-right sb-settings-go"></i>
+    </a>
   </div>
 </aside>
 
