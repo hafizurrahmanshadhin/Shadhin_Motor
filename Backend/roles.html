@@ -191,57 +191,96 @@
               </div>
             </div>
             <div class="admin-list-body">
-              <table class="permission-matrix">
-                <thead>
-                  <tr>
-                    <th>Role</th>
-                    <th>Visible Modules</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><strong>superadmin</strong></td>
-                    <td><span class="permission-pill">*</span></td>
-                    <td>Full access. Can create roles and assign permissions.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>admin</strong></td>
-                    <td>Orders, Samples, Gallery, Reviews, Frontend Content, Media, Employees</td>
-                    <td>Good for content and order operators.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>subadmin</strong></td>
-                    <td>Orders, Samples, Gallery, Reviews, Media, Employees</td>
-                    <td>Can operate core shop modules without finance or role control.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>manager</strong></td>
-                    <td>Orders, Samples, Gallery, Reviews, Frontend Content, Employees, Wages, Finance</td>
-                    <td>Operational lead with team, wage and finance visibility.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>employee</strong></td>
-                    <td>Employees, Wages</td>
-                    <td>Internal staff view with limited sidebar.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>finance</strong></td>
-                    <td>Orders, Finance</td>
-                    <td>Payment and ledger access only.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>editor</strong></td>
-                    <td>Samples, Gallery, Reviews, Frontend Content, Media</td>
-                    <td>Public website management without finance/users.</td>
-                  </tr>
-                  <tr>
-                    <td><strong>user</strong></td>
-                    <td>Orders</td>
-                    <td>Customer or low-access dashboard role for basic order visibility.</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table class="permission-matrix">
+                  <thead>
+                    <tr>
+                      <th>Role</th>
+                      <th>Visible Modules</th>
+                      <th>Notes</th>
+                      <th class="text-end">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>superadmin</strong></td>
+                      <td><span class="permission-pill">*</span></td>
+                      <td>Full access. Can create roles and assign permissions.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" disabled><i
+                            class="bi bi-lock-fill"></i> Locked</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>admin</strong></td>
+                      <td>Orders, Samples, Gallery, Reviews, Frontend Content, Media, Employees</td>
+                      <td>Good for content and order operators.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit Admin Permissions" data-role-name="Admin" data-role-key="admin"
+                          data-role-status="Active"
+                          data-role-permissions="dashboard,orders,samples,gallery,reviews,frontend-content,media,employees"><i
+                            class="bi bi-pencil-square"></i> Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>subadmin</strong></td>
+                      <td>Orders, Samples, Gallery, Reviews, Media, Employees</td>
+                      <td>Can operate core shop modules without finance or role control.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit Sub Admin Permissions" data-role-name="Sub Admin"
+                          data-role-key="subadmin" data-role-status="Active"
+                          data-role-permissions="dashboard,orders,samples,gallery,reviews,media,employees"><i
+                            class="bi bi-pencil-square"></i> Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>manager</strong></td>
+                      <td>Orders, Samples, Gallery, Reviews, Frontend Content, Employees, Wages, Finance</td>
+                      <td>Operational lead with team, wage and finance visibility.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit Manager Permissions" data-role-name="Manager"
+                          data-role-key="manager" data-role-status="Active"
+                          data-role-permissions="dashboard,orders,samples,gallery,reviews,frontend-content,employees,wages,finance"><i
+                            class="bi bi-pencil-square"></i> Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>employee</strong></td>
+                      <td>Employees, Wages</td>
+                      <td>Internal staff view with limited sidebar.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit Employee Permissions" data-role-name="Employee"
+                          data-role-key="employee" data-role-status="Active"
+                          data-role-permissions="dashboard,employees,wages"><i class="bi bi-pencil-square"></i>
+                          Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>finance</strong></td>
+                      <td>Orders, Finance</td>
+                      <td>Payment and ledger access only.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit Finance Permissions" data-role-name="Finance"
+                          data-role-key="finance" data-role-status="Active"
+                          data-role-permissions="dashboard,orders,finance"><i class="bi bi-pencil-square"></i>
+                          Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>editor</strong></td>
+                      <td>Samples, Gallery, Reviews, Frontend Content, Media</td>
+                      <td>Public website management without finance/users.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit Content Editor Permissions" data-role-name="Content Editor"
+                          data-role-key="editor" data-role-status="Active"
+                          data-role-permissions="dashboard,samples,gallery,reviews,frontend-content,media"><i
+                            class="bi bi-pencil-square"></i> Edit</button></td>
+                    </tr>
+                    <tr>
+                      <td><strong>user</strong></td>
+                      <td>Orders</td>
+                      <td>Customer or low-access dashboard role for basic order visibility.</td>
+                      <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
+                          data-role-modal-title="Edit User Permissions" data-role-name="User" data-role-key="user"
+                          data-role-status="Active" data-role-permissions="dashboard,orders"><i
+                            class="bi bi-pencil-square"></i> Edit</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </section>
 
@@ -284,40 +323,52 @@
         </div>
         <div class="modal-body">
           <div class="row g-3 mb-3">
-            <div class="col-md-4"><label class="fl">Role Name</label><input class="fi form-control"
-                placeholder="Manager"></div>
-            <div class="col-md-4"><label class="fl">Role Key</label><input class="fi form-control"
-                placeholder="manager"></div>
-            <div class="col-md-4"><label class="fl">Status</label><select class="fs form-select" aria-label="Status">
+            <div class="col-md-4"><label class="fl" for="roleNameInput">Role Name</label><input
+                class="fi form-control" id="roleNameInput" data-role-name-field placeholder="Manager"></div>
+            <div class="col-md-4"><label class="fl" for="roleKeyInput">Role Key</label><input class="fi form-control"
+                id="roleKeyInput" data-role-key-field placeholder="manager"></div>
+            <div class="col-md-4"><label class="fl" for="roleStatusInput">Status</label><select
+                class="fs form-select" id="roleStatusInput" data-role-status-field aria-label="Status">
                 <option>Active</option>
                 <option>Inactive</option>
               </select></div>
           </div>
           <div class="permission-grid">
             <div class="permission-card"><label><input type="checkbox" data-role-permission data-default-checked="true"
-                  checked><span><strong>Dashboard</strong><small>Overview, summaries, own landing
+                  value="dashboard" checked><span><strong>Dashboard</strong><small>Overview, summaries, own landing
                     page</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Orders</strong><small>Order
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="orders"><span><strong>Orders</strong><small>Order
                     queue and customer booking data</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Samples</strong><small>Rexine
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="samples"><span><strong>Samples</strong><small>Rexine
                     and leather sample catalog</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Gallery</strong><small>Public
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="gallery"><span><strong>Gallery</strong><small>Public
                     design gallery records</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Reviews</strong><small>Approve
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="reviews"><span><strong>Reviews</strong><small>Approve
                     customer reviews and media</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Frontend
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="frontend-content"><span><strong>Frontend
                     Content</strong><small>Homepage sections, SEO, FAQ, areas</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Media
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="media"><span><strong>Media
                     Library</strong><small>Reusable image/video assets</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Employees</strong><small>Staff
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="employees"><span><strong>Employees</strong><small>Staff
                     profiles and team data</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Wages</strong><small>Attendance
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="wages"><span><strong>Wages</strong><small>Attendance
                     and wage logs</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Finance</strong><small>Income,
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="finance"><span><strong>Finance</strong><small>Income,
                     expenses and payment records</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Users</strong><small>Create
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="users"><span><strong>Users</strong><small>Create
                     users and assign roles</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Roles</strong><small>Create
+            <div class="permission-card"><label><input type="checkbox" data-role-permission
+                  value="roles"><span><strong>Roles</strong><small>Create
                     roles and permissions</small></span></label></div>
           </div>
         </div>

@@ -155,6 +155,10 @@ function initFrontendContentPage() {
 function initRolesPage() {
   if (PAGE_NAME !== "roles") return;
 
+  const roleModal = byId("moRole");
+  const nameField = roleModal?.querySelector("[data-role-name-field]");
+  const keyField = roleModal?.querySelector("[data-role-key-field]");
+  const statusField = roleModal?.querySelector("[data-role-status-field]");
   const countEl = byId("permissionCount");
   const checks = Array.from(document.querySelectorAll("[data-role-permission]"));
 
@@ -166,9 +170,27 @@ function initRolesPage() {
   checks.forEach(input => input.addEventListener("change", syncCount));
   syncCount();
 
-  document.querySelector("[data-role-modal]")?.addEventListener("click", event => {
-    openStaticModal("moRole", event.currentTarget.dataset.roleModalTitle || "Create Role");
-    syncCount();
+  document.querySelectorAll("[data-role-modal]").forEach(button => {
+    button.addEventListener("click", () => {
+      openStaticModal("moRole", button.dataset.roleModalTitle || "Create Role");
+
+      const isEdit = Boolean(button.dataset.roleKey);
+      if (nameField) nameField.value = button.dataset.roleName || "";
+      if (keyField) {
+        keyField.value = button.dataset.roleKey || "";
+        keyField.readOnly = isEdit;
+      }
+      if (statusField && button.dataset.roleStatus) statusField.value = button.dataset.roleStatus;
+
+      if (isEdit) {
+        const allowed = new Set(String(button.dataset.rolePermissions || "").split(",").filter(Boolean));
+        checks.forEach(input => {
+          input.checked = allowed.has(input.value);
+        });
+      }
+
+      syncCount();
+    });
   });
 
   document.querySelector("[data-action='role-save']")?.addEventListener("click", () => {

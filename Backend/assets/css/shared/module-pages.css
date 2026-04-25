@@ -258,6 +258,15 @@ tr[hidden] {
   border-bottom: 0;
 }
 
+.permission-matrix td:last-child,
+.permission-matrix th:last-child {
+  white-space: nowrap;
+}
+
+.permission-matrix .btn2 {
+  min-width: 82px;
+}
+
 .content-section-list,
 .review-list,
 .media-grid {
