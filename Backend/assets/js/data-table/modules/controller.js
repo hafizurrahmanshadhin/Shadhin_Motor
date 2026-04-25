@@ -275,7 +275,22 @@ function makePageButton(label, targetPage, options = {}) {
   button.className = `btn2 b2-out b2-sm atbl-page-btn${options.edge ? " atbl-page-edge" : ""}`;
   button.dataset.pageTarget = String(targetPage);
   button.disabled = Boolean(options.disabled);
-  button.innerHTML = label;
+
+  if (options.iconBefore) {
+    const icon = document.createElement("i");
+    icon.className = options.iconBefore;
+    button.appendChild(icon);
+  }
+
+  const text = document.createElement("span");
+  text.textContent = label;
+  button.appendChild(text);
+
+  if (options.iconAfter) {
+    const icon = document.createElement("i");
+    icon.className = options.iconAfter;
+    button.appendChild(icon);
+  }
 
   if (options.active) {
     button.classList.add("active");
@@ -293,9 +308,10 @@ function renderStaticPagination(wrap, currentPage, pageCount) {
   pager.hidden = pageCount <= 1;
   if (pager.hidden) return;
 
-  pager.appendChild(makePageButton('<i class="bi bi-chevron-left"></i><span>Previous</span>', currentPage - 1, {
+  pager.appendChild(makePageButton("Previous", currentPage - 1, {
     edge: true,
-    disabled: currentPage <= 1
+    disabled: currentPage <= 1,
+    iconBefore: "bi bi-chevron-left"
   }));
 
   pageNumbers(currentPage, pageCount).forEach(page => {
@@ -312,9 +328,10 @@ function renderStaticPagination(wrap, currentPage, pageCount) {
     }));
   });
 
-  pager.appendChild(makePageButton('<span>Next</span><i class="bi bi-chevron-right"></i>', currentPage + 1, {
+  pager.appendChild(makePageButton("Next", currentPage + 1, {
     edge: true,
-    disabled: currentPage >= pageCount
+    disabled: currentPage >= pageCount,
+    iconAfter: "bi bi-chevron-right"
   }));
 }
 
@@ -423,19 +440,16 @@ function bindStaticDeleteActions() {
     event.preventDefault();
 
     const row = trigger.closest("tr");
-    const table = row?.closest("table");
-    if (!row || !table) return;
+    if (!row) return;
 
     const confirmed = await window.confirm2(
       trigger.dataset.confirmTitle || "Delete this row?",
-      trigger.dataset.confirmText || "This removes only the static preview row. In Laravel, call your delete route and reload the Yajra table."
+      trigger.dataset.confirmText || "Static rows stay fixed in HTML. In Laravel, call your delete route and reload the Yajra table after success."
     );
 
     if (!confirmed) return;
 
-    row.remove();
-    updateStaticTableState(table);
-    window.toast?.("success", "Row removed", "The row was deleted from this static preview.");
+    window.toast?.("info", "Delete flow ready", "Static HTML data was not changed. Connect this button to a backend delete route later.");
   });
 }
 

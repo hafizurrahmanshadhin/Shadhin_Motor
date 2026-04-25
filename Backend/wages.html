@@ -40,7 +40,7 @@
     </div>
   </div>
   <!-- SIDEBAR OVERLAY -->
-  <div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
+  <div id="sb-overlay" data-shell-action="sidebar-close" hidden aria-hidden="true"></div>
 
   <!-- APP SHELL -->
   <div id="app">
@@ -114,7 +114,7 @@
       <!-- TOPBAR -->
       <div id="tb">
         <div style="display:flex;align-items:center;gap:14px">
-          <button class="ic-btn" id="sbToggle" type="button" data-action="sidebar-toggle" title="Toggle Sidebar"
+          <button class="ic-btn" id="sbToggle" type="button" data-shell-action="sidebar-toggle" title="Toggle Sidebar"
             aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list"
               style="font-size:19px"></i></button>
           <div class="tb-bc">
@@ -128,11 +128,11 @@
           <a href="../Frontend/index.html" target="_blank" rel="noopener"
             class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
           <!-- Theme -->
-          <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme"
+          <button class="ic-btn" id="themeBtn" type="button" data-shell-action="theme-toggle" title="Toggle theme"
             aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
           <!-- Notifications -->
           <div style="position:relative">
-            <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle"
+            <button class="ic-btn" id="notifBtn" type="button" data-shell-action="notif-toggle"
               aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
               <i class="bi bi-bell-fill"></i>
               <span class="ic-dot" id="nDot" hidden></span>
@@ -140,7 +140,7 @@
             <div class="float-panel np" id="notifPanel" aria-label="Notifications">
               <div class="np-head">
                 <span class="np-title"><i class="bi bi-bell-fill me-2" style="color:var(--am)"></i>Notifications</span>
-                <button class="np-mark" type="button" data-action="notif-read-all">Mark all read</button>
+                <button class="np-mark" type="button" data-shell-action="notif-read-all">Mark all read</button>
               </div>
               <div class="n-list" id="nList">
                 <div class="n-item unread">
@@ -174,12 +174,12 @@
                   </div>
                 </div>
               </div>
-              <div class="np-foot"><button type="button" data-action="noop">See all notifications</button></div>
+              <div class="np-foot"><button type="button" data-shell-action="noop">See all notifications</button></div>
             </div>
           </div>
           <!-- User -->
           <div style="position:relative">
-            <button class="tb-user" id="userBtn" type="button" data-action="user-toggle" aria-label="Open admin menu"
+            <button class="tb-user" id="userBtn" type="button" data-shell-action="user-toggle" aria-label="Open admin menu"
               aria-expanded="false" aria-controls="userDrop">
               <div class="tb-ava has-img" id="tbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="28"
                   height="28" loading="lazy" decoding="async"></div>
@@ -191,10 +191,10 @@
                 <div class="ud-name" id="udName">Admin</div>
                 <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
               </div>
-              <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My
+              <button class="dd-row" type="button" data-shell-modal-open="moProfile"><i class="bi bi-person-circle"></i> My
                 Profile</button>
               <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
-              <button class="dd-row" type="button" data-action="theme-toggle"><i class="bi bi-moon-stars"></i> Toggle
+              <button class="dd-row" type="button" data-shell-action="theme-toggle"><i class="bi bi-moon-stars"></i> Toggle
                 Theme</button>
               <div class="dd-sep"></div>
               <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
@@ -369,7 +369,7 @@
         </div>
         <div class="modal-footer"><button class="btn2 b2-out" type="button"
             data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button"
-            data-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
+            data-shell-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
       </div>
     </div>
   </div>

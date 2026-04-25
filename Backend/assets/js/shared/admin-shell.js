@@ -189,9 +189,9 @@
 
   function bindShellChrome() {
     document.addEventListener("click", event => {
-      const modalTrigger = event.target.closest("[data-modal-open]");
+      const modalTrigger = event.target.closest("[data-shell-modal-open]");
       if (modalTrigger) {
-        const targetId = modalTrigger.dataset.modalOpen;
+        const targetId = modalTrigger.dataset.shellModalOpen;
         if (targetId) {
           event.preventDefault();
           openMo(targetId);
@@ -199,9 +199,9 @@
         }
       }
 
-      const actionEl = event.target.closest("[data-action]");
+      const actionEl = event.target.closest("[data-shell-action]");
       if (actionEl) {
-        const action = actionEl.dataset.action;
+        const action = actionEl.dataset.shellAction;
 
         if (action === "noop") {
           event.preventDefault();
@@ -262,11 +262,11 @@
         return;
       }
 
-      if (!event.target.closest("#userDrop, [data-action='user-toggle']")) {
+      if (!event.target.closest("#userDrop, [data-shell-action='user-toggle']")) {
         closeUser();
       }
 
-      if (!event.target.closest("#notifPanel, [data-action='notif-toggle']")) {
+      if (!event.target.closest("#notifPanel, [data-shell-action='notif-toggle']")) {
         closeNotif();
       }
     });
