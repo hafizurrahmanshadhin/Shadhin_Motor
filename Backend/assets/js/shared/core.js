@@ -131,7 +131,7 @@ function runPreloader(onReady) {
   };
 
   const safety = window.setTimeout(finish, 4500);
-  window.setTimeout(finish, 950);
+  window.setTimeout(finish, 720);
 }
 
 SMAdmin.page = PAGE;
