@@ -155,7 +155,6 @@ function initFrontendContentPage() {
 function initRolesPage() {
   if (PAGE_NAME !== "roles") return;
 
-  const roleSelect = byId("rolePreviewTarget");
   const countEl = byId("permissionCount");
   const checks = Array.from(document.querySelectorAll("[data-role-permission]"));
 
@@ -166,12 +165,6 @@ function initRolesPage() {
 
   checks.forEach(input => input.addEventListener("change", syncCount));
   syncCount();
-
-  roleSelect?.addEventListener("change", () => {
-    const value = roleSelect.value || "superadmin";
-    window.SMAdmin?.permissions?.setRole?.(value);
-    window.toast?.("success", "Role preview changed", `Sidebar now follows ${value} permissions.`);
-  });
 
   document.querySelector("[data-role-modal]")?.addEventListener("click", event => {
     openStaticModal("moRole", event.currentTarget.dataset.roleModalTitle || "Create Role");

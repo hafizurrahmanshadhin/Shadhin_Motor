@@ -52,14 +52,22 @@
               class="bi bi-palette2"></i></span>Samples</a>
         <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i
               class="bi bi-images"></i></span>Gallery</a>
-        <div class="sb-sec">Management</div>
+        <a class="nav-row" data-nav="reviews" href="reviews.html"><span class="ic"><i
+              class="bi bi-star-fill"></i></span>Reviews<span class="nav-n">9</span></a>
+        <a class="nav-row" data-nav="frontend-content" href="frontend-content.html"><span class="ic"><i
+              class="bi bi-layout-text-window-reverse"></i></span>Frontend Content</a>
+        <a class="nav-row" data-nav="media" href="media.html"><span class="ic"><i
+              class="bi bi-folder2-open"></i></span>Media Library</a>        <div class="sb-sec">Management</div>
         <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i
               class="bi bi-people-fill"></i></span>Employees</a>
         <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i
               class="bi bi-wallet2"></i></span>Wages</a>
         <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i
               class="bi bi-graph-up-arrow"></i></span>Finance</a>
-        <div class="sb-sec">Tools</div>
+        <a class="nav-row" data-nav="users" href="users.html"><span class="ic"><i
+              class="bi bi-person-gear"></i></span>Users</a>
+        <a class="nav-row" data-nav="roles" href="roles.html"><span class="ic"><i
+              class="bi bi-shield-lock-fill"></i></span>Roles & Permissions</a>        <div class="sb-sec">Tools</div>
         <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i
               class="bi bi-table"></i></span>Data Table</a>
         <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i
@@ -136,8 +144,6 @@
               </div>
               <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My
                 Profile</button>
-              <a class="dd-row" href="roles.html"><i class="bi bi-shield-lock"></i> Role: <span
-                  data-current-role-label>Super Admin</span></a>
               <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
               <div class="dd-sep"></div>
               <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
@@ -167,8 +173,7 @@
           </div>
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-person-check-fill"></i></span>
-            <div><strong>Role Preview</strong><small>Currently <span data-current-role-label>Super Admin</span></small>
-            </div>
+            <div><strong>8 Demo Users</strong><small>Mapped to future role_id values</small></div>
           </div>
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-check2-square"></i></span>
@@ -243,25 +248,18 @@
           <aside class="admin-list-card">
             <div class="admin-list-head">
               <div>
-                <h3>Preview Role</h3>
-                <p>Static only. Changes sidebar visibility using localStorage.</p>
+                <h3>Laravel RBAC Map</h3>
+                <p>Keep this static structure ready for database-driven permissions.</p>
               </div>
             </div>
             <div class="admin-list-body">
-              <label class="fl" for="rolePreviewTarget">Choose role</label>
-              <select class="fs form-select" id="rolePreviewTarget" aria-label="Preview role">
-                <option value="superadmin">Super Admin</option>
-                <option value="admin">Admin</option>
-                <option value="subadmin">Sub Admin</option>
-                <option value="manager">Manager</option>
-                <option value="employee">Employee</option>
-                <option value="finance">Finance</option>
-                <option value="editor">Content Editor</option>
-                <option value="user">User</option>
-              </select>
-              <div class="role-hint mt-3">
+              <div class="role-hint">
                 In Laravel, store roles and permissions in database tables, then use middleware to block routes and a
                 Blade sidebar partial to show only allowed modules.
+              </div>
+              <div class="role-hint mt-3">
+                Suggested tables: roles, permissions, role_permissions, users.role_id and optional direct
+                user_permissions for exceptions.
               </div>
             </div>
           </aside>
@@ -344,8 +342,7 @@
             <div class="ava lg has-img mx-auto mb-3" id="proAv"><img src="assets/images/avatars/admin-avatar.jpeg"
                 alt="" width="68" height="68" loading="lazy" decoding="async"></div>
             <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
-            <div style="font-size:11px;color:var(--txt3);margin-top:3px"><span data-current-role-label>Super
-                Admin</span> · Shadhin Motor</div>
+            <div style="font-size:11px;color:var(--txt3);margin-top:3px">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
             <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
