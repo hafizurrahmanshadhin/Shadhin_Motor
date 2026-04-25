@@ -462,6 +462,7 @@ tr[hidden] {
 }
 
 @media (max-width: 640px) {
+
   .admin-module-grid,
   .permission-grid,
   .permission-action-grid,
@@ -471,6 +472,7 @@ tr[hidden] {
 }
 
 @media (max-width: 220px) {
+
   .admin-module-grid,
   .admin-page-grid,
   .permission-grid,

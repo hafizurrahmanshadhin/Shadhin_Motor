@@ -1,10 +1,3 @@
-/*
- * Yajra-safe table helpers.
- * This file does not own server data or Ajax rendering. Laravel/Yajra DataTables
- * can initialize the same table without fighting this script; static pagination
- * and filters run only when the wrapper opts in with data-static-table="true".
- */
-
 const PAGE_NAME = window.SMAdmin?.page || document.body?.dataset.page || "";
 
 function getAdminTable(trigger = null) {

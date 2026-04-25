@@ -1,9 +1,3 @@
-/* ══════════════════════════════════════════════════════
-   SHADHIN MOTOR ADMIN — DESIGN SYSTEM v3.0
-   Design principle: "Dark = Deep Navy, Light = Warm Slate"
-   WCAG AA compliant contrast ratios throughout
-══════════════════════════════════════════════════════ */
-
 /* ── GLOBAL DESIGN TOKENS ── */
 :root {
   --sw: 246px;
