@@ -294,6 +294,24 @@
                 type="password" placeholder="Set in Laravel only"></div>
             <div class="col-md-6"><label class="fl">Phone</label><input class="fi form-control"
                 placeholder="+880..."></div>
+            <div class="col-12">
+              <div class="permission-action-card">
+                <div class="permission-action-head">
+                  <strong>Direct Permission Overrides</strong>
+                  <small>Optional user-specific allow/deny rules</small>
+                </div>
+                <div class="permission-action-list">
+                  <label><input type="checkbox" value="users.create"><span>Allow users.create</span></label>
+                  <label><input type="checkbox" value="users.edit"><span>Allow users.edit</span></label>
+                  <label><input type="checkbox" value="users.delete"><span>Deny users.delete</span></label>
+                  <label><input type="checkbox" value="finance.export"><span>Allow finance.export</span></label>
+                </div>
+                <div class="role-hint mt-3">
+                  Use only for exceptions. In Laravel/Inertia, merge role permissions with user-specific allow or deny
+                  records before sending permissions to React.
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">

@@ -169,7 +169,7 @@
           </div>
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-grid-3x3-gap-fill"></i></span>
-            <div><strong>15 Modules</strong><small>Sidebar and policy keys</small></div>
+            <div><strong>45 Actions</strong><small>View, create, edit, delete and special actions</small></div>
           </div>
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-person-check-fill"></i></span>
@@ -177,7 +177,7 @@
           </div>
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-check2-square"></i></span>
-            <div><strong><span id="permissionCount">0</span> Selected</strong><small>In create/edit role modal</small>
+            <div><strong><span id="permissionCount">0</span> Selected</strong><small>Action permissions in modal</small>
             </div>
           </div>
         </div>
@@ -196,7 +196,7 @@
                   <thead>
                     <tr>
                       <th>Role</th>
-                      <th>Visible Modules</th>
+                      <th>Permission Scope</th>
                       <th>Notes</th>
                       <th class="text-end">Actions</th>
                     </tr>
@@ -211,12 +211,12 @@
                     </tr>
                     <tr>
                       <td><strong>admin</strong></td>
-                      <td>Orders, Samples, Gallery, Reviews, Frontend Content, Media, Employees</td>
-                      <td>Good for content and order operators.</td>
+                      <td>Orders, Samples, Gallery, Reviews, Frontend Content, Media, Employees, Users view/create/edit</td>
+                      <td>Can operate content and users without destructive delete access.</td>
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit Admin Permissions" data-role-name="Admin" data-role-key="admin"
                           data-role-status="Active"
-                          data-role-permissions="dashboard,orders,samples,gallery,reviews,frontend-content,media,employees"><i
+                          data-role-permissions="dashboard.view,orders.view,orders.create,orders.edit,samples.view,samples.create,samples.edit,gallery.view,gallery.create,gallery.edit,reviews.view,reviews.approve,reviews.reject,frontend-content.view,frontend-content.edit,frontend-content.publish,media.view,media.upload,media.edit,employees.view,employees.create,employees.edit,users.view,users.create,users.edit"><i
                             class="bi bi-pencil-square"></i> Edit</button></td>
                     </tr>
                     <tr>
@@ -226,7 +226,7 @@
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit Sub Admin Permissions" data-role-name="Sub Admin"
                           data-role-key="subadmin" data-role-status="Active"
-                          data-role-permissions="dashboard,orders,samples,gallery,reviews,media,employees"><i
+                          data-role-permissions="dashboard.view,orders.view,orders.create,orders.edit,samples.view,samples.create,samples.edit,gallery.view,gallery.create,gallery.edit,reviews.view,reviews.approve,media.view,media.upload,media.edit,employees.view,employees.create,employees.edit"><i
                             class="bi bi-pencil-square"></i> Edit</button></td>
                     </tr>
                     <tr>
@@ -236,27 +236,27 @@
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit Manager Permissions" data-role-name="Manager"
                           data-role-key="manager" data-role-status="Active"
-                          data-role-permissions="dashboard,orders,samples,gallery,reviews,frontend-content,employees,wages,finance"><i
+                          data-role-permissions="dashboard.view,orders.view,orders.create,orders.edit,orders.delete,samples.view,samples.create,samples.edit,gallery.view,gallery.create,gallery.edit,reviews.view,reviews.approve,reviews.reject,frontend-content.view,frontend-content.edit,employees.view,employees.create,employees.edit,wages.view,wages.create,wages.edit,finance.view,finance.create,finance.edit,finance.export"><i
                             class="bi bi-pencil-square"></i> Edit</button></td>
                     </tr>
                     <tr>
                       <td><strong>employee</strong></td>
-                      <td>Employees, Wages</td>
+                      <td>Employees view/edit, Wages view</td>
                       <td>Internal staff view with limited sidebar.</td>
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit Employee Permissions" data-role-name="Employee"
                           data-role-key="employee" data-role-status="Active"
-                          data-role-permissions="dashboard,employees,wages"><i class="bi bi-pencil-square"></i>
+                          data-role-permissions="dashboard.view,employees.view,employees.edit,wages.view"><i class="bi bi-pencil-square"></i>
                           Edit</button></td>
                     </tr>
                     <tr>
                       <td><strong>finance</strong></td>
-                      <td>Orders, Finance</td>
+                      <td>Orders view, Finance view/create/edit/export</td>
                       <td>Payment and ledger access only.</td>
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit Finance Permissions" data-role-name="Finance"
                           data-role-key="finance" data-role-status="Active"
-                          data-role-permissions="dashboard,orders,finance"><i class="bi bi-pencil-square"></i>
+                          data-role-permissions="dashboard.view,orders.view,finance.view,finance.create,finance.edit,finance.export"><i class="bi bi-pencil-square"></i>
                           Edit</button></td>
                     </tr>
                     <tr>
@@ -266,16 +266,16 @@
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit Content Editor Permissions" data-role-name="Content Editor"
                           data-role-key="editor" data-role-status="Active"
-                          data-role-permissions="dashboard,samples,gallery,reviews,frontend-content,media"><i
+                          data-role-permissions="dashboard.view,samples.view,samples.create,samples.edit,gallery.view,gallery.create,gallery.edit,reviews.view,reviews.approve,reviews.reject,frontend-content.view,frontend-content.edit,frontend-content.publish,media.view,media.upload,media.edit"><i
                             class="bi bi-pencil-square"></i> Edit</button></td>
                     </tr>
                     <tr>
                       <td><strong>user</strong></td>
-                      <td>Orders</td>
+                      <td>Orders view only</td>
                       <td>Customer or low-access dashboard role for basic order visibility.</td>
                       <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-role-modal
                           data-role-modal-title="Edit User Permissions" data-role-name="User" data-role-key="user"
-                          data-role-status="Active" data-role-permissions="dashboard,orders"><i
+                          data-role-status="Active" data-role-permissions="dashboard.view,orders.view"><i
                             class="bi bi-pencil-square"></i> Edit</button></td>
                     </tr>
                   </tbody>
@@ -293,12 +293,16 @@
             </div>
             <div class="admin-list-body">
               <div class="role-hint">
-                In Laravel, store roles and permissions in database tables, then use middleware to block routes and a
-                Blade sidebar partial to show only allowed modules.
+                Store granular permissions as keys like users.view, users.create, users.edit and users.delete. Sidebar
+                visibility should depend on the module view permission.
               </div>
               <div class="role-hint mt-3">
-                Suggested tables: roles, permissions, role_permissions, users.role_id and optional direct
-                user_permissions for exceptions.
+                For Laravel + React Inertia, send the authenticated user's permissions as shared props, then hide buttons
+                and block routes with Gates or policies.
+              </div>
+              <div class="role-hint mt-3">
+                Suggested tables: roles, permissions, role_permissions, users.role_id and user_permissions for direct
+                allow/deny exceptions on a specific user.
               </div>
             </div>
           </aside>
@@ -333,43 +337,165 @@
                 <option>Inactive</option>
               </select></div>
           </div>
-          <div class="permission-grid">
-            <div class="permission-card"><label><input type="checkbox" data-role-permission data-default-checked="true"
-                  value="dashboard" checked><span><strong>Dashboard</strong><small>Overview, summaries, own landing
-                    page</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="orders"><span><strong>Orders</strong><small>Order
-                    queue and customer booking data</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="samples"><span><strong>Samples</strong><small>Rexine
-                    and leather sample catalog</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="gallery"><span><strong>Gallery</strong><small>Public
-                    design gallery records</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="reviews"><span><strong>Reviews</strong><small>Approve
-                    customer reviews and media</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="frontend-content"><span><strong>Frontend
-                    Content</strong><small>Homepage sections, SEO, FAQ, areas</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="media"><span><strong>Media
-                    Library</strong><small>Reusable image/video assets</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="employees"><span><strong>Employees</strong><small>Staff
-                    profiles and team data</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="wages"><span><strong>Wages</strong><small>Attendance
-                    and wage logs</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="finance"><span><strong>Finance</strong><small>Income,
-                    expenses and payment records</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="users"><span><strong>Users</strong><small>Create
-                    users and assign roles</small></span></label></div>
-            <div class="permission-card"><label><input type="checkbox" data-role-permission
-                  value="roles"><span><strong>Roles</strong><small>Create
-                    roles and permissions</small></span></label></div>
+          <div class="role-hint mb-3">
+            Permission key format: <strong>module.action</strong>. Use <strong>*.view</strong> for menu/page access, then
+            create/edit/delete or module-specific actions for buttons inside that page.
+          </div>
+          <div class="permission-action-grid">
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Dashboard</strong>
+                <small>Overview module</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission data-default-checked="true" value="dashboard.view"
+                    checked><span>View</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Orders</strong>
+                <small>Customer booking workflow</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="orders.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="orders.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="orders.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="orders.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Samples</strong>
+                <small>Material catalog</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="samples.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="samples.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="samples.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="samples.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Gallery</strong>
+                <small>Public work photos</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="gallery.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="gallery.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="gallery.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="gallery.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Reviews</strong>
+                <small>Moderation queue</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="reviews.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="reviews.approve"><span>Approve</span></label>
+                <label><input type="checkbox" data-role-permission value="reviews.reject"><span>Reject</span></label>
+                <label><input type="checkbox" data-role-permission value="reviews.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Frontend Content</strong>
+                <small>Homepage, SEO and FAQ</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="frontend-content.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="frontend-content.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission
+                    value="frontend-content.publish"><span>Publish</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Media Library</strong>
+                <small>Files and storage assets</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="media.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="media.upload"><span>Upload</span></label>
+                <label><input type="checkbox" data-role-permission value="media.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="media.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Employees</strong>
+                <small>Staff profiles</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="employees.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="employees.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="employees.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="employees.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Wages</strong>
+                <small>Attendance and wage logs</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="wages.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="wages.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="wages.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="wages.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Finance</strong>
+                <small>Income, expenses and reports</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="finance.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="finance.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="finance.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="finance.delete"><span>Delete</span></label>
+                <label><input type="checkbox" data-role-permission value="finance.export"><span>Export</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Users</strong>
+                <small>Admin account control</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="users.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="users.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="users.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="users.delete"><span>Delete</span></label>
+              </div>
+            </section>
+
+            <section class="permission-action-card">
+              <div class="permission-action-head">
+                <strong>Roles</strong>
+                <small>Role and policy setup</small>
+              </div>
+              <div class="permission-action-list">
+                <label><input type="checkbox" data-role-permission value="roles.view"><span>View</span></label>
+                <label><input type="checkbox" data-role-permission value="roles.create"><span>Create</span></label>
+                <label><input type="checkbox" data-role-permission value="roles.edit"><span>Edit</span></label>
+                <label><input type="checkbox" data-role-permission value="roles.delete"><span>Delete</span></label>
+              </div>
+            </section>
           </div>
         </div>
         <div class="modal-footer">
