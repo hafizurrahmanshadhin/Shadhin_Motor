@@ -1,8 +1,99 @@
 (() => {
   const PAGE_NAME = window.SMAdmin?.page || window.PAGE || document.body?.dataset.page || "";
+  const ROLE_STORAGE_KEY = "sm_role_preview";
+  const ROLE_LABELS = {
+    superadmin: "Super Admin",
+    admin: "Admin",
+    subadmin: "Sub Admin",
+    manager: "Manager",
+    employee: "Employee",
+    finance: "Finance",
+    editor: "Content Editor",
+    user: "User"
+  };
+  const ROLE_PERMISSIONS = {
+    superadmin: ["*"],
+    admin: ["dashboard", "orders", "samples", "gallery", "reviews", "frontend-content", "media", "employees"],
+    subadmin: ["dashboard", "orders", "samples", "gallery", "reviews", "media", "employees"],
+    manager: ["dashboard", "orders", "samples", "gallery", "reviews", "frontend-content", "employees", "wages", "finance"],
+    employee: ["dashboard", "employees", "wages"],
+    finance: ["dashboard", "orders", "finance"],
+    editor: ["dashboard", "samples", "gallery", "reviews", "frontend-content", "media"],
+    user: ["dashboard", "orders"]
+  };
+  const DYNAMIC_NAV_ITEMS = [
+    {
+      section: "Content",
+      after: "gallery",
+      key: "reviews",
+      href: "reviews.html",
+      icon: "bi bi-star-fill",
+      label: "Reviews",
+      badge: "9"
+    },
+    {
+      section: "Content",
+      after: "reviews",
+      key: "frontend-content",
+      href: "frontend-content.html",
+      icon: "bi bi-layout-text-window-reverse",
+      label: "Frontend Content"
+    },
+    {
+      section: "Content",
+      after: "frontend-content",
+      key: "media",
+      href: "media.html",
+      icon: "bi bi-folder2-open",
+      label: "Media Library"
+    },
+    {
+      section: "Management",
+      after: "finance",
+      key: "users",
+      href: "users.html",
+      icon: "bi bi-person-gear",
+      label: "Users"
+    },
+    {
+      section: "Management",
+      after: "users",
+      key: "roles",
+      href: "roles.html",
+      icon: "bi bi-shield-lock-fill",
+      label: "Roles & Permissions"
+    }
+  ];
   let notifOpen = false;
   let userOpen = false;
   let profileState = {};
+  let activeRole = getStoredRole();
+
+  function getStoredRole() {
+    try {
+      const saved = window.localStorage.getItem(ROLE_STORAGE_KEY);
+      return ROLE_LABELS[saved] ? saved : "superadmin";
+    } catch {
+      return "superadmin";
+    }
+  }
+
+  function setStoredRole(role) {
+    const nextRole = ROLE_LABELS[role] ? role : "superadmin";
+    activeRole = nextRole;
+    try {
+      window.localStorage.setItem(ROLE_STORAGE_KEY, nextRole);
+    } catch {
+      // Static file previews may block storage.
+    }
+    applyPermissionVisibility();
+  }
+
+  function hasPermission(moduleKey) {
+    if (!moduleKey || moduleKey === "dashboard") return true;
+    const permissions = ROLE_PERMISSIONS[activeRole] || ROLE_PERMISSIONS.user;
+    return permissions.includes("*") || permissions.includes(moduleKey);
+  }
 
   function getModalInstance(id) {
     const el = document.getElementById(id);
@@ -304,7 +395,172 @@
     });
   }
 
+  function findSidebarSection(title) {
+    return Array.from(document.querySelectorAll("#sb .sb-sec")).find(section => {
+      return section.textContent.trim().toLowerCase() === String(title || "").trim().toLowerCase();
+    });
+  }
+
+  function createNavRow(item) {
+    const link = document.createElement("a");
+    link.className = "nav-row";
+    link.dataset.nav = item.key;
+    link.dataset.permission = item.key;
+    link.href = item.href;
+
+    const iconWrap = document.createElement("span");
+    iconWrap.className = "ic";
+    const icon = document.createElement("i");
+    icon.className = item.icon;
+    iconWrap.append(icon);
+
+    link.append(iconWrap, document.createTextNode(item.label));
+
+    if (item.badge) {
+      const badge = document.createElement("span");
+      badge.className = "nav-n";
+      badge.textContent = item.badge;
+      link.append(badge);
+    }
+
+    return link;
+  }
+
+  function ensureDynamicNavigation() {
+    const nav = document.querySelector("#sb .sb-nav");
+    if (!nav) return;
+
+    DYNAMIC_NAV_ITEMS.forEach(item => {
+      if (nav.querySelector(`[data-nav="${item.key}"]`)) return;
+
+      const row = createNavRow(item);
+      const after = nav.querySelector(`[data-nav="${item.after}"]`);
+      if (after) {
+        after.insertAdjacentElement("afterend", row);
+        return;
+      }
+
+      const section = findSidebarSection(item.section);
+      if (section) {
+        section.insertAdjacentElement("afterend", row);
+        return;
+      }
+
+      const divider = nav.querySelector(".sb-div");
+      nav.insertBefore(row, divider || null);
+    });
+  }
+
+  function ensureRolePreviewControl() {
+    const topbarRight = document.querySelector("#tb .tb-r");
+    if (!topbarRight || document.getElementById("rolePreviewSelect")) return;
+
+    const select = document.createElement("select");
+    select.id = "rolePreviewSelect";
+    select.className = "role-preview-select d-none d-lg-block";
+    select.setAttribute("aria-label", "Preview admin role permissions");
+    select.title = "Preview sidebar permissions";
+
+    Object.entries(ROLE_LABELS).forEach(([value, label]) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label;
+      select.append(option);
+    });
+
+    select.value = activeRole;
+    select.addEventListener("change", () => {
+      setStoredRole(select.value);
+      window.toast?.("info", "Role preview updated", `${ROLE_LABELS[activeRole]} permissions are now visible.`);
+    });
+
+    topbarRight.insertBefore(select, topbarRight.firstElementChild);
+  }
+
+  function syncRolePreviewUi() {
+    const select = document.getElementById("rolePreviewSelect");
+    if (select) select.value = activeRole;
+
+    const roleName = ROLE_LABELS[activeRole] || "Super Admin";
+    document.querySelectorAll("[data-current-role-label]").forEach(node => {
+      node.textContent = roleName;
+    });
+  }
+
+  function ensurePermissionNotice() {
+    const main = document.getElementById("main");
+    if (!main || document.getElementById("permissionBlocked")) return;
+
+    const notice = document.createElement("section");
+    notice.id = "permissionBlocked";
+    notice.className = "permission-blocked";
+    notice.hidden = true;
+    notice.innerHTML = `
+      <span class="permission-blocked-icon"><i class="bi bi-shield-lock-fill"></i></span>
+      <h2>Module access restricted</h2>
+      <p>This static preview follows role permissions. Switch to Super Admin or update the role permission matrix before opening this module.</p>
+    `;
+
+    const footer = main.querySelector(".app-foot");
+    if (footer) {
+      main.insertBefore(notice, footer);
+      return;
+    }
+
+    main.append(notice);
+  }
+
+  function syncCurrentPageAccess() {
+    if (!PAGE_NAME) return;
+
+    ensurePermissionNotice();
+    const allowed = hasPermission(PAGE_NAME);
+    const notice = document.getElementById("permissionBlocked");
+    if (notice) notice.hidden = allowed;
+
+    document.querySelectorAll("#main > .page-shell").forEach(section => {
+      section.hidden = !allowed;
+    });
+
+    if (!allowed) {
+      document.body.dataset.permissionWarning = "true";
+    } else {
+      delete document.body.dataset.permissionWarning;
+    }
+  }
+
+  function syncSidebarSectionVisibility() {
+    document.querySelectorAll("#sb .sb-sec").forEach(section => {
+      let sibling = section.nextElementSibling;
+      let hasVisibleModule = false;
+
+      while (sibling && !sibling.classList.contains("sb-sec")) {
+        if (sibling.matches?.("[data-nav]") && !sibling.hidden) {
+          hasVisibleModule = true;
+        }
+        sibling = sibling.nextElementSibling;
+      }
+
+      section.hidden = !hasVisibleModule;
+    });
+  }
+
+  function applyPermissionVisibility() {
+    document.querySelectorAll("#sb [data-nav], [data-permission-gate]").forEach(node => {
+      const moduleKey = node.dataset.permissionGate || node.dataset.nav || "";
+      node.hidden = !hasPermission(moduleKey);
+    });
+
+    syncSidebarSectionVisibility();
+    syncRolePreviewUi();
+    syncCurrentPageAccess();
+  }
+
   function syncShellState() {
+    ensureDynamicNavigation();
+    ensureRolePreviewControl();
+    applyPermissionVisibility();
+
     document.querySelectorAll(".nav-row[data-nav], .sb-settings[data-nav]").forEach(link => {
       const active = link.dataset.nav === PAGE_NAME;
       link.classList.toggle("on", active);
@@ -346,6 +602,13 @@
 
   window.SMAdmin = {
     ...(window.SMAdmin || {}),
+    permissions: {
+      roles: ROLE_LABELS,
+      rolePermissions: ROLE_PERMISSIONS,
+      getRole: () => activeRole,
+      setRole: setStoredRole,
+      hasPermission
+    },
     shell: {
       openMo,
       closeMo,

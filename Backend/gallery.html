@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Gallery</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -296,7 +284,7 @@
           <div class="row g-3">
             <div class="col-12"><label class="fl">Title *</label><input class="fi form-control" id="gm_t"
                 placeholder="Toyota Corolla — Black Rexine Design"></div>
-            <div class="col-md-6"><label class="fl">Category *</label><select class="fs form-select" id="gm_c">
+            <div class="col-md-6"><label class="fl">Category *</label><select class="fs form-select" id="gm_c" aria-label="Category *">
                 <option value="car">🚗 Private Car</option>
                 <option value="bike">🏍️ Motorcycle</option>
                 <option value="repair">🔧 Repair</option>

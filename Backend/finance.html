@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Finance</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -361,7 +349,7 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-6"><label class="fl">Type *</label><select class="fs form-select" id="fm_t">
+            <div class="col-6"><label class="fl">Type *</label><select class="fs form-select" id="fm_t" aria-label="Type *">
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
               </select></div>
@@ -369,7 +357,7 @@
                 id="fm_a" placeholder="0"></div>
             <div class="col-12"><label class="fl">Description *</label><input class="fi form-control" id="fm_d"
                 placeholder="Toyota Corolla payment..."></div>
-            <div class="col-6"><label class="fl">Category</label><select class="fs form-select" id="fm_c">
+            <div class="col-6"><label class="fl">Category</label><select class="fs form-select" id="fm_c" aria-label="Category">
                 <option value="order">Order Payment</option>
                 <option value="material">Materials</option>
                 <option value="wage">Wages</option>

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shadhin Motor Admin — Roles and permissions">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
+  <script src="assets/js/shared/theme-init.js"></script>
+  <title>Shadhin Motor — Roles & Permissions</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/css/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="assets/css/sweetalert2.min.css" rel="stylesheet">
+  <link href="assets/css/google-fonts.css" rel="stylesheet">
+  <link href="assets/css/shared/base.css" rel="stylesheet">
+  <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
+  <link href="assets/css/shared/module-pages.css" rel="stylesheet">
+</head>
+
+<body class="preloading" data-page="roles">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="pre" role="status" aria-label="Loading page">
+    <div class="pre-inner" aria-hidden="true">
+      <div class="pre-spinner-wrap">
+        <div class="pre-spinner-outer"></div>
+        <div class="pre-spinner-inner"></div>
+      </div>
+    </div>
+  </div>
+  <div id="sb-overlay" data-action="sidebar-close" hidden aria-hidden="true"></div>
+
+  <div id="app">
+    <aside id="sb" aria-label="Admin sidebar">
+      <a href="dashboard.html" class="sb-brand">
+        <img class="sb-brand-logo" src="assets/images/brand-logo.svg" alt="" width="36" height="36" decoding="async">
+        <div>
+          <div class="sb-brand-name">Shadhin <em>Motor</em></div>
+          <div class="sb-brand-sub">Admin Panel</div>
+        </div>
+      </a>
+      <nav class="sb-nav" aria-label="Admin navigation">
+        <div class="sb-sec">Main</div>
+        <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i
+              class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
+        <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i
+              class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n">12</span></a>
+        <div class="sb-sec">Content</div>
+        <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i
+              class="bi bi-palette2"></i></span>Samples</a>
+        <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i
+              class="bi bi-images"></i></span>Gallery</a>
+        <div class="sb-sec">Management</div>
+        <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i
+              class="bi bi-people-fill"></i></span>Employees</a>
+        <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i
+              class="bi bi-wallet2"></i></span>Wages</a>
+        <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i
+              class="bi bi-graph-up-arrow"></i></span>Finance</a>
+        <div class="sb-sec">Tools</div>
+        <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i
+              class="bi bi-table"></i></span>Data Table</a>
+        <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i
+              class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
+        <div class="sb-div"></div>
+        <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i
+              class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+      </nav>
+      <div class="sb-foot">
+        <a class="sb-settings" data-nav="settings" href="settings.html" aria-label="Open dashboard settings">
+          <span class="sb-settings-ic"><i class="bi bi-gear-fill"></i></span>
+          <span class="sb-settings-copy">
+            <span class="sb-settings-title">Settings</span>
+            <span class="sb-settings-sub">Dashboard preferences</span>
+          </span>
+          <i class="bi bi-chevron-right sb-settings-go"></i>
+        </a>
+      </div>
+    </aside>
+
+    <main id="main" tabindex="-1">
+      <div id="tb">
+        <div style="display:flex;align-items:center;gap:14px">
+          <button class="ic-btn" id="sbToggle" type="button" data-action="sidebar-toggle" title="Toggle Sidebar"
+            aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list"
+              style="font-size:19px"></i></button>
+          <div class="tb-bc">
+            <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin
+              Motor</span>
+            <span class="sep d-none d-md-inline">›</span>
+            <span class="cur" id="bcCur">Roles & Permissions</span>
+          </div>
+        </div>
+        <div class="tb-r">
+          <a href="../Frontend/index.html" target="_blank" rel="noopener"
+            class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+          <button class="ic-btn" id="themeBtn" type="button" data-action="theme-toggle" title="Toggle theme"
+            aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
+          <div style="position:relative">
+            <button class="ic-btn" id="notifBtn" type="button" data-action="notif-toggle"
+              aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
+              <i class="bi bi-bell-fill"></i><span class="ic-dot" id="nDot" hidden></span>
+            </button>
+            <div class="float-panel np" id="notifPanel" aria-label="Notifications">
+              <div class="np-head"><span class="np-title"><i class="bi bi-bell-fill me-2"
+                    style="color:var(--am)"></i>Notifications</span><button class="np-mark" type="button"
+                  data-action="notif-read-all">Mark all read</button></div>
+              <div class="n-list" id="nList">
+                <div class="n-item unread">
+                  <div class="n-ic" style="background:var(--green-bg);color:var(--green)"><i
+                      class="bi bi-shield-check"></i></div>
+                  <div style="flex:1;min-width:0">
+                    <div class="n-t">Permission system ready</div>
+                    <div class="n-m">Static role preview controls sidebar visibility before Laravel policies.</div>
+                    <div class="n-time">Now</div>
+                  </div><span class="n-dot"></span>
+                </div>
+              </div>
+              <div class="np-foot"><button type="button" data-action="noop">See all notifications</button></div>
+            </div>
+          </div>
+          <div style="position:relative">
+            <button class="tb-user" id="userBtn" type="button" data-action="user-toggle" aria-label="Open admin menu"
+              aria-expanded="false" aria-controls="userDrop">
+              <div class="tb-ava has-img" id="tbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="28"
+                  height="28" loading="lazy" decoding="async"></div>
+              <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
+              <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
+            </button>
+            <div class="float-panel udrop" id="userDrop" aria-label="Admin menu">
+              <div class="ud-head">
+                <div class="ud-name" id="udName">Admin</div>
+                <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
+              </div>
+              <button class="dd-row" type="button" data-modal-open="moProfile"><i class="bi bi-person-circle"></i> My
+                Profile</button>
+              <a class="dd-row" href="roles.html"><i class="bi bi-shield-lock"></i> Role: <span
+                  data-current-role-label>Super Admin</span></a>
+              <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+              <div class="dd-sep"></div>
+              <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-shell" id="page-roles">
+        <header class="ph">
+          <div>
+            <h1>Roles & Permissions</h1>
+            <p>Create roles and assign module access. Super Admin always keeps full access.</p>
+          </div>
+          <button class="btn2 b2-gd" type="button" data-role-modal data-role-modal-title="Create Role"><i
+              class="bi bi-plus-lg"></i> Create Role</button>
+        </header>
+
+        <div class="admin-module-grid">
+          <div class="admin-module-card">
+            <span class="admin-module-icon"><i class="bi bi-shield-lock-fill"></i></span>
+            <div><strong>8 Roles</strong><small>Super Admin, Admin, Sub Admin and more</small></div>
+          </div>
+          <div class="admin-module-card">
+            <span class="admin-module-icon"><i class="bi bi-grid-3x3-gap-fill"></i></span>
+            <div><strong>15 Modules</strong><small>Sidebar and policy keys</small></div>
+          </div>
+          <div class="admin-module-card">
+            <span class="admin-module-icon"><i class="bi bi-person-check-fill"></i></span>
+            <div><strong>Role Preview</strong><small>Currently <span data-current-role-label>Super Admin</span></small>
+            </div>
+          </div>
+          <div class="admin-module-card">
+            <span class="admin-module-icon"><i class="bi bi-check2-square"></i></span>
+            <div><strong><span id="permissionCount">0</span> Selected</strong><small>In create/edit role modal</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-page-grid">
+          <section class="admin-list-card">
+            <div class="admin-list-head">
+              <div>
+                <h2>Permission Matrix</h2>
+                <p>Use these keys later in Laravel gates, policies, middleware and sidebar Blade partials.</p>
+              </div>
+            </div>
+            <div class="admin-list-body">
+              <table class="permission-matrix">
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Visible Modules</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>superadmin</strong></td>
+                    <td><span class="permission-pill">*</span></td>
+                    <td>Full access. Can create roles and assign permissions.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>admin</strong></td>
+                    <td>Orders, Samples, Gallery, Reviews, Frontend Content, Media, Employees</td>
+                    <td>Good for content and order operators.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>subadmin</strong></td>
+                    <td>Orders, Samples, Gallery, Reviews, Media, Employees</td>
+                    <td>Can operate core shop modules without finance or role control.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>manager</strong></td>
+                    <td>Orders, Samples, Gallery, Reviews, Frontend Content, Employees, Wages, Finance</td>
+                    <td>Operational lead with team, wage and finance visibility.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>employee</strong></td>
+                    <td>Employees, Wages</td>
+                    <td>Internal staff view with limited sidebar.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>finance</strong></td>
+                    <td>Orders, Finance</td>
+                    <td>Payment and ledger access only.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>editor</strong></td>
+                    <td>Samples, Gallery, Reviews, Frontend Content, Media</td>
+                    <td>Public website management without finance/users.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>user</strong></td>
+                    <td>Orders</td>
+                    <td>Customer or low-access dashboard role for basic order visibility.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <aside class="admin-list-card">
+            <div class="admin-list-head">
+              <div>
+                <h3>Preview Role</h3>
+                <p>Static only. Changes sidebar visibility using localStorage.</p>
+              </div>
+            </div>
+            <div class="admin-list-body">
+              <label class="fl" for="rolePreviewTarget">Choose role</label>
+              <select class="fs form-select" id="rolePreviewTarget" aria-label="Preview role">
+                <option value="superadmin">Super Admin</option>
+                <option value="admin">Admin</option>
+                <option value="subadmin">Sub Admin</option>
+                <option value="manager">Manager</option>
+                <option value="employee">Employee</option>
+                <option value="finance">Finance</option>
+                <option value="editor">Content Editor</option>
+                <option value="user">User</option>
+              </select>
+              <div class="role-hint mt-3">
+                In Laravel, store roles and permissions in database tables, then use middleware to block routes and a
+                Blade sidebar partial to show only allowed modules.
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <footer class="app-foot">
+        <div class="app-foot-inner">
+          <span>© 2026 Shadhin Motor Admin Dashboard</span>
+          <span>RBAC structure prepared for Laravel middleware and policies</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal fade" id="moRole" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Create Role</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3 mb-3">
+            <div class="col-md-4"><label class="fl">Role Name</label><input class="fi form-control"
+                placeholder="Manager"></div>
+            <div class="col-md-4"><label class="fl">Role Key</label><input class="fi form-control"
+                placeholder="manager"></div>
+            <div class="col-md-4"><label class="fl">Status</label><select class="fs form-select" aria-label="Status">
+                <option>Active</option>
+                <option>Inactive</option>
+              </select></div>
+          </div>
+          <div class="permission-grid">
+            <div class="permission-card"><label><input type="checkbox" data-role-permission data-default-checked="true"
+                  checked><span><strong>Dashboard</strong><small>Overview, summaries, own landing
+                    page</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Orders</strong><small>Order
+                    queue and customer booking data</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Samples</strong><small>Rexine
+                    and leather sample catalog</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Gallery</strong><small>Public
+                    design gallery records</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Reviews</strong><small>Approve
+                    customer reviews and media</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Frontend
+                    Content</strong><small>Homepage sections, SEO, FAQ, areas</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Media
+                    Library</strong><small>Reusable image/video assets</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Employees</strong><small>Staff
+                    profiles and team data</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Wages</strong><small>Attendance
+                    and wage logs</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Finance</strong><small>Income,
+                    expenses and payment records</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Users</strong><small>Create
+                    users and assign roles</small></span></label></div>
+            <div class="permission-card"><label><input type="checkbox" data-role-permission><span><strong>Roles</strong><small>Create
+                    roles and permissions</small></span></label></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn2 b2-gd" type="button" data-action="role-save"><i class="bi bi-save-fill"></i> Save
+            Role</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="moProfile" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">My Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="pro-wrap">
+            <div class="ava lg has-img mx-auto mb-3" id="proAv"><img src="assets/images/avatars/admin-avatar.jpeg"
+                alt="" width="68" height="68" loading="lazy" decoding="async"></div>
+            <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
+            <div style="font-size:11px;color:var(--txt3);margin-top:3px"><span data-current-role-label>Super
+                Admin</span> · Shadhin Motor</div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
+            </div>
+            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email"
+                id="pro_e"></div>
+            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+                placeholder="Shop owner & manager"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn2 b2-gd" type="button" data-action="profile-save"><i class="bi bi-save-fill"></i>
+            Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/sweetalert2.all.min.js"></script>
+  <script src="assets/js/shared/core.js"></script>
+  <script src="assets/js/shared/admin-shell.js"></script>
+  <script type="module" src="assets/js/admin-modules/page.js"></script>
+</body>
+
+</html>

@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Dashboard</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 

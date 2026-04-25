@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Form Builder</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -269,7 +257,7 @@
                     <div class="row g-3">
                       <div class="col-md-4">
                         <label class="fl">Type *</label>
-                        <select class="fs form-select" id="f_vtype" required>
+                        <select class="fs form-select" id="f_vtype" required aria-label="Type *">
                           <option value="">Select...</option>
                           <option>Private Car</option>
                           <option>SUV / Jeep</option>
@@ -280,7 +268,7 @@
                       </div>
                       <div class="col-md-4">
                         <label class="fl">Brand *</label>
-                        <select class="fs form-select" id="f_brand" required>
+                        <select class="fs form-select" id="f_brand" required aria-label="Brand *">
                           <option value="">Select...</option>
                           <option>Toyota</option>
                           <option>Honda</option>
@@ -320,7 +308,7 @@
                     <div class="row g-3">
                       <div class="col-md-6">
                         <label class="fl">Service *</label>
-                        <select class="fs form-select" id="f_service" required>
+                        <select class="fs form-select" id="f_service" required aria-label="Service *">
                           <option value="">Select...</option>
                           <option>New Seat Cover</option>
                           <option>Repair</option>
@@ -331,7 +319,7 @@
                       </div>
                       <div class="col-md-6">
                         <label class="fl">Material *</label>
-                        <select class="fs form-select" id="f_material" required>
+                        <select class="fs form-select" id="f_material" required aria-label="Material *">
                           <option value="">Select...</option>
                           <option>Rexine</option>
                           <option>Leather</option>
@@ -341,7 +329,7 @@
                       </div>
                       <div class="col-12">
                         <label class="fl">Sample ID (if chosen)</label>
-                        <select class="fs form-select" id="f_sample">
+                        <select class="fs form-select" id="f_sample" aria-label="Sample ID (if chosen)">
                           <option value="">No sample selected</option>
                           <option value="RX-001">RX-001 — Diamond Black</option>
                           <option value="LT-002">LT-002 — Cocoa Premium</option>
@@ -417,7 +405,7 @@
                       </div>
                       <div class="col-md-6">
                         <label class="fl">Payment Method</label>
-                        <select class="fs form-select" id="f_pmethod">
+                        <select class="fs form-select" id="f_pmethod" aria-label="Payment Method">
                           <option>Cash</option>
                           <option>bKash</option>
                           <option>Nagad</option>

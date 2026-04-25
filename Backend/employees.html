@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Employees</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -330,7 +318,7 @@
             <div class="col-md-6"><label class="fl">Name *</label><input class="fi form-control" id="em_n"></div>
             <div class="col-md-6"><label class="fl">Daily Wage (৳) *</label><input type="number" class="fi form-control"
                 id="em_w" placeholder="600"></div>
-            <div class="col-md-6"><label class="fl">Role *</label><select class="fs form-select" id="em_r">
+            <div class="col-md-6"><label class="fl">Role *</label><select class="fs form-select" id="em_r" aria-label="Role *">
                 <option value="">Select...</option>
                 <option>Rexine Cutting</option>
                 <option>Stitching</option>
@@ -340,7 +328,7 @@
             <div class="col-md-6"><label class="fl">Phone</label><input class="fi form-control" id="em_p"></div>
             <div class="col-md-6"><label class="fl">Join Date</label><input type="date" class="fi form-control"
                 id="em_j"></div>
-            <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="em_a">
+            <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="em_a" aria-label="Status">
                 <option value="1">Active</option>
                 <option value="0">Inactive</option>
               </select></div>

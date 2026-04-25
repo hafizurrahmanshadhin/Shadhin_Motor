@@ -1,0 +1,380 @@
+/* Shared static module layouts for Laravel-ready admin pages. */
+.admin-module-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-module-card,
+.admin-list-card,
+.permission-card,
+.content-section-card,
+.review-card,
+.media-card {
+  min-width: 0;
+  border: 1px solid var(--bdr);
+  border-radius: var(--r2);
+  background: var(--grd-card);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04);
+}
+
+[data-theme="light"] .admin-module-card,
+[data-theme="light"] .admin-list-card,
+[data-theme="light"] .permission-card,
+[data-theme="light"] .content-section-card,
+[data-theme="light"] .review-card,
+[data-theme="light"] .media-card {
+  background: #fff;
+}
+
+.admin-module-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+
+.admin-module-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  place-items: center;
+  border: 1px solid var(--am-ring);
+  border-radius: 12px;
+  background: var(--am-glow);
+  color: var(--am);
+  font-size: 17px;
+}
+
+.admin-module-card strong,
+.admin-module-card small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-module-card strong {
+  color: var(--txt);
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.admin-module-card small {
+  margin-top: 3px;
+  color: var(--txt3);
+  font-size: 11px;
+}
+
+.admin-page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, .75fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.admin-list-card {
+  overflow: hidden;
+}
+
+.admin-list-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--bdr2);
+}
+
+.admin-list-head h2,
+.admin-list-head h3 {
+  margin: 0;
+  color: var(--txt);
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.admin-list-head p {
+  margin: 4px 0 0;
+  color: var(--txt3);
+  font-size: 12px;
+}
+
+.admin-list-body {
+  padding: 16px;
+}
+
+.module-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.module-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.module-filters .on {
+  border-color: var(--am-ring);
+  background: var(--am-glow);
+  color: var(--am);
+}
+
+.module-search {
+  width: min(100%, 300px);
+}
+
+.module-empty {
+  padding: 36px 18px;
+  color: var(--txt3);
+  text-align: center;
+}
+
+.module-empty[hidden],
+.review-card[hidden],
+.content-section-card[hidden],
+.media-card[hidden],
+tr[hidden] {
+  display: none !important;
+}
+
+.status-pill,
+.permission-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 22px;
+  padding: 3px 8px;
+  border: 1px solid var(--bdr);
+  border-radius: 999px;
+  color: var(--txt2);
+  font-size: 11px;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.status-pill.pending {
+  border-color: var(--orn-b);
+  background: var(--orn-bg);
+  color: var(--orn);
+}
+
+.status-pill.approved,
+.status-pill.active {
+  border-color: var(--green-b);
+  background: var(--green-bg);
+  color: var(--green);
+}
+
+.status-pill.rejected,
+.status-pill.inactive {
+  border-color: var(--red-b);
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.permission-pill {
+  border-color: var(--blue-b);
+  background: var(--blue-bg);
+  color: var(--blue);
+}
+
+.permission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.permission-card {
+  padding: 13px;
+}
+
+.permission-card label,
+.permission-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.permission-card input,
+.permission-check input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--am);
+}
+
+.permission-card strong,
+.permission-check strong {
+  display: block;
+  color: var(--txt);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.permission-card small,
+.permission-check small {
+  display: block;
+  margin-top: 2px;
+  color: var(--txt3);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.permission-matrix {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--bdr);
+  border-radius: var(--r2);
+}
+
+.permission-matrix th,
+.permission-matrix td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--bdr2);
+  color: var(--txt2);
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.permission-matrix th {
+  background: var(--card2);
+  color: var(--txt);
+  font-weight: 850;
+}
+
+.permission-matrix tr:last-child td {
+  border-bottom: 0;
+}
+
+.content-section-list,
+.review-list,
+.media-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.content-section-card,
+.review-card {
+  padding: 14px;
+}
+
+.content-section-top,
+.review-card-top,
+.media-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.content-section-title,
+.review-name,
+.media-title {
+  margin: 0;
+  color: var(--txt);
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.content-section-meta,
+.review-meta,
+.media-meta {
+  margin: 4px 0 0;
+  color: var(--txt3);
+  font-size: 11px;
+}
+
+.content-section-copy,
+.review-copy {
+  margin: 11px 0 0;
+  color: var(--txt2);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.content-action-row,
+.review-action-row,
+.media-action-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+
+.content-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.content-panel[hidden] {
+  display: none !important;
+}
+
+.media-grid {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.media-card {
+  overflow: hidden;
+}
+
+.media-thumb {
+  display: grid;
+  min-height: 128px;
+  place-items: center;
+  background: var(--card2);
+  color: var(--txt3);
+  font-size: 28px;
+}
+
+.media-card-body {
+  padding: 13px;
+}
+
+.role-hint {
+  padding: 13px;
+  border: 1px dashed var(--am-ring);
+  border-radius: var(--r2);
+  background: var(--am-glow);
+  color: var(--txt2);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1180px) {
+  .admin-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .permission-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .admin-page-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-module-grid,
+  .permission-grid,
+  .media-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

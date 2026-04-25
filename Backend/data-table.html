@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Data Table</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -252,7 +240,7 @@
               <div class="atbl-filterbar" aria-label="Table filters">
                 <div class="atbl-filter">
                   <label for="toolFilterStatus">Status</label>
-                  <select class="fs" id="toolFilterStatus" data-yajra-filter="status">
+                  <select class="fs" id="toolFilterStatus" data-yajra-filter="status" aria-label="Status">
                     <option value="all">All Status</option>
                     <option value="Completed">Completed</option>
                     <option value="In Progress">In Progress</option>
@@ -261,7 +249,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterService">Service</label>
-                  <select class="fs" id="toolFilterService" data-yajra-filter="service">
+                  <select class="fs" id="toolFilterService" data-yajra-filter="service" aria-label="Service">
                     <option value="all">All Services</option>
                     <option value="New Seat Cover">New Seat Cover</option>
                     <option value="Custom Design">Custom Design</option>
@@ -271,7 +259,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterVehicle">Vehicle</label>
-                  <select class="fs" id="toolFilterVehicle" data-yajra-filter="vehicle">
+                  <select class="fs" id="toolFilterVehicle" data-yajra-filter="vehicle" aria-label="Vehicle">
                     <option value="all">All Vehicles</option>
                     <option value="Private Car">Private Car</option>
                     <option value="SUV">SUV</option>
@@ -281,7 +269,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterSample">Sample</label>
-                  <select class="fs" id="toolFilterSample" data-yajra-filter="sample">
+                  <select class="fs" id="toolFilterSample" data-yajra-filter="sample" aria-label="Sample">
                     <option value="all">All Samples</option>
                     <option value="rexine">Rexine RX</option>
                     <option value="leather">Leather LT</option>
@@ -290,7 +278,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterPayment">Payment</label>
-                  <select class="fs" id="toolFilterPayment" data-yajra-filter="payment">
+                  <select class="fs" id="toolFilterPayment" data-yajra-filter="payment" aria-label="Payment">
                     <option value="all">All Payments</option>
                     <option value="paid">Fully Paid</option>
                     <option value="due">Advance Due</option>
@@ -763,7 +751,7 @@
                   placeholder="Service type" required></div>
               <div class="col-md-6"><label class="fl">Sample</label><input class="fi form-control" id="tr_sample"
                   placeholder="Sample code"></div>
-              <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="tr_status">
+              <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="tr_status" aria-label="Status">
                   <option>Pending</option>
                   <option>In Progress</option>
                   <option>Completed</option>

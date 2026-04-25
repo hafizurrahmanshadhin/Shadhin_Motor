@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Settings</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -282,7 +270,7 @@
                       value="Admin Panel"></div>
                   <div class="col-md-6"><label class="fl">Browser Title Prefix</label><input class="fi" id="titlePrefix"
                       value="Shadhin Motor"></div>
-                  <div class="col-md-6"><label class="fl">Default Theme</label><select class="fs" id="defaultTheme">
+                  <div class="col-md-6"><label class="fl">Default Theme</label><select class="fs" id="defaultTheme" aria-label="Default Theme">
                       <option>System</option>
                       <option selected>Dark</option>
                       <option>Light</option>
@@ -296,19 +284,19 @@
                 <div class="row g-3">
                   <div class="col-md-6"><label class="fl">Dashboard Heading</label><input class="fi" id="dashTitle"
                       value="Dashboard"></div>
-                  <div class="col-md-6"><label class="fl">Greeting Mode</label><select class="fs" id="greetingMode">
+                  <div class="col-md-6"><label class="fl">Greeting Mode</label><select class="fs" id="greetingMode" aria-label="Greeting Mode">
                       <option selected>Time based</option>
                       <option>Static</option>
                       <option>Hidden</option>
                     </select></div>
                   <div class="col-md-4"><label class="fl">Currency</label><input class="fi" id="currencySymbol"
                       value="৳"></div>
-                  <div class="col-md-4"><label class="fl">Date Format</label><select class="fs" id="dateFormat">
+                  <div class="col-md-4"><label class="fl">Date Format</label><select class="fs" id="dateFormat" aria-label="Date Format">
                       <option selected>Friday, April 24, 2026</option>
                       <option>24 Apr 2026</option>
                       <option>2026-04-24</option>
                     </select></div>
-                  <div class="col-md-4"><label class="fl">Rows Per Page</label><select class="fs" id="rowsPerPage">
+                  <div class="col-md-4"><label class="fl">Rows Per Page</label><select class="fs" id="rowsPerPage" aria-label="Rows Per Page">
                       <option>10</option>
                       <option selected>12</option>
                       <option>25</option>
@@ -358,7 +346,7 @@
                 <div><label class="fl">Meta Description</label><textarea class="fta" id="metaDescription"
                     rows="3">Shadhin Motor Admin Dashboard - Seat Cover Shop Management</textarea></div>
                 <div class="row g-3">
-                  <div class="col-6"><label class="fl">Robots</label><select class="fs" id="robotsMeta">
+                  <div class="col-6"><label class="fl">Robots</label><select class="fs" id="robotsMeta" aria-label="Robots">
                       <option selected>noindex, nofollow</option>
                       <option>index, follow</option>
                     </select></div>

@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Orders</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -372,7 +360,7 @@
                 placeholder="Full name"></div>
             <div class="col-md-6"><label class="fl">Phone *</label><input class="fi form-control" id="om_ph"
                 placeholder="01XXX-XXXXXX"></div>
-            <div class="col-md-6"><label class="fl">Vehicle Type *</label><select class="fs form-select" id="om_v">
+            <div class="col-md-6"><label class="fl">Vehicle Type *</label><select class="fs form-select" id="om_v" aria-label="Vehicle Type *">
                 <option value="">Select...</option>
                 <option>Private Car</option>
                 <option>SUV / Jeep</option>
@@ -381,19 +369,19 @@
               </select></div>
             <div class="col-md-6"><label class="fl">Car Model</label><input class="fi form-control" id="om_m"
                 placeholder="Toyota Corolla..."></div>
-            <div class="col-md-6"><label class="fl">Service *</label><select class="fs form-select" id="om_sv">
+            <div class="col-md-6"><label class="fl">Service *</label><select class="fs form-select" id="om_sv" aria-label="Service *">
                 <option value="">Select...</option>
                 <option>New Seat Cover</option>
                 <option>Repair</option>
                 <option>Custom Design</option>
                 <option>Fitting</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Material</label><select class="fs form-select" id="om_mat">
+            <div class="col-md-6"><label class="fl">Material</label><select class="fs form-select" id="om_mat" aria-label="Material">
                 <option value="">Select...</option>
                 <option>Rexine</option>
                 <option>Leather</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Sample ID</label><select class="fs form-select" id="om_s">
+            <div class="col-md-6"><label class="fl">Sample ID</label><select class="fs form-select" id="om_s" aria-label="Sample ID">
                 <option value="">No sample</option>
                 <option>RX-001</option>
                 <option>RX-002</option>
@@ -403,7 +391,7 @@
                 <option>LT-003</option>
                 <option>LT-004</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="om_st">
+            <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="om_st" aria-label="Status">
                 <option value="pending">Pending</option>
                 <option value="progress">In Progress</option>
                 <option value="done">Completed</option>

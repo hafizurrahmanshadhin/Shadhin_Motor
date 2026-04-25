@@ -8,19 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#0a0f1e" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#e8ecf2" media="(prefers-color-scheme: light)">
-  <script>
-    (() => {
-      const root = document.documentElement;
-      const fallback = root.getAttribute("data-theme") || "dark";
-      let theme = fallback;
-      try {
-        const saved = window.localStorage.getItem("sm_theme");
-        if (saved === "light" || saved === "dark") theme = saved;
-      } catch { }
-      root.setAttribute("data-theme", theme);
-      root.setAttribute("data-bs-theme", theme);
-    })();
-  </script>
+  <script src="assets/js/shared/theme-init.js"></script>
   <title>Shadhin Motor — Samples</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 
@@ -333,7 +321,7 @@
           <div class="row g-3">
             <div class="col-md-6"><label class="fl">Sample ID *</label><input class="fi form-control" id="sm_id"
                 placeholder="RX-001"></div>
-            <div class="col-md-6"><label class="fl">Material *</label><select class="fs form-select" id="sm_mat">
+            <div class="col-md-6"><label class="fl">Material *</label><select class="fs form-select" id="sm_mat" aria-label="Material *">
                 <option value="rexine">Rexine</option>
                 <option value="leather">Leather</option>
               </select></div>
@@ -348,7 +336,7 @@
                 <input type="color" id="sm_pick" value="#1a1a1a">
               </div>
             </div>
-            <div class="col-md-6"><label class="fl">Availability</label><select class="fs form-select" id="sm_av">
+            <div class="col-md-6"><label class="fl">Availability</label><select class="fs form-select" id="sm_av" aria-label="Availability">
                 <option value="1">Available ✅</option>
                 <option value="0">Out of Stock ❌</option>
               </select></div>
