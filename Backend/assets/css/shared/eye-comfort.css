@@ -235,6 +235,18 @@ body.eye-comfort-mode .sb-brand-sub {
   font-feature-settings: "kern"1, "liga"1;
 }
 
+body.eye-comfort-mode .sb-brand-sub {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-feature-settings: "kern"1, "liga"1;
+  font-family: var(--font-nav);
+  font-size: 7.5px;
+  font-weight: 600;
+  letter-spacing: 3.8px;
+  line-height: 1.2;
+  margin-top: -2px;
+}
+
 /* Sidebar footer enhanced clarity */
 body.eye-comfort-mode .sb-foot,
 body.eye-comfort-mode .sb-settings {
