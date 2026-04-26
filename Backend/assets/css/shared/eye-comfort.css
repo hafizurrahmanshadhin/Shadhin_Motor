@@ -1,0 +1,494 @@
+/* ── EYE COMFORT TOGGLE BUTTON ── */
+.eye-comfort-btn {
+  min-width: 36px;
+  min-height: 36px;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r);
+  background: var(--hover);
+  border: 1px solid var(--bdr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--txt2);
+  transition: all var(--tr);
+  position: relative;
+  flex-shrink: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.eye-comfort-btn:hover {
+  background: var(--am-glow);
+  border-color: var(--am-ring);
+  color: var(--am);
+  transform: translateY(-1px);
+}
+
+.eye-comfort-btn.active {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #059669;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, .2);
+}
+
+.eye-comfort-btn.active:hover {
+  background: linear-gradient(135deg, #059669, #047857);
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* Eye comfort icon animation */
+.eye-comfort-btn i {
+  transition: transform .3s ease;
+}
+
+.eye-comfort-btn.active i {
+  animation: eyePulse 2s ease-in-out infinite;
+}
+
+@keyframes eyePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   EYE COMFORT MODE - ACTIVE STATE
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* Enhanced text rendering when eye comfort is active */
+body.eye-comfort-mode {
+  /* Ultra-enhanced font rendering */
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern"1, "liga"1, "calt"1, "ss01"1;
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  font-synthesis: none;
+  font-variant-ligatures: common-ligatures;
+
+  /* Enhanced letter spacing for clarity */
+  letter-spacing: 0.003em;
+}
+
+/* Crystal clear text in eye comfort mode */
+body.eye-comfort-mode * {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* ── DARK MODE EYE COMFORT ── */
+[data-theme="dark"].eye-comfort-mode {
+  /* Warmer, softer background */
+  --bg: #12161f;
+  --bg2: #181c26;
+  --bg3: #1e222d;
+  --card: #242831;
+  --card2: #2a2e3a;
+
+  /* Enhanced text clarity */
+  --txt: #f0f4f8;
+  --txt2: #b8c5d6;
+  --txt3: #8a9bb0;
+
+  /* Softer borders */
+  --bdr: rgba(220, 230, 245, .14);
+  --bdr2: rgba(220, 230, 245, .08);
+
+  /* Reduced blue light */
+  --blue: #5eaaf7;
+  --cyan: #4bc5cf;
+}
+
+/* ── LIGHT MODE EYE COMFORT ── */
+[data-theme="light"].eye-comfort-mode {
+  /* Softer cream background */
+  --bg: #f8fafb;
+  --bg2: #ffffff;
+  --bg3: #f5f7f9;
+  --card: #ffffff;
+  --card2: #fafbfc;
+
+  /* Enhanced text clarity */
+  --txt: #0a0e14;
+  --txt2: #1f2937;
+  --txt3: #4b5563;
+
+  /* Softer borders */
+  --bdr: rgba(15, 23, 42, .10);
+  --bdr2: rgba(15, 23, 42, .05);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   ENHANCED CLARITY - TEXT, FONTS, ICONS, LOGOS
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── HEADINGS - Crystal Clear ── */
+body.eye-comfort-mode h1,
+body.eye-comfort-mode h2,
+body.eye-comfort-mode h3,
+body.eye-comfort-mode h4,
+body.eye-comfort-mode h5,
+body.eye-comfort-mode h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-feature-settings: "kern"1, "liga"1;
+}
+
+body.eye-comfort-mode .ph h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+/* ── BODY TEXT - Enhanced Readability ── */
+body.eye-comfort-mode p,
+body.eye-comfort-mode span,
+body.eye-comfort-mode div {
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+}
+
+/* ── NAVIGATION - Crystal Clear ── */
+body.eye-comfort-mode .nav-row {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+body.eye-comfort-mode .nav-row.on {
+  font-weight: 700;
+}
+
+body.eye-comfort-mode .sb-brand-name {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-shadow: 0 0 1px rgba(245, 158, 11, .1);
+}
+
+body.eye-comfort-mode .sb-sec {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── ICONS - Enhanced Clarity ── */
+body.eye-comfort-mode i,
+body.eye-comfort-mode .bi {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Icon size adjustments for clarity */
+body.eye-comfort-mode .nav-row .ic {
+  font-size: 16px;
+}
+
+body.eye-comfort-mode .ic-btn i {
+  font-size: 16px;
+}
+
+/* ── LOGO - Crystal Clear ── */
+body.eye-comfort-mode .sb-brand-logo,
+body.eye-comfort-mode .sb-brand img,
+body.eye-comfort-mode .sb-brand::before {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sidebar brand enhanced clarity */
+body.eye-comfort-mode .sb-brand {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+body.eye-comfort-mode .sb-brand-name,
+body.eye-comfort-mode .sb-brand-sub {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-feature-settings: "kern"1, "liga"1;
+}
+
+/* Sidebar footer enhanced clarity */
+body.eye-comfort-mode .sb-foot,
+body.eye-comfort-mode .sb-settings {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+body.eye-comfort-mode .sb-settings-title,
+body.eye-comfort-mode .sb-settings-sub {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+/* ── TABLES - Enhanced Readability ── */
+body.eye-comfort-mode .tbl thead th {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+body.eye-comfort-mode .tbl tbody td {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+}
+
+/* ── BUTTONS - Crystal Clear ── */
+body.eye-comfort-mode .btn2 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* ── FORMS - Enhanced Clarity ── */
+body.eye-comfort-mode .fi,
+body.eye-comfort-mode .fs,
+body.eye-comfort-mode .fta {
+  font-size: 14.5px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.005em !important;
+}
+
+body.eye-comfort-mode .fl {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+/* ── STAT CARDS - Enhanced Numbers ── */
+body.eye-comfort-mode .sc-val {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+body.eye-comfort-mode .sc-lbl {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+
+/* ── BADGES & CHIPS - Clear Text ── */
+body.eye-comfort-mode .bdg,
+body.eye-comfort-mode .chip {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ── TOPBAR - Enhanced Clarity ── */
+body.eye-comfort-mode .tb-bc .cur {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+body.eye-comfort-mode .tb-uname {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.005em;
+}
+
+/* ── PANEL TITLES - Crystal Clear ── */
+body.eye-comfort-mode .panel-t {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+/* ── MODAL - Enhanced Readability ── */
+body.eye-comfort-mode .modal-title {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+body.eye-comfort-mode .modal-body {
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   ENHANCED CONTRAST IN EYE COMFORT MODE
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* Dark mode enhanced contrast */
+[data-theme="dark"].eye-comfort-mode .ph h1,
+[data-theme="dark"].eye-comfort-mode .sc-val,
+[data-theme="dark"].eye-comfort-mode .tb-bc .cur,
+[data-theme="dark"].eye-comfort-mode .nav-row.on,
+[data-theme="dark"].eye-comfort-mode .modal-title {
+  color: #f5f9fc;
+  text-shadow: 0 0 0.5px rgba(255, 255, 255, .1);
+}
+
+[data-theme="dark"].eye-comfort-mode .tbl tbody td,
+[data-theme="dark"].eye-comfort-mode .nav-row,
+[data-theme="dark"].eye-comfort-mode .dd-row {
+  color: #e8f0f8;
+}
+
+[data-theme="dark"].eye-comfort-mode .ph p,
+[data-theme="dark"].eye-comfort-mode .sc-sub,
+[data-theme="dark"].eye-comfort-mode .n-m {
+  color: #b8c5d6;
+}
+
+/* Light mode enhanced contrast */
+[data-theme="light"].eye-comfort-mode .ph h1,
+[data-theme="light"].eye-comfort-mode .sc-val,
+[data-theme="light"].eye-comfort-mode .tb-bc .cur,
+[data-theme="light"].eye-comfort-mode .modal-title {
+  color: #050810;
+  text-shadow: 0 0 0.5px rgba(0, 0, 0, .05);
+}
+
+[data-theme="light"].eye-comfort-mode .tbl tbody td,
+[data-theme="light"].eye-comfort-mode .nav-row,
+[data-theme="light"].eye-comfort-mode .dd-row {
+  color: #0f1419;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SMOOTH TRANSITIONS
+══════════════════════════════════════════════════════════════════════════════ */
+
+body {
+  transition:
+    background-color .4s ease,
+    color .4s ease,
+    letter-spacing .3s ease;
+}
+
+body * {
+  transition:
+    color .3s ease,
+    background-color .3s ease,
+    border-color .3s ease;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   EYE COMFORT INDICATOR
+══════════════════════════════════════════════════════════════════════════════ */
+
+/* Small indicator badge */
+body.eye-comfort-mode::after {
+  content: "Eye Comfort ON";
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, .3);
+  animation: slideInUp .4s ease, fadeOutAfter 3s ease 2s forwards;
+  pointer-events: none;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutAfter {
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* Hide indicator after 5 seconds */
+body.eye-comfort-mode.indicator-hidden::after {
+  display: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE ADJUSTMENTS
+══════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 991px) {
+  body.eye-comfort-mode .ph h1 {
+    font-size: 19px;
+  }
+
+  body.eye-comfort-mode .nav-row {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 575px) {
+  body.eye-comfort-mode .ph h1 {
+    font-size: 17px;
+  }
+
+  body.eye-comfort-mode .sc-val {
+    font-size: 22px;
+  }
+
+  body.eye-comfort-mode::after {
+    bottom: 10px;
+    right: 10px;
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PRINT OPTIMIZATION
+══════════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  .eye-comfort-btn {
+    display: none !important;
+  }
+
+  body.eye-comfort-mode::after {
+    display: none !important;
+  }
+}
