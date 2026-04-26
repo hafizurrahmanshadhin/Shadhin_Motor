@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
 <head>
@@ -45,60 +45,59 @@
       <nav class="sb-nav" aria-label="Admin navigation">
         <div class="sb-sec">Main</div>
         <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i
-              class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
+              class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>Dashboard</a>
         <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i
-              class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n">12</span></a>
+              class="bi bi-bag-check-fill" aria-hidden="true"></i></span>Orders<span class="nav-n">12</span></a>
         <div class="sb-sec">Content</div>
         <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i
-              class="bi bi-palette2"></i></span>Samples</a>
+              class="bi bi-palette2" aria-hidden="true"></i></span>Samples</a>
         <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i
-              class="bi bi-images"></i></span>Gallery</a>
+              class="bi bi-images" aria-hidden="true"></i></span>Gallery</a>
         <a class="nav-row" data-nav="reviews" href="reviews.html"><span class="ic"><i
-              class="bi bi-star-fill"></i></span>Reviews<span class="nav-n">9</span></a>
+              class="bi bi-star-fill" aria-hidden="true"></i></span>Reviews<span class="nav-n">9</span></a>
         <a class="nav-row" data-nav="frontend-content" href="frontend-content.html"><span class="ic"><i
-              class="bi bi-layout-text-window-reverse"></i></span>Frontend Content</a>
+              class="bi bi-layout-text-window-reverse" aria-hidden="true"></i></span>Frontend Content</a>
         <a class="nav-row" data-nav="media" href="media.html"><span class="ic"><i
-              class="bi bi-folder2-open"></i></span>Media Library</a>
+              class="bi bi-folder2-open" aria-hidden="true"></i></span>Media Library</a>
         <div class="sb-sec">Management</div>
         <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i
-              class="bi bi-people-fill"></i></span>Employees</a>
+              class="bi bi-people-fill" aria-hidden="true"></i></span>Employees</a>
         <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i
-              class="bi bi-wallet2"></i></span>Wages</a>
+              class="bi bi-wallet2" aria-hidden="true"></i></span>Wages</a>
         <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i
-              class="bi bi-graph-up-arrow"></i></span>Finance</a>
+              class="bi bi-graph-up-arrow" aria-hidden="true"></i></span>Finance</a>
         <a class="nav-row" data-nav="users" href="users.html"><span class="ic"><i
-              class="bi bi-person-gear"></i></span>Users</a>
+              class="bi bi-person-gear" aria-hidden="true"></i></span>Users</a>
         <a class="nav-row" data-nav="roles" href="roles.html"><span class="ic"><i
-              class="bi bi-shield-lock-fill"></i></span>Roles & Permissions</a>
+              class="bi bi-shield-lock-fill" aria-hidden="true"></i></span>Roles & Permissions</a>
         <div class="sb-sec">Tools</div>
         <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i
-              class="bi bi-table"></i></span>Data Table</a>
+              class="bi bi-table" aria-hidden="true"></i></span>Data Table</a>
         <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i
-              class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
+              class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>Form Builder</a>
         <div class="sb-div"></div>
         <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i
-              class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+              class="bi bi-box-arrow-up-right" aria-hidden="true"></i></span>View Website</a>
       </nav>
       <div class="sb-foot">
         <a class="sb-settings" data-nav="settings" href="settings.html" aria-label="Open dashboard settings">
-          <span class="sb-settings-ic"><i class="bi bi-gear-fill"></i></span>
+          <span class="sb-settings-ic"><i class="bi bi-gear-fill" aria-hidden="true"></i></span>
           <span class="sb-settings-copy">
             <span class="sb-settings-title">Settings</span>
             <span class="sb-settings-sub">Dashboard preferences</span>
           </span>
-          <i class="bi bi-chevron-right sb-settings-go"></i>
+          <i class="bi bi-chevron-right sb-settings-go" aria-hidden="true"></i>
         </a>
       </div>
     </aside>
 
     <main id="main" tabindex="-1">
-      <div id="tb">
-        <div style="display:flex;align-items:center;gap:14px">
+      <header id="tb" aria-label="Admin toolbar">
+        <div class="tb-left">
           <button class="ic-btn" id="sbToggle" type="button" data-shell-action="sidebar-toggle" title="Toggle Sidebar"
-            aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list"
-              style="font-size:19px"></i></button>
+            aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list tb-menu-icon" aria-hidden="true"></i></button>
           <div class="tb-bc">
-            <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin
+            <span class="r d-none d-md-inline"><i class="bi bi-house-fill tb-home-icon" aria-hidden="true"></i> Shadhin
               Motor</span>
             <span class="sep d-none d-md-inline">›</span>
             <span class="cur" id="bcCur">Users</span>
@@ -106,23 +105,22 @@
         </div>
         <div class="tb-r">
           <a href="../Frontend/index.html" target="_blank" rel="noopener"
-            class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+            class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2" aria-hidden="true"></i> Website</a>
           <button class="ic-btn" id="themeBtn" type="button" data-shell-action="theme-toggle" title="Toggle theme"
-            aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
-          <div style="position:relative">
+            aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc" aria-hidden="true"></i></button>
+          <div class="tb-popover-anchor">
             <button class="ic-btn" id="notifBtn" type="button" data-shell-action="notif-toggle"
               aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
-              <i class="bi bi-bell-fill"></i><span class="ic-dot" id="nDot" hidden></span>
+              <i class="bi bi-bell-fill" aria-hidden="true"></i><span class="ic-dot" id="nDot" hidden></span>
             </button>
-            <div class="float-panel np" id="notifPanel" aria-label="Notifications">
-              <div class="np-head"><span class="np-title"><i class="bi bi-bell-fill me-2"
-                    style="color:var(--am)"></i>Notifications</span><button class="np-mark" type="button"
+            <div class="float-panel np" id="notifPanel" role="region" aria-label="Notifications" aria-hidden="true">
+              <div class="np-head"><span class="np-title"><i class="bi bi-bell-fill me-2 tb-accent-icon" aria-hidden="true"></i>Notifications</span><button class="np-mark" type="button"
                   data-shell-action="notif-read-all">Mark all read</button></div>
               <div class="n-list" id="nList">
                 <div class="n-item unread">
-                  <div class="n-ic" style="background:var(--blue-bg);color:var(--blue)"><i
-                      class="bi bi-person-plus"></i></div>
-                  <div style="flex:1;min-width:0">
+                  <div class="n-ic n-ic-blue"><i
+                      class="bi bi-person-plus" aria-hidden="true"></i></div>
+                  <div class="n-content">
                     <div class="n-t">User module added</div>
                     <div class="n-m">Users can be assigned roles and statuses before Laravel auth is wired.</div>
                     <div class="n-time">Now</div>
@@ -132,51 +130,51 @@
               <div class="np-foot"><button type="button" data-shell-action="noop">See all notifications</button></div>
             </div>
           </div>
-          <div style="position:relative">
+          <div class="tb-popover-anchor">
             <button class="tb-user" id="userBtn" type="button" data-shell-action="user-toggle"
               aria-label="Open admin menu" aria-expanded="false" aria-controls="userDrop">
               <div class="tb-ava has-img" id="tbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="28"
                   height="28" loading="lazy" decoding="async"></div>
               <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
-              <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
+              <i class="bi bi-chevron-down tb-chev" id="uChev" aria-hidden="true"></i>
             </button>
-            <div class="float-panel udrop" id="userDrop" aria-label="Admin menu">
+            <div class="float-panel udrop" id="userDrop" role="region" aria-label="Admin menu" aria-hidden="true">
               <div class="ud-head">
                 <div class="ud-name" id="udName">Admin</div>
                 <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
               </div>
-              <button class="dd-row" type="button" data-shell-modal-open="moProfile"><i class="bi bi-person-circle"></i>
+              <button class="dd-row" type="button" data-shell-modal-open="moProfile"><i class="bi bi-person-circle" aria-hidden="true"></i>
                 My
                 Profile</button>
-              <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+              <a class="dd-row" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a>
               <div class="dd-sep"></div>
-              <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+              <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Logout</a>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      <div class="page-shell" id="page-users">
+      <section class="page-shell" id="page-users" aria-labelledby="page-users-title">
         <header class="ph">
           <div>
-            <h1>Users</h1>
+            <h1 id="page-users-title">Users</h1>
             <p>Create admin users, assign roles, and keep account status ready for Laravel auth.</p>
           </div>
           <button class="btn2 b2-gd" type="button" data-user-modal data-user-modal-title="Create User"><i
-              class="bi bi-person-plus-fill"></i> Add User</button>
+              class="bi bi-person-plus-fill" aria-hidden="true"></i> Add User</button>
         </header>
 
         <div class="admin-module-grid">
-          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-person-check"></i></span>
+          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-person-check" aria-hidden="true"></i></span>
             <div><strong>8 Active</strong><small>Can sign in after Laravel auth</small></div>
           </div>
-          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-shield-lock"></i></span>
+          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-shield-lock" aria-hidden="true"></i></span>
             <div><strong>8 Roles</strong><small>Assigned from role module</small></div>
           </div>
-          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-person-x"></i></span>
+          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-person-x" aria-hidden="true"></i></span>
             <div><strong>2 Suspended</strong><small>Blocked from dashboard</small></div>
           </div>
-          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-clock-history"></i></span>
+          <div class="admin-module-card"><span class="admin-module-icon"><i class="bi bi-clock-history" aria-hidden="true"></i></span>
             <div><strong>Login Audit</strong><small>Ready for future logs</small></div>
           </div>
         </div>
@@ -192,14 +190,15 @@
           <div class="admin-list-body">
             <div class="table-responsive">
               <table class="table align-middle mb-0">
+                <caption class="visually-hidden">User directory</caption>
                 <thead>
                   <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Last Active</th>
-                    <th class="text-end">Actions</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last Active</th>
+                    <th scope="col" class="text-end">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="usersTbody">
@@ -210,7 +209,7 @@
                     <td><span class="status-pill active">Active</span></td>
                     <td>Today</td>
                     <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-user-modal
-                        data-user-modal-title="Edit Super Admin"><i class="bi bi-pencil"></i> Edit</button></td>
+                        data-user-modal-title="Edit Super Admin"><i class="bi bi-pencil" aria-hidden="true"></i> Edit</button></td>
                   </tr>
                   <tr data-user-row>
                     <td><strong>Operations Manager</strong></td>
@@ -219,7 +218,7 @@
                     <td><span class="status-pill active">Active</span></td>
                     <td>1 hour ago</td>
                     <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-user-modal
-                        data-user-modal-title="Edit Manager"><i class="bi bi-pencil"></i> Edit</button></td>
+                        data-user-modal-title="Edit Manager"><i class="bi bi-pencil" aria-hidden="true"></i> Edit</button></td>
                   </tr>
                   <tr data-user-row>
                     <td><strong>Sub Admin</strong></td>
@@ -228,7 +227,7 @@
                     <td><span class="status-pill active">Active</span></td>
                     <td>Today</td>
                     <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-user-modal
-                        data-user-modal-title="Edit Sub Admin"><i class="bi bi-pencil"></i> Edit</button></td>
+                        data-user-modal-title="Edit Sub Admin"><i class="bi bi-pencil" aria-hidden="true"></i> Edit</button></td>
                   </tr>
                   <tr data-user-row>
                     <td><strong>Finance Officer</strong></td>
@@ -237,7 +236,7 @@
                     <td><span class="status-pill active">Active</span></td>
                     <td>Yesterday</td>
                     <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-user-modal
-                        data-user-modal-title="Edit Finance Officer"><i class="bi bi-pencil"></i> Edit</button></td>
+                        data-user-modal-title="Edit Finance Officer"><i class="bi bi-pencil" aria-hidden="true"></i> Edit</button></td>
                   </tr>
                   <tr data-user-row>
                     <td><strong>Content Editor</strong></td>
@@ -246,18 +245,18 @@
                     <td><span class="status-pill inactive">Suspended</span></td>
                     <td>Last week</td>
                     <td class="text-end"><button class="btn2 b2-out b2-sm" type="button" data-user-modal
-                        data-user-modal-title="Edit Content Editor"><i class="bi bi-pencil"></i> Edit</button></td>
+                        data-user-modal-title="Edit Content Editor"><i class="bi bi-pencil" aria-hidden="true"></i> Edit</button></td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <div class="module-empty" id="usersEmpty" hidden>
-              <i class="bi bi-search"></i>
+              <i class="bi bi-search" aria-hidden="true"></i>
               <p>No users match this search.</p>
             </div>
           </div>
         </section>
-      </div>
+      </section>
 
       <footer class="app-foot">
         <div class="app-foot-inner">
@@ -320,7 +319,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn2 b2-gd" type="button" data-action="user-save"><i class="bi bi-save-fill"></i> Save
+          <button class="btn2 b2-gd" type="button" data-action="user-save"><i class="bi bi-save-fill" aria-hidden="true"></i> Save
             User</button>
         </div>
       </div>
@@ -338,8 +337,8 @@
           <div class="pro-wrap">
             <div class="ava lg has-img mx-auto mb-3" id="proAv"><img src="assets/images/avatars/admin-avatar.jpeg"
                 alt="" width="68" height="68" loading="lazy" decoding="async"></div>
-            <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
-            <div style="font-size:11px;color:var(--txt3);margin-top:3px">Admin · Shadhin Motor</div>
+            <div class="profile-name" id="proName">Admin</div>
+            <div class="profile-subtitle">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
             <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
@@ -352,7 +351,7 @@
         </div>
         <div class="modal-footer">
           <button class="btn2 b2-out" type="button" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn2 b2-gd" type="button" data-shell-action="profile-save"><i class="bi bi-save-fill"></i>
+          <button class="btn2 b2-gd" type="button" data-shell-action="profile-save"><i class="bi bi-save-fill" aria-hidden="true"></i>
             Update</button>
         </div>
       </div>

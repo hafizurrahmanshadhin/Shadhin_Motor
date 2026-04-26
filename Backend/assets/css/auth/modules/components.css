@@ -290,6 +290,7 @@ body.preloading #loginWrap {
 }
 
 .auth-link,
+.auth-inline-button,
 .auth-check a,
 .auth-switch a {
   color: var(--am);
@@ -298,10 +299,25 @@ body.preloading #loginWrap {
 }
 
 .auth-link:hover,
+.auth-inline-button:hover,
 .auth-check a:hover,
 .auth-switch a:hover {
   color: var(--am-l);
   text-decoration: underline;
+}
+
+.auth-inline-button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.auth-inline-button:focus-visible {
+  outline: 2px solid var(--am-ring);
+  outline-offset: 3px;
 }
 
 .auth-copy {
@@ -343,6 +359,7 @@ body.preloading #loginWrap {
 }
 
 .auth-provider {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -412,16 +429,22 @@ body.preloading #loginWrap {
   z-index: 1000;
   display: none;
   place-items: center;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  margin: 0;
   padding: 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
 }
 
-.auth-modal:target {
+.auth-modal[open] {
   display: grid;
 }
 
-.auth-modal-backdrop {
-  position: fixed;
-  inset: 0;
+.auth-modal::backdrop {
   background: rgba(3, 7, 18, .72);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -468,6 +491,7 @@ body.preloading #loginWrap {
 }
 
 .auth-modal-close {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -479,6 +503,7 @@ body.preloading #loginWrap {
   background: var(--inp);
   color: var(--txt2);
   text-decoration: none;
+  cursor: pointer;
 }
 
 .auth-modal-close:hover {

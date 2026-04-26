@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
 <head>
@@ -59,52 +59,52 @@
       <nav class="sb-nav" aria-label="Admin navigation">
         <div class="sb-sec">Main</div>
         <a class="nav-row" data-nav="dashboard" href="dashboard.html"><span class="ic"><i
-              class="bi bi-grid-1x2-fill"></i></span>Dashboard</a>
+              class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>Dashboard</a>
         <a class="nav-row" data-nav="orders" href="orders.html"><span class="ic"><i
-              class="bi bi-bag-check-fill"></i></span>Orders<span class="nav-n" id="pBadge">12</span></a>
+              class="bi bi-bag-check-fill" aria-hidden="true"></i></span>Orders<span class="nav-n" id="pBadge">12</span></a>
 
         <div class="sb-sec">Content</div>
         <a class="nav-row" data-nav="samples" href="samples.html"><span class="ic"><i
-              class="bi bi-palette2"></i></span>Samples</a>
+              class="bi bi-palette2" aria-hidden="true"></i></span>Samples</a>
         <a class="nav-row" data-nav="gallery" href="gallery.html"><span class="ic"><i
-              class="bi bi-images"></i></span>Gallery</a>
+              class="bi bi-images" aria-hidden="true"></i></span>Gallery</a>
         <a class="nav-row" data-nav="reviews" href="reviews.html"><span class="ic"><i
-              class="bi bi-star-fill"></i></span>Reviews<span class="nav-n">9</span></a>
+              class="bi bi-star-fill" aria-hidden="true"></i></span>Reviews<span class="nav-n">9</span></a>
         <a class="nav-row" data-nav="frontend-content" href="frontend-content.html"><span class="ic"><i
-              class="bi bi-layout-text-window-reverse"></i></span>Frontend Content</a>
+              class="bi bi-layout-text-window-reverse" aria-hidden="true"></i></span>Frontend Content</a>
         <a class="nav-row" data-nav="media" href="media.html"><span class="ic"><i
-              class="bi bi-folder2-open"></i></span>Media Library</a>
+              class="bi bi-folder2-open" aria-hidden="true"></i></span>Media Library</a>
         <div class="sb-sec">Management</div>
         <a class="nav-row" data-nav="employees" href="employees.html"><span class="ic"><i
-              class="bi bi-people-fill"></i></span>Employees</a>
+              class="bi bi-people-fill" aria-hidden="true"></i></span>Employees</a>
         <a class="nav-row" data-nav="wages" href="wages.html"><span class="ic"><i
-              class="bi bi-wallet2"></i></span>Wages</a>
+              class="bi bi-wallet2" aria-hidden="true"></i></span>Wages</a>
         <a class="nav-row" data-nav="finance" href="finance.html"><span class="ic"><i
-              class="bi bi-graph-up-arrow"></i></span>Finance</a>
+              class="bi bi-graph-up-arrow" aria-hidden="true"></i></span>Finance</a>
         <a class="nav-row" data-nav="users" href="users.html"><span class="ic"><i
-              class="bi bi-person-gear"></i></span>Users</a>
+              class="bi bi-person-gear" aria-hidden="true"></i></span>Users</a>
         <a class="nav-row" data-nav="roles" href="roles.html"><span class="ic"><i
-              class="bi bi-shield-lock-fill"></i></span>Roles & Permissions</a>
+              class="bi bi-shield-lock-fill" aria-hidden="true"></i></span>Roles & Permissions</a>
         <div class="sb-sec">Tools</div>
         <a class="nav-row" data-nav="tool-table" href="data-table.html"><span class="ic"><i
-              class="bi bi-table"></i></span>Data Table</a>
+              class="bi bi-table" aria-hidden="true"></i></span>Data Table</a>
         <a class="nav-row" data-nav="tool-form" href="form-builder.html"><span class="ic"><i
-              class="bi bi-ui-checks-grid"></i></span>Form Builder</a>
+              class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>Form Builder</a>
 
         <div class="sb-div"></div>
         <a class="nav-row" href="../Frontend/index.html" target="_blank" rel="noopener"><span class="ic"><i
-              class="bi bi-box-arrow-up-right"></i></span>View Website</a>
+              class="bi bi-box-arrow-up-right" aria-hidden="true"></i></span>View Website</a>
 
       </nav>
 
       <div class="sb-foot">
         <a class="sb-settings" data-nav="settings" href="settings.html" aria-label="Open dashboard settings">
-          <span class="sb-settings-ic"><i class="bi bi-gear-fill"></i></span>
+          <span class="sb-settings-ic"><i class="bi bi-gear-fill" aria-hidden="true"></i></span>
           <span class="sb-settings-copy">
             <span class="sb-settings-title">Settings</span>
             <span class="sb-settings-sub">Dashboard preferences</span>
           </span>
-          <i class="bi bi-chevron-right sb-settings-go"></i>
+          <i class="bi bi-chevron-right sb-settings-go" aria-hidden="true"></i>
         </a>
       </div>
     </aside>
@@ -113,13 +113,12 @@
     <main id="main" tabindex="-1">
 
       <!-- TOPBAR -->
-      <div id="tb">
-        <div style="display:flex;align-items:center;gap:14px">
+      <header id="tb" aria-label="Admin toolbar">
+        <div class="tb-left">
           <button class="ic-btn" id="sbToggle" type="button" data-shell-action="sidebar-toggle" title="Toggle Sidebar"
-            aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list"
-              style="font-size:19px"></i></button>
+            aria-label="Toggle sidebar" aria-controls="sb" aria-expanded="true"><i class="bi bi-list tb-menu-icon" aria-hidden="true"></i></button>
           <div class="tb-bc">
-            <span class="r d-none d-md-inline"><i class="bi bi-house-fill" style="font-size:11px"></i> Shadhin
+            <span class="r d-none d-md-inline"><i class="bi bi-house-fill tb-home-icon" aria-hidden="true"></i> Shadhin
               Motor</span>
             <span class="sep d-none d-md-inline">›</span>
             <span class="cur" id="bcCur">Finance</span>
@@ -127,30 +126,30 @@
         </div>
         <div class="tb-r">
           <a href="../Frontend/index.html" target="_blank" rel="noopener"
-            class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2"></i> Website</a>
+            class="btn2 b2-out b2-sm d-none d-md-inline-flex"><i class="bi bi-globe2" aria-hidden="true"></i> Website</a>
           <!-- Theme -->
           <button class="ic-btn" id="themeBtn" type="button" data-shell-action="theme-toggle" title="Toggle theme"
-            aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc"></i></button>
+            aria-label="Toggle theme"><i class="bi bi-moon-stars-fill" id="themeIc" aria-hidden="true"></i></button>
           <!-- Eye Comfort Mode -->
           <button class="eye-comfort-btn" id="eyeComfortBtn" type="button" title="Toggle Eye Comfort Mode"
-            aria-label="Toggle eye comfort mode"><i class="bi bi-eye-fill"></i></button>
+            aria-label="Toggle eye comfort mode"><i class="bi bi-eye-fill" aria-hidden="true"></i></button>
           <!-- Notifications -->
-          <div style="position:relative">
+          <div class="tb-popover-anchor">
             <button class="ic-btn" id="notifBtn" type="button" data-shell-action="notif-toggle"
               aria-label="Open notifications" aria-expanded="false" aria-controls="notifPanel">
-              <i class="bi bi-bell-fill"></i>
+              <i class="bi bi-bell-fill" aria-hidden="true"></i>
               <span class="ic-dot" id="nDot" hidden></span>
             </button>
-            <div class="float-panel np" id="notifPanel" aria-label="Notifications">
+            <div class="float-panel np" id="notifPanel" role="region" aria-label="Notifications" aria-hidden="true">
               <div class="np-head">
-                <span class="np-title"><i class="bi bi-bell-fill me-2" style="color:var(--am)"></i>Notifications</span>
+                <span class="np-title"><i class="bi bi-bell-fill me-2 tb-accent-icon" aria-hidden="true"></i>Notifications</span>
                 <button class="np-mark" type="button" data-shell-action="notif-read-all">Mark all read</button>
               </div>
               <div class="n-list" id="nList">
                 <div class="n-item unread">
-                  <div class="n-ic" style="background:var(--blue-bg);color:var(--blue)"><i class="bi bi-bag-check"></i>
+                  <div class="n-ic n-ic-blue"><i class="bi bi-bag-check" aria-hidden="true"></i>
                   </div>
-                  <div style="flex:1;min-width:0">
+                  <div class="n-content">
                     <div class="n-t">New order received</div>
                     <div class="n-m">Farhan Ahmed confirmed a premium leather seat cover booking for Friday delivery.
                     </div>
@@ -159,9 +158,9 @@
                   <span class="n-dot"></span>
                 </div>
                 <div class="n-item unread">
-                  <div class="n-ic" style="background:var(--green-bg);color:var(--green)"><i
-                      class="bi bi-cash-stack"></i></div>
-                  <div style="flex:1;min-width:0">
+                  <div class="n-ic n-ic-green"><i
+                      class="bi bi-cash-stack" aria-hidden="true"></i></div>
+                  <div class="n-content">
                     <div class="n-t">Payment collected</div>
                     <div class="n-m">Advance payment of ৳12,000 has been received for the Toyota Prado project.</div>
                     <div class="n-time">22 min ago</div>
@@ -169,9 +168,9 @@
                   <span class="n-dot"></span>
                 </div>
                 <div class="n-item">
-                  <div class="n-ic" style="background:var(--orn-bg);color:var(--orn)"><i
-                      class="bi bi-calendar2-check"></i></div>
-                  <div style="flex:1;min-width:0">
+                  <div class="n-ic n-ic-orange"><i
+                      class="bi bi-calendar2-check" aria-hidden="true"></i></div>
+                  <div class="n-content">
                     <div class="n-t">Delivery reminder</div>
                     <div class="n-m">Three completed jobs are scheduled for customer pickup before 6:00 PM today.</div>
                     <div class="n-time">1 hour ago</div>
@@ -182,43 +181,43 @@
             </div>
           </div>
           <!-- User -->
-          <div style="position:relative">
+          <div class="tb-popover-anchor">
             <button class="tb-user" id="userBtn" type="button" data-shell-action="user-toggle"
               aria-label="Open admin menu" aria-expanded="false" aria-controls="userDrop">
               <div class="tb-ava has-img" id="tbAv"><img src="assets/images/avatars/admin-avatar.jpeg" alt="" width="28"
                   height="28" loading="lazy" decoding="async"></div>
               <span class="tb-uname d-none d-md-block" id="tbName">Admin</span>
-              <i class="bi bi-chevron-down tb-chev" id="uChev"></i>
+              <i class="bi bi-chevron-down tb-chev" id="uChev" aria-hidden="true"></i>
             </button>
-            <div class="float-panel udrop" id="userDrop" aria-label="Admin menu">
+            <div class="float-panel udrop" id="userDrop" role="region" aria-label="Admin menu" aria-hidden="true">
               <div class="ud-head">
                 <div class="ud-name" id="udName">Admin</div>
                 <div class="ud-email" id="udEmail">admin@shadhinmotor.com</div>
               </div>
-              <button class="dd-row" type="button" data-shell-modal-open="moProfile"><i class="bi bi-person-circle"></i>
+              <button class="dd-row" type="button" data-shell-modal-open="moProfile"><i class="bi bi-person-circle" aria-hidden="true"></i>
                 My
                 Profile</button>
-              <a class="dd-row" href="settings.html"><i class="bi bi-gear"></i> Settings</a>
-              <button class="dd-row" type="button" data-shell-action="theme-toggle"><i class="bi bi-moon-stars"></i>
+              <a class="dd-row" href="settings.html"><i class="bi bi-gear" aria-hidden="true"></i> Settings</a>
+              <button class="dd-row" type="button" data-shell-action="theme-toggle"><i class="bi bi-moon-stars" aria-hidden="true"></i>
                 Toggle
                 Theme</button>
               <div class="dd-sep"></div>
-              <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+              <a class="dd-row red" href="login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i> Logout</a>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
       <!-- ══════════════ PAGES ══════════════ -->
 
       <!-- FINANCE -->
-      <div class="page-shell" id="page-finance">
+      <section class="page-shell" id="page-finance" aria-labelledby="page-finance-title">
         <header class="ph">
           <div>
-            <h1>Finance</h1>
+            <h1 id="page-finance-title">Finance</h1>
             <p>Income, expenses & profit</p>
           </div><button class="btn2 b2-gd" type="button" data-finance-modal data-finance-modal-title="Add Entry"><i
-              class="bi bi-plus-lg"></i> Add Entry</button>
+              class="bi bi-plus-lg" aria-hidden="true"></i> Add Entry</button>
         </header>
         <div class="row g-3 mb-4">
           <div class="col-md-4">
@@ -249,6 +248,7 @@
               <div class="panel-h"><span class="panel-t">All Entries</span></div>
               <div class="tbl-w">
                 <table class="tbl">
+                  <caption class="visually-hidden">Finance ledger entries</caption>
                   <thead>
                     <tr>
                       <th scope="col">Date</th>
@@ -264,35 +264,35 @@
                       <td>Toyota Corolla full payment</td>
                       <td>Order Payment</td>
                       <td><span class="bdg b-gr">Income</span></td>
-                      <td style="color:var(--am);font-weight:700">৳8,500</td>
+                      <td class="amount-strong">৳8,500</td>
                     </tr>
                     <tr>
                       <td>2026-04-22</td>
                       <td>Leather roll purchase</td>
                       <td>Materials</td>
                       <td><span class="bdg b-re">Expense</span></td>
-                      <td style="color:var(--am);font-weight:700">৳22,000</td>
+                      <td class="amount-strong">৳22,000</td>
                     </tr>
                     <tr>
                       <td>2026-04-21</td>
                       <td>Monthly rent</td>
                       <td>Rent</td>
                       <td><span class="bdg b-re">Expense</span></td>
-                      <td style="color:var(--am);font-weight:700">৳18,000</td>
+                      <td class="amount-strong">৳18,000</td>
                     </tr>
                     <tr>
                       <td>2026-04-20</td>
                       <td>Microbus seat cover delivery</td>
                       <td>Order Payment</td>
                       <td><span class="bdg b-gr">Income</span></td>
-                      <td style="color:var(--am);font-weight:700">৳22,000</td>
+                      <td class="amount-strong">৳22,000</td>
                     </tr>
                     <tr>
                       <td>2026-04-19</td>
                       <td>Staff wages batch</td>
                       <td>Wages</td>
                       <td><span class="bdg b-re">Expense</span></td>
-                      <td style="color:var(--am);font-weight:700">৳6,400</td>
+                      <td class="amount-strong">৳6,400</td>
                     </tr>
                   </tbody>
                 </table>
@@ -340,7 +340,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       <footer class="app-foot">
         <div class="app-foot-inner">
@@ -386,7 +386,7 @@
         </div>
         <div class="modal-footer"><button class="btn2 b2-out" type="button"
             data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button"
-            data-action="finance-save"><i class="bi bi-save-fill"></i> Save</button></div>
+            data-action="finance-save"><i class="bi bi-save-fill" aria-hidden="true"></i> Save</button></div>
       </div>
     </div>
   </div>
@@ -405,8 +405,8 @@
           <div class="pro-wrap">
             <div class="ava lg has-img mx-auto mb-3" id="proAv"><img src="assets/images/avatars/admin-avatar.jpeg"
                 alt="" width="68" height="68" loading="lazy" decoding="async"></div>
-            <div style="font-size:18px;font-weight:700;color:var(--txt)" id="proName">Admin</div>
-            <div style="font-size:11px;color:var(--txt3);margin-top:3px">Super Admin · Shadhin Motor</div>
+            <div class="profile-name" id="proName">Admin</div>
+            <div class="profile-subtitle">Super Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
             <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
@@ -418,7 +418,7 @@
         </div>
         <div class="modal-footer"><button class="btn2 b2-out" type="button"
             data-bs-dismiss="modal">Cancel</button><button class="btn2 b2-gd" type="button"
-            data-shell-action="profile-save"><i class="bi bi-save-fill"></i> Update</button></div>
+            data-shell-action="profile-save"><i class="bi bi-save-fill" aria-hidden="true"></i> Update</button></div>
       </div>
     </div>
   </div>
