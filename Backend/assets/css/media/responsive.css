@@ -1,0 +1,6 @@
+@media (max-width: 575px) {
+  #page-media .media-action-row .btn2 {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}

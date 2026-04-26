@@ -17,7 +17,7 @@
   <link href="assets/css/google-fonts.css" rel="stylesheet">
   <link href="assets/css/shared/base.css" rel="stylesheet">
   <link href="assets/css/shared/admin-shell.css" rel="stylesheet">
-  <link href="assets/css/shared/module-pages.css" rel="stylesheet">
+  <link href="assets/css/frontend-content/page.css" rel="stylesheet">
 </head>
 
 <body class="preloading" data-page="frontend-content">
@@ -168,7 +168,7 @@
         <div class="admin-module-grid">
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-window-stack"></i></span>
-            <div><strong>12 Sections</strong><small>Hero, services, about, contact</small></div>
+            <div><strong>18 Dynamic Surfaces</strong><small>Hero, nav, forms, footer</small></div>
           </div>
           <div class="admin-module-card">
             <span class="admin-module-icon"><i class="bi bi-search"></i></span>
@@ -197,6 +197,8 @@
                 <button class="f-btn on" type="button" data-content-tab="sections">Sections</button>
                 <button class="f-btn" type="button" data-content-tab="seo">SEO</button>
                 <button class="f-btn" type="button" data-content-tab="faq">FAQ & Areas</button>
+                <button class="f-btn" type="button" data-content-tab="forms">Forms</button>
+                <button class="f-btn" type="button" data-content-tab="global">Global UI</button>
               </div>
 
               <div class="content-panel" data-content-panel="sections">
@@ -212,7 +214,7 @@
                     <p class="content-section-copy">Controls headline, lead text, primary buttons, business phone,
                       WhatsApp links and hero counters.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="home.hero"
                         data-modal-title="Edit Hero & Contact CTA"><i class="bi bi-pencil"></i> Edit</button>
                     </div>
                   </article>
@@ -227,7 +229,7 @@
                     <p class="content-section-copy">This should become ordered records so Laravel can add, hide or
                       reorder service blocks from admin.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="home.services"
                         data-modal-title="Edit Services & Process"><i class="bi bi-pencil"></i> Edit</button>
                     </div>
                   </article>
@@ -242,7 +244,7 @@
                     <p class="content-section-copy">Employees page can provide team records, but public about copy and
                       owner profile need a content block.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="home.about"
                         data-modal-title="Edit About Section"><i class="bi bi-pencil"></i> Edit</button>
                     </div>
                   </article>
@@ -259,10 +261,10 @@
                       </div>
                       <span class="permission-pill">home</span>
                     </div>
-                    <p class="content-section-copy">Replace localhost canonical URLs with production settings when this
-                      moves to Laravel.</p>
+                    <p class="content-section-copy">Drive canonical, Open Graph and schema URLs from site URL settings
+                      when this moves to Laravel.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="seo.home"
                         data-modal-title="Edit Home SEO"><i class="bi bi-pencil"></i> Edit SEO</button>
                     </div>
                   </article>
@@ -277,7 +279,7 @@
                     <p class="content-section-copy">Gallery and sample pages already have catalog logic; this module
                       holds the editable metadata around those records.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="seo.catalogs"
                         data-modal-title="Edit Catalog SEO"><i class="bi bi-pencil"></i> Edit SEO</button>
                     </div>
                   </article>
@@ -297,7 +299,7 @@
                     <p class="content-section-copy">Question, answer, sort order, language, and published state should
                       be separate fields in Laravel.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="faq.item"
                         data-modal-title="Edit FAQ Item"><i class="bi bi-pencil"></i> Edit FAQ</button>
                     </div>
                   </article>
@@ -312,8 +314,108 @@
                     <p class="content-section-copy">Keep these as records so you can create area landing pages or
                       location-specific copy later.</p>
                     <div class="content-action-row">
-                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="service_area.item"
                         data-modal-title="Edit Service Area"><i class="bi bi-pencil"></i> Edit Area</button>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="content-panel" data-content-panel="forms" hidden>
+                <div class="content-section-list">
+                  <article class="content-section-card">
+                    <div class="content-section-top">
+                      <div>
+                        <h3 class="content-section-title">Order Form Fields & Options</h3>
+                        <p class="content-section-meta">Vehicle types, services, materials, sample binding, validation copy</p>
+                      </div>
+                      <span class="status-pill pending">Needs Controller</span>
+                    </div>
+                    <p class="content-section-copy">The public order form should read options from tables instead of hardcoded
+                      select fields. Admin can later control required fields, visibility, labels and sort order.</p>
+                    <div class="content-action-row">
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="forms.order"
+                        data-modal-title="Edit Order Form Settings"><i class="bi bi-pencil"></i> Edit Form</button>
+                    </div>
+                  </article>
+                  <article class="content-section-card">
+                    <div class="content-section-top">
+                      <div>
+                        <h3 class="content-section-title">Review Submit Rules</h3>
+                        <p class="content-section-meta">Rating values, avatar/media upload rules, moderation state</p>
+                      </div>
+                      <span class="status-pill pending">Needs Storage</span>
+                    </div>
+                    <p class="content-section-copy">Review submission needs backend upload limits, allowed MIME types, approval
+                      workflow, and anti-spam checks. The Reviews module can moderate records after submission.</p>
+                    <div class="content-action-row">
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="forms.review"
+                        data-modal-title="Edit Review Form Rules"><i class="bi bi-pencil"></i> Edit Rules</button>
+                    </div>
+                  </article>
+                  <article class="content-section-card">
+                    <div class="content-section-top">
+                      <div>
+                        <h3 class="content-section-title">UI Text & Validation Messages</h3>
+                        <p class="content-section-meta">Hidden text token blocks used by sample, gallery and review JS</p>
+                      </div>
+                      <span class="permission-pill">ui_texts</span>
+                    </div>
+                    <p class="content-section-copy">Frontend JavaScript reads labels from hidden token containers. Keep those
+                      values as editable language records so Blade can render Bangla copy safely.</p>
+                    <div class="content-action-row">
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="ui_texts.frontend"
+                        data-modal-title="Edit Frontend UI Text"><i class="bi bi-pencil"></i> Edit Text</button>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="content-panel" data-content-panel="global" hidden>
+                <div class="content-section-list">
+                  <article class="content-section-card">
+                    <div class="content-section-top">
+                      <div>
+                        <h3 class="content-section-title">Header Navigation</h3>
+                        <p class="content-section-meta">Menu labels, section anchors, catalog links, visibility and order</p>
+                      </div>
+                      <span class="permission-pill">nav_links</span>
+                    </div>
+                    <p class="content-section-copy">The same nav appears on the homepage and catalog pages. Store it as ordered
+                      records so adding/removing frontend sections does not require editing every Blade file.</p>
+                    <div class="content-action-row">
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="global.navigation"
+                        data-modal-title="Edit Header Navigation"><i class="bi bi-pencil"></i> Edit Nav</button>
+                    </div>
+                  </article>
+                  <article class="content-section-card">
+                    <div class="content-section-top">
+                      <div>
+                        <h3 class="content-section-title">Footer, Contact & Social Links</h3>
+                        <p class="content-section-meta">Address, map URL, phone, WhatsApp, Facebook, YouTube, copyright</p>
+                      </div>
+                      <span class="permission-pill">contact_channels</span>
+                    </div>
+                    <p class="content-section-copy">Footer and floating CTA values are repeated across all public pages. They
+                      should come from site settings and contact channel tables.</p>
+                    <div class="content-action-row">
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="global.footer"
+                        data-modal-title="Edit Footer & Contact"><i class="bi bi-pencil"></i> Edit Contact</button>
+                    </div>
+                  </article>
+                  <article class="content-section-card">
+                    <div class="content-section-top">
+                      <div>
+                        <h3 class="content-section-title">Business Hours & Local Identity</h3>
+                        <p class="content-section-meta">Opening hours, area labels, schema business details</p>
+                      </div>
+                      <span class="permission-pill">site_settings</span>
+                    </div>
+                    <p class="content-section-copy">Business hours, coordinates, legal name and public contact identity should
+                      be single-source values used by footer, SEO schema and contact blocks.</p>
+                    <div class="content-action-row">
+                      <button class="btn2 b2-out b2-sm" type="button" data-content-edit data-content-key="global.business"
+                        data-modal-title="Edit Business Identity"><i class="bi bi-pencil"></i> Edit Identity</button>
                     </div>
                   </article>
                 </div>
@@ -331,16 +433,29 @@
             <div class="admin-list-body">
               <div class="role-hint">
                 <strong>Suggested modules:</strong> pages, page_sections, services, process_steps, vehicle_types,
-                faqs, service_areas, site_settings, media_assets.
+                form_fields, ui_texts, faqs, service_areas, nav_links, contact_channels, site_settings, media_assets.
               </div>
-              <div class="content-section-list mt-3">
-                <div class="permission-card">
-                  <strong>Blade-ready idea</strong>
-                  <small>Each card here becomes a Blade partial fed by a model collection.</small>
+              <div class="content-model-list">
+                <div class="content-model-item">
+                  <div>
+                    <strong>Blade-ready idea</strong>
+                    <small>Each card here becomes a Blade partial fed by a model collection.</small>
+                  </div>
+                  <span class="content-model-key">partials</span>
                 </div>
-                <div class="permission-card">
-                  <strong>Permission key</strong>
-                  <small>frontend-content controls all editable public copy except samples, gallery and reviews.</small>
+                <div class="content-model-item">
+                  <div>
+                    <strong>Permission key</strong>
+                    <small>frontend-content controls public copy, SEO, form options, nav and footer settings.</small>
+                  </div>
+                  <span class="content-model-key">policy</span>
+                </div>
+                <div class="content-model-item">
+                  <div>
+                    <strong>Shared source</strong>
+                    <small>Samples, gallery and reviews stay in their own admin modules but feed the frontend sections.</small>
+                  </div>
+                  <span class="content-model-key">models</span>
                 </div>
               </div>
             </div>
@@ -366,7 +481,7 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Block Key</label><input class="fi form-control"
+            <div class="col-md-6"><label class="fl">Block Key</label><input class="fi form-control" id="contentBlockKey"
                 placeholder="home.hero"></div>
             <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" aria-label="Status">
                 <option>Published</option>
@@ -423,7 +538,7 @@
   <script src="assets/js/sweetalert2.all.min.js"></script>
   <script src="assets/js/shared/core.js"></script>
   <script src="assets/js/shared/admin-shell.js"></script>
-  <script type="module" src="assets/js/admin-modules/page.js"></script>
+  <script type="module" src="assets/js/frontend-content/page.js"></script>
 </body>
 
 </html>

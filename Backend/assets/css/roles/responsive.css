@@ -1,0 +1,5 @@
+@media (max-width: 575px) {
+  #page-roles .permission-matrix .btn2 {
+    min-width: 0;
+  }
+}

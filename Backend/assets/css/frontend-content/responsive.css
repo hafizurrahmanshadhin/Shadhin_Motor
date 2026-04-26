@@ -1,0 +1,10 @@
+@media (max-width: 575px) {
+  .content-model-item {
+    display: block;
+  }
+
+  .content-model-key {
+    display: inline-flex;
+    margin-top: 8px;
+  }
+}

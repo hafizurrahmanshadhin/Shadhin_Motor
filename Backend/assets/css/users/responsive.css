@@ -1,0 +1,5 @@
+@media (max-width: 575px) {
+  #page-users .module-search {
+    width: 100%;
+  }
+}
