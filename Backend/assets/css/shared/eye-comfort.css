@@ -28,14 +28,14 @@
 }
 
 .eye-comfort-btn.active {
-  background: linear-gradient(135deg, #10b981, #059669);
-  border-color: #059669;
-  color: #fff;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, .2);
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  border-color: #d97706;
+  color: #1f1303;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, .24);
 }
 
 .eye-comfort-btn.active:hover {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: linear-gradient(135deg, #f59e0b, #b45309);
   transform: translateY(-1px) scale(1.02);
 }
 
@@ -61,6 +61,36 @@
 /* ══════════════════════════════════════════════════════════════════════════════
    EYE COMFORT MODE - ACTIVE STATE
 ══════════════════════════════════════════════════════════════════════════════ */
+
+html.eye-comfort-mode {
+  --eye-comfort-tint: rgba(255, 202, 106, .18);
+  --eye-comfort-warm-glow: rgba(255, 221, 148, .10);
+  --eye-comfort-blend: multiply;
+}
+
+[data-theme="dark"].eye-comfort-mode {
+  --eye-comfort-tint: rgba(255, 177, 76, .13);
+  --eye-comfort-warm-glow: rgba(255, 196, 111, .08);
+  --eye-comfort-blend: screen;
+}
+
+[data-theme="light"].eye-comfort-mode {
+  --eye-comfort-tint: rgba(255, 202, 96, .20);
+  --eye-comfort-warm-glow: rgba(255, 231, 163, .12);
+  --eye-comfort-blend: multiply;
+}
+
+html.eye-comfort-mode::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% -20%, var(--eye-comfort-warm-glow), transparent 54%),
+    linear-gradient(var(--eye-comfort-tint), var(--eye-comfort-tint));
+  mix-blend-mode: var(--eye-comfort-blend);
+}
 
 /* Enhanced text rendering when eye comfort is active */
 body.eye-comfort-mode {
@@ -426,12 +456,12 @@ body.eye-comfort-mode::after {
   z-index: 9999;
   padding: 8px 14px;
   border-radius: 20px;
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #fff;
+  background: linear-gradient(135deg, #fbbf24, #d97706);
+  color: #1f1303;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, .3);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, .32);
   animation: slideInUp .4s ease, fadeOutAfter 3s ease 2s forwards;
   pointer-events: none;
 }
@@ -500,6 +530,7 @@ body.eye-comfort-mode.indicator-hidden::after {
     display: none !important;
   }
 
+  html.eye-comfort-mode::before,
   body.eye-comfort-mode::after {
     display: none !important;
   }
