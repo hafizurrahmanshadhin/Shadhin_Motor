@@ -185,10 +185,10 @@
         </div>
 
         <div class="admin-page-grid">
-          <section class="admin-list-card">
+          <section class="admin-list-card" aria-labelledby="permission-matrix-title">
             <div class="admin-list-head">
               <div>
-                <h2>Permission Matrix</h2>
+                <h2 id="permission-matrix-title">Permission Matrix</h2>
                 <p>Use these keys later in Laravel gates, policies, middleware and sidebar Blade partials.</p>
               </div>
             </div>
@@ -290,10 +290,10 @@
             </div>
           </section>
 
-          <aside class="admin-list-card">
+          <aside class="admin-list-card" aria-labelledby="roles-rbac-map-title">
             <div class="admin-list-head">
               <div>
-                <h3>Laravel RBAC Map</h3>
+                <h3 id="roles-rbac-map-title">Laravel RBAC Map</h3>
                 <p>Keep this static structure ready for database-driven permissions.</p>
               </div>
             </div>
@@ -339,7 +339,7 @@
             <div class="col-md-4"><label class="fl" for="roleKeyInput">Role Key</label><input class="fi form-control"
                 id="roleKeyInput" data-role-key-field placeholder="manager"></div>
             <div class="col-md-4"><label class="fl" for="roleStatusInput">Status</label><select class="fs form-select"
-                id="roleStatusInput" data-role-status-field aria-label="Status">
+                id="roleStatusInput" data-role-status-field>
                 <option>Active</option>
                 <option>Inactive</option>
               </select></div>
@@ -350,7 +350,7 @@
             create/edit/delete or module-specific actions for buttons inside that page.
           </div>
           <div class="permission-action-grid">
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Dashboard</strong>
                 <small>Overview module</small>
@@ -359,9 +359,9 @@
                 <label><input type="checkbox" data-role-permission data-default-checked="true" value="dashboard.view"
                     checked><span>View</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Orders</strong>
                 <small>Customer booking workflow</small>
@@ -372,9 +372,9 @@
                 <label><input type="checkbox" data-role-permission value="orders.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="orders.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Samples</strong>
                 <small>Material catalog</small>
@@ -385,9 +385,9 @@
                 <label><input type="checkbox" data-role-permission value="samples.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="samples.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Gallery</strong>
                 <small>Public work photos</small>
@@ -398,9 +398,9 @@
                 <label><input type="checkbox" data-role-permission value="gallery.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="gallery.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Reviews</strong>
                 <small>Moderation queue</small>
@@ -411,9 +411,9 @@
                 <label><input type="checkbox" data-role-permission value="reviews.reject"><span>Reject</span></label>
                 <label><input type="checkbox" data-role-permission value="reviews.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Frontend Content</strong>
                 <small>Homepage, SEO and FAQ</small>
@@ -426,9 +426,9 @@
                 <label><input type="checkbox" data-role-permission
                     value="frontend-content.publish"><span>Publish</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Media Library</strong>
                 <small>Files and storage assets</small>
@@ -439,9 +439,9 @@
                 <label><input type="checkbox" data-role-permission value="media.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="media.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Employees</strong>
                 <small>Staff profiles</small>
@@ -452,9 +452,9 @@
                 <label><input type="checkbox" data-role-permission value="employees.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="employees.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Wages</strong>
                 <small>Attendance and wage logs</small>
@@ -465,9 +465,9 @@
                 <label><input type="checkbox" data-role-permission value="wages.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="wages.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Finance</strong>
                 <small>Income, expenses and reports</small>
@@ -479,9 +479,9 @@
                 <label><input type="checkbox" data-role-permission value="finance.delete"><span>Delete</span></label>
                 <label><input type="checkbox" data-role-permission value="finance.export"><span>Export</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Users</strong>
                 <small>Admin account control</small>
@@ -492,9 +492,9 @@
                 <label><input type="checkbox" data-role-permission value="users.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="users.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
 
-            <section class="permission-action-card">
+            <div class="permission-action-card">
               <div class="permission-action-head">
                 <strong>Roles</strong>
                 <small>Role and policy setup</small>
@@ -505,7 +505,7 @@
                 <label><input type="checkbox" data-role-permission value="roles.edit"><span>Edit</span></label>
                 <label><input type="checkbox" data-role-permission value="roles.delete"><span>Delete</span></label>
               </div>
-            </section>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -532,11 +532,11 @@
             <div class="profile-subtitle">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n">
             </div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>

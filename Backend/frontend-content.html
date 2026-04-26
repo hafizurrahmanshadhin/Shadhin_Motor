@@ -184,10 +184,10 @@
         </div>
 
         <div class="admin-page-grid">
-          <section class="admin-list-card">
+          <section class="admin-list-card" aria-labelledby="frontend-surfaces-title">
             <div class="admin-list-head">
               <div>
-                <h2>Dynamic Frontend Surfaces</h2>
+                <h2 id="frontend-surfaces-title">Dynamic Frontend Surfaces</h2>
                 <p>These map directly to public HTML sections and future Blade components.</p>
               </div>
             </div>
@@ -422,10 +422,10 @@
             </div>
           </section>
 
-          <aside class="admin-list-card">
+          <aside class="admin-list-card" aria-labelledby="frontend-model-map-title">
             <div class="admin-list-head">
               <div>
-                <h3>Laravel Model Map</h3>
+                <h3 id="frontend-model-map-title">Laravel Model Map</h3>
                 <p>Suggested tables for future dynamic conversion.</p>
               </div>
             </div>
@@ -480,15 +480,15 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Block Key</label><input class="fi form-control" id="contentBlockKey"
+            <div class="col-md-6"><label class="fl" for="contentBlockKey">Block Key</label><input class="fi form-control" id="contentBlockKey"
                 placeholder="home.hero"></div>
-            <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" aria-label="Status">
+            <div class="col-md-6"><label class="fl" for="frontend-content-status-1">Status</label><select id="frontend-content-status-1" class="fs form-select">
                 <option>Published</option>
                 <option>Draft</option>
               </select></div>
-            <div class="col-12"><label class="fl">Title</label><input class="fi form-control"
+            <div class="col-12"><label class="fl" for="frontend-content-title-2">Title</label><input id="frontend-content-title-2" class="fi form-control"
                 placeholder="Public title"></div>
-            <div class="col-12"><label class="fl">Body / JSON Payload</label><textarea class="fi form-control fta"
+            <div class="col-12"><label class="fl" for="frontend-content-body-json-payload-3">Body / JSON Payload</label><textarea id="frontend-content-body-json-payload-3" class="fi form-control fta"
                 rows="6" placeholder="Copy, CTA labels, ordering, media IDs..."></textarea></div>
           </div>
         </div>
@@ -516,11 +516,11 @@
             <div class="profile-subtitle">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n">
             </div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>

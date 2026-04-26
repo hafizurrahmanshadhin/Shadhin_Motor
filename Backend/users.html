@@ -179,13 +179,13 @@
           </div>
         </div>
 
-        <section class="admin-list-card">
+        <section class="admin-list-card" aria-labelledby="user-directory-title">
           <div class="admin-list-head">
             <div>
-              <h2>User Directory</h2>
+              <h2 id="user-directory-title">User Directory</h2>
               <p>Static rows model the future users table with role_id, status and audit metadata.</p>
             </div>
-            <input class="fi form-control module-search" id="userSearch" placeholder="Search users, role, email...">
+            <input class="fi form-control module-search" id="userSearch" placeholder="Search users, role, email..." aria-label="Search users, role, email">
           </div>
           <div class="admin-list-body">
             <div class="table-responsive">
@@ -276,11 +276,11 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Name</label><input class="fi form-control" placeholder="Full name">
+            <div class="col-md-6"><label class="fl" for="users-name-1">Name</label><input id="users-name-1" class="fi form-control" placeholder="Full name">
             </div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email"
+            <div class="col-md-6"><label class="fl" for="users-email-2">Email</label><input id="users-email-2" class="fi form-control" type="email"
                 placeholder="user@example.com"></div>
-            <div class="col-md-6"><label class="fl">Role</label><select class="fs form-select" aria-label="Role">
+            <div class="col-md-6"><label class="fl" for="users-role-3">Role</label><select id="users-role-3" class="fs form-select">
                 <option>admin</option>
                 <option>subadmin</option>
                 <option>manager</option>
@@ -289,13 +289,13 @@
                 <option>editor</option>
                 <option>user</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" aria-label="Status">
+            <div class="col-md-6"><label class="fl" for="users-status-4">Status</label><select id="users-status-4" class="fs form-select">
                 <option>Active</option>
                 <option>Suspended</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Temporary Password</label><input class="fi form-control"
+            <div class="col-md-6"><label class="fl" for="users-temporary-password-5">Temporary Password</label><input id="users-temporary-password-5" class="fi form-control"
                 type="password" placeholder="Set in Laravel only"></div>
-            <div class="col-md-6"><label class="fl">Phone</label><input class="fi form-control" placeholder="+880...">
+            <div class="col-md-6"><label class="fl" for="users-phone-6">Phone</label><input id="users-phone-6" class="fi form-control" placeholder="+880...">
             </div>
             <div class="col-12">
               <div class="permission-action-card">
@@ -341,11 +341,11 @@
             <div class="profile-subtitle">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n">
             </div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>

@@ -245,10 +245,10 @@
         </div>
 
         <div class="settings-grid">
-          <section class="panel settings-main-panel">
+          <section class="panel settings-main-panel" aria-labelledby="settings-dashboard-customization-title">
             <div class="panel-h">
-              <span class="panel-t"><i class="bi bi-sliders2 me-2 tb-accent-icon" aria-hidden="true"></i>Dashboard
-                Customization</span>
+              <h2 class="panel-t" id="settings-dashboard-customization-title"><i class="bi bi-sliders2 me-2 tb-accent-icon" aria-hidden="true"></i>Dashboard
+                Customization</h2>
             </div>
             <div class="panel-b settings-stack">
               <div class="set-block">
@@ -265,7 +265,7 @@
                       <strong>Admin Logo</strong>
                       <small id="logoFileName">Current SVG logo</small>
                     </span>
-                    <input type="file" id="adminLogoInput" accept=".svg,.png,.jpg,.jpeg,.webp">
+                    <input type="file" id="adminLogoInput" accept=".svg,.png,.jpg,.jpeg,.webp" aria-label="adminLogoInput">
                   </label>
                   <label class="asset-picker">
                     <span class="asset-mark favicon-mark">SM</span>
@@ -273,18 +273,18 @@
                       <strong>Favicon</strong>
                       <small id="faviconFileName">favicon.svg / favicon.ico</small>
                     </span>
-                    <input type="file" id="faviconInput" accept=".ico,.svg,.png">
+                    <input type="file" id="faviconInput" accept=".ico,.svg,.png" aria-label="faviconInput">
                   </label>
                 </div>
                 <div class="row g-3">
-                  <div class="col-md-6"><label class="fl">Admin Name</label><input class="fi" id="adminName"
+                  <div class="col-md-6"><label class="fl" for="adminName">Admin Name</label><input class="fi" id="adminName"
                       value="Shadhin Motor"></div>
-                  <div class="col-md-6"><label class="fl">Sidebar Label</label><input class="fi" id="adminLabel"
+                  <div class="col-md-6"><label class="fl" for="adminLabel">Sidebar Label</label><input class="fi" id="adminLabel"
                       value="Admin Panel"></div>
-                  <div class="col-md-6"><label class="fl">Browser Title Prefix</label><input class="fi" id="titlePrefix"
+                  <div class="col-md-6"><label class="fl" for="titlePrefix">Browser Title Prefix</label><input class="fi" id="titlePrefix"
                       value="Shadhin Motor"></div>
-                  <div class="col-md-6"><label class="fl">Default Theme</label><select class="fs" id="defaultTheme"
-                      aria-label="Default Theme">
+                  <div class="col-md-6"><label class="fl" for="defaultTheme">Default Theme</label><select class="fs" id="defaultTheme"
+                     >
                       <option>System</option>
                       <option selected>Dark</option>
                       <option>Light</option>
@@ -296,24 +296,24 @@
                 <div class="set-t"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i> Dashboard Defaults</div>
                 <p class="set-sub">Reusable defaults for dashboard stats, tables and generated Blade layouts later.</p>
                 <div class="row g-3">
-                  <div class="col-md-6"><label class="fl">Dashboard Heading</label><input class="fi" id="dashTitle"
+                  <div class="col-md-6"><label class="fl" for="dashTitle">Dashboard Heading</label><input class="fi" id="dashTitle"
                       value="Dashboard"></div>
-                  <div class="col-md-6"><label class="fl">Greeting Mode</label><select class="fs" id="greetingMode"
-                      aria-label="Greeting Mode">
+                  <div class="col-md-6"><label class="fl" for="greetingMode">Greeting Mode</label><select class="fs" id="greetingMode"
+                     >
                       <option selected>Time based</option>
                       <option>Static</option>
                       <option>Hidden</option>
                     </select></div>
-                  <div class="col-md-4"><label class="fl">Currency</label><input class="fi" id="currencySymbol"
+                  <div class="col-md-4"><label class="fl" for="currencySymbol">Currency</label><input class="fi" id="currencySymbol"
                       value="৳"></div>
-                  <div class="col-md-4"><label class="fl">Date Format</label><select class="fs" id="dateFormat"
-                      aria-label="Date Format">
+                  <div class="col-md-4"><label class="fl" for="dateFormat">Date Format</label><select class="fs" id="dateFormat"
+                     >
                       <option selected>Friday, April 24, 2026</option>
                       <option>24 Apr 2026</option>
                       <option>2026-04-24</option>
                     </select></div>
-                  <div class="col-md-4"><label class="fl">Rows Per Page</label><select class="fs" id="rowsPerPage"
-                      aria-label="Rows Per Page">
+                  <div class="col-md-4"><label class="fl" for="rowsPerPage">Rows Per Page</label><select class="fs" id="rowsPerPage"
+                     >
                       <option>10</option>
                       <option selected>12</option>
                       <option>25</option>
@@ -338,10 +338,10 @@
             </div>
           </section>
 
-          <aside class="settings-side">
-            <section class="panel">
-              <div class="panel-h"><span class="panel-t"><i class="bi bi-display me-2 tb-accent-icon" aria-hidden="true"></i>Live
-                  Preview</span></div>
+          <aside class="settings-side" aria-label="Settings preview and data panels">
+            <section class="panel" aria-labelledby="settings-live-preview-title">
+              <div class="panel-h"><h2 class="panel-t" id="settings-live-preview-title"><i class="bi bi-display me-2 tb-accent-icon" aria-hidden="true"></i>Live
+                  Preview</h2></div>
               <div class="panel-b">
                 <div class="brand-preview">
                   <div class="brand-preview-mark"><i class="bi bi-tools" aria-hidden="true"></i></div>
@@ -356,28 +356,28 @@
               </div>
             </section>
 
-            <section class="panel">
-              <div class="panel-h"><span class="panel-t"><i class="bi bi-search me-2 tb-accent-icon" aria-hidden="true"></i>Meta &
-                  SEO</span></div>
+            <section class="panel" aria-labelledby="settings-meta-seo-title">
+              <div class="panel-h"><h2 class="panel-t" id="settings-meta-seo-title"><i class="bi bi-search me-2 tb-accent-icon" aria-hidden="true"></i>Meta &
+                  SEO</h2></div>
               <div class="panel-b settings-stack">
-                <div><label class="fl">Meta Description</label><textarea class="fta" id="metaDescription"
+                <div><label class="fl" for="metaDescription">Meta Description</label><textarea class="fta" id="metaDescription"
                     rows="3">Shadhin Motor Admin Dashboard - Seat Cover Shop Management</textarea></div>
                 <div class="row g-3">
-                  <div class="col-6"><label class="fl">Robots</label><select class="fs" id="robotsMeta"
-                      aria-label="Robots">
+                  <div class="col-6"><label class="fl" for="robotsMeta">Robots</label><select class="fs" id="robotsMeta"
+                     >
                       <option selected>noindex, nofollow</option>
                       <option>index, follow</option>
                     </select></div>
-                  <div class="col-6"><label class="fl">Accent</label>
+                  <div class="col-6" role="group" aria-labelledby="settingsAccentLabel"><div class="fl" id="settingsAccentLabel">Accent</div>
                     <div class="accent-field"><input type="color" id="accentColorPicker" value="#f59e0b"
-                        aria-label="Accent color picker"><input class="fi" id="accentColor" value="#f59e0b"></div>
+                        aria-label="Accent color picker"><input class="fi" id="accentColor" value="#f59e0b" aria-label="Accent hex code"></div>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section class="panel">
-              <div class="panel-h"><span class="panel-t"><i class="bi bi-database-fill me-2 tb-accent-icon" aria-hidden="true"></i>Static Data</span></div>
+            <section class="panel" aria-labelledby="settings-static-data-title">
+              <div class="panel-h"><h2 class="panel-t" id="settings-static-data-title"><i class="bi bi-database-fill me-2 tb-accent-icon" aria-hidden="true"></i>Static Data</h2></div>
               <div class="panel-b">
                 <p class="settings-note">All demo data stays in HTML so it can be moved cleanly into Laravel
                   Blade/database later.</p>
@@ -387,7 +387,7 @@
                   <div class="stor-row"><span>samples.html</span><span>5.2 KB</span></div>
                   <div class="stor-row"><span>finance.html</span><span>6.9 KB</span></div>
                   <div class="stor-bar">
-                    <div class="stor-bar-f" style="width:72%"></div>
+                    <div class="stor-bar-f u-style-084"></div>
                   </div>
                 </div>
                 <div class="data-actions">
@@ -395,7 +395,7 @@
                     data-action="settings-export"><i class="bi bi-download" aria-hidden="true"></i> Export Backup</button>
                   <label class="btn2 b2-out w-100 justify-content-center"><i class="bi bi-upload" aria-hidden="true"></i> <span
                       id="importFileName">Import Data</span><input type="file" accept=".json"
-                      id="settingsImportInput"></label>
+                      id="settingsImportInput" aria-label="settingsImportInput"></label>
                   <button class="btn2 b2-re w-100 justify-content-center" type="button" data-action="settings-reset"><i
                       class="bi bi-trash3-fill" aria-hidden="true"></i> Reset Demo Data</button>
                 </div>
@@ -432,10 +432,10 @@
             <div class="profile-subtitle">Super Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n"></div>
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>

@@ -246,14 +246,14 @@
                   <div class="atbl-search">
                     <i class="bi bi-search" aria-hidden="true"></i>
                     <input class="fi" id="toolTableSearch" data-yajra-search type="search" autocomplete="off"
-                      placeholder="Search customer, phone, vehicle, service or status">
+                      placeholder="Search customer, phone, vehicle, service or status" aria-label="Search customer, phone, vehicle, service or status">
                   </div>
                 </div>
               </div>
               <div class="atbl-filterbar" aria-label="Table filters">
                 <div class="atbl-filter">
                   <label for="toolFilterStatus">Status</label>
-                  <select class="fs" id="toolFilterStatus" data-yajra-filter="status" aria-label="Status">
+                  <select class="fs" id="toolFilterStatus" data-yajra-filter="status">
                     <option value="all">All Status</option>
                     <option value="Completed">Completed</option>
                     <option value="In Progress">In Progress</option>
@@ -262,7 +262,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterService">Service</label>
-                  <select class="fs" id="toolFilterService" data-yajra-filter="service" aria-label="Service">
+                  <select class="fs" id="toolFilterService" data-yajra-filter="service">
                     <option value="all">All Services</option>
                     <option value="New Seat Cover">New Seat Cover</option>
                     <option value="Custom Design">Custom Design</option>
@@ -272,7 +272,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterVehicle">Vehicle</label>
-                  <select class="fs" id="toolFilterVehicle" data-yajra-filter="vehicle" aria-label="Vehicle">
+                  <select class="fs" id="toolFilterVehicle" data-yajra-filter="vehicle">
                     <option value="all">All Vehicles</option>
                     <option value="Private Car">Private Car</option>
                     <option value="SUV">SUV</option>
@@ -282,7 +282,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterSample">Sample</label>
-                  <select class="fs" id="toolFilterSample" data-yajra-filter="sample" aria-label="Sample">
+                  <select class="fs" id="toolFilterSample" data-yajra-filter="sample">
                     <option value="all">All Samples</option>
                     <option value="rexine">Rexine RX</option>
                     <option value="leather">Leather LT</option>
@@ -291,7 +291,7 @@
                 </div>
                 <div class="atbl-filter">
                   <label for="toolFilterPayment">Payment</label>
-                  <select class="fs" id="toolFilterPayment" data-yajra-filter="payment" aria-label="Payment">
+                  <select class="fs" id="toolFilterPayment" data-yajra-filter="payment">
                     <option value="all">All Payments</option>
                     <option value="paid">Fully Paid</option>
                     <option value="due">Advance Due</option>
@@ -679,7 +679,7 @@
                       </tr>
                       <tr id="toolTableEmptyRow" hidden>
                         <td class="atbl-empty" colspan="12">
-                          <i class="bi bi-search-heart d-block mb-2" style="font-size:30px" aria-hidden="true"></i>
+                          <i class="bi bi-search-heart d-block mb-2 u-style-036" aria-hidden="true"></i>
                           No matching records found.
                         </td>
                       </tr>
@@ -725,10 +725,10 @@
             <div class="profile-subtitle">Super Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n"></div>
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>
@@ -755,29 +755,29 @@
         <div class="modal-body">
           <form id="tableRecordForm" data-static-form="true" novalidate>
             <div class="row g-3">
-              <div class="col-md-6"><label class="fl">Customer</label><input class="fi form-control" id="tr_customer"
+              <div class="col-md-6"><label class="fl" for="tr_customer">Customer</label><input class="fi form-control" id="tr_customer"
                   placeholder="Customer name" required></div>
-              <div class="col-md-6"><label class="fl">Phone</label><input class="fi form-control" id="tr_phone"
+              <div class="col-md-6"><label class="fl" for="tr_phone">Phone</label><input class="fi form-control" id="tr_phone"
                   placeholder="01XXXXXXXXX" required></div>
-              <div class="col-md-6"><label class="fl">Vehicle</label><input class="fi form-control" id="tr_vehicle"
+              <div class="col-md-6"><label class="fl" for="tr_vehicle">Vehicle</label><input class="fi form-control" id="tr_vehicle"
                   placeholder="Vehicle name or model" required></div>
-              <div class="col-md-6"><label class="fl">Service</label><input class="fi form-control" id="tr_service"
+              <div class="col-md-6"><label class="fl" for="tr_service">Service</label><input class="fi form-control" id="tr_service"
                   placeholder="Service type" required></div>
-              <div class="col-md-6"><label class="fl">Sample</label><input class="fi form-control" id="tr_sample"
+              <div class="col-md-6"><label class="fl" for="tr_sample">Sample</label><input class="fi form-control" id="tr_sample"
                   placeholder="Sample code"></div>
-              <div class="col-md-6"><label class="fl">Status</label><select class="fs form-select" id="tr_status"
-                  aria-label="Status">
+              <div class="col-md-6"><label class="fl" for="tr_status">Status</label><select class="fs form-select" id="tr_status"
+                 >
                   <option>Pending</option>
                   <option>In Progress</option>
                   <option>Completed</option>
                 </select></div>
-              <div class="col-md-6"><label class="fl">Total</label><input class="fi form-control" id="tr_total"
+              <div class="col-md-6"><label class="fl" for="tr_total">Total</label><input class="fi form-control" id="tr_total"
                   type="number" min="0" placeholder="Total amount" required></div>
-              <div class="col-md-6"><label class="fl">Advance</label><input class="fi form-control" id="tr_advance"
+              <div class="col-md-6"><label class="fl" for="tr_advance">Advance</label><input class="fi form-control" id="tr_advance"
                   type="number" min="0" placeholder="Advance amount"></div>
-              <div class="col-md-6"><label class="fl">Date</label><input class="fi form-control" id="tr_date"
+              <div class="col-md-6"><label class="fl" for="tr_date">Date</label><input class="fi form-control" id="tr_date"
                   type="date" required></div>
-              <div class="col-12"><label class="fl">Notes</label><textarea class="fi form-control fta" id="tr_note"
+              <div class="col-12"><label class="fl" for="tr_note">Notes</label><textarea class="fi form-control fta" id="tr_note"
                   rows="4" placeholder="Add order details, color or fitting notes"></textarea></div>
             </div>
           </form>

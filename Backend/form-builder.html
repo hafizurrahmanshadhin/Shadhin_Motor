@@ -232,34 +232,30 @@
                     <div class="form-sec-t"><i class="bi bi-person-fill" aria-hidden="true"></i> Customer Information</div>
                     <div class="row g-3">
                       <div class="col-md-6">
-                        <label class="fl">Full Name *</label>
+                        <label class="fl" for="f_name">Full Name *</label>
                         <div class="input-group">
-                          <span class="input-group-text"
-                            style="background:var(--inp);border-color:var(--bdr);color:var(--txt3)"><i
+                          <span class="input-group-text u-style-047"><i
                               class="bi bi-person" aria-hidden="true"></i></span>
-                          <input type="text" class="form-control fi" id="f_name" placeholder="Rahman Ali" required
-                            minlength="3" style="border-radius:0 var(--r) var(--r) 0;border-left:none">
-                          <div class="invalid-feedback" style="font-size:10px">Enter name (min 3 characters)</div>
+                          <input type="text" class="form-control fi u-style-048" id="f_name" placeholder="Rahman Ali" required minlength="3">
+                          <div class="invalid-feedback u-style-049">Enter name (min 3 characters)</div>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <label class="fl">Phone *</label>
+                        <label class="fl" for="f_phone">Phone *</label>
                         <div class="input-group">
-                          <span class="input-group-text"
-                            style="background:var(--inp);border-color:var(--bdr);color:var(--txt3)"><i
+                          <span class="input-group-text u-style-047"><i
                               class="bi bi-telephone" aria-hidden="true"></i></span>
-                          <input type="tel" class="form-control fi" id="f_phone" placeholder="01XXX-XXXXXX" required
-                            pattern="[0-9\-\+\s]{10,14}" style="border-radius:0 var(--r) var(--r) 0;border-left:none">
-                          <div class="invalid-feedback" style="font-size:10px">Valid phone (10-14 digits)</div>
+                          <input type="tel" class="form-control fi u-style-048" id="f_phone" placeholder="01XXX-XXXXXX" required pattern="[0-9\-\+\s]{10,14}">
+                          <div class="invalid-feedback u-style-049">Valid phone (10-14 digits)</div>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <label class="fl">Email</label>
+                        <label class="fl" for="f_email">Email</label>
                         <input type="email" class="fi form-control" id="f_email" placeholder="customer@email.com">
-                        <div class="invalid-feedback" style="font-size:10px">Invalid email</div>
+                        <div class="invalid-feedback u-style-049">Invalid email</div>
                       </div>
                       <div class="col-md-6">
-                        <label class="fl">Address</label>
+                        <label class="fl" for="f_address">Address</label>
                         <input type="text" class="fi form-control" id="f_address" placeholder="Dhaka, Bangladesh">
                       </div>
                     </div>
@@ -269,19 +265,19 @@
                     <div class="form-sec-t"><i class="bi bi-car-front-fill" aria-hidden="true"></i> Vehicle Details</div>
                     <div class="row g-3">
                       <div class="col-md-4">
-                        <label class="fl">Type *</label>
-                        <select class="fs form-select" id="f_vtype" required aria-label="Type *">
+                        <label class="fl" for="f_vtype">Type *</label>
+                        <select class="fs form-select" id="f_vtype" required>
                           <option value="">Select...</option>
                           <option>Private Car</option>
                           <option>SUV / Jeep</option>
                           <option>Microbus</option>
                           <option>Motorcycle</option>
                         </select>
-                        <div class="invalid-feedback" style="font-size:10px">Select vehicle type</div>
+                        <div class="invalid-feedback u-style-049">Select vehicle type</div>
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Brand *</label>
-                        <select class="fs form-select" id="f_brand" required aria-label="Brand *">
+                        <label class="fl" for="f_brand">Brand *</label>
+                        <select class="fs form-select" id="f_brand" required>
                           <option value="">Select...</option>
                           <option>Toyota</option>
                           <option>Honda</option>
@@ -292,25 +288,25 @@
                           <option>Yamaha</option>
                           <option>Other</option>
                         </select>
-                        <div class="invalid-feedback" style="font-size:10px">Select brand</div>
+                        <div class="invalid-feedback u-style-049">Select brand</div>
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Model *</label>
+                        <label class="fl" for="f_model">Model *</label>
                         <input type="text" class="fi form-control" id="f_model" placeholder="Corolla, Civic..."
                           required>
-                        <div class="invalid-feedback" style="font-size:10px">Enter model</div>
+                        <div class="invalid-feedback u-style-049">Enter model</div>
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Year</label>
+                        <label class="fl" for="f_year">Year</label>
                         <input type="number" class="fi form-control" id="f_year" placeholder="2020" min="1990"
                           max="2030">
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Color</label>
+                        <label class="fl" for="f_vcolor">Color</label>
                         <input type="text" class="fi form-control" id="f_vcolor" placeholder="White, Black...">
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Plate No.</label>
+                        <label class="fl" for="f_plate">Plate No.</label>
                         <input type="text" class="fi form-control" id="f_plate" placeholder="Dhaka Metro...">
                       </div>
                     </div>
@@ -320,29 +316,29 @@
                     <div class="form-sec-t"><i class="bi bi-scissors" aria-hidden="true"></i> Service & Material</div>
                     <div class="row g-3">
                       <div class="col-md-6">
-                        <label class="fl">Service *</label>
-                        <select class="fs form-select" id="f_service" required aria-label="Service *">
+                        <label class="fl" for="f_service">Service *</label>
+                        <select class="fs form-select" id="f_service" required>
                           <option value="">Select...</option>
                           <option>New Seat Cover</option>
                           <option>Repair</option>
                           <option>Custom Design</option>
                           <option>Fitting Only</option>
                         </select>
-                        <div class="invalid-feedback" style="font-size:10px">Select service</div>
+                        <div class="invalid-feedback u-style-049">Select service</div>
                       </div>
                       <div class="col-md-6">
-                        <label class="fl">Material *</label>
-                        <select class="fs form-select" id="f_material" required aria-label="Material *">
+                        <label class="fl" for="f_material">Material *</label>
+                        <select class="fs form-select" id="f_material" required>
                           <option value="">Select...</option>
                           <option>Rexine</option>
                           <option>Leather</option>
                           <option>Not decided</option>
                         </select>
-                        <div class="invalid-feedback" style="font-size:10px">Select material</div>
+                        <div class="invalid-feedback u-style-049">Select material</div>
                       </div>
                       <div class="col-12">
-                        <label class="fl">Sample ID (if chosen)</label>
-                        <select class="fs form-select" id="f_sample" aria-label="Sample ID (if chosen)">
+                        <label class="fl" for="f_sample">Sample ID (if chosen)</label>
+                        <select class="fs form-select" id="f_sample">
                           <option value="">No sample selected</option>
                           <option value="RX-001">RX-001 — Diamond Black</option>
                           <option value="LT-002">LT-002 — Cocoa Premium</option>
@@ -353,32 +349,27 @@
                           section</div>
                       </div>
                       <div class="col-12">
-                        <label class="fl">Design Notes</label>
+                        <label class="fl" for="f_notes">Design Notes</label>
                         <textarea class="fi form-control fta" id="f_notes" rows="3"
                           placeholder="Color preference, stitching style, special requests..."></textarea>
                       </div>
-                      <div class="col-md-6">
-                        <label class="fl">Priority</label>
-                        <div style="display:flex;gap:18px;margin-top:4px">
+                      <div class="col-md-6" role="group" aria-labelledby="priorityGroupLabel">
+                        <div class="fl" id="priorityGroupLabel">Priority</div>
+                        <div class="u-style-050">
                           <div class="form-check"><input class="form-check-input" type="radio" name="priority" id="pr1"
-                              value="normal" checked><label class="form-check-label" for="pr1"
-                              style="font-size:12px;color:var(--txt2)">Normal</label></div>
+                              value="normal" checked><label class="form-check-label u-style-043" for="pr1">Normal</label></div>
                           <div class="form-check"><input class="form-check-input" type="radio" name="priority" id="pr2"
-                              value="urgent"><label class="form-check-label" for="pr2"
-                              style="font-size:12px;color:var(--txt2)">Urgent</label></div>
+                              value="urgent"><label class="form-check-label u-style-043" for="pr2">Urgent</label></div>
                           <div class="form-check"><input class="form-check-input" type="radio" name="priority" id="pr3"
-                              value="vip"><label class="form-check-label" for="pr3"
-                              style="font-size:12px;color:var(--txt2)">VIP</label></div>
+                              value="vip"><label class="form-check-label u-style-043" for="pr3">VIP</label></div>
                         </div>
                       </div>
-                      <div class="col-md-6">
-                        <label class="fl">Options</label>
-                        <div style="display:flex;gap:16px;margin-top:4px;flex-wrap:wrap">
-                          <div class="form-check"><input class="form-check-input" type="checkbox" id="opt1"><label
-                              class="form-check-label" for="opt1" style="font-size:12px;color:var(--txt2)">Home
+                      <div class="col-md-6" role="group" aria-labelledby="optionsGroupLabel">
+                        <div class="fl" id="optionsGroupLabel">Options</div>
+                        <div class="u-style-051">
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="opt1"><label class="form-check-label u-style-043" for="opt1">Home
                               Fitting</label></div>
-                          <div class="form-check"><input class="form-check-input" type="checkbox" id="opt2"><label
-                              class="form-check-label" for="opt2" style="font-size:12px;color:var(--txt2)">Vehicle
+                          <div class="form-check"><input class="form-check-input" type="checkbox" id="opt2"><label class="form-check-label u-style-043" for="opt2">Vehicle
                               Pickup</label></div>
                         </div>
                       </div>
@@ -389,36 +380,30 @@
                     <div class="form-sec-t"><i class="bi bi-credit-card-fill" aria-hidden="true"></i> Payment</div>
                     <div class="row g-3">
                       <div class="col-md-4">
-                        <label class="fl">Total (৳) *</label>
+                        <label class="fl" for="f_total">Total (৳) *</label>
                         <div class="input-group">
-                          <span class="input-group-text"
-                            style="background:var(--inp);border-color:var(--bdr);color:var(--txt3)">৳</span>
-                          <input type="number" class="fi form-control" id="f_total" placeholder="0" required min="1"
-                            style="border-left:none">
-                          <div class="invalid-feedback" style="font-size:10px">Enter total</div>
+                          <span class="input-group-text u-style-047">৳</span>
+                          <input type="number" class="fi form-control u-style-052" id="f_total" placeholder="0" required min="1">
+                          <div class="invalid-feedback u-style-049">Enter total</div>
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Advance (৳)</label>
+                        <label class="fl" for="f_advance">Advance (৳)</label>
                         <div class="input-group">
-                          <span class="input-group-text"
-                            style="background:var(--inp);border-color:var(--bdr);color:var(--txt3)">৳</span>
-                          <input type="number" class="fi form-control" id="f_advance" placeholder="0" min="0"
-                            style="border-left:none">
+                          <span class="input-group-text u-style-047">৳</span>
+                          <input type="number" class="fi form-control u-style-052" id="f_advance" placeholder="0" min="0">
                         </div>
                       </div>
                       <div class="col-md-4">
-                        <label class="fl">Due (৳)</label>
+                        <label class="fl" for="f_due">Due (৳)</label>
                         <div class="input-group">
-                          <span class="input-group-text"
-                            style="background:var(--inp);border-color:var(--bdr);color:var(--txt3)">৳</span>
-                          <input type="number" class="fi form-control" id="f_due" placeholder="0" readonly
-                            style="border-left:none;opacity:.7">
+                          <span class="input-group-text u-style-047">৳</span>
+                          <input type="number" class="fi form-control u-style-053" id="f_due" placeholder="0" readonly>
                         </div>
                       </div>
                       <div class="col-md-6">
-                        <label class="fl">Payment Method</label>
-                        <select class="fs form-select" id="f_pmethod" aria-label="Payment Method">
+                        <label class="fl" for="f_pmethod">Payment Method</label>
+                        <select class="fs form-select" id="f_pmethod">
                           <option>Cash</option>
                           <option>bKash</option>
                           <option>Nagad</option>
@@ -426,12 +411,12 @@
                         </select>
                       </div>
                       <div class="col-md-6">
-                        <label class="fl">Delivery Date</label>
+                        <label class="fl" for="f_delivery">Delivery Date</label>
                         <input type="date" class="fi form-control" id="f_delivery">
                       </div>
                     </div>
                   </div>
-                  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px">
+                  <div class="u-style-054">
                     <button type="button" class="btn2 b2-out" data-action="form-reset"><i
                         class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Reset</button>
                     <button type="submit" class="btn2 b2-gd" id="fSubmit"><i class="bi bi-check2-circle" aria-hidden="true"></i> Submit
@@ -443,7 +428,7 @@
           </div>
           <!-- Live preview -->
           <div class="col-xl-4">
-            <div class="panel" style="position:sticky;top:76px">
+            <div class="panel u-style-055">
               <div class="panel-h"><span class="panel-t"><i class="bi bi-eye me-2" aria-hidden="true"></i>Live Preview</span></div>
               <div class="panel-b form-preview" id="fPreview" aria-live="polite">
                 <div class="form-preview-empty" data-preview-empty>
@@ -480,21 +465,21 @@
             </div>
             <div class="panel mt-3">
               <div class="panel-h"><span class="panel-t">Validation Rules</span></div>
-              <div class="panel-b" style="font-size:12px;color:var(--txt2);line-height:2">
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Name: min 3 chars required
+              <div class="panel-b u-style-056">
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Name: min 3 chars required
                 </div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Phone: 10-14 digit format
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Phone: 10-14 digit format
                 </div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Email: valid format
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Email: valid format
                   (optional)</div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Vehicle type & brand
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Vehicle type & brand
                   required</div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Car model required</div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Service & material required
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Car model required</div>
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Service & material required
                 </div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Total amount &gt; 0 required
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Total amount &gt; 0 required
                 </div>
-                <div><i class="bi bi-check-circle-fill me-2" style="color:var(--green)" aria-hidden="true"></i>Due auto-calculated</div>
+                <div><i class="bi bi-check-circle-fill me-2 u-style-057" aria-hidden="true"></i>Due auto-calculated</div>
               </div>
             </div>
           </div>
@@ -528,10 +513,10 @@
             <div class="profile-subtitle">Super Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n"></div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n"></div>
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>

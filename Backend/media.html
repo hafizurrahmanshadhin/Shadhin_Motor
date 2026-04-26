@@ -180,10 +180,10 @@
         </div>
 
         <div class="admin-page-grid">
-          <section class="admin-list-card">
+          <section class="admin-list-card" aria-labelledby="asset-library-title">
             <div class="admin-list-head">
               <div>
-                <h2>Asset Library</h2>
+                <h2 id="asset-library-title">Asset Library</h2>
                 <p>Each card maps to a future media table row with type, alt text and usage relation.</p>
               </div>
             </div>
@@ -315,10 +315,10 @@
             </div>
           </section>
 
-          <aside class="admin-list-card">
+          <aside class="admin-list-card" aria-labelledby="media-storage-map-title">
             <div class="admin-list-head">
               <div>
-                <h2>Laravel Storage Map</h2>
+                <h2 id="media-storage-map-title">Laravel Storage Map</h2>
                 <p>Suggested backend structure for later conversion.</p>
               </div>
             </div>
@@ -360,25 +360,25 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">File Name</label><input class="fi form-control"
+            <div class="col-md-6"><label class="fl" for="media-file-name-1">File Name</label><input id="media-file-name-1" class="fi form-control"
                 placeholder="seat-cover-example.jpg"></div>
-            <div class="col-md-6"><label class="fl">Media Type</label><select class="fs form-select"
-                aria-label="Media Type">
+            <div class="col-md-6"><label class="fl" for="media-media-type-2">Media Type</label><select id="media-media-type-2" class="fs form-select"
+               >
                 <option>Image</option>
                 <option>Video</option>
                 <option>Document</option>
                 <option>Logo</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Used In</label><select class="fs form-select" aria-label="Used In">
+            <div class="col-md-6"><label class="fl" for="media-used-in-3">Used In</label><select id="media-used-in-3" class="fs form-select">
                 <option>Gallery</option>
                 <option>Samples</option>
                 <option>Frontend Content</option>
                 <option>Orders</option>
                 <option>Brand</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Alt Text</label><input class="fi form-control"
+            <div class="col-md-6"><label class="fl" for="media-alt-text-4">Alt Text</label><input id="media-alt-text-4" class="fi form-control"
                 placeholder="Describe the visual for SEO"></div>
-            <div class="col-12"><label class="fl">Caption / Notes</label><textarea class="fi form-control" rows="4"
+            <div class="col-12"><label class="fl" for="media-caption-notes-5">Caption / Notes</label><textarea id="media-caption-notes-5" class="fi form-control" rows="4"
                 placeholder="Where this asset appears and what model should own it later"></textarea></div>
             <div class="col-12">
               <div class="role-hint">
@@ -412,11 +412,11 @@
             <div class="profile-subtitle">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n">
             </div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>

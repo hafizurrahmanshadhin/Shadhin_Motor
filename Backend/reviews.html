@@ -182,10 +182,10 @@
           </div>
         </div>
 
-        <section class="admin-list-card">
+        <section class="admin-list-card" aria-labelledby="review-queue-title">
           <div class="admin-list-head">
             <div>
-              <h2>Review Queue</h2>
+              <h2 id="review-queue-title">Review Queue</h2>
               <p>Maps to frontend review cards, submit modal, rating breakdown and media preview.</p>
             </div>
             <div class="module-filters" id="reviewFilterWrap">
@@ -281,22 +281,22 @@
         </div>
         <div class="modal-body">
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Reviewer</label><input class="fi form-control"
+            <div class="col-md-6"><label class="fl" for="reviews-reviewer-1">Reviewer</label><input id="reviews-reviewer-1" class="fi form-control"
                 placeholder="Customer name"></div>
-            <div class="col-md-6"><label class="fl">Rating</label><select class="fs form-select" aria-label="Rating">
+            <div class="col-md-6"><label class="fl" for="reviews-rating-2">Rating</label><select id="reviews-rating-2" class="fs form-select">
                 <option>5 stars</option>
                 <option>4 stars</option>
                 <option>3 stars</option>
               </select></div>
-            <div class="col-12"><label class="fl">Review</label><textarea class="fi form-control fta" rows="4"
+            <div class="col-12"><label class="fl" for="reviews-review-3">Review</label><textarea id="reviews-review-3" class="fi form-control fta" rows="4"
                 placeholder="Customer review text"></textarea></div>
-            <div class="col-md-6"><label class="fl">Frontend Status</label><select class="fs form-select"
-                aria-label="Frontend Status">
+            <div class="col-md-6"><label class="fl" for="reviews-frontend-status-4">Frontend Status</label><select id="reviews-frontend-status-4" class="fs form-select"
+               >
                 <option>Pending</option>
                 <option>Approved</option>
                 <option>Rejected</option>
               </select></div>
-            <div class="col-md-6"><label class="fl">Media</label><input class="fi form-control"
+            <div class="col-md-6"><label class="fl" for="reviews-media-5">Media</label><input id="reviews-media-5" class="fi form-control"
                 placeholder="Image/video paths"></div>
           </div>
         </div>
@@ -324,11 +324,11 @@
             <div class="profile-subtitle">Admin · Shadhin Motor</div>
           </div>
           <div class="row g-3">
-            <div class="col-md-6"><label class="fl">Display Name</label><input class="fi form-control" id="pro_n">
+            <div class="col-md-6"><label class="fl" for="pro_n">Display Name</label><input class="fi form-control" id="pro_n">
             </div>
-            <div class="col-md-6"><label class="fl">Email</label><input class="fi form-control" type="email" id="pro_e">
+            <div class="col-md-6"><label class="fl" for="pro_e">Email</label><input class="fi form-control" type="email" id="pro_e">
             </div>
-            <div class="col-12"><label class="fl">Bio</label><input class="fi form-control" id="pro_b"
+            <div class="col-12"><label class="fl" for="pro_b">Bio</label><input class="fi form-control" id="pro_b"
                 placeholder="Shop owner & manager"></div>
           </div>
         </div>
