@@ -51,7 +51,7 @@ body.preloading #loginWrap {
   border-radius: var(--r3);
   padding: 40px 36px;
   box-shadow: var(--sh2);
-  animation: slideUp .4s cubic-bezier(.175, .885, .32, 1.1) both;
+  animation: slideUp .4s cubic-bezier(.175, .885, .32, 1.1);
 }
 
 [data-theme="dark"] .login-card {
@@ -582,4 +582,15 @@ body.preloading #loginWrap {
   border-top-color: #000;
   border-radius: 50%;
   animation: spin .6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #loginWrap,
+  .login-card,
+  .login-brand-link,
+  .auth-provider,
+  .login-submit-btn {
+    animation: none;
+    transition: none;
+  }
 }
