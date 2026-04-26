@@ -39,6 +39,161 @@
   transform: translateY(-1px) scale(1.02);
 }
 
+.eye-comfort-control {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  flex: 0 0 auto;
+}
+
+.eye-comfort-control.active {
+  gap: 4px;
+}
+
+.eye-comfort-settings-btn {
+  width: 0;
+  min-width: 0;
+  height: 36px;
+  border: 0 solid transparent;
+  border-radius: var(--r);
+  background: var(--hover);
+  color: var(--txt2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  padding: 0;
+  transition:
+    width var(--tr),
+    min-width var(--tr),
+    opacity var(--tr),
+    visibility var(--tr),
+    background var(--tr),
+    border-color var(--tr),
+    color var(--tr),
+    transform var(--tr);
+}
+
+.eye-comfort-control.active .eye-comfort-settings-btn {
+  width: 32px;
+  min-width: 32px;
+  border-width: 1px;
+  border-color: var(--bdr);
+  opacity: 1;
+  visibility: visible;
+}
+
+.eye-comfort-settings-btn:hover,
+.eye-comfort-settings-btn[aria-expanded="true"] {
+  background: var(--am-glow);
+  border-color: var(--am-ring);
+  color: var(--am);
+  transform: translateY(-1px);
+}
+
+.eye-comfort-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 10001;
+  width: 250px;
+  max-width: calc(100vw - 16px);
+  padding: 14px;
+  border: 1px solid var(--bdr);
+  border-radius: var(--r2);
+  background: var(--card);
+  color: var(--txt);
+  box-shadow: var(--sh2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+}
+
+.eye-comfort-panel.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+[data-theme="dark"] .eye-comfort-panel {
+  background: var(--bg3);
+  border-color: rgba(226, 232, 240, .10);
+}
+
+[data-theme="light"] .eye-comfort-panel {
+  background: #fff;
+  border-color: rgba(15, 23, 42, .12);
+}
+
+.eye-comfort-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.eye-comfort-panel-title {
+  color: var(--txt);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  line-height: 1.2;
+}
+
+.eye-comfort-panel-value {
+  min-width: 44px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, .16);
+  color: #b45309;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+
+[data-theme="dark"] .eye-comfort-panel-value {
+  color: #fbbf24;
+}
+
+.eye-comfort-range-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--txt2);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.eye-comfort-range {
+  width: 100%;
+  accent-color: #f59e0b;
+  cursor: pointer;
+}
+
+.eye-comfort-range:focus-visible {
+  outline: 2px solid var(--am-ring);
+  outline-offset: 4px;
+}
+
+.eye-comfort-range-scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+  color: var(--txt3);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
 /* Eye comfort icon animation */
 .eye-comfort-btn i {
   transition: transform .3s ease;
@@ -63,20 +218,21 @@
 ══════════════════════════════════════════════════════════════════════════════ */
 
 html.eye-comfort-mode {
-  --eye-comfort-tint: rgba(255, 202, 106, .18);
-  --eye-comfort-warm-glow: rgba(255, 221, 148, .10);
+  --eye-comfort-intensity: .65;
+  --eye-comfort-tint: rgba(255, 202, 106, .28);
+  --eye-comfort-warm-glow: rgba(255, 221, 148, .15);
   --eye-comfort-blend: multiply;
 }
 
 [data-theme="dark"].eye-comfort-mode {
-  --eye-comfort-tint: rgba(255, 177, 76, .13);
-  --eye-comfort-warm-glow: rgba(255, 196, 111, .08);
+  --eye-comfort-tint: rgba(255, 177, 76, .20);
+  --eye-comfort-warm-glow: rgba(255, 196, 111, .12);
   --eye-comfort-blend: screen;
 }
 
 [data-theme="light"].eye-comfort-mode {
-  --eye-comfort-tint: rgba(255, 202, 96, .20);
-  --eye-comfort-warm-glow: rgba(255, 231, 163, .12);
+  --eye-comfort-tint: rgba(255, 202, 96, .31);
+  --eye-comfort-warm-glow: rgba(255, 231, 163, .18);
   --eye-comfort-blend: multiply;
 }
 
@@ -90,6 +246,8 @@ html.eye-comfort-mode::before {
     radial-gradient(circle at 50% -20%, var(--eye-comfort-warm-glow), transparent 54%),
     linear-gradient(var(--eye-comfort-tint), var(--eye-comfort-tint));
   mix-blend-mode: var(--eye-comfort-blend);
+  opacity: var(--eye-comfort-intensity, .65);
+  transition: opacity .18s ease;
 }
 
 /* Enhanced text rendering when eye comfort is active */
@@ -444,53 +602,6 @@ body * {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   EYE COMFORT INDICATOR
-══════════════════════════════════════════════════════════════════════════════ */
-
-/* Small indicator badge */
-body.eye-comfort-mode::after {
-  content: "Eye Comfort ON";
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  padding: 8px 14px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, #fbbf24, #d97706);
-  color: #1f1303;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, .32);
-  animation: slideInUp .4s ease, fadeOutAfter 3s ease 2s forwards;
-  pointer-events: none;
-}
-
-@keyframes slideInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOutAfter {
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-}
-
-/* Hide indicator after 5 seconds */
-body.eye-comfort-mode.indicator-hidden::after {
-  display: none;
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
    RESPONSIVE ADJUSTMENTS
 ══════════════════════════════════════════════════════════════════════════════ */
 
@@ -513,11 +624,19 @@ body.eye-comfort-mode.indicator-hidden::after {
     font-size: 22px;
   }
 
-  body.eye-comfort-mode::after {
-    bottom: 10px;
-    right: 10px;
-    font-size: 10px;
-    padding: 6px 12px;
+  .eye-comfort-control.active .eye-comfort-settings-btn {
+    width: 34px;
+    min-width: 34px;
+    height: 34px;
+  }
+
+  .eye-comfort-panel {
+    position: fixed;
+    top: 58px;
+    right: 7px;
+    left: 7px;
+    width: auto;
+    max-width: none;
   }
 }
 
@@ -526,12 +645,13 @@ body.eye-comfort-mode.indicator-hidden::after {
 ══════════════════════════════════════════════════════════════════════════════ */
 
 @media print {
-  .eye-comfort-btn {
+  .eye-comfort-btn,
+  .eye-comfort-settings-btn,
+  .eye-comfort-panel {
     display: none !important;
   }
 
-  html.eye-comfort-mode::before,
-  body.eye-comfort-mode::after {
+  html.eye-comfort-mode::before {
     display: none !important;
   }
 }

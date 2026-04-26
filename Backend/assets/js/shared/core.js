@@ -41,11 +41,6 @@
   function togTheme() {
     const nextTheme = curTheme === "dark" ? "light" : "dark";
     applyTheme(nextTheme);
-    toast(
-      "success",
-      "Theme changed",
-      nextTheme === "dark" ? "Dark mode activated" : "Light mode activated"
-    );
   }
 
   applyTheme(curTheme);
